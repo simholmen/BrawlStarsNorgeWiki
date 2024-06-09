@@ -12,6 +12,15 @@ body {
     background-color: #ffffff;
     border: 1px solid #a2a9b1;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+figure {
+    display: block;
+    max-width: 250px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    unicode-bidi: isolate;
+}
 }
 h1, h2, h3 {
     color: #222222;
