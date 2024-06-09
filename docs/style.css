@@ -140,3 +140,8 @@ a:hover {
     margin: 0 0 10px 10px;
     text-align: center;
 }
+.indented {
+    text-indent: 2em; /* Adjust the value as needed */
+    margin-bottom: auto;
+    margin-top: auto;
+}
