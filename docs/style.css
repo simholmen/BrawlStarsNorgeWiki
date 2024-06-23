@@ -12,16 +12,16 @@ body {
     background-color: #ffffff;
     border: 1px solid #a2a9b1;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-figure {
+}
+.figure {
     display: block;
-    max-width: 250px;
+    max-width: 2050px;
     margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 40px;
     unicode-bidi: isolate;
 }
-}
+
 h1, h2, h3 {
     color: #222222;
 }
@@ -144,4 +144,29 @@ a:hover {
     text-indent: 2em; /* Adjust the value as needed */
     margin-bottom: auto;
     margin-top: auto;
+}
+.bsprofil {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+}
+.bsprofil textpicture{
+    padding: 3px;
+    vertical-align: top;
+}
+.bsprofil-container{
+    border: 1px solid #a2a9b1;
+    background-color: #f2f2f2;;
+    padding: 5px;
+    margin: 0 0 0px 0px;
+    text-align: center;
+    height: 340px;
+    width: 450px;
+}
+.bsprofil-caption {
+    font-size: 0.8em; /* Smaller font size for caption */
+     /* Grey color for caption */
+    text-align: center;
+    margin-top: 5px;  /* Space between image and caption */
+    margin-bottom: 5px;
 }
