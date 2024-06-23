@@ -70,12 +70,12 @@ a:hover {
 #toc li {
     margin: 5px 0;
 }
-.responsive-bsnorge {
+.responsive-bsnorge { /* BS norge logo i høyre hjørne */
     width: 100%;
     height: auto;
     max-width: 50px; 
 }
-.infobox {
+.infobox { /* Boksen rundt infoboksen */
     width: 250px;
     border: 1px solid #a2a9b1;
     background-color: #f9f9f9;
@@ -96,28 +96,28 @@ a:hover {
     display: block;  
     margin-top: 10px;
 }
-.infobox img {
+.infobox img { /* Bilde i infoboksen */
     width: 100%;
     height: auto;
     border: 1px solid #a2a9b1;
     margin-bottom: 10px;
 }
-.infobox table {
+.infobox table { /* Infobox tabell */
     width: 100%;
     border-collapse: collapse;
     padding: 10px;
 }
-.infobox td {
+.infobox td { /* Tekst data i infobokstabell (liten tekst)*/
     padding: 3px;
     vertical-align: top;
 }
-.infobox th {
+.infobox th { /* Header tekst i infobokstabell */
     text-align: left;
     padding: 3px;
     background-color: #f2f2f2;
     border-bottom: 1px solid #a2a9b1;
 }
-.picture {
+.picture { /* Selve det vanlige bildet */
     width: 100%;
     max-width: 250px;
     height: auto;
@@ -126,13 +126,12 @@ a:hover {
     padding: 3px;
     vertical-align: top;
 }
-.caption {
-    font-size: 0.8em; /* Smaller font size for caption */
-     /* Grey color for caption */
+.caption { /* Caption til det vanlige bildet */
+    font-size: 0.8em; 
     text-align: center;
     margin-top: 5px;  /* Space between image and caption */
 }
-.figure-container{
+.figure-container{ /* Boksen rundt vanlig bilde til høyre */
     border: 1px solid #a2a9b1;
     background-color: #f2f2f2;;
     padding: 5px;
@@ -145,7 +144,7 @@ a:hover {
     margin-bottom: auto;
     margin-top: auto;
 }
-.bsprofil {
+.bsprofil { /* Selve bildet til bsprofil  */
     width: 100%;
     max-width: 450px;
     height: auto;
@@ -154,7 +153,7 @@ a:hover {
     padding: 3px;
     vertical-align: top;
 }
-.bsprofil-container{
+.bsprofil-container{ /* Boksen runt bs profilbildet */
     border: 1px solid #a2a9b1;
     background-color: #f2f2f2;;
     padding: 5px;
@@ -163,10 +162,36 @@ a:hover {
     height: 340px;
     width: 450px;
 }
-.bsprofil-caption {
-    font-size: 0.8em; /* Smaller font size for caption */
-     /* Grey color for caption */
+.bsprofil-caption { /* Tekst på bsprofilbildet i boksen */
+    font-size: 0.8em; 
+     
     text-align: center;
     margin-top: 5px;  /* Space between image and caption */
     margin-bottom: 5px;
 }
+table { /* Tabell */
+    table-layout: auto;
+    width: 50%;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+}
+
+.type2 th, .type2 td { /* Type 2 tabell th og td */
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+.type2 th {  /* Type 2 tabell th bakgrunn */
+    background-color: #f4f4f4;
+}
+tr:nth-child(even) { /* Annenhver farge i boksene i tabellen */
+    background-color: #f9f9f9;
+}
+tr:hover { /* Annenhver farge i boksene i tabellen */
+    background-color: #f1f1f1;
+}
+.table-container {
+    display: flex;
+    gap: 20px; /* Space between tables */
+}
+/* copy */
