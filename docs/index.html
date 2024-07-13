@@ -336,12 +336,12 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="type2">
+            <table class="type2" id="ranktable">
                 <thead>
                     <tr>
-                        <th>Brawler</th>
-                        <th>Første rank 35</th>
-                        <th>Høyeste trofeer</th>
+                        <th onclick="sortTable(0)">Brawler</th>
+                        <th onclick="sortTable(1)">Første rank 35</th>
+                         <th onclick="sortTable(2)">Høyeste trofeer</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -728,7 +728,7 @@
                     <tr>
                         <td>Stu</td>
                         <td><a href="cursed.html">Cursed</a></td>
-                        <td>1255 - Lavvek</td>
+                        <td>1250 - <a href="cursed.html">Cursed</a></td>
                     </tr>
                     <tr>
                         <td>Surge</td>
@@ -803,6 +803,21 @@
             <br>
         </p>
     </div>
+    <script>
+        function sortTable(columnIndex) {
+            var table = document.getElementById("ranktable");
+            var rows = Array.from(table.rows).slice(1);
+            var isAsc = table.rows[0].cells[columnIndex].getAttribute("data-order") === "asc";
+            rows.sort(function(a, b) {
+                var aText = a.cells[columnIndex].innerText;
+                var bText = b.cells[columnIndex].innerText;
+                return isAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+            });
+            rows.forEach(function(row) {
+                table.tBodies[0].appendChild(row);
+            });
+            table.rows[0].cells[columnIndex].setAttribute("data-order", isAsc ? "desc" : "asc");
+        }
+    </script>
 </body>
-
 </html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sortable Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sortable Table</h1>
+<table id="sortableTable">
+    <thead>
+        <tr>
+            <th onclick="sortTable(0)">Name</th>
+            <th onclick="sortTable(1)">Age</th>
+            <th onclick="sortTable(2)">Occupation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John Doe</td>
+            <td>30</td>
+            <td>Software Engineer</td>
+        </tr>
+        <tr>
+            <td>Jane Smith</td>
+            <td>28</td>
+            <td>Graphic Designer</td>
+        </tr>
+        <tr>
+            <td>Mike Johnson</td>
+            <td>35</td>
+            <td>Project Manager</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    function sortTable(columnIndex) {
+        var table = document.getElementById("sortableTable");
+        var rows = Array.from(table.rows).slice(1);
+        var isAsc = table.rows[0].cells[columnIndex].getAttribute("data-order") === "asc";
+        rows.sort(function(a, b) {
+            var aText = a.cells[columnIndex].innerText;
+            var bText = b.cells[columnIndex].innerText;
+            return isAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+        });
+        rows.forEach(function(row) {
+            table.tBodies[0].appendChild(row);
+        });
+        table.rows[0].cells[columnIndex].setAttribute("data-order", isAsc ? "desc" : "asc");
+    }
+</script>
+
+</body>
+</html>
