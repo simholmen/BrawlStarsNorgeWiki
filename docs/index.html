@@ -224,8 +224,7 @@
         </p>
 
         <h2 id="Prestasjoner">Prestasjoner</h2>
-        <p>
-           
+            
         </p>
         <h3 id="Norske Trophy Milestones">Norske Trophy Milestones</h3>
         <p>
@@ -339,9 +338,9 @@
             <table class="type2" id="ranktable">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0)">Brawler</th>
-                        <th onclick="sortTable(1)">Første rank 35</th>
-                         <th onclick="sortTable(2)">Høyeste trofeer</th>
+                        <th class="lysoppcelle" onclick="handleCellClick(this)">Brawler ▲</th>
+                        <th class="lysoppcelle" onclick="handleCellClick(this)">Første rank 35 ▼</th>
+                        <th class="lysoppcelle" onclick="handleCellClick(this)">Høyeste trofeer ▼</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -352,7 +351,7 @@
                     </tr>
                     <tr>
                         <td>Amber</td>
-                        <td>Aambakk</td>
+                        <td>Aаmbakk</td>
                         <td>1262 - Aambakk</td>
                    </tr>
                    <tr>
@@ -528,7 +527,7 @@
                     <tr>
                         <td>Gray</td>
                         <td>Ingen</td>
-                        <td>1105¨- Daniel</td>
+                        <td>1105- Daniel</td>
                     </tr>
                     <tr>
                         <td>Griff</td>
@@ -803,21 +802,6 @@
             <br>
         </p>
     </div>
-    <script>
-        function sortTable(columnIndex) {
-            var table = document.getElementById("ranktable");
-            var rows = Array.from(table.rows).slice(1);
-            var isAsc = table.rows[0].cells[columnIndex].getAttribute("data-order") === "asc";
-            rows.sort(function(a, b) {
-                var aText = a.cells[columnIndex].innerText;
-                var bText = b.cells[columnIndex].innerText;
-                return isAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
-            });
-            rows.forEach(function(row) {
-                table.tBodies[0].appendChild(row);
-            });
-            table.rows[0].cells[columnIndex].setAttribute("data-order", isAsc ? "desc" : "asc");
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

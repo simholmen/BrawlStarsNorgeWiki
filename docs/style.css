@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 #content {
     max-width: 1000px;
     margin: 0 auto;
@@ -13,6 +14,7 @@ body {
     border: 1px solid #a2a9b1;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .figure {
     display: block;
     max-width: 2050px;
@@ -22,9 +24,12 @@ body {
     unicode-bidi: isolate;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     color: #222222;
 }
+
 h1 {
     font-size: 2em;
     border-bottom: 1px solid #a2a9b1;
@@ -37,21 +42,26 @@ h2 {
     padding-bottom: 0.3em;
     margin-top: 1em;
 }
+
 h3 {
     font-size: 1.2em;
     margin-top: 1em;
 }
+
 p {
     line-height: 1.6;
     margin: 1em 0;
 }
+
 a {
     color: #0645ad;
     text-decoration: none;
 }
+
 a:hover {
     text-decoration: underline;
 }
+
 #toc {
     border: 1px solid #a2a9b1;
     background-color: #f9f9f9;
@@ -59,23 +69,30 @@ a:hover {
     margin: 20px 0;
     margin-right: 290px;
 }
+
 #toc h2 {
     font-size: 1.2em;
     margin-top: 0;
 }
+
 #toc ul {
     list-style-type: none;
     padding-left: 0;
 }
+
 #toc li {
     margin: 5px 0;
 }
-.responsive-bsnorge { /* BS norge logo i høyre hjørne */
+
+.responsive-bsnorge {
+    /* BS norge logo i høyre hjørne */
     width: 100%;
     height: auto;
-    max-width: 50px; 
+    max-width: 50px;
 }
-.infobox { /* Boksen rundt infoboksen */
+
+.infobox {
+    /* Boksen rundt infoboksen */
     width: 250px;
     border: 1px solid #a2a9b1;
     background-color: #f9f9f9;
@@ -83,7 +100,9 @@ a:hover {
     float: right;
     margin: 0 0 10px 10px;
 }
-.infobox-title {  /* IGN i boks */
+
+.infobox-title {
+    /* IGN i boks */
     font-size: 1.2em;
     font-weight: bold;
     text-align: center;
@@ -91,107 +110,163 @@ a:hover {
     padding: 5px;
     margin-bottom: 10px;
 }
-.infobox-title .subtitle { /* Ekte navn på personen */
-    font-size: 0.7em; 
-    display: block;  
+
+.infobox-title .subtitle {
+    /* Ekte navn på personen */
+    font-size: 0.7em;
+    display: block;
     margin-top: 10px;
 }
-.infobox img { /* Bilde i infoboksen */
+
+.infobox img {
+    /* Bilde i infoboksen */
     width: 100%;
     height: auto;
     border: 1px solid #a2a9b1;
     margin-bottom: 10px;
 }
-.infobox table { /* Infobox tabell */
+
+.infobox table {
+    /* Infobox tabell */
     width: 100%;
     border-collapse: collapse;
     padding: 10px;
 }
-.infobox td { /* Tekst data i infobokstabell (liten tekst)*/
+
+.infobox td {
+    /* Tekst data i infobokstabell (liten tekst)*/
     padding: 3px;
     vertical-align: top;
 }
-.infobox th { /* Header tekst i infobokstabell */
+
+.infobox th {
+    /* Header tekst i infobokstabell */
     text-align: left;
     padding: 3px;
     background-color: #f2f2f2;
     border-bottom: 1px solid #a2a9b1;
 }
-.picture { /* Selve det vanlige bildet */
+
+.picture {
+    /* Selve det vanlige bildet */
     width: 100%;
     max-width: 250px;
     height: auto;
 }
-.picture textpicture{
+
+.picture textpicture {
     padding: 3px;
     vertical-align: top;
 }
-.caption { /* Caption til det vanlige bildet */
-    font-size: 0.8em; 
+
+.caption {
+    /* Caption til det vanlige bildet */
+    font-size: 0.8em;
     text-align: center;
-    margin-top: 5px;  /* Space between image and caption */
+    margin-top: 5px;
+    /* Space between image and caption */
 }
-.figure-container{ /* Boksen rundt vanlig bilde til høyre */
+
+.figure-container {
+    /* Boksen rundt vanlig bilde til høyre */
     border: 1px solid #a2a9b1;
-    background-color: #f2f2f2;;
+    background-color: #f2f2f2;
+    ;
     padding: 5px;
     float: right;
     margin: 0 0 10px 10px;
     text-align: center;
 }
+
 .indented {
-    text-indent: 2em; /* Adjust the value as needed */
+    text-indent: 2em;
+    /* Adjust the value as needed */
     margin-bottom: auto;
     margin-top: auto;
 }
-.bsprofil { /* Selve bildet til bsprofil  */
+
+.bsprofil {
+    /* Selve bildet til bsprofil  */
     width: 100%;
     max-width: 450px;
     height: auto;
 }
-.bsprofil textpicture{
+
+.bsprofil textpicture {
     padding: 3px;
     vertical-align: top;
 }
-.bsprofil-container{ /* Boksen runt bs profilbildet */
+
+.bsprofil-container {
+    /* Boksen runt bs profilbildet */
     border: 1px solid #a2a9b1;
-    background-color: #f2f2f2;;
+    background-color: #f2f2f2;
+    ;
     padding: 5px;
     margin: 0 0 0px 0px;
     text-align: center;
     height: 340px;
     width: 450px;
 }
-.bsprofil-caption { /* Tekst på bsprofilbildet i boksen */
-    font-size: 0.8em; 
-     
+
+.bsprofil-caption {
+    /* Tekst på bsprofilbildet i boksen */
+    font-size: 0.8em;
+
     text-align: center;
-    margin-top: 5px;  /* Space between image and caption */
+    margin-top: 5px;
+    /* Space between image and caption */
     margin-bottom: 5px;
 }
-table { /* Tabell */
+
+table {
+    /* Tabell */
     table-layout: auto;
     width: 50%;
     margin-bottom: 10px;
     border-collapse: collapse;
 }
 
-.type2 th, .type2 td { /* Type 2 tabell th og td */
+.lysoppcelle:hover { 
+    /* Lys opp  type th celle når man hover over dem */
+    background-color: #40424423;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 0, 0, 0.315);
+}
+
+.type2 th,
+.type2 td {
+    /* Type 2 tabell th og td */
     padding: 10px;
     border: 1px solid #ccc;
     text-align: left;
 }
-.type2 th {  /* Type 2 tabell th bakgrunn */
+
+.type2 th {
+    /* Type 2 tabell th bakgrunn */
     background-color: #f4f4f4;
 }
-tr:nth-child(even) { /* Annenhver farge i boksene i tabellen */
+
+tr:nth-child(even) {
+    /* Annenhver farge i boksene i tabellen */
     background-color: #f9f9f9;
 }
-tr:hover { /* Annenhver farge i boksene i tabellen */
+
+tr:hover {
+    /* Annenhver farge i boksene i tabellen */
     background-color: #f1f1f1;
 }
+
 .table-container {
     display: flex;
-    gap: 20px; /* Space between tables */
+    gap: 20px;
+    /* Space between tables */
 }
+
 /* copy */
+
+/*
+
+▲
+▼
+
+*/
