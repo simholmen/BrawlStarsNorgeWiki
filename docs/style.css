@@ -221,7 +221,7 @@ a:hover {
 
 table {
     /* Tabell */
-    table-layout: auto;
+    table-layout: fixed;
     width: 50%;
     margin-bottom: 10px;
     border-collapse: collapse;
@@ -260,6 +260,7 @@ tr:hover {
     display: flex;
     gap: 20px;
     /* Space between tables */
+
 }
 
 /* copy */
