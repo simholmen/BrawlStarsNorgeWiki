@@ -1,4 +1,5 @@
 body {
+    /* Texten for hele siden */
     font-family: 'Georgia', serif;
     background-color: #f8f9fa;
     color: #202122;
@@ -7,6 +8,7 @@ body {
 }
 
 #content {
+    /* Container for hele siden */
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
@@ -27,16 +29,19 @@ body {
 h1,
 h2,
 h3 {
+    /* Farge på overskrift 1,2 og 3 */
     color: #222222;
 }
 
 h1 {
+    /* Egne ting for overskrift h1 */
     font-size: 2em;
     border-bottom: 1px solid #a2a9b1;
     padding-bottom: 0.3em;
 }
 
 h2 {
+    /* Egne ting for overskrift h2 */
     font-size: 1.5em;
     border-bottom: 1px solid #a2a9b1;
     padding-bottom: 0.3em;
@@ -44,6 +49,7 @@ h2 {
 }
 
 h3 {
+    /* Egne ting for overskrift h3 */
     font-size: 1.2em;
     margin-top: 1em;
 }
@@ -54,34 +60,35 @@ p {
 }
 
 a {
+    /* Skrift a (clickable links i teksten) */
     color: #0645ad;
     text-decoration: none;
 }
 
 a:hover {
+    /* Hva som skjer om man hovrer over a teksten */
     text-decoration: underline;
 }
 
 #toc {
+    /* Table of contents, innholdsfortegnelsen */
     border: 1px solid #a2a9b1;
     background-color: #f9f9f9;
     padding: 10px;
     margin: 20px 0;
-    margin-right: 290px;
+    margin-right: 30%;
 }
 
 #toc h2 {
+    /* Overskrift h2 (Contents) i table of contents */
     font-size: 1.2em;
     margin-top: 0;
 }
 
 #toc ul {
+    /* body skriften i table of contents */
     list-style-type: none;
     padding-left: 0;
-}
-
-#toc li {
-    margin: 5px 0;
 }
 
 .responsive-bsnorge {
@@ -92,7 +99,7 @@ a:hover {
 }
 
 .infobox {
-    /* Boksen rundt infoboksen */
+    /* Containeren til infoboksen */
     width: 250px;
     border: 1px solid #a2a9b1;
     background-color: #f9f9f9;
