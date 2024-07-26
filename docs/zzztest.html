@@ -3,72 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sortable Table</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #000;
-            padding: 10px;
-            text-align: left;
-            cursor: pointer;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-    </style>
+    <title>Joss - Brawl Stars Norge Wiki</title>
+    <link rel="icon" href="images/bsnorge.jpg" type="image/jpg">
+    <link rel="stylesheet" href="zzzteststyles2.css">
 </head>
 <body>
-
-<h1>Sortable Table</h1>
-<table id="sortableTable">
-    <thead>
-        <tr>
-            <th onclick="sortTable(0)">Name</th>
-            <th onclick="sortTable(1)">Age</th>
-            <th onclick="sortTable(2)">Occupation</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>John Doe testers</td>
-            <td>30</td>
-            <td>Software Engineer</td>
-        </tr>
-        <tr>
-            <td>Jane Smith MSITHHT</td>
-            <td>28</td>
-            <td>Graphic Designer</td>
-        </tr>
-        <tr>
-            <td>Mike Johnson</td>
-            <td>35</td>
-            <td>Project Manager</td>
-        </tr>
-    </tbody>
-</table>
-
-<script>
-    function sortTable(columnIndex) {
-        var table = document.getElementById("sortableTable");
-        var rows = Array.from(table.rows).slice(1);
-        var isAsc = table.rows[0].cells[columnIndex].getAttribute("data-order") === "asc";
-        rows.sort(function(a, b) {
-            var aText = a.cells[columnIndex].innerText;
-            var bText = b.cells[columnIndex].innerText;
-            return isAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
-        });
-        rows.forEach(function(row) {
-            table.tBodies[0].appendChild(row);
-        });
-        table.rows[0].cells[columnIndex].setAttribute("data-order", isAsc ? "desc" : "asc");
-    }
-</script>
+    
+<div id="content">
+    <header>
+        <h1>
+            <a href="index.html"> 
+                <img src="images/bsnorge.jpg" class="responsive-bsnorge">
+            </a>
+            Brawl Stars Norge Wiki
+        </h1>
+    </header>
+    <main>
+        <div class="layout">
+            <div id="toc">
+                <h2>Contents</h2>
+                <ul>
+                    <li><a href="#Bakgrunn">1. Bakgrunn</a></li>
+                    <li><a href="#Karriere">2. Karriere</a></li>
+                    <li><a href="#Prestasjoner">3. Prestasjoner</a></li>
+                    <li><a href="#Brawl Stars Profil">4. Brawl Stars Profil</a></li>
+                </ul>
+            </div>
+            <div class="infobox">
+                <div class="infobox-title">
+                    Joss
+                    <span class="subtitle">Johannes Røsvik</span>
+                </div>
+                <img src="images/joss.jpg" alt="Sample Image">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Hjemsted</th>
+                            <td>Ålesund</td>
+                        </tr>
+                        <tr>
+                            <th>Født</th>
+                            <td>2003</td>
+                        </tr>
+                        <tr>
+                            <th>Favorittbrus</th>
+                            <td>Fanta</td>
+                        </tr>
+                        <tr>
+                            <th>Dame</th>
+                            <td>No bitches</td>
+                        </tr>
+                        <tr>
+                            <th>Favoritt Brawler</th>
+                            <td>Sprout</td>
+                        </tr>
+                        <tr>
+                            <th>Quote</th>
+                            <td>"CHICKEN?!"</td>
+                        </tr>
+                        <tr>
+                            <th>Ærkefiende</th>
+                            <td>Kirill</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <article class="statistics"> 
+            <h2 id="Bakgrunn">Bakgrunn</h2>
+            <p>Joss (Johannes) er en Brawl Stars spiller i Norge</p>
+            <h2 id="Karriere">Karriere</h2>
+            <p></p>
+            <h2 id="Prestasjoner">Prestasjoner</h2>
+            <p>
+                - Første rank 2 sprout i Norge<br>
+                - Vært på hytta til Cursed og <a href="aambakk.html">Aambakk</a><br> 
+                - 2. med 40k i Norge<br>
+            </p>
+            <h2>Brawl Stars profil</h2>
+            <p>
+                <figure class="bsprofil-container">
+                    <img src="images/joss_profil.jpg" alt="Brawl Stars profil" class="bsprofil">
+                    <figcaption class="bsprofil-caption">Joss' Brawl Stars profil - Juni 2024</figcaption>
+                </figure>
+            </p>
+        </article>
+    </main>
+    <footer>Footer</footer>
+</div>
 
 </body>
 </html>
