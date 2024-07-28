@@ -1,22 +1,35 @@
 body {
     /* Texten for hele siden */
-    font-family: 'Georgia', serif; /* Font generell tekst */
-    background-color: #f8f9fa; /* Bakgrunnsfarge på hele siden (body) */
-    color: #202122; /* Farge på generell tekst */
-    margin: 10px; /* Avstand mellom toppen og bunnen av siden og body containeren */
-    padding: 0px; /* Padding mellom body containeren og resten av siden */
+    font-family: 'Georgia', serif; 
+    /* Font generell tekst */
+    background-color: #f8f9fa; 
+    /* Bakgrunnsfarge på hele siden (body) */
+    color: #202122; 
+    /* Farge på generell tekst */
+    margin: 10px; 
+    /* Avstand mellom toppen og bunnen av siden og body containeren */
+    padding: 0px; 
+    /* Padding mellom body containeren og resten av siden */
 }
 
 #content {
     /* Container for hele siden */
-    max-width: 1000px; /* Max bredde for body containeren */
-    margin: 0 auto; /* Avstand mellom toppen og bunnen av siden og body containeren*/
-    padding-left: 20px; /* Mellomrom  venstre mellom border og elementer i body containeren */
-    padding-right: 20px; /* Mellomrom høyre mellom border og elementer i body containeren */
-    padding-bottom: 20px; /* Mellomrom bunnen mellom border og elementer i body containeren */
-    background-color: #ffffff; /* Farge på bakrunnen */
-    border: 1px solid #a2a9b1; /* Farge på body containeren */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow til bodycontaineren */
+    max-width: 1000px; 
+    /* Max bredde for body containeren */
+    margin: 0 auto; 
+    /* Avstand mellom toppen og bunnen av siden og body containeren*/
+    padding-left: 20px; 
+    /* Mellomrom  venstre mellom border og elementer i body containeren */
+    padding-right: 20px; 
+    /* Mellomrom høyre mellom border og elementer i body containeren */
+    padding-bottom: 20px; 
+    /* Mellomrom bunnen mellom border og elementer i body containeren */
+    background-color: #ffffff; 
+    /* Farge på bakrunnen */
+    border: 1px solid #a2a9b1; 
+    /* Farge på body containeren */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    /* Shadow til bodycontaineren */
 }
 
 /* Ingen funksjon, men kan bli brukt som base for bilder
@@ -39,223 +52,299 @@ h3 {
 
 h1 {
     /* Egne ting for overskrift h1 */
-    font-size: 2em; /* Font størrelsen på h1, overskrift type 1 (Brawl Stars Norge Wiki) */
-    border-bottom: 1px solid #a2a9b1; /* Streken under overskrift type 1 */
-    padding-bottom: 0.3em; /* Meellomrommet mellom overskriften og streken under */
+    font-size: 2em; 
+    /* Font størrelsen på h1, overskrift type 1 (Brawl Stars Norge Wiki) */
+    border-bottom: 1px solid #a2a9b1; 
+    /* Streken under overskrift type 1 */
+    padding-bottom: 0.3em; 
+    /* Meellomrommet mellom overskriften og streken under */
 }
 
 h2 {
     /* Egne ting for overskrift h2 */
-    font-size: 1.5em; /* Font størrelsen på overskrift type 2 (Bakgrunn etc) */
-    border-bottom: 1px solid #a2a9b1; /* Streken under overskrift type 2 */
-    padding-bottom: 0.3em; /* Mellomrommet mellom overskriften og streken under */
-    margin-top: 1em; /* Mellomrommet mellom teksten i overskriften og det som ligger over */
+    font-size: 1.5em; 
+    /* Font størrelsen på overskrift type 2 (Bakgrunn etc) */
+    border-bottom: 1px solid #a2a9b1; 
+    /* Streken under overskrift type 2 */
+    padding-bottom: 0.3em; 
+    /* Mellomrommet mellom overskriften og streken under */
+    margin-top: 1em; 
+    /* Mellomrommet mellom teksten i overskriften og det som ligger over */
 }
 
 .strekstopp {
-    max-width: 715px;
+    max-width: 71.5%; 
+    /* Klasse for å gjøre at borderstreken stopper før infoboxen */
 }
 
 h3 {
     /* Egne ting for overskrift h3 */
-    font-size: 1.2em; /* Font størrelse på overskrift type 3 */
-    margin-top: 1em;
+    font-size: 1.2em; 
+    /* Font størrelse på overskrift type 3 */
+    margin-top: 1em; 
+    /* Mellomrommet mellom teksten i overskriften og det som ligger over */
 }
 
 p {
-    line-height: 1.6;
-    margin: 1em 0;
+    line-height: 1.6; 
+    /* Linjeavstand på normal p-tekst */
+    margin: 1em 0; 
+    /* Mellomrommet mellom det over og vanlig p-tekst */
 }
 
 a {
     /* Skrift a (clickable links i teksten) */
-    color: #0645ad;
-    text-decoration: none;
+    color: #0645ad; 
+    /* Fargen på clickable tekst */
+    text-decoration: none; 
+    /* Dekorasjon på clickable tekst */
 }
 
 a:hover {
     /* Hva som skjer om man hovrer over a teksten */
-    text-decoration: underline;
+    text-decoration: underline; 
+    /* Dekorasjon på clickable tekst når man hover over den */
 }
 
 #toc {
     /* Table of contents, innholdsfortegnelsen */
-    border: 1px solid #a2a9b1;
-    background-color: #f9f9f9;
-    padding: 10px;
-    margin: 20px 0;
-    margin-right: 30%;
+    border: 1px solid #a2a9b1; 
+    /* Farge på border på tablo of content */
+    background-color: #f9f9f9; 
+    /* Bakgrunnsfarge i toc */
+    padding: 10px; 
+    /* Mellomrommet mellom border og skrift inne i toc */
+    margin: 20px 0; 
+    /* Mellomrommer mellom utsiden av toc og elementene rundt */ 
+    margin-right: 30%; 
+    /* Mellomrommet på høyre siden mellom toc og elemantet til høyre */
 }
 
 #toc h2 {
     /* Overskrift h2 (Contents) i table of contents */
-    font-size: 1.2em;
-    margin-top: 0;
+    font-size: 1.2em; 
+    /* Størrelsen på overskrift 2 inne i toc */ 
+    margin-top: 0; 
+    /* Mellomrommet mellom overskrift og elementet over */ 
 }
 
 #toc ul {
     /* body skriften i table of contents */
-    list-style-type: none;
-    padding-left: 0;
+    list-style-type: none; 
+    /* Type punkter i listene */
+    padding-left: 0; 
+    /* Avstanden mellom punktene og venstre side */
 }
 
 .responsive-bsnorge {
     /* BS norge logo i venstre hjørne */
-    width: 100%;
-    height: auto;
-    max-width: 50px;
-    padding-right: 10px;
-    padding-left: 10px;
+    width: 100%; 
+    /* Bredde på logoen i venstre hjørne */
+    height: auto; 
+    /* Høyde på logo */
+    max-width: 50px; 
+    /* Max bredde på logo, satt til 50px for å få en konstant størrelse */
+    padding-right: 10px; 
+    /* Avstand mellom logo og høyre element */
+    padding-left: 10px; 
+    /* Avstand mellom logo og venstre element */
 }
 
 .infobox {
     /* Containeren til infoboksen */
-    width: 250px;
-    border: 1px solid #a2a9b1;
-    background-color: #f9f9f9;
-    padding: 10px;
-    float: right;
-    margin: 0 0 10px 10px;
+    width: 250px; 
+    /* Størrelse på infobox container */
+    border: 1px solid #a2a9b1; 
+    /* Borderen rundt inforboxen */
+    background-color: #f9f9f9; 
+    /* Bakrgunnen til infoboxen */
+    padding: 10px; 
+    /* Mellomrommet mellom elementene inni og borderen */
+    float: right; 
+    /* Hvor infoboxen ligger på siden */
+    margin: 0 0 10px 10px; 
+    /* Mellomrommet mellom boxen og elementene på utsiden */
 }
 
 .infobox-title {
     /* IGN i boks */
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
-    background-color: #f2f2f2;
-    padding: 5px;
-    margin-bottom: 10px;
+    font-size: 1.2em; 
+    /* Størrelsen på overskrift 1 i infobox */
+    font-weight: bold; 
+    /* Type tekst på overskrift 1 i infobox */
+    text-align: center; 
+    /* Hvor overskrift 1 ligger i inforbox */
+    background-color: #f2f2f2; 
+    /* Farge på bakgrunnen av overskrift 1 i infoboxen */
+    padding: 5px; 
+    /* Mellomrom mellom teksten og elemntene rundt */
+    margin-bottom: 10px; 
+    /* Mellomrommet mellom teksten og elemntet under */
 }
 
 .infobox-title .subtitle {
     /* Ekte navn på personen */
-    font-size: 0.7em;
-    display: block;
-    margin-top: 10px;
+    font-size: 0.7em; 
+    /* Størrelse på overskrift 2 i infoboxen */
+    display: block; 
+    /* Type tekst på overskrift 2 i infobox */
+    margin-top: 10px; 
+    /* Mellomrommet mellom teksten og overskrift 2 over */
 }
 
 .infobox img {
     /* Bilde i infoboksen */
-    width: 100%;
-    height: auto;
-    border: 1px solid #a2a9b1;
-    margin-bottom: 10px;
+    width: 100%; 
+    /* Bredde på bilde i infoboxen */
+    height: auto; 
+    /* Høyde påå bilde i infoboxen Satt til auto for å passe perfekt i boksen */
+    border: 1px solid #a2a9b1; 
+    /* Border rundt bildet */
+    margin-bottom: 10px; 
+    /* Mellomrommet mellom borderen rundt bilde og elementene under */
 }
 
 .infobox table {
     /* Infobox tabell */
-    width: 100%;
-    border-collapse: collapse;
-    padding: 10px;
+    width: 100%; 
+    /* Størrelse på tabellen under bildet i infoboxen */
+    border-collapse: collapse; 
+    /* Hva som skjer om teksten går for langt  */
+    padding: 10px; 
+    /* Mellomrommet mellom borderen og teksten  */
 }
 
 .infobox td {
     /* Tekst data i infobokstabell (liten tekst)*/
-    padding: 3px;
-    vertical-align: top;
+    padding: 3px; 
+    /* Mellomrommet mellom den lille teksten og elementene rundt  */
 }
 
 .infobox th {
     /* Header tekst i infobokstabell */
-    text-align: left;
-    padding: 3px;
-    background-color: #f2f2f2;
-    border-bottom: 1px solid #a2a9b1;
+    text-align: left; 
+    /* Hvor teksten skal ligge inne i tabellen */
+    padding: 3px; 
+    /* Mellomrommet mellom stor tekst og elementene rundt */
+    background-color: #f2f2f2; 
+    /* Bakgrunnsfargen på stor tekst */
+    border-bottom: 1px solid #a2a9b1; 
+    /* Streken under stor tekst */
 }
 
 .picture {
-    /* Selve det vanlige bildet */
-    width: 100%;
-    max-width: 250px;
-    height: auto;
-}
-
-.picture textpicture {
-    padding: 3px;
-    vertical-align: top;
+    /* Vanlige vertikale bilder */
+    width: 100%; 
+    /* Bredde på bildet */
+    max-width: 250px; 
+    /* Max bredde på bildet */
+    height: auto; 
+    /* Høyde på bildet */
+    padding: 3px; 
+    /* Mellomrommet mellom bildet og border */
 }
 
 .caption {
     /* Caption til det vanlige bildet */
-    font-size: 0.8em;
-    text-align: center;
-    margin-top: 5px;
-    /* Space between image and caption */
+    font-size: 0.8em; 
+    /* Font størrelsen til bildetekst */
+    text-align: center; 
+    /* Hvor teksten skal ligge i boksen */
+    margin-top: 5px; 
+    /* Mellomrom mellom bildetekst og bildet over */
 }
 
 .figure-container {
     /* Boksen rundt vanlig bilde til høyre */
-    border: 1px solid #a2a9b1;
-    background-color: #f2f2f2;
-    ;
-    padding: 5px;
-    float: right;
-    margin: 0 0 10px 10px;
-    text-align: center;
+    border: 1px solid #a2a9b1; 
+    /* Border for boksen rundt vertikal bilde til høyre */
+    background-color: #f2f2f2; 
+    /* Bakgrunnsfarge på boksen */
+    padding: 5px; 
+    /* Mellomrommet mellom boksen og elementene inni */
+    float: right; 
+    /* Hvor boksen ligger på siden */
+    margin: 0 0 10px 10px; 
+    /* Mellomrommet mellom boksen og elementene på utsiden */
 }
 
 .indented {
+    /* Lager mellomrom før delpunktene i toc */
     text-indent: 2em;
-    /* Adjust the value as needed */
-    margin-bottom: auto;
-    margin-top: auto;
+    /* Hvor mye avstand mellom venstre siden og teksten */
+    margin-bottom: auto; 
+    /* Mellomrom mellom ordene under */
+    margin-top: auto; 
+    /* Mellomrom mellom ordene over */
 }
 
 .bsprofil {
     /* Selve bildet til bsprofil  */
-    width: 100%;
-    max-width: 450px;
-    height: auto;
-}
-
-.bsprofil textpicture {
-    padding: 3px;
-    vertical-align: top;
+    width: 100%; 
+    /* Bredden til in game profil */
+    max-width: 450px; 
+    /* Max bredde på in game profil */
+    height: auto; 
+    /* Høyde på in game profil */
 }
 
 .bsprofil-container {
     /* Boksen runt bs profilbildet */
-    border: 1px solid #a2a9b1;
-    background-color: #f2f2f2;
-    ;
-    padding: 5px;
-    margin: 0 0 0px 0px;
-    text-align: center;
-    height: 340px;
-    width: 450px;
+    border: 1px solid #a2a9b1; 
+    /* Boksen rundt bs profilbildet */
+    background-color: #f2f2f2; 
+    /* Bakgrunnsfargen på boksen */
+    padding: 5px; 
+    /* Mellomrommet mellom boksen og bildet*/
+    margin: 0 0 0px 0px; 
+    /* Mellomrommet mellom boksen og elemntene rundt på utsiden */
+    height: 340px; 
+    /* Høyden på boksen */
+    width: 450px; 
+    /* Bredden på boksen */
 }
 
 .bsprofil-caption {
     /* Tekst på bsprofilbildet i boksen */
-    font-size: 0.8em;
-
+    font-size: 0.8em; 
+    /* Font størrelsen på bildeteksten */
     text-align: center;
+     /* Hvor teksten ligger inne i boksen */
     margin-top: 5px;
-    /* Space between image and caption */
-    margin-bottom: 5px;
+    /* Mellomrom mellom bilde og teksten over */
+    margin-bottom: 5px; 
+    /* Mellomrom mellom teksten og boksen nedenfor */
 }
 
 table {
     /* Tabell */
-    table-layout: fixed;
-    width: 50%;
-    margin-bottom: 10px;
-    border-collapse: collapse;
+    table-layout: fixed; 
+    /* Hvordan tabellen oppfører seg */
+    width: 50%; 
+    /* Bredde på tabellen */
+    margin-bottom: 10px; 
+    /* Mellomrommet mellom tabellen og elementet under */
+    border-collapse: collapse; 
+    /* Hva som skjer om tabellen blir for liten */
 }
 
 .lysoppcelle:hover { 
     /* Lys opp  type th celle når man hover over dem */
-    background-color: #40424423;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 0, 0, 0.315);
+    background-color: #40424423; 
+    /* Hva slags farge den har */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 0, 0, 0.315); 
+    /* Fargen på skyggen */
 }
 
 .type2 th,
 .type2 td {
     /* Type 2 tabell th og td */
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: left;
+    padding: 10px; 
+    /* Mellomrommet mellom teksten og cella */
+    border: 1px solid #ccc; 
+    /* Fargen på boksen rundt cellene */
+    text-align: left; 
+    /* Hvor teksten skal ligge inne i cellene */
 }
 
 .type2 th {
@@ -274,9 +363,10 @@ tr:hover {
 }
 
 .table-container {
-    display: flex;
+    display: flex; 
+    /* Gjør at de kan ligge ved siden av hverandre */
     gap: 20px;
-    /* Space between tables */
+    /* Avstand mellom tabllene */
 
 }
 
