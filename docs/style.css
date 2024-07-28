@@ -286,7 +286,7 @@ a:hover {
     /* Selve bildet til bsprofil  */
     width: 100%; 
     /* Bredden til in game profil */
-    max-width: 450px; 
+    max-width: 310px; 
     /* Max bredde på in game profil */
     height: auto; 
     /* Høyde på in game profil */
@@ -300,11 +300,11 @@ a:hover {
     /* Bakgrunnsfargen på boksen */
     padding: 5px; 
     /* Mellomrommet mellom boksen og bildet*/
-    margin: 0 0 0px 0px; 
+    margin: 0px 0px 0px 0px; 
     /* Mellomrommet mellom boksen og elemntene rundt på utsiden */
-    height: 340px; 
+    height: auto; 
     /* Høyden på boksen */
-    width: 450px; 
+    width: 310px; 
     /* Bredden på boksen */
 }
 
@@ -319,6 +319,27 @@ a:hover {
     margin-bottom: 5px; 
     /* Mellomrom mellom teksten og boksen nedenfor */
 }
+
+/* Media query for screens larger than 768px (e.g., tablets, desktops) */
+@media (min-width: 768px) {
+    .bsprofil-container {
+        width: 600px; /* Adjust the width for larger screens */
+    }
+    .bsprofil {
+        max-width: 600px; /* Adjust the max-width for larger screens */
+    }
+}
+
+/* Media query for screens smaller than 768px (e.g., mobile devices) */
+@media (max-width: 767px) {
+    .bsprofil-container {
+        width: 100%; /* Full width for smaller screens */
+    }
+    .bsprofil {
+        max-width: 100%; /* Full width for smaller screens */
+    }
+}
+
 
 table {
     /* Tabell */
