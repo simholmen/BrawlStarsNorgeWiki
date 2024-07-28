@@ -272,12 +272,14 @@ a:hover {
     /* Border for boksen rundt vertikal bilde til høyre */
     background-color: #f2f2f2; 
     /* Bakgrunnsfarge på boksen */
-    padding: 5px; 
-    /* Mellomrommet mellom boksen og elementene inni */
+    padding: 5px 10px 5px 5px; 
+    /* Mellomrommet mellom boksen og elementene inni, høyre siden er 10px fordi bildet er aligna i midten */
     float: right; 
     /* Hvor boksen ligger på siden */
     margin: 0 0 10px 10px; 
     /* Mellomrommet mellom boksen og elementene på utsiden */
+    max-width: 250px;
+    /* Legger samme max width som på bilde slik at bildeteksten ikke utvider boksen */
 }
 
 .bsprofil {
