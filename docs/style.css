@@ -1,22 +1,25 @@
 body {
     /* Texten for hele siden */
-    font-family: 'Georgia', serif;
-    background-color: #f8f9fa;
-    color: #202122;
-    margin: 0;
-    padding: 0;
+    font-family: 'Georgia', serif; /* Font generell tekst */
+    background-color: #f8f9fa; /* Bakgrunnsfarge på hele siden (body) */
+    color: #202122; /* Farge på generell tekst */
+    margin: 10px; /* Avstand mellom toppen og bunnen av siden og body containeren */
+    padding: 0px; /* Padding mellom body containeren og resten av siden */
 }
 
 #content {
     /* Container for hele siden */
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #a2a9b1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1000px; /* Max bredde for body containeren */
+    margin: 0 auto; /* Avstand mellom toppen og bunnen av siden og body containeren*/
+    padding-left: 20px; /* Mellomrom  venstre mellom border og elementer i body containeren */
+    padding-right: 20px; /* Mellomrom høyre mellom border og elementer i body containeren */
+    padding-bottom: 20px; /* Mellomrom bunnen mellom border og elementer i body containeren */
+    background-color: #ffffff; /* Farge på bakrunnen */
+    border: 1px solid #a2a9b1; /* Farge på body containeren */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow til bodycontaineren */
 }
 
+/* Ingen funksjon, men kan bli brukt som base for bilder
 .figure {
     display: block;
     max-width: 2050px;
@@ -25,6 +28,7 @@ body {
     margin-inline-start: 40px;
     unicode-bidi: isolate;
 }
+*/
 
 h1,
 h2,
@@ -35,17 +39,17 @@ h3 {
 
 h1 {
     /* Egne ting for overskrift h1 */
-    font-size: 2em;
-    border-bottom: 1px solid #a2a9b1;
-    padding-bottom: 0.3em;
+    font-size: 2em; /* Font størrelsen på h1, overskrift type 1 (Brawl Stars Norge Wiki) */
+    border-bottom: 1px solid #a2a9b1; /* Streken under overskrift type 1 */
+    padding-bottom: 0.3em; /* Meellomrommet mellom overskriften og streken under */
 }
 
 h2 {
     /* Egne ting for overskrift h2 */
-    font-size: 1.5em;
-    border-bottom: 1px solid #a2a9b1;
-    padding-bottom: 0.3em;
-    margin-top: 1em;
+    font-size: 1.5em; /* Font størrelsen på overskrift type 2 (Bakgrunn etc) */
+    border-bottom: 1px solid #a2a9b1; /* Streken under overskrift type 2 */
+    padding-bottom: 0.3em; /* Mellomrommet mellom overskriften og streken under */
+    margin-top: 1em; /* Mellomrommet mellom teksten i overskriften og det som ligger over */
 }
 
 h3 {
@@ -92,10 +96,12 @@ a:hover {
 }
 
 .responsive-bsnorge {
-    /* BS norge logo i høyre hjørne */
+    /* BS norge logo i venstre hjørne */
     width: 100%;
     height: auto;
     max-width: 50px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .infobox {
