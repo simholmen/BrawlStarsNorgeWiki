@@ -112,8 +112,8 @@ a:hover {
     /* Farge på border på tablo of content */
     background-color: #f9f9f9; 
     /* Bakgrunnsfarge i toc */
-    padding: 10px; 
-    /* Mellomrommet mellom border og skrift inne i toc */
+    padding: 10px 10px 0px 10px; 
+    /* Mellomrommet mellom border og skrift inne i toc, 3. verdi er satt til 0 for mindre avstand under */
     margin: 20px 0; 
     /* Mellomrommer mellom utsiden av toc og elementene rundt */ 
     margin-right: 30%; 
@@ -134,6 +134,18 @@ a:hover {
     /* Type punkter i listene */
     padding-left: 0; 
     /* Avstanden mellom punktene og venstre side */
+    line-height: 1.4; 
+    /* Linjeavstand i table of content */
+}
+
+.indented {
+    /* Lager mellomrom før delpunktene i toc */
+    text-indent: 1em;
+    /* Hvor mye avstand mellom venstre siden og teksten */
+    margin-bottom: auto; 
+    /* Mellomrom mellom ordene under */
+    margin-top: auto; 
+    /* Mellomrom mellom ordene over */
 }
 
 .responsive-bsnorge {
@@ -266,16 +278,6 @@ a:hover {
     /* Hvor boksen ligger på siden */
     margin: 0 0 10px 10px; 
     /* Mellomrommet mellom boksen og elementene på utsiden */
-}
-
-.indented {
-    /* Lager mellomrom før delpunktene i toc */
-    text-indent: 2em;
-    /* Hvor mye avstand mellom venstre siden og teksten */
-    margin-bottom: auto; 
-    /* Mellomrom mellom ordene under */
-    margin-top: auto; 
-    /* Mellomrom mellom ordene over */
 }
 
 .bsprofil {
