@@ -52,9 +52,13 @@ h2 {
     margin-top: 1em; /* Mellomrommet mellom teksten i overskriften og det som ligger over */
 }
 
+.strekstopp {
+    max-width: 715px;
+}
+
 h3 {
     /* Egne ting for overskrift h3 */
-    font-size: 1.2em;
+    font-size: 1.2em; /* Font størrelse på overskrift type 3 */
     margin-top: 1em;
 }
 
