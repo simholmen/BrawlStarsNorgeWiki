@@ -262,7 +262,7 @@ a:hover {
     /* Font størrelsen til bildetekst */
     text-align: center; 
     /* Hvor teksten skal ligge i boksen */
-    margin-top: 5px; 
+    margin-top: 0px; 
     /* Mellomrom mellom bildetekst og bildet over */
 }
 
@@ -314,7 +314,7 @@ a:hover {
     /* Font størrelsen på bildeteksten */
     text-align: center;
      /* Hvor teksten ligger inne i boksen */
-    margin-top: 5px;
+    margin-top: 3px;
     /* Mellomrom mellom bilde og teksten over */
     margin-bottom: 5px; 
     /* Mellomrom mellom teksten og boksen nedenfor */
