@@ -4,7 +4,7 @@ title: The Audacity - Brawl Stars Norge Wiki
 name: The Audacity
 image: /images/ta.jpg
 facts:
-  - [Aktiv, Ja]
+  - [Aktiv, Ja (Discord)]
   - [Stiftet, 2018]
   - [Medlemmer, 100]
   - [Leder, Star Virus og Waterflame]
