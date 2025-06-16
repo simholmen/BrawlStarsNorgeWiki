@@ -10,7 +10,7 @@ facts:
   - [Flest bans, BigW]
   - [Leder, <a href="/personer/lobb/">Lobb</a>]
   - [Underklubber, MZ 2, AZ, UZ, NZ]
-  - [Turneringer, <a href="/klubber/mz_turneringer/">7</a>]
+  - [Turneringer, <a href="/klubber/mz-turneringer/">7</a>]
 ---
 
 ## Bakgrunn

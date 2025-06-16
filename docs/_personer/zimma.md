@@ -17,7 +17,7 @@ facts:
 ## Bakgrunn
 Zimma er en norsk Brawl Stars spiller fra Ålgård. Han startet å spille spillet i 2017, og har vært en viktig person i communitiet helt fra start.
 Zimma har vært i nesten alle norske klubber og communities som har eksistert siden spillets start. Noen av de viktigste inkluderer 
-<a href="/klubber/midnight_zephyr.html">Midnight Zephyr</a>, Gizi Esports, Brawl Stars Norge, Unity Scndinavia og <a href="/klubber/etpargodemenn.html">EtParGodeMenn</a>.
+<a href="/klubber/midnight-zephyr/">Midnight Zephyr</a>, Gizi Esports, Brawl Stars Norge, Unity Scndinavia og <a href="/klubber/etpargodemenn/">EtParGodeMenn</a>.
 Han har også vært nummer 1 i Norge med både trofeer og i Power League, og vært aktiv innenfor 
 Esport med flere forskjellige lag som har oppnådd top 8 i Europa.
 Zimma har også delatt på flere forskjellige Brawl Stars arrangement; Dreamhack Summer 2019,
@@ -82,7 +82,7 @@ for å oppnå så høyt som mulig. Zimma endte opp med å nå nr. 7 i verden, og
 som passerte 13.000 trophies.
 <br><br>
 Samtidig som Zimma fikk motivasjon for å spille igjen, ble han også med i klubben Gizi Esports, sammen med flere fra Unity Scndinavia.
-Her ble han kjent med Kjørup, EZ Justice og <a href="/personer/maty.html">Maty</a>.
+Her ble han kjent med Kjørup, EZ Justice og <a href="/personer/maty/">Maty</a>.
 
 ### 2019
 ...

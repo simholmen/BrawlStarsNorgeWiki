@@ -7,7 +7,7 @@ image: /images/aambakk.jpg
 facts:
   - [Hjemsted, Asker]
   - [Født, 2002]
-  - [Familie, Bror - <a href="/personer/cursed.html">Cursed</a>]
+  - [Familie, Bror - <a href="/personer/cursed/">Cursed</a>]
   - [Favorittbrus, Monster]
   - [Favoritt Brawler, Barley]
 ---
@@ -19,7 +19,7 @@ Aambakk (Eskil) er en Brawl Stars spiller i Norge
 ...
 
 ## Prestasjoner
-- Bror til <a href="/personer/cursed.html">Cursed</a>
+- Bror til <a href="/personer/cursed/">Cursed</a>
 - Hostet hyttetur
 
 ## Brawl Stars profil
