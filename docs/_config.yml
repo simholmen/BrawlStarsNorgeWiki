@@ -1,0 +1,10 @@
+title: Brawl Stars Norge Wiki
+description: Norsk Brawl Stars wiki
+collections:
+  personer:
+    output: true
+    permalink: /personer/:name/
+  klubber:
+    output: true
+    permalink: /klubber/:name/
+    

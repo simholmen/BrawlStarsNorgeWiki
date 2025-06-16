@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<div class="infobox">
+    <div class="infobox-title">
+        {{ page.name }}
+        {% if page.subtitle %}
+        <span class="subtitle">{{ page.subtitle }}</span>
+        {% endif %}
+    </div>
+    <img src="{{ page.image }}" alt="{{ page.name }}">
+    <table>
+        <tbody>
+            {% for row in page.facts %}
+            <tr>
+                <th>{{ row[0] }}</th>
+                <td>{{ row[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2 class="strekstopp">{{ page.name }}</h2>
+{{ content }}
