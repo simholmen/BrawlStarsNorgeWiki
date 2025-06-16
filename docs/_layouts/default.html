@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: site.title }}</title>
+    <link rel="icon" href="/images/bsnorge.jpg" type="image/jpg">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="content">
+        {% include header.html %}
+        {{ content }}
+    </div>
+    <script src="/script.js"></script>
+</body>
+</html>
