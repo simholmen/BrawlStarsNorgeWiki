@@ -17,6 +17,8 @@ facts:
 Midnight Zephyr ble stiftet 1. april 2018, og har nesten alltid vært nummer 1 i Norge siden da.  
 MZ består av 5 klubber (MZ, MZ2, AZ, UZ og NZ) og en Discord-Server.
 
+{% include_relative club_table.md %}
+
 ## Klubben
 Klubben ble stiftet av Philraider.  
 Discord-serveren har rundt 320 medlemmer og er den største norske Discord-serveren.

@@ -1,0 +1,34 @@
+name: Fetch and Update Club Table
+
+on:
+  schedule:
+    - cron: '0 21 * * *'  # every day at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  update-table:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Run fetch_and_convert.py
+        run: python docs/fetch_and_convert.py
+        env:
+          BRAWL_API_KEY: ${{ secrets.BRAWL_API_KEY }}
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update club table [auto]"
+          file_pattern: |
+            docs/response_1750267741540.json
+            docs/_klubber/club_table.md
