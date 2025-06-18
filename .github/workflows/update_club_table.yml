@@ -20,8 +20,8 @@ jobs:
       - name: Install requests
         run: pip install requests
 
-      - name: Run fetch_and_convert.py
-        run: python docs/fetch_and_convert.py
+      - name: Run convert_and_fetch.py
+        run: python docs/convert_and_fetch.py
         env:
           BRAWL_API_KEY: ${{ secrets.BRAWL_API_KEY }}
 
