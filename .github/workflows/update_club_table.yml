@@ -23,7 +23,7 @@ jobs:
       - name: Run convert_and_fetch.py
         run: python docs/convert_and_fetch.py
         env:
-          BRAWL_API_KEY: ${{ secrets.BRAWL_API_KEY }}
+          NO_CLUB_LB_KEY: ${{ secrets.NO_CLUB_LB_KEY }}
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
