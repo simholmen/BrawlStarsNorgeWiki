@@ -1,7 +1,8 @@
 import requests
 import json
 
-API_KEY = "NO_CLUB_LB_KEY"
+import os
+API_KEY = os.environ["NO_CLUB_LB_KEY"]
 
 headers = {"Authorization": f"Bearer {API_KEY}"}
 response = requests.get(
