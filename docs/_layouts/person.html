@@ -8,15 +8,47 @@ layout: default
         <span class="subtitle">{{ page.subtitle }}</span>
         {% endif %}
     </div>
-    <img src="{{ page.image }}" alt="{{ page.name }}">
+    <img src="/images/profilbilde/{{ page.name | downcase | replace: ' ', '_' }}.jpg" alt="{{ page.name }} profilbilde">
     <table>
         <tbody>
+            <tr>
+                <th>Hjemsted</th>
+                <td>{{ page.hjemsted }}</td>
+            </tr>
+            <tr>
+                <th>Født</th>
+                <td>{{ page.born }}</td>
+            </tr>
+            <tr>
+                <th>Favorittbrus</th>
+                <td>{{ page.favorittbrus }}</td>
+            </tr>
+            <tr>
+                <th>Favoritt Brawler</th>
+                <td>{{ page.favoritt_brawler }}</td>
+            </tr>
+            <tr>
+                <th>Quote</th>
+                <td>{{ page.quote }}</td>
+            </tr>
+            <tr>
+                <th>Ærkefiende</th>
+                <td>{{ page.fiende }}</td>
+            </tr>
+
+            <tr>
+                <th>Brawl Stars ID</th>
+                <td> <a href="https://brawlace.com/players/%23{{ page.bsid }}">{{ page.bsid }}</a> </td>
+            </tr>
+
+            {% if page.facts %}
             {% for row in page.facts %}
             <tr>
                 <th>{{ row[0] }}</th>
                 <td>{{ row[1] }}</td>
             </tr>
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </div>
@@ -34,3 +66,17 @@ layout: default
 </div>
 
 {{ content }}
+
+<h2>Brawl Stars profil</h2>
+
+{% unless page.no_2024_profile %}
+<figure class="bsprofil-container">
+    <img src="/images/bsProfiler2024/{{ page.name | downcase | replace: ' ', '_' }}_profil.jpg" alt="{{ page.name }}" class="bsprofil">
+    <figcaption class="bsprofil-caption">{{ page.name }}'s Brawl Stars profil - Juni 2024</figcaption>
+</figure>
+{% endunless %}
+
+<figure class="bsprofil-container">
+    <img src="/images/bsProfiler2025/{{ page.name | downcase | replace: ' ', '_' }}.png" alt="{{ page.name }}" class="bsprofil">
+    <figcaption class="bsprofil-caption">{{ page.name }}'s Brawl Stars profil - Juni 2025</figcaption>
+</figure>

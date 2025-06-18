@@ -3,15 +3,14 @@ layout: person
 title: Ories - Brawl Stars Norge Wiki
 name: Ories
 subtitle: Halvard
-image: /images/ories.jpg
-facts:
-  - [Hjemsted, Bærum]
-  - [Født, 2003]
-  - [Favorittbrus, Dr. Pepper]
-  - [Dame, For mange]
-  - [Favoritt Brawler, Bo]
-  - [Quote, "LETS GO HAN ENEFYREN AKSEPTERTE FR NÅ SKAL HAN TRAKASSERES"]
-  - [Ærkefiende, Øyvind]
+hjemsted: Bærum
+born: 2003
+favorittbrus: Dr. Pepper
+favoritt_brawler: Bo
+quote: "LETS GO HAN ENEFYREN AKSEPTERTE FR, NÅ SKAL HAN TRAKASSERES"
+fiende: Øyvind
+bsid: 8QOYGP8P
+facts: []
 ---
 
 ## Bakgrunn
@@ -22,9 +21,3 @@ Ories (Halvard) er en norsk Brawl Stars spiller med syk rizz.
 
 ## Prestasjoner
 - Første rank 20 Penny i Norge
-
-## Brawl Stars profil
-<figure class="bsprofil-container">
-    <img src="/images/bsProfiler2024/ories_profil.jpg" alt="Brawl Stars profil" class="bsprofil">
-    <figcaption class="bsprofil-caption">Ories' Brawl Stars profil - Juni 2024</figcaption>
-</figure>

@@ -1,17 +1,17 @@
 ---
 layout: person
 title: Zimma - Brawl Stars Norge Wiki
+
 name: Zimma
 subtitle: Simen
-image: /images/zimma.jpg
-facts:
-  - [Hjemsted, Ålgård]
-  - [Født, 2002]
-  - [Favorittbrus, Cola]
-  - [Favoritt Brawler, Grom]
-  - [Quote, "Bli bedre"]
-  - [Ærkefiende, Skullflesh]
-  - [Brawl Stars tag, <a href="https://brawlace.com/players/%232GY22JUR"> 2GY22JUR <a>]
+hjemsted: Ålgård
+born: 2002
+favorittbrus: Cola
+favoritt_brawler: Grom
+quote: "Bli bedre"
+fiende: Skullflesh
+bsid: 2GY22JUR
+facts: []
 ---
 
 ## Bakgrunn
@@ -94,9 +94,3 @@ Her ble han kjent med Kjørup, EZ Justice og <a href="/personer/maty/">Maty</a>.
 ## Prestasjoner
 - Grunnlegger av Brawl Stars Norge Wiki
 - Første til 10.000 trofeer i Norge
-
-## Brawl Stars profil
-<figure class="bsprofil-container">
-    <img src="/images/bsProfiler2024/zimma_profil.jpg" alt="Brawl Stars profil" class="bsprofil">
-    <figcaption class="bsprofil-caption">Zimmas Brawl Stars profil - Juni 2024</figcaption>
-</figure>

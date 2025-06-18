@@ -1,18 +1,17 @@
 ---
 layout: person
 title: Waterflame - Brawl Stars Norge Wiki
+
 name: Waterflame
 subtitle: Glenn
-image: /images/waterflame.jpg
-facts:
-  - [Hjemsted, Dyngeland (Bergen)]
-  - [Født, 2003]
-  - [Favorittbrus, Villa uten sukker]
-  - [Favoritt Brawler, Mandy]
-  - [Familie, Far - borte]
-  - [Dame, Anna-Sofie]
-  - [Quote, "meow"]
-  - [Ærekefiende, Creator Program (Juan Carlos)]
+hjemsted: Dyngeland (Bergen)
+born: 2003
+favorittbrus: Villa uten sukker
+favoritt_brawler: Mandy
+quote: "meow"
+fiende: Creator Program (Juan Carlos)
+bsid: RYGQV998
+facts: []
 ---
 
 ## Bakgrunn
@@ -27,9 +26,3 @@ Waterflame startet å spille for fullt i sommeren 2021, og har siden den gangen 
 - Høyeste Mandy noen sinne
 - Femte i Norge med masters i solo powerleague
 - Leder i The Audacity
-
-## Brawl Stars profil
-<figure class="bsprofil-container">
-    <img src="/images/bsProfiler2024/waterflame_profil.jpg" alt="Brawl Stars profil" class="bsprofil">
-    <figcaption class="bsprofil-caption">Waterflames Brawl Stars profil - Juni 2024</figcaption>
-</figure>

@@ -3,13 +3,15 @@ layout: person
 title: Aambakk - Brawl Stars Norge Wiki
 name: Aambakk
 subtitle: Eskil
-image: /images/aambakk.jpg
+hjemsted: Asker
+born: 2002
+favorittbrus: Monster
+favoritt_brawler: Barley
+quote: "Fuck deg Torjus"
+fiende: Cursed
+bsid: YQ29980
 facts:
-  - [Hjemsted, Asker]
-  - [Født, 2002]
-  - [Familie, Bror - <a href="/personer/cursed/">Cursed</a>]
-  - [Favorittbrus, Monster]
-  - [Favoritt Brawler, Barley]
+  - [Familie,<a href="/personer/cursed/">Cursed</a>]
 ---
 
 ## Bakgrunn
@@ -21,9 +23,3 @@ Aambakk (Eskil) er en Brawl Stars spiller i Norge
 ## Prestasjoner
 - Bror til <a href="/personer/cursed/">Cursed</a>
 - Hostet hyttetur
-
-## Brawl Stars profil
-<figure class="bsprofil-container">
-    <img src="/images/bsProfiler2024/aambakk_profil.jpg" alt="Brawl Stars profil" class="bsprofil">
-    <figcaption class="bsprofil-caption">Aambakks Brawl Stars profil  -  Juni 2024</figcaption>
-</figure>
