@@ -17,6 +17,8 @@ Klubben ble stiftet av Mantas i 2020. Klubben holdt på å dø i en periode, men
 ## Klubben
 LG består av 4 klubber: Lonely Gang, Lonely Goats, RPG lonely og Lonely Gods.
 
+{% include_relative lonely_table.md %}
+
 ## Prestasjoner
 - Flest ledere i en norsk klubb
 

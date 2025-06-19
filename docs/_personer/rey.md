@@ -7,7 +7,7 @@ subtitle: Ray
 hjemsted: Larvik
 born: 2008
 favorittbrus: Raydbull
-favoritt_brawler: Draco
+favoritt_brawler: Drayco
 quote: "jeg heter ikke RAY"
 fiende: Rey
 bsid: YCL8J8UP
