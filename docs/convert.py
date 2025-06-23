@@ -10,12 +10,12 @@ def write_table(clubs, out_path):
 
 def filter_clubs(data, keywords):
     if "items" not in data:
-        print("API error:", data)
         return []
-    return [
-        club for club in data["items"]
-        if any(keyword in club["name"].lower() for keyword in keywords)
-    ]
+    result = []
+    for club in data["items"]:
+        if any(keyword in club["name"].lower() for keyword in keywords):
+            result.append(club)
+    return result
 
 if __name__ == "__main__":
     # Usage: python convert.py keyword1 [keyword2 ...] output.md
@@ -32,5 +32,6 @@ if __name__ == "__main__":
     write_table(clubs, out_path)
 
 
- # python3 docs/convert.py zephyr docs/_klubber/zephyr_table.md endswith
+ # python3 docs/convert.py zephyr docs/_klubber/zephyr_table.md
  # python3 docs/convert.py lonely docs/_klubber/lonely_table.md
+ # python3 /Users/simenholmen/Documents/GitHub/BrawlStarsNorgeWiki/docs/convert.py zephyr /Users/simenholmen/Documents/GitHub/BrawlStarsNorgeWiki/docs/_klubber/zephyr_table.md

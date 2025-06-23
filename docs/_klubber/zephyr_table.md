@@ -1,6 +1,6 @@
 | Rank | Club Name | Trophies | Members | Tag |
 |------|-----------|----------|---------|-----|
-| 2 | Midnight Zephyr | 2614122 | 30 | #Q2QCR8R |
-| 8 | Midnight Zephyr | 2210381 | 29 | #209VQPL22 |
-| 15 | Aspiring Zephyr | 1916164 | 30 | #LVRUL9RQ |
-| 58 | Uprising Zephyr | 1422880 | 30 | #VU0QV9G8 |
+| 3 | Midnight Zephyr | 2538061 | 29 | #Q2QCR8R |
+| 6 | Midnight Zephyr | 2292406 | 30 | #209VQPL22 |
+| 14 | Aspiring Zephyr | 1877024 | 29 | #LVRUL9RQ |
+| 76 | Uprising Zephyr | 1311915 | 27 | #VU0QV9G8 |
