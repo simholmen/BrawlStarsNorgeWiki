@@ -5,15 +5,45 @@ layout: default
     <div class="infobox-title">
         {{ page.name }}
     </div>
-    <img src="{{ page.image }}" alt="{{ page.name }}">
+    <img src="/images/klubber/klubb_profilbilde/{{ page.name | downcase | replace: ' ', '_' }}.jpg"
+        alt="{{ page.name }} profilbilde">
     <table>
         <tbody>
+            <tr>
+                <th>Aktiv</th>
+                <td>{{ page.aktiv }}</td>
+            </tr>
+            <tr>
+                <th>Stiftet</th>
+                <td>{{ page.stiftet }}</td>
+            </tr>
+            <tr>
+                <th>Leder</th>
+                <td>{{ page.leder }}</td>
+            </tr>
+            <tr>
+                <th>Medlemmer</th>
+                <td>{{ page.medlemmer }}</td>
+            </tr>
+            {% if page.underklubber %}
+            <tr>
+                <th>Underklubber</th>
+                <td>
+                    {% for underklubb in page.underklubber %}
+                    {{ underklubb }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endif %}
+
+            {% if page.facts %}
             {% for row in page.facts %}
             <tr>
                 <th>{{ row[0] }}</th>
                 <td>{{ row[1] }}</td>
             </tr>
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </div>
@@ -25,8 +55,29 @@ layout: default
     <ul>
         <li><a href="#bakgrunn">1. Bakgrunn</a></li>
         <li><a href="#karriere">2. Klubben</a></li>
-        <li><a href="#prestasjoner">3. Prestasjoner</a></li>
-        <li><a href="#brawl-stars-profil">4. Klubb profil</a></li>
+        <li><a href="#plassering">3. Plassering</a></li>
+        <li><a href="#prestasjoner">4. Prestasjoner</a></li>
+        <li><a href="#brawl-stars-klubbprofil">5. Klubb profil</a></li>
     </ul>
 </div>
+
 {{ content }}
+
+{% unless page.no_2024_profile %}
+<figure class="bsprofil-container">
+    <img src="/images/klubber/klubbprofil/{{ page.name | downcase | replace: ' ', '_' }}.png" alt="{{ page.name }}"
+        class="bsprofil">
+    <figcaption class="bsprofil-caption">{{ page.name }}'s Brawl Stars profil - Juni 2025</figcaption>
+</figure>
+{% endunless %}
+
+{% if page.underklubber %}
+<h3>Underklubber</h3>
+{% for underklubb in page.underklubber %}
+<figure class="bsprofil-container">
+    <img src="/images/klubber/klubbprofil/{{ underklubb | downcase | replace: ' ', '_' }}.png"
+        alt="{{ underklubb }} profilbilde" class="bsprofil">
+    <figcaption class="bsprofil-caption">{{ underklubb }} - Juni 2025</figcaption>
+</figure>
+{% endfor %}
+{% endif %}

@@ -2,36 +2,39 @@
 layout: klubb
 title: Midnight Zephyr - Brawl Stars Norge Wiki
 name: Midnight Zephyr
-image: /images/mz.jpg
+aktiv: Ja
+stiftet: 01.04.2018
+leder: Lobb
+medlemmer: ~320
+underklubber:
+  - MZ 2
+  - AZ
+  - UZ
+  - NZ
+
 facts:
-  - [Aktiv, Ja]
-  - [Stiftet, 01.04.2018]
-  - [Medlemmer, ~320]
   - [Flest bans, BigW]
-  - [Leder, <a href="/personer/lobb/">Lobb</a>]
-  - [Underklubber, MZ 2, AZ, UZ, NZ]
-  - [Turneringer, <a href="/klubber/mz-turneringer/">7</a>]
+  - [Turneringer, <a href="/diverse/mz-turneringer/">7</a>]
+
 ---
 
-## Bakgrunn
+## Bakgrunn {#bakgrunn}
 Midnight Zephyr ble stiftet 1. april 2018, og har nesten alltid vært nummer 1 i Norge siden da.  
 MZ består av 5 klubber (MZ, MZ2, AZ, UZ og NZ) og en Discord-Server.
 
-{% include_relative zephyr_table.md %}
-
-## Klubben
+## Klubben {#karriere}
 Klubben ble stiftet av Philraider.  
 Discord-serveren har rundt 320 medlemmer og er den største norske Discord-serveren.
 
-## Prestasjoner
+## Plassering {#plassering}
+
+{% include_relative zephyr_table.md %}
+
+## Prestasjoner {#prestasjoner}
 - Nummer 1 klubb i Norge  
 - Største norske Discord-server  
 - Lengst levde klubb  
 - Fostret mange store norske talenter  
-- Færrest leder og seniorer  
+- Færrest leder og seniorer 
 
-## Klubbprofil
-<figure class="bsprofil-container">
-    <img src="/images/klubbprofil_midnight_zephyr.jpg" alt="Brawl Stars klubbprofil" class="bsprofil">
-    <figcaption class="bsprofil-caption">Midnight Zephyr - Juni 2025</figcaption>
-</figure>
+## Klubb profil {#brawl-stars-klubbprofil}
