@@ -1,3 +1,3 @@
-**Totale seire:** 13
+**Totale seire:** 15
 
 **Totale tap:** 4
