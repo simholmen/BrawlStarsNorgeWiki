@@ -272,6 +272,20 @@ tr:hover {
     gap: 20px; /* Avstand mellom tabllene */
 }
 
+.winrate-results {
+  margin-top: 1em;
+  padding: 1em;
+  background: #f8f8ff;
+  border-radius: 8px;
+  max-width: 400px;
+}
+.winrate-results strong {
+  color: #2a7ae2;
+}
+.winrate-results p {
+  margin: 0.5em 0;
+}
+
 /* copy */
 
 /*
