@@ -34,4 +34,4 @@ if __name__ == "__main__":
 
  # python3 docs/convert.py zephyr docs/_klubber/zephyr_table.md
  # python3 docs/convert.py lonely docs/_klubber/lonely_table.md
- # python3 /Users/simenholmen/Documents/GitHub/BrawlStarsNorgeWiki/docs/convert.py zephyr /Users/simenholmen/Documents/GitHub/BrawlStarsNorgeWiki/docs/_klubber/zephyr_table.md
+ # /Users/simenholmen/Downloads/anaconda3/bin/python3

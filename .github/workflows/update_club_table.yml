@@ -1,34 +1,24 @@
-name: Fetch and Update Club Table
+name: Auto-push winloss markdown
 
 on:
   schedule:
-    - cron: '0 21 * * *'  # every day at midnight UTC
+    - cron: '5,35 * * * *'  # at minute 5 and 35 every hour
   workflow_dispatch:
 
 jobs:
-  update-table:
+  push-winloss-md:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Install requests
-        run: pip install requests
-
-      - name: Run convert_and_fetch.py
-        run: python docs/convert_and_fetch.py
-        env:
-          NO_CLUB_LB_KEY: ${{ secrets.NO_CLUB_LB_KEY }}
-
-      - name: Commit and push changes
+      - name: Commit and push winloss .md files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Update club table [auto]"
-          file_pattern: |
-            docs/response_1750267741540.json
-            docs/_klubber/club_table.md
+          commit_message: "Auto-push winloss markdown [auto]"
+          file_pattern: docs/diverse/slindringene/winloss_*.md
