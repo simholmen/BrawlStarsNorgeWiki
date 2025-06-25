@@ -22,7 +22,7 @@ title: MZ Turneringer - Brawl Stars Norge Wiki
             </tr>
         </tbody>
     </table>
-</div>     
+</div>
 <div id="toc">
     <h2>Contents</h2>
     <ul>
@@ -49,9 +49,9 @@ title: MZ Turneringer - Brawl Stars Norge Wiki
 
 <h2 id="Historie">Historie</h2>
 <p>
-    Slindringene er en gruppe med Brawl Stars som startet i 2024 da de reiste til 
-    Vestre Slindre. Slindringene består av Zimma, Waterflame, Star Virus, Joss, Lobb, 
-    Ories og Bindel. 
+    Slindringene er en gruppe med Brawl Stars som startet i 2024 da de reiste til
+    Vestre Slindre. Slindringene består av Zimma, Waterflame, Star Virus, Joss, Lobb,
+    Ories og Bindel.
 </p>
 
 <h3 id="VestreSlindre">Vestre Slindre</h3>
@@ -76,31 +76,62 @@ title: MZ Turneringer - Brawl Stars Norge Wiki
 </p>
 
 <h2 id="Slindringene">Slindringene</h2>
-<p> 
+<p>
     Slindringene spiller ikke så mye Brawl Stars lengre, men under kan man se
     win raten deres på rundene de har spilt etter updaten 24.06.2025.
 </p>
 
 <h3 id="Winrate">Winrate</h3>
 <div class="winrate-results">
+    <h4>Zimma</h4>
+
+    <p>
+        {% assign stats = site.data.winloss.zimma %}
+        Antall seiere: {{ stats.victories }}
+        <br>
+        Antall tap: {{ stats.losses }}
+    </p>
+
+    <h4>Waterflame</h4>
+    <p>
+        {% assign stats = site.data.winloss.waterflame %}
+        Antall seiere: {{ stats.victories }}
+        <br>
+        Antall tap: {{ stats.losses }}
+    </p>
+    <h4>Star Virus</h4>
+    <p>
+        {% assign stats = site.data.winloss.star_virus %}
+        Antall seiere: {{ stats.victories }}
+        <br>
+        Antall tap: {{ stats.losses }}
+    </p>    
+    <h4>Joss</h4>
+    <p>
+        {% assign stats = site.data.winloss.joss %}
+        Antall seiere: {{ stats.victories }}
+        <br>
+        Antall tap: {{ stats.losses }}
+    </p>
+    <h4>Lobb</h4>
+    <p>
+        {% assign stats = site.data.winloss.lobb %}
+        Antall seiere: {{ stats.victories }}
+        <br>
+        Antall tap: {{ stats.losses }}
+    </p>
+    <h4>Ories</h4>
+    <p>
+        {% assign stats = site.data.winloss.ories %}
+        Antall seiere: {{ stats.victories }}
+        <br>
+        Antall tap: {{ stats.losses }}
+    </p>
     <h4>Bindel</h4>
-  {% include_relative winloss_bindel.md %}
-
-  <h4>Joss</h4>
-  {% include_relative winloss_joss.md %}
-
-  <h4>Zimma</h4>
-  {% include_relative winloss_zimma.md %}
-
-  <h4>Waterflame</h4>
-  {% include_relative winloss_waterflame.md %}
-
-  <h4>Star Virus</h4>
-  {% include_relative winloss_star_virus.md %}
-
-  <h4>Lobb</h4>
-  {% include_relative winloss_lobb.md %}
-
-  <h4>Ories</h4>
-  {% include_relative winloss_ories.md %}
+    <p>
+        {% assign stats = site.data.winloss.bindel %}
+        Antall seiere: {{ stats.victories }}
+        <br>
+        Antall tap: {{ stats.losses }}
+    </p>
 </div>
