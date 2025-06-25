@@ -20,13 +20,6 @@ Trym Ivar (Trym) er en Brawl Stars spiller i Norge.
 ## Karriere
 Han spiller spillet av og til.
 
-
-Winrate siden juni 2025
-{% assign stats = site.data.winloss.trym %}
-Antall seiere: {{ stats.victories }}
-Antall tap: {{ stats.losses }}
-
-
 ## Prestasjoner
 - Flest bans fra <a href="/klubber/the_audacity/">TA</a>
 - 70.000kr brukt på Brawl Stars

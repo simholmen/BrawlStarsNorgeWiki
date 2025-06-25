@@ -2,6 +2,7 @@
 layout: klubb
 title: Midnight Zephyr - Brawl Stars Norge Wiki
 name: Midnight Zephyr
+keyword: zephyr
 aktiv: Ja
 stiftet: 01.04.2018
 leder: Lobb
@@ -26,15 +27,9 @@ MZ består av 5 klubber (MZ, MZ2, AZ, UZ og NZ) og en Discord-Server.
 Klubben ble stiftet av Philraider.  
 Discord-serveren har rundt 320 medlemmer og er den største norske Discord-serveren.
 
-## Plassering {#plassering}
-
-{% include_relative zephyr_table.md %}
-
 ## Prestasjoner {#prestasjoner}
 - Nummer 1 klubb i Norge  
 - Største norske Discord-server  
 - Lengst levde klubb  
 - Fostret mange store norske talenter  
 - Færrest leder og seniorer 
-
-## Klubb profil {#brawl-stars-klubbprofil}

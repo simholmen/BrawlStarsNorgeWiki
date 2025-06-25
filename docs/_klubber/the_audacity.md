@@ -16,11 +16,7 @@ The Audacity er en Discord server for den nå døde klubben The Audacity. Den bl
 ## Klubben {#karriere}
 Klubben har vært kjent for å være konkurransedyktig og ha mange aktive medlemmer.
 
-## Plassering {#plassering}
-Ikke på topplistene i Norge
-
 ## Prestasjoner {#prestasjoner}
 - Nummer 2 klubb i Norge 
 - Over 1 million meldinger i Discord serveren
 
-## Klubb profil {#brawl-stars-klubbprofil}

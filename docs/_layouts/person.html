@@ -61,11 +61,21 @@ layout: default
         <li><a href="#bakgrunn">1. Bakgrunn</a></li>
         <li><a href="#karriere">2. Karriere</a></li>
         <li><a href="#prestasjoner">3. Prestasjoner</a></li>
-        <li><a href="#brawl-stars-profil">4. Brawl Stars profil</a></li>
+        <li><a href="#real-time-stats">4. Real time stats</a></li>
+        <li><a href="#brawl-stars-profil">5. Brawl Stars profil</a></li>
     </ul>
 </div>
 
 {{ content }}
+
+<h2>Real time stats</h2>
+<p>
+{% assign stats_key = page.name | downcase | replace: ' ', '_' %}
+{% assign stats = site.data.winloss[stats_key] %}
+- Antall seiere: {{ stats.victories }}
+<br>
+- Antall tap: {{ stats.losses }}
+</p>
 
 <h2>Brawl Stars profil</h2>
 

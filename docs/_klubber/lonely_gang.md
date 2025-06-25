@@ -2,6 +2,7 @@
 layout: klubb
 title: Lonely Gang - Brawl Stars Norge Wiki
 name: Lonely Gang
+keyword: lonely
 aktiv: Ja
 stiftet: 08.11.2020
 leder: Mantas
@@ -19,11 +20,5 @@ Klubben ble stiftet av Mantas i 2020. Klubben holdt på å dø i en periode, men
 ## Klubben {#karriere}
 LG består av 4 klubber: Lonely Gang, Lonely Goats, RPG lonely og Lonely Gods.
 
-## Plassering {#plassering}
-
-{% include_relative lonely_table.md %}
-
 ## Prestasjoner {#prestasjoner}
 - Flest ledere i en norsk klubb
-
-## Klubb profil {#brawl-stars-klubbprofil}

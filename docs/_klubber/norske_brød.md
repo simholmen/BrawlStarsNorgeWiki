@@ -16,12 +16,7 @@ Norske Brød var kjent for sitt gode miljø og samhold.
 ## Klubben {#karriere}
 Klubben var kjent for sitt gode miljø og samhold.
 
-## Plassering {#plassering}
-Ikke på norske topplister
-
 ## Prestasjoner {#prestasjoner}
 - Samlet mange norske spillere  
 - Kjent for sitt gode miljø
-
-## Klubb profil {#brawl-stars-klubbprofil}
 

@@ -63,6 +63,26 @@ layout: default
 
 {{ content }}
 
+<h2>Plassering</h2>
+{% assign club_key = page.keyword | default: page.name | downcase | replace: ' ', '_' %}
+{% assign klubber = site.data.clubs[club_key] %}
+{% if klubber %}
+    <ul>
+    {% for club in klubber %}
+        <li>
+            {% if club.rank %}#{{ club.rank }} {% endif %}
+            {% if club.name %}{{ club.name }}{% else %}Ukjent navn{% endif %}
+            {% if club.tag %} ({{ club.tag }}){% endif %}
+            – {{ club.trophies }} trofeer
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Ingen {{ club_key }}-klubber funnet.</p>
+{% endif %}
+
+<h2>Klubbprofil</h2>
+
 {% unless page.no_2024_profile %}
 <figure class="bsprofil-container">
     <img src="/images/klubber/klubbprofil/{{ page.name | downcase | replace: ' ', '_' }}.png" alt="{{ page.name }}"

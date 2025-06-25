@@ -16,9 +16,12 @@ star_virus:
 trym:
   losses: 5
   victories: 20
+trym_ivar:
+  losses: 5
+  victories: 20
 waterflame:
   losses: 31
   victories: 83
 zimma:
-  losses: 24
-  victories: 70
+  losses: 30
+  victories: 79

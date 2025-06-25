@@ -14,7 +14,14 @@ PLAYER_MAP = {
     "8Y2R282J": "star_virus",
     "RYGQV998": "waterflame",
     "2GY22JUR": "zimma",
-    "99UOC22Q2": "trym"
+    "99UOC22Q2": "trym_ivar",
+    "YQ29980": "aambakk",
+    "RU8UUYJ": "cursed",
+    "UYYGP9UU": "ez",
+    "9GQPJCRL": "maty",
+    "2C9UP928V": "nussi",
+    "YCL8J8UP": "rey",
+    "22UYPCCJG": "wafles"
 }
 OUT_DIR = "/Users/simenholmen/GitHub/BrawlStarsNorgeWiki/winratefetching/docs/fetchresult"
 headers = {
