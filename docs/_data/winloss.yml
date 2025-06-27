@@ -1,18 +1,18 @@
 aambakk:
-  losses: 4
-  victories: 21
+  losses: 5
+  victories: 45
 bindel:
   losses: 4
   victories: 17
 cursed:
-  losses: 1
-  victories: 24
+  losses: 2
+  victories: 32
 ez:
   losses: 5
   victories: 19
 joss:
-  losses: 19
-  victories: 20
+  losses: 28
+  victories: 36
 lobb:
   losses: 0
   victories: 4
@@ -26,23 +26,23 @@ ories:
   losses: 0
   victories: 0
 rey:
-  losses: 11
-  victories: 66
+  losses: 22
+  victories: 79
 star_virus:
-  losses: 27
-  victories: 61
+  losses: 36
+  victories: 76
 trym:
   losses: 5
   victories: 20
 trym_ivar:
-  losses: 8
-  victories: 28
+  losses: 10
+  victories: 49
 wafles:
   losses: 7
   victories: 18
 waterflame:
-  losses: 31
-  victories: 83
+  losses: 40
+  victories: 99
 zimma:
-  losses: 30
-  victories: 79
+  losses: 32
+  victories: 91
