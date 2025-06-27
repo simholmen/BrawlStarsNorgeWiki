@@ -14,8 +14,8 @@ joss:
   losses: 30
   victories: 36
 lobb:
-  losses: 0
-  victories: 7
+  losses: 1
+  victories: 21
 maty:
   losses: 4
   victories: 20
@@ -26,8 +26,8 @@ ories:
   losses: 0
   victories: 0
 rey:
-  losses: 27
-  victories: 83
+  losses: 32
+  victories: 86
 star_virus:
   losses: 36
   victories: 76
