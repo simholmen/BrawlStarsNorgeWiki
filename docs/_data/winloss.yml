@@ -21,7 +21,7 @@ jo:
   victories: 21
 joss:
   losses: 43
-  victories: 77
+  victories: 81
 lobb:
   losses: 16
   victories: 48
@@ -33,7 +33,7 @@ maty:
   victories: 20
 movind:
   losses: 22
-  victories: 28
+  victories: 36
 nussi:
   losses: 6
   victories: 18
@@ -44,11 +44,11 @@ paddy:
   losses: 7
   victories: 17
 rey:
-  losses: 58
-  victories: 137
+  losses: 60
+  victories: 142
 star_virus:
   losses: 47
-  victories: 90
+  victories: 94
 the_lord_of_dab:
   losses: 4
   victories: 17
@@ -68,8 +68,8 @@ waterflame:
   losses: 51
   victories: 113
 yaarrf:
-  losses: 15
-  victories: 32
+  losses: 17
+  victories: 37
 zimma:
   losses: 35
   victories: 109
