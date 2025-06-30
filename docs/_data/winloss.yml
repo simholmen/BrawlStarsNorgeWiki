@@ -10,9 +10,18 @@ cursed:
 ez:
   losses: 5
   victories: 19
+gravity:
+  losses: 7
+  victories: 16
+herribart:
+  losses: 12
+  victories: 13
+jo:
+  losses: 3
+  victories: 21
 joss:
   losses: 40
-  victories: 51
+  victories: 57
 lobb:
   losses: 16
   victories: 48
@@ -28,24 +37,36 @@ nussi:
 ories:
   losses: 0
   victories: 0
+paddy:
+  losses: 7
+  victories: 17
 rey:
-  losses: 54
-  victories: 125
+  losses: 57
+  victories: 133
 star_virus:
   losses: 47
   victories: 90
+the_lord_of_dab:
+  losses: 4
+  victories: 17
 trym:
   losses: 5
   victories: 20
 trym_ivar:
-  losses: 21
-  victories: 63
+  losses: 22
+  victories: 64
+wafels:
+  losses: 7
+  victories: 18
 wafles:
   losses: 7
   victories: 18
 waterflame:
   losses: 51
   victories: 113
+yaarrf:
+  losses: 8
+  victories: 16
 zimma:
   losses: 35
   victories: 109
