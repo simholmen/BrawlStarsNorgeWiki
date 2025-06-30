@@ -14,8 +14,8 @@ gravity:
   losses: 8
   victories: 23
 herribart:
-  losses: 17
-  victories: 31
+  losses: 18
+  victories: 34
 jo:
   losses: 3
   victories: 21
@@ -23,23 +23,23 @@ joss:
   losses: 50
   victories: 99
 lobb:
-  losses: 20
+  losses: 22
   victories: 60
 mantas:
-  losses: 9
-  victories: 28
+  losses: 12
+  victories: 35
 maty:
   losses: 4
   victories: 20
 movind:
-  losses: 28
-  victories: 55
+  losses: 35
+  victories: 58
 nussi:
   losses: 6
   victories: 18
 obdo:
-  losses: 8
-  victories: 12
+  losses: 12
+  victories: 16
 ories:
   losses: 0
   victories: 0
@@ -48,7 +48,7 @@ paddy:
   victories: 17
 rey:
   losses: 61
-  victories: 145
+  victories: 146
 star_virus:
   losses: 53
   victories: 113
