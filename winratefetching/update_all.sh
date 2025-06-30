@@ -6,11 +6,7 @@ echo "Update_all to retireve winrate run at $(date)" >> /Users/simenholmen/GitHu
 
 python3 /Users/simenholmen/GitHub/BrawlStarsNorgeWiki/winratefetching/battlelogfetch.py >> /Users/simenholmen/GitHub/BrawlStarsNorgeWiki/automation.log 2>&1
 
-for name in lobb bindel joss ories star_virus waterflame zimma trym_ivar aambakk bindel cursed ez maty nussi rey wafles; do
-    python3 /Users/simenholmen/GitHub/BrawlStarsNorgeWiki/winratefetching/winrate.py $name >> /Users/simenholmen/GitHub/BrawlStarsNorgeWiki/automation.log 2>&1
-done
-
-echo "All winrates succesfully updated at $(date)" >> /Users/simenholmen/GitHub/BrawlStarsNorgeWiki/automation.log
+python3 /Users/simenholmen/GitHub/BrawlStarsNorgeWiki/winratefetching/run_winrate_with_names.py >> /Users/simenholmen/GitHub/BrawlStarsNorgeWiki/automation.log 2>&1
 
 cd /Users/simenholmen/GitHub/BrawlStarsNorgeWiki
 {

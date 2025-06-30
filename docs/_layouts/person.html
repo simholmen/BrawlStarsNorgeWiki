@@ -8,7 +8,7 @@ layout: default
         <span class="subtitle">{{ page.subtitle }}</span>
         {% endif %}
     </div>
-    <img src="/images/profilbilde/{{ page.name | downcase | replace: ' ', '_' }}.jpg" alt="{{ page.name }} profilbilde">
+    <img src="/images/profilbilde/{{ page.name | downcase | replace: ' ', '_' }}.{{ page.image_ext | default: 'jpg' }}" alt="{{ page.name }} profilbilde">
     <table>
         <tbody>
             <tr>

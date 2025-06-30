@@ -2,27 +2,17 @@ import requests
 import json
 import os
 from dotenv import load_dotenv
+import sys
+
+sys.path.append(os.path.dirname(__file__))  # Ensure local import works
+from extract_names_and_tags import get_player_map
+
 load_dotenv(dotenv_path='/Users/simenholmen/GitHub/BrawlStarsNorgeWiki/.env')
 
 API_KEY = os.environ.get("BRAWLSTARS_API_KEY")
+person_dir = '/Users/simenholmen/GitHub/BrawlStarsNorgeWiki/docs/_personer'
+PLAYER_MAP = get_player_map(person_dir)
 
-PLAYER_MAP = {
-    "RRCLPJVP": "lobb",
-    "9R2UG9JG": "bindel",
-    "R8RPOYOU": "joss",
-    "8QOYGP8P": "ories",
-    "8Y2R282J": "star_virus",
-    "RYGQV998": "waterflame",
-    "2GY22JUR": "zimma",
-    "99UOC22Q2": "trym_ivar",
-    "YQ29980": "aambakk",
-    "RU8UUYJ": "cursed",
-    "UYYGP9UU": "ez",
-    "9GQPJCRL": "maty",
-    "2C9UP928V": "nussi",
-    "YCL8J8UP": "rey",
-    "22UYPCCJG": "wafles"
-}
 OUT_DIR = "/Users/simenholmen/GitHub/BrawlStarsNorgeWiki/winratefetching/docs/fetchresult"
 headers = {
     "Authorization": f"Bearer {API_KEY}",

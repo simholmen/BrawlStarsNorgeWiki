@@ -93,4 +93,4 @@ Her ble han kjent med Kjørup, EZ Justice og <a href="/personer/maty/">Maty</a>.
 
 ## Prestasjoner
 - Grunnlegger av Brawl Stars Norge Wiki
-- Første til 10.000 trofeer i Norge
+- Første til 13.000 trofeer i Norge
