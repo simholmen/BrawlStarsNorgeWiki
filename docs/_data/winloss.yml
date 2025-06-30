@@ -20,14 +20,14 @@ jo:
   losses: 3
   victories: 21
 joss:
-  losses: 74
-  victories: 166
+  losses: 75
+  victories: 177
 lobb:
   losses: 36
   victories: 76
 mantas:
-  losses: 19
-  victories: 71
+  losses: 20
+  victories: 82
 maty:
   losses: 4
   victories: 20
@@ -47,11 +47,11 @@ paddy:
   losses: 7
   victories: 17
 rey:
-  losses: 66
-  victories: 187
+  losses: 67
+  victories: 197
 star_virus:
-  losses: 54
-  victories: 114
+  losses: 55
+  victories: 125
 the_lord_of_dab:
   losses: 4
   victories: 17
@@ -59,8 +59,8 @@ trym:
   losses: 5
   victories: 20
 trym_ivar:
-  losses: 28
-  victories: 106
+  losses: 29
+  victories: 117
 wafels:
   losses: 7
   victories: 18
