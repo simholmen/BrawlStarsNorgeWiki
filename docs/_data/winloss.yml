@@ -31,6 +31,9 @@ mantas:
 maty:
   losses: 4
   victories: 20
+movind:
+  losses: 13
+  victories: 11
 nussi:
   losses: 6
   victories: 18
