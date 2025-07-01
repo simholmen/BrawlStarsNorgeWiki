@@ -14,32 +14,32 @@ gravity:
   losses: 15
   victories: 38
 herribart:
-  losses: 37
-  victories: 63
+  losses: 40
+  victories: 71
 jo:
   losses: 3
   victories: 21
 joss:
-  losses: 104
-  victories: 315
+  losses: 109
+  victories: 322
 lobb:
   losses: 50
   victories: 85
 mantas:
-  losses: 32
-  victories: 138
+  losses: 36
+  victories: 142
 maty:
   losses: 4
   victories: 20
 movind:
-  losses: 77
-  victories: 107
+  losses: 79
+  victories: 109
 nussi:
   losses: 6
   victories: 18
 obdo:
-  losses: 26
-  victories: 51
+  losses: 28
+  victories: 56
 ories:
   losses: 0
   victories: 0
@@ -50,8 +50,8 @@ rey:
   losses: 69
   victories: 211
 star_virus:
-  losses: 67
-  victories: 165
+  losses: 72
+  victories: 172
 sus_ram:
   losses: 21
   victories: 32
@@ -71,8 +71,8 @@ wafles:
   losses: 7
   victories: 18
 waterflame:
-  losses: 67
-  victories: 166
+  losses: 72
+  victories: 173
 yaarrf:
   losses: 31
   victories: 107
