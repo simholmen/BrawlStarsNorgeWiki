@@ -32,8 +32,8 @@ maty:
   losses: 4
   victories: 20
 movind:
-  losses: 83
-  victories: 113
+  losses: 85
+  victories: 119
 nussi:
   losses: 6
   victories: 18
@@ -50,8 +50,8 @@ rey:
   losses: 70
   victories: 214
 star_virus:
-  losses: 78
-  victories: 192
+  losses: 82
+  victories: 197
 sus_ram:
   losses: 21
   victories: 32
