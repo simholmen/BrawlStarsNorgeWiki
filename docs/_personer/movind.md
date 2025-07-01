@@ -8,7 +8,7 @@ born: Etter 2008
 favorittbrus: Dr pepper
 favoritt_brawler: Shelly
 quote: ""
-fiende: No enemies
+fiende: <a href="/personer/trym-ivar/">Trym Ivar</a>
 bsid: 8RJRRVLCQ
 facts: []
 

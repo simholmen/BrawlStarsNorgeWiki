@@ -11,44 +11,50 @@ ez:
   losses: 5
   victories: 19
 gravity:
-  losses: 7
-  victories: 16
+  losses: 15
+  victories: 38
 herribart:
-  losses: 12
-  victories: 13
+  losses: 29
+  victories: 46
 jo:
   losses: 3
   victories: 21
 joss:
-  losses: 40
-  victories: 57
+  losses: 85
+  victories: 240
 lobb:
-  losses: 16
-  victories: 48
+  losses: 36
+  victories: 76
 mantas:
-  losses: 4
-  victories: 21
+  losses: 23
+  victories: 115
 maty:
   losses: 4
   victories: 20
 movind:
-  losses: 13
-  victories: 11
+  losses: 38
+  victories: 61
 nussi:
   losses: 6
   victories: 18
+obdo:
+  losses: 17
+  victories: 37
 ories:
   losses: 0
   victories: 0
 paddy:
-  losses: 7
-  victories: 17
+  losses: 9
+  victories: 23
 rey:
-  losses: 57
-  victories: 133
+  losses: 68
+  victories: 208
 star_virus:
-  losses: 47
-  victories: 90
+  losses: 57
+  victories: 128
+sus_ram:
+  losses: 9
+  victories: 14
 the_lord_of_dab:
   losses: 4
   victories: 17
@@ -56,8 +62,8 @@ trym:
   losses: 5
   victories: 20
 trym_ivar:
-  losses: 22
-  victories: 64
+  losses: 30
+  victories: 127
 wafels:
   losses: 7
   victories: 18
@@ -65,11 +71,11 @@ wafles:
   losses: 7
   victories: 18
 waterflame:
-  losses: 51
-  victories: 113
+  losses: 57
+  victories: 130
 yaarrf:
-  losses: 8
-  victories: 16
+  losses: 17
+  victories: 37
 zimma:
   losses: 35
   victories: 109

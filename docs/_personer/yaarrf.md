@@ -4,7 +4,7 @@ title: Yaarrf - Brawl Stars Norge Wiki
 name: Yaarrf
 subtitle: Ådne
 hjemsted: Norge
-born: 2012
+born: 2013
 favorittbrus: Solo Super
 favoritt_brawler: Bull
 quote: ""
