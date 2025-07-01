@@ -20,14 +20,14 @@ jo:
   losses: 3
   victories: 21
 joss:
-  losses: 109
-  victories: 322
+  losses: 112
+  victories: 331
 lobb:
   losses: 50
   victories: 85
 mantas:
-  losses: 36
-  victories: 142
+  losses: 41
+  victories: 143
 maty:
   losses: 4
   victories: 20
@@ -50,8 +50,8 @@ rey:
   losses: 69
   victories: 211
 star_virus:
-  losses: 72
-  victories: 172
+  losses: 75
+  victories: 181
 sus_ram:
   losses: 21
   victories: 32
@@ -71,8 +71,8 @@ wafles:
   losses: 7
   victories: 18
 waterflame:
-  losses: 72
-  victories: 173
+  losses: 75
+  victories: 182
 yaarrf:
   losses: 31
   victories: 107
