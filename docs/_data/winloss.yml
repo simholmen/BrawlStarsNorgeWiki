@@ -14,26 +14,26 @@ gravity:
   losses: 15
   victories: 38
 herribart:
-  losses: 31
-  victories: 47
+  losses: 35
+  victories: 51
 jo:
   losses: 3
   victories: 21
 joss:
-  losses: 93
-  victories: 265
+  losses: 94
+  victories: 276
 lobb:
-  losses: 43
-  victories: 79
+  losses: 44
+  victories: 81
 mantas:
-  losses: 23
-  victories: 115
+  losses: 24
+  victories: 117
 maty:
   losses: 4
   victories: 20
 movind:
-  losses: 61
-  victories: 85
+  losses: 65
+  victories: 89
 nussi:
   losses: 6
   victories: 18
@@ -54,7 +54,7 @@ star_virus:
   victories: 129
 sus_ram:
   losses: 14
-  victories: 26
+  victories: 28
 the_lord_of_dab:
   losses: 6
   victories: 22
