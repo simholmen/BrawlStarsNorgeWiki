@@ -43,9 +43,9 @@ maty:
   star_players: 0
   victories: 20
 movind:
-  losses: 103
-  star_players: 0
-  victories: 145
+  losses: 107
+  star_players: 1
+  victories: 150
 nussi:
   losses: 6
   star_players: 0
