@@ -4,8 +4,8 @@ aambakk:
   victories: 20
 bindel:
   losses: 3
-  star_players: 11
-  victories: 15
+  star_players: 13
+  victories: 17
 cursed:
   losses: 5
   star_players: 7
@@ -35,9 +35,9 @@ lobb:
   star_players: 6
   victories: 36
 mantas:
-  losses: 13
-  star_players: 21
-  victories: 72
+  losses: 15
+  star_players: 24
+  victories: 84
 maty:
   losses: 4
   star_players: 9
@@ -59,13 +59,13 @@ ories:
   star_players: 0
   victories: 11
 paddy:
-  losses: 9
-  star_players: 0
-  victories: 33
+  losses: 12
+  star_players: 3
+  victories: 39
 rey:
-  losses: 29
-  star_players: 35
-  victories: 84
+  losses: 31
+  star_players: 42
+  victories: 96
 star_virus:
   losses: 21
   star_players: 24
