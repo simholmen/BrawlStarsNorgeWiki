@@ -1,0 +1,96 @@
+---
+layout: default
+title: BS Norge Statistikk - Brawl Stars Norge Wiki
+---
+<div class="infobox">
+    <div class="infobox-title">Slindringene<br>
+    </div>
+    <img src="/images/bsnorge.jpg" alt="Sample Image">
+    <table>
+        <tbody>
+            <tr>
+                <th>Antall spillere</th>
+                <td>26</td>
+            </tr>
+            <tr>
+                <th>Startet</th>
+                <td>02.07.2025</td>
+            </tr>
+            <tr>
+                <th>Klokkeslett</th>
+                <td>14:00</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="toc">
+    <h2>Contents</h2>
+    <ul>
+        <li>
+            <a href="#Statistikk">1. Statistikk</a>
+        </li>
+        <li>
+            <a href="#Leaderboard">2. Leaderboard</a>
+        </li>
+    </ul>
+</div>
+
+<h2 id="Statistikk">Statistikk</h2>
+<p>
+    Denne siden inneholder statistikk for win/loss/starplayer for alle personene
+    som er inkludert på siden. Statistikken blir oppdatert hvert 30. minutt, så
+    lenge Zimma ikke er på ferie. Det kan hende at det tar litt til for at statistikken blir oppdatert, 
+    på grunn av begrensininger i hvor ofte vi kan hente data fra Brawl Stars API.
+</p>
+
+<h2 id="Leaderboard">Leaderboard</h2>
+<p>
+    Denne tabellen viser en rangering av alle spillere i Brawl Stars Norge basert på
+    antall seiere, tap, star players og winrate. Tabellen er sortert etter antall seiere.
+    <br>
+    <br>
+    Klikk på kolonneoverskriftene for å sortere tabellen etter den kolonnen.
+</p>
+
+<div class="table-container">
+    <table class="type2" id="ranktable" style="width:90%;">
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th class="lysoppcelle" onclick="handleCellClick(this)">
+                    Antall seiere
+                </th>
+                <th class="lysoppcelle" onclick="handleCellClick(this)">
+                    Antall tap:
+                </th>
+                <th class="lysoppcelle" onclick="handleCellClick(this)">
+                    Antall star players:
+                </th>
+                <th class="lysoppcelle" onclick="handleCellClick(this)">
+                    Winrate:
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.winloss %}
+            <tr>
+                <th>{{ player[0] | capitalize }}</th>
+                <td>{{ player[1].victories }}</td>
+                <td>{{ player[1].losses }}</td>
+                <td>{{ player[1].star_players }}</td>
+                <td>
+                    {% assign wins = player[1].victories | plus: 0 %}
+                    {% assign losses = player[1].losses | plus: 0 %}
+                    {% assign total = wins | plus: losses %}
+                    {% assign win_percent = 0 %}
+                    {% if total > 0 %}
+                    {% assign win_ratio = wins | times: 100.0 | divided_by: total %}
+                    {% assign win_percent = win_ratio | round: 1 %}
+                    {% endif %}
+                    {{ win_percent }}%
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

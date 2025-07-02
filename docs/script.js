@@ -4,8 +4,13 @@ function sortTable(columnIndex) {
     var rows = Array.from(table.rows).slice(1);
     var isAsc = table.rows[0].cells[columnIndex].getAttribute("data-order") === "asc";
     rows.sort(function (a, b) {
-        var aText = a.cells[columnIndex].innerText;
-        var bText = b.cells[columnIndex].innerText;
+        var aText = a.cells[columnIndex].innerText.trim();
+        var bText = b.cells[columnIndex].innerText.trim();
+        var aNum = parseFloat(aText.replace(/\s/g, ''));
+        var bNum = parseFloat(bText.replace(/\s/g, ''));
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+            return isAsc ? aNum - bNum : bNum - aNum;
+        }
         return isAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
     });
     rows.forEach(function (row) {
@@ -14,11 +19,7 @@ function sortTable(columnIndex) {
     table.rows[0].cells[columnIndex].setAttribute("data-order", isAsc ? "desc" : "asc");
 }
 
-var cellStates = [
-    ['Brawler ▲', 'Brawler ▼'], // For Sortering etter brawler 
-    ['Første rank 35 ▲', 'Første rank 35 ▼'], // For sortering etter rank r35
-    ['Høyeste trofeer ▲', 'Høyeste trofeer ▼'] // For sortiering etter høyeste trofeer
-];
+
 
 // Function to change text and highlight cell
 function changeText(cell, columnIndex) {
