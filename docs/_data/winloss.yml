@@ -1,81 +1,106 @@
 aambakk:
   losses: 10
+  star_players: 0
   victories: 65
 bindel:
   losses: 4
+  star_players: 0
   victories: 17
 cursed:
   losses: 7
+  star_players: 0
   victories: 52
 ez:
   losses: 5
+  star_players: 0
   victories: 19
 gravity:
   losses: 25
+  star_players: 0
   victories: 50
 herribart:
   losses: 40
+  star_players: 0
   victories: 71
 jo:
   losses: 3
+  star_players: 0
   victories: 21
 joss:
   losses: 139
+  star_players: 0
   victories: 410
 lobb:
   losses: 73
+  star_players: 0
   victories: 104
 mantas:
   losses: 49
+  star_players: 0
   victories: 169
 maty:
   losses: 4
+  star_players: 0
   victories: 20
 movind:
   losses: 102
+  star_players: 0
   victories: 141
 nussi:
   losses: 6
+  star_players: 0
   victories: 18
 obdo:
   losses: 28
+  star_players: 0
   victories: 56
 ories:
   losses: 0
+  star_players: 0
   victories: 0
 paddy:
   losses: 9
+  star_players: 0
   victories: 23
 rey:
   losses: 72
+  star_players: 0
   victories: 216
 star_virus:
   losses: 82
+  star_players: 0
   victories: 198
 sus_ram:
   losses: 21
+  star_players: 0
   victories: 32
 the_lord_of_dab:
   losses: 6
+  star_players: 0
   victories: 22
 trym:
   losses: 5
   victories: 20
 trym_ivar:
   losses: 36
+  star_players: 0
   victories: 141
 wafels:
   losses: 7
+  star_players: 0
   victories: 18
 wafles:
   losses: 7
   victories: 18
 waterflame:
   losses: 78
+  star_players: 0
   victories: 193
 yaarrf:
   losses: 37
+  star_players: 0
   victories: 115
 zimma:
   losses: 39
+  star_players: 0
   victories: 114
