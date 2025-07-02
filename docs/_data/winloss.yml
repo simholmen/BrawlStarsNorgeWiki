@@ -19,23 +19,23 @@ gravity:
   star_players: 10
   victories: 15
 herribart:
-  losses: 7
-  star_players: 13
-  victories: 18
+  losses: 15
+  star_players: 17
+  victories: 25
 jo:
   losses: 3
   star_players: 5
   victories: 21
 joss:
-  losses: 7
+  losses: 8
   star_players: 0
-  victories: 18
+  victories: 42
 lobb:
-  losses: 13
-  star_players: 2
-  victories: 12
+  losses: 16
+  star_players: 4
+  victories: 18
 mantas:
-  losses: 6
+  losses: 7
   star_players: 4
   victories: 19
 maty:
@@ -43,45 +43,45 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 6
-  star_players: 7
-  victories: 19
+  losses: 12
+  star_players: 9
+  victories: 32
 nussi:
   losses: 6
   star_players: 6
   victories: 18
 obdo:
-  losses: 2
+  losses: 7
   star_players: 0
-  victories: 0
+  victories: 4
 ories:
   losses: 9
   star_players: 0
   victories: 11
 paddy:
-  losses: 6
+  losses: 8
   star_players: 0
-  victories: 18
+  victories: 19
 rey:
-  losses: 8
-  star_players: 4
-  victories: 17
-star_virus:
-  losses: 8
+  losses: 21
   star_players: 6
-  victories: 17
+  victories: 29
+star_virus:
+  losses: 10
+  star_players: 9
+  victories: 27
 sus_ram:
-  losses: 16
-  star_players: 2
-  victories: 17
+  losses: 24
+  star_players: 5
+  victories: 34
 the_lord_of_dab:
   losses: 5
   star_players: 7
   victories: 20
 trym_ivar:
-  losses: 7
+  losses: 20
   star_players: 0
-  victories: 18
+  victories: 30
 wafels:
   losses: 7
   star_players: 9
@@ -92,8 +92,8 @@ waterflame:
   victories: 20
 yaarrf:
   losses: 8
-  star_players: 4
-  victories: 17
+  star_players: 5
+  victories: 19
 zimma:
   losses: 6
   star_players: 1
