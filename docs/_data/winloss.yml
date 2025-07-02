@@ -71,9 +71,9 @@ star_virus:
   star_players: 6
   victories: 17
 sus_ram:
-  losses: 10
+  losses: 16
   star_players: 2
-  victories: 14
+  victories: 17
 the_lord_of_dab:
   losses: 5
   star_players: 7
@@ -91,7 +91,7 @@ waterflame:
   star_players: 8
   victories: 20
 yaarrf:
-  losses: 7
+  losses: 8
   star_players: 4
   victories: 17
 zimma:
