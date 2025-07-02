@@ -1,106 +1,100 @@
 aambakk:
-  losses: 15
+  losses: 5
   star_players: 7
-  victories: 85
+  victories: 20
 bindel:
-  losses: 7
+  losses: 3
   star_players: 11
-  victories: 32
+  victories: 15
 cursed:
-  losses: 12
+  losses: 5
   star_players: 7
-  victories: 72
+  victories: 20
 ez:
-  losses: 10
+  losses: 5
   star_players: 7
-  victories: 38
+  victories: 19
 gravity:
-  losses: 35
+  losses: 10
   star_players: 10
-  victories: 65
+  victories: 15
 herribart:
-  losses: 51
-  star_players: 23
-  victories: 102
-jo:
-  losses: 6
-  star_players: 5
-  victories: 42
-joss:
-  losses: 146
-  star_players: 0
-  victories: 428
-lobb:
-  losses: 86
-  star_players: 2
-  victories: 116
-mantas:
-  losses: 55
-  star_players: 4
-  victories: 188
-maty:
-  losses: 8
-  star_players: 9
-  victories: 40
-movind:
-  losses: 114
+  losses: 7
   star_players: 13
-  victories: 177
-nussi:
-  losses: 12
-  star_players: 6
-  victories: 36
-obdo:
-  losses: 30
+  victories: 18
+jo:
+  losses: 3
+  star_players: 5
+  victories: 21
+joss:
+  losses: 7
   star_players: 0
-  victories: 56
+  victories: 18
+lobb:
+  losses: 13
+  star_players: 2
+  victories: 12
+mantas:
+  losses: 6
+  star_players: 4
+  victories: 19
+maty:
+  losses: 4
+  star_players: 9
+  victories: 20
+movind:
+  losses: 6
+  star_players: 7
+  victories: 19
+nussi:
+  losses: 6
+  star_players: 6
+  victories: 18
+obdo:
+  losses: 2
+  star_players: 0
+  victories: 0
 ories:
   losses: 9
   star_players: 0
   victories: 11
 paddy:
-  losses: 15
+  losses: 6
   star_players: 0
-  victories: 41
+  victories: 18
 rey:
-  losses: 83
+  losses: 8
   star_players: 4
-  victories: 237
+  victories: 17
 star_virus:
-  losses: 90
+  losses: 8
   star_players: 6
-  victories: 215
+  victories: 17
 sus_ram:
-  losses: 32
-  star_players: 3
-  victories: 50
-the_lord_of_dab:
-  losses: 11
-  star_players: 7
-  victories: 42
-trym:
-  losses: 0
-  victories: 0
-trym_ivar:
-  losses: 43
-  star_players: 0
-  victories: 161
-wafels:
-  losses: 14
-  star_players: 9
-  victories: 36
-wafles:
-  losses: 0
-  victories: 0
-waterflame:
-  losses: 83
-  star_players: 8
-  victories: 213
-yaarrf:
-  losses: 44
-  star_players: 6
-  victories: 135
-zimma:
-  losses: 45
+  losses: 10
   star_players: 2
-  victories: 128
+  victories: 14
+the_lord_of_dab:
+  losses: 5
+  star_players: 7
+  victories: 20
+trym_ivar:
+  losses: 7
+  star_players: 0
+  victories: 18
+wafels:
+  losses: 7
+  star_players: 9
+  victories: 18
+waterflame:
+  losses: 5
+  star_players: 8
+  victories: 20
+yaarrf:
+  losses: 7
+  star_players: 4
+  victories: 17
+zimma:
+  losses: 6
+  star_players: 1
+  victories: 13
