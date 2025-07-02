@@ -19,9 +19,9 @@ gravity:
   star_players: 0
   victories: 50
 herribart:
-  losses: 40
-  star_players: 0
-  victories: 71
+  losses: 42
+  star_players: 5
+  victories: 78
 jo:
   losses: 3
   star_players: 0
@@ -102,5 +102,5 @@ yaarrf:
   victories: 115
 zimma:
   losses: 39
-  star_players: 0
-  victories: 114
+  star_players: 1
+  victories: 115
