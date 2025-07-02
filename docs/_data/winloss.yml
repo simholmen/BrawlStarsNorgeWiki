@@ -11,8 +11,8 @@ ez:
   losses: 5
   victories: 19
 gravity:
-  losses: 21
-  victories: 46
+  losses: 25
+  victories: 50
 herribart:
   losses: 40
   victories: 71
@@ -20,20 +20,20 @@ jo:
   losses: 3
   victories: 21
 joss:
-  losses: 123
-  victories: 372
+  losses: 128
+  victories: 377
 lobb:
-  losses: 62
-  victories: 92
+  losses: 66
+  victories: 96
 mantas:
-  losses: 48
-  victories: 166
+  losses: 49
+  victories: 169
 maty:
   losses: 4
   victories: 20
 movind:
   losses: 102
-  victories: 137
+  victories: 141
 nussi:
   losses: 6
   victories: 18
