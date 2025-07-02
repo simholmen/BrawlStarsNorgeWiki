@@ -6,7 +6,7 @@ name: Rey
 subtitle: Ray
 hjemsted: Larvik
 born: 2008
-favorittbrus: Raydbull
+favorittbrus: Cola med sukker
 favoritt_brawler: Drayco
 quote: "jeg heter ikke RAY"
 fiende: Rey

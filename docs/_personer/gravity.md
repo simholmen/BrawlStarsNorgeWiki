@@ -4,7 +4,7 @@ title: Gravity - Brawl Stars Norge Wiki
 name: Gravity
 subtitle: Gravity
 hjemsted: Norge
-born: 2010
+born: 2009
 favorittbrus: Hvit monster
 favoritt_brawler: Carl
 quote: ""

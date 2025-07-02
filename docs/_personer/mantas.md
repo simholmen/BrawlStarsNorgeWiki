@@ -3,7 +3,7 @@ layout: person
 title: Mantas - Brawl Stars Norge Wiki
 name: Mantas
 subtitle: Mantas
-hjemsted: Kvamsøya
+hjemsted: Volda/Kvamsøya
 born: 2007
 favorittbrus: Burn
 favoritt_brawler: Surfer Carl
