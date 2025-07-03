@@ -16,8 +16,8 @@ ez:
   victories: 19
 gravity:
   losses: 10
-  star_players: 10
-  victories: 17
+  star_players: 12
+  victories: 22
 herribart:
   losses: 19
   star_players: 25
@@ -28,8 +28,8 @@ jo:
   victories: 21
 joss:
   losses: 37
-  star_players: 8
-  victories: 111
+  star_players: 9
+  victories: 113
 lobb:
   losses: 24
   star_players: 6
@@ -69,11 +69,11 @@ rey:
 star_virus:
   losses: 24
   star_players: 24
-  victories: 64
+  victories: 66
 sus_ram:
-  losses: 40
-  star_players: 17
-  victories: 60
+  losses: 41
+  star_players: 18
+  victories: 68
 the_lord_of_dab:
   losses: 7
   star_players: 18
@@ -89,7 +89,7 @@ wafels:
 waterflame:
   losses: 25
   star_players: 28
-  victories: 83
+  victories: 85
 yaarrf:
   losses: 13
   star_players: 14
