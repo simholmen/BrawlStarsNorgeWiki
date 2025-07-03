@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 34
-  star_players: 5
-  victories: 104
+  losses: 37
+  star_players: 8
+  victories: 111
 lobb:
   losses: 24
   star_players: 6
@@ -51,9 +51,9 @@ nussi:
   star_players: 6
   victories: 18
 obdo:
-  losses: 11
-  star_players: 7
-  victories: 22
+  losses: 12
+  star_players: 11
+  victories: 30
 ories:
   losses: 9
   star_players: 0
@@ -67,13 +67,13 @@ rey:
   star_players: 55
   victories: 124
 star_virus:
-  losses: 21
+  losses: 24
   star_players: 24
-  victories: 57
+  victories: 64
 sus_ram:
-  losses: 35
-  star_players: 12
-  victories: 56
+  losses: 40
+  star_players: 17
+  victories: 60
 the_lord_of_dab:
   losses: 7
   star_players: 18
@@ -87,9 +87,9 @@ wafels:
   star_players: 9
   victories: 18
 waterflame:
-  losses: 22
-  star_players: 25
-  victories: 75
+  losses: 25
+  star_players: 28
+  victories: 83
 yaarrf:
   losses: 13
   star_players: 14
