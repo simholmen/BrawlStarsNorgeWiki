@@ -21,7 +21,7 @@ Zimma har vært i nesten alle norske klubber og communities som har eksistert si
 Han har også vært nummer 1 i Norge med både trofeer og i Power League, og vært aktiv innenfor 
 Esport med flere forskjellige lag som har oppnådd top 8 i Europa.
 Zimma har også delatt på flere forskjellige Brawl Stars arrangement; Dreamhack Summer 2019,
-World finals (2023 og 2024), Nesbyen (2020, 2021 og 2024) og Vestre Slindre 2024 sammen med andre norske spillere.
+World finals (2023 og 2024), Nesbyen (2020, 2021 og 2024) sammen med andre norske spillere. En av syv medlemmer i <a href="/diverse/slindringene/">Slindringene</a>
 
 ## Karriere
 Startet i Immortal Kings, ble kjent med mange norske spillere via Discord.

@@ -8,7 +8,7 @@ born: 2008
 favorittbrus: Fanta
 favoritt_brawler: Dark Clown Sam
 quote: "Onkelig nr 1 beste spilleren"
-fiende: <a href="/personer/mantas/">Mantas</a> og <a href="/personer/star_virus/">Alex</a>
+fiende: Bokmål
 bsid: 89L8LYU92
 facts: []
 

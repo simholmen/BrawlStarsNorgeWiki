@@ -9,7 +9,7 @@ favorittbrus: Urge
 favoritt_brawler: El Primo
 quote: ""
 fiende: MusicMaster
-bsid: 8YUOU82C
+bsid: 8YU0U82C
 facts: []
 
 no_2024_profile: true

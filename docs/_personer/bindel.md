@@ -16,7 +16,7 @@ facts: []
 ---
 
 ## Bakgrunn
-Isak har fikk sin første r30 på Vestre Slindre
+Isak har fikk sin første r30 på Vestre Slindre. En av syv medlemmer i <a href="/diverse/slindringene/">Slindringene</a>
 
 ## Karriere
 ...

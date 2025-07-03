@@ -15,7 +15,7 @@ facts: []
 ---
 
 ## Bakgrunn
-Waterflame (Glenn) er en av de beste norske Brawl Stars spillerene i nyere tid. Han er en av 5 spillere som har nådd masters i solo powerleague, som er en av de største begivenhetene noen kan oppnå i Brawl Stars. Waterflame har også hatt en velykket karriere på Twitch, Tiktok og Youtube, hvor han nådde tier 1 Supercell Creator.
+Waterflame (Glenn) er en av de beste norske Brawl Stars spillerene i nyere tid. Han er en av 5 spillere som har nådd masters i solo powerleague, som er en av de største begivenhetene noen kan oppnå i Brawl Stars. Waterflame har også hatt en velykket karriere på Twitch, Tiktok og Youtube, hvor han nådde tier 1 Supercell Creator. En av syv medlemmer i <a href="/diverse/slindringene/">Slindringene</a>.
 
 ## Karriere
 Waterflame startet å spille for fullt i sommeren 2021, og har siden den gangen vært en av norgestoppen.

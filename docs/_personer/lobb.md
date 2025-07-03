@@ -14,7 +14,7 @@ facts: []
 ---
 
 ## Bakgrunn
-Lobb (Tobias) er en kjent spiller i det norske miljøet.
+Lobb (Tobias) er en kjent spiller i det norske miljøet. En av syv medlemmer i <a href="/diverse/slindringene/">Slindringene</a>.
 
 ## Karriere
 ...

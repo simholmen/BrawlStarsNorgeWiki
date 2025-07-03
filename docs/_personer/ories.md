@@ -9,12 +9,12 @@ favorittbrus: Dr. Pepper
 favoritt_brawler: Bo
 quote: "LETS GO HAN ENEFYREN AKSEPTERTE FR, NÅ SKAL HAN TRAKASSERES"
 fiende: Øyvind
-bsid: 8QOYGP8P
+bsid: 8Q0YGP8P
 facts: []
 ---
 
 ## Bakgrunn
-Ories (Halvard) er en norsk Brawl Stars spiller med syk rizz.
+Ories (Halvard) er en norsk Brawl Stars spiller med syk rizz. En av syv medlemmer i <a href="/diverse/slindringene/">Slindringene</a>.
 
 ## Karriere
 ...

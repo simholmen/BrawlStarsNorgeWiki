@@ -4,8 +4,8 @@ aambakk:
   victories: 20
 bindel:
   losses: 3
-  star_players: 11
-  victories: 15
+  star_players: 13
+  victories: 17
 cursed:
   losses: 5
   star_players: 7
@@ -19,82 +19,82 @@ gravity:
   star_players: 10
   victories: 15
 herribart:
-  losses: 7
-  star_players: 13
-  victories: 18
+  losses: 19
+  star_players: 25
+  victories: 36
 jo:
   losses: 3
   star_players: 5
   victories: 21
 joss:
-  losses: 7
+  losses: 25
   star_players: 0
-  victories: 18
+  victories: 97
 lobb:
-  losses: 13
-  star_players: 2
-  victories: 12
+  losses: 24
+  star_players: 6
+  victories: 36
 mantas:
-  losses: 6
-  star_players: 4
-  victories: 19
+  losses: 18
+  star_players: 33
+  victories: 107
 maty:
   losses: 4
   star_players: 9
   victories: 20
 movind:
-  losses: 6
-  star_players: 7
-  victories: 19
+  losses: 12
+  star_players: 9
+  victories: 32
 nussi:
   losses: 6
   star_players: 6
   victories: 18
 obdo:
-  losses: 2
+  losses: 9
   star_players: 0
-  victories: 0
+  victories: 4
 ories:
   losses: 9
   star_players: 0
   victories: 11
 paddy:
-  losses: 6
-  star_players: 0
-  victories: 18
+  losses: 23
+  star_players: 16
+  victories: 71
 rey:
-  losses: 8
-  star_players: 4
-  victories: 17
+  losses: 32
+  star_players: 48
+  victories: 106
 star_virus:
-  losses: 8
-  star_players: 6
-  victories: 17
+  losses: 21
+  star_players: 24
+  victories: 57
 sus_ram:
-  losses: 10
-  star_players: 2
-  victories: 14
+  losses: 31
+  star_players: 9
+  victories: 48
 the_lord_of_dab:
-  losses: 5
-  star_players: 7
-  victories: 20
-trym_ivar:
   losses: 7
+  star_players: 8
+  victories: 21
+trym_ivar:
+  losses: 28
   star_players: 0
-  victories: 18
+  victories: 79
 wafels:
   losses: 7
   star_players: 9
   victories: 18
 waterflame:
-  losses: 5
-  star_players: 8
-  victories: 20
+  losses: 22
+  star_players: 25
+  victories: 75
 yaarrf:
-  losses: 7
-  star_players: 4
-  victories: 17
+  losses: 11
+  star_players: 8
+  victories: 22
 zimma:
-  losses: 6
-  star_players: 1
-  victories: 13
+  losses: 23
+  star_players: 24
+  victories: 68

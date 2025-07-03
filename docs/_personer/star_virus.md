@@ -15,7 +15,7 @@ facts: []
 ---
 
 ## Bakgrunn
-Star Virus (Alex) også kjent som Johan er en Brawl Stars spiller i Norge
+Star Virus (Alex) også kjent som Johan er en Brawl Stars spiller i Norge. En av syv medlemmer i <a href="/diverse/slindringene/">Slindringene</a>.
 
 ## Karriere
 ...

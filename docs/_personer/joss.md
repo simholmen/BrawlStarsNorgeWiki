@@ -10,11 +10,11 @@ favorittbrus: Fanta
 favoritt_brawler: Sprout
 quote: "CHICKEN?!"
 fiende: Kirill
-bsid: R8RPOYOU
+bsid: R8RP0Y0U
 ---
 
 ## Bakgrunn
-Joss (Johannes) er en Brawl Stars spiller i Norge.
+Joss (Johannes) er en Brawl Stars spiller i Norge. En av syv medlemmer i <a href="/diverse/slindringene/">Slindringene</a>.
 
 ## Karriere
 ...

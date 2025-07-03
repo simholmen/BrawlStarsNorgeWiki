@@ -10,7 +10,7 @@ favorittbrus: Appelsinjuice
 favoritt_brawler: Jessie
 quote: "Stygge apekatt"
 fiende: Wafels
-bsid: 99UOC22Q2
+bsid: 99U0C22Q2
 facts: []
 ---
 
