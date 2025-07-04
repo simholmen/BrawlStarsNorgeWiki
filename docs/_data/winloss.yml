@@ -3,9 +3,9 @@ aambakk:
   star_players: 7
   victories: 20
 bindel:
-  losses: 23
-  star_players: 26
-  victories: 85
+  losses: 27
+  star_players: 28
+  victories: 94
 cursed:
   losses: 5
   star_players: 7
@@ -95,6 +95,6 @@ yaarrf:
   star_players: 14
   victories: 40
 zimma:
-  losses: 54
-  star_players: 67
-  victories: 236
+  losses: 56
+  star_players: 73
+  victories: 244
