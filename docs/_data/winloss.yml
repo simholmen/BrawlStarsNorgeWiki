@@ -28,8 +28,8 @@ jo:
   victories: 21
 joss:
   losses: 68
-  star_players: 35
-  victories: 198
+  star_players: 36
+  victories: 199
 lobb:
   losses: 43
   star_players: 23
@@ -95,6 +95,6 @@ yaarrf:
   star_players: 14
   victories: 40
 zimma:
-  losses: 45
-  star_players: 49
-  victories: 154
+  losses: 46
+  star_players: 54
+  victories: 166
