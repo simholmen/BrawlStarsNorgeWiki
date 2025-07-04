@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 71
-  star_players: 43
-  victories: 209
+  losses: 73
+  star_players: 50
+  victories: 220
 lobb:
   losses: 43
   star_players: 23
@@ -45,7 +45,7 @@ maty:
 movind:
   losses: 24
   star_players: 13
-  victories: 48
+  victories: 54
 nussi:
   losses: 6
   star_players: 6
@@ -63,13 +63,13 @@ paddy:
   star_players: 92
   victories: 213
 rey:
-  losses: 75
-  star_players: 56
-  victories: 152
+  losses: 76
+  star_players: 58
+  victories: 153
 star_virus:
   losses: 41
-  star_players: 39
-  victories: 118
+  star_players: 40
+  victories: 126
 sus_ram:
   losses: 76
   star_players: 43
@@ -97,4 +97,4 @@ yaarrf:
 zimma:
   losses: 47
   star_players: 62
-  victories: 181
+  victories: 185
