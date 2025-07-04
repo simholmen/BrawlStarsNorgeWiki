@@ -39,7 +39,7 @@ title: BS Norge Statistikk - Brawl Stars Norge Wiki
 <p>
     Denne siden inneholder statistikk for win/loss/starplayer for alle personene
     som er inkludert på siden. Statistikken blir oppdatert hvert 30. minutt, så
-    lenge Zimma ikke er på ferie. Det kan hende at det tar litt til for at statistikken blir oppdatert, 
+    lenge Zimma ikke er på ferie. Det kan hende at det tar litt til for at statistikken blir oppdatert,
     på grunn av begrensininger i hvor ofte vi kan hente data fra Brawl Stars API.
 </p>
 
@@ -69,6 +69,9 @@ title: BS Norge Statistikk - Brawl Stars Norge Wiki
                 <th class="lysoppcelle" onclick="handleCellClick(this)">
                     Winrate:
                 </th>
+                <th class="lysoppcelle" onclick="handleCellClick(this)">
+                    Star player rate:
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -88,6 +91,18 @@ title: BS Norge Statistikk - Brawl Stars Norge Wiki
                     {% assign win_percent = win_ratio | round: 1 %}
                     {% endif %}
                     {{ win_percent }}%
+                </td>
+                <td>
+                    {% assign wins = player[1].victories | plus: 0 %}
+                    {% assign losses = player[1].losses | plus: 0 %}
+                    {% assign total = wins | plus: losses %}
+                    {% assign star_players = player[1].star_players | plus: 0 %}
+                    {% assign star_player_percent = 0 %}
+                    {% if total > 0 %}
+                    {% assign star_player_ratio = star_players | times: 100.0 | divided_by: total %}
+                    {% assign star_player_percent = star_player_ratio | round: 1 %}
+                    {% endif %}
+                    {{ star_player_percent }}%
                 </td>
             </tr>
             {% endfor %}
