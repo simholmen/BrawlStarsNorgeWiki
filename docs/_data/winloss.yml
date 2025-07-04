@@ -1,21 +1,21 @@
 aambakk:
   losses: 5
-  star_players: 7
-  victories: 20
+  star_players: 10
+  victories: 25
 bindel:
   losses: 34
   star_players: 38
   victories: 124
 cursed:
   losses: 5
-  star_players: 7
-  victories: 20
+  star_players: 9
+  victories: 25
 ez:
   losses: 5
   star_players: 7
   victories: 19
 gravity:
-  losses: 23
+  losses: 25
   star_players: 21
   victories: 56
 herribart:
@@ -51,9 +51,9 @@ nussi:
   star_players: 6
   victories: 18
 obdo:
-  losses: 24
-  star_players: 14
-  victories: 43
+  losses: 25
+  star_players: 15
+  victories: 45
 ories:
   losses: 9
   star_players: 0
@@ -71,7 +71,7 @@ star_virus:
   star_players: 51
   victories: 185
 sus_ram:
-  losses: 77
+  losses: 79
   star_players: 44
   victories: 121
 the_lord_of_dab:
