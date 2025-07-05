@@ -59,13 +59,13 @@ ories:
   star_players: 0
   victories: 11
 paddy:
-  losses: 70
-  star_players: 102
-  victories: 234
+  losses: 75
+  star_players: 112
+  victories: 245
 rey:
   losses: 97
-  star_players: 68
-  victories: 186
+  star_players: 69
+  victories: 188
 star_virus:
   losses: 75
   star_players: 62
@@ -76,8 +76,8 @@ sus_ram:
   victories: 150
 the_lord_of_dab:
   losses: 11
-  star_players: 32
-  victories: 56
+  star_players: 34
+  victories: 58
 trym_ivar:
   losses: 79
   star_players: 20
