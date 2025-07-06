@@ -3,9 +3,9 @@ aambakk:
   star_players: 18
   victories: 36
 bindel:
-  losses: 130
-  star_players: 142
-  victories: 419
+  losses: 133
+  star_players: 144
+  victories: 424
 cursed:
   losses: 5
   star_players: 10
@@ -64,8 +64,8 @@ paddy:
   victories: 340
 rey:
   losses: 114
-  star_players: 91
-  victories: 249
+  star_players: 94
+  victories: 252
 star_virus:
   losses: 119
   star_players: 78
