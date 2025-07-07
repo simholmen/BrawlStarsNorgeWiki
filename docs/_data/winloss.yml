@@ -3,9 +3,9 @@ aambakk:
   star_players: 18
   victories: 36
 bindel:
-  losses: 133
-  star_players: 144
-  victories: 424
+  losses: 137
+  star_players: 156
+  victories: 440
 cursed:
   losses: 5
   star_players: 10
@@ -16,8 +16,8 @@ ez:
   victories: 19
 gravity:
   losses: 34
-  star_players: 23
-  victories: 70
+  star_players: 24
+  victories: 71
 herribart:
   losses: 19
   star_players: 25
@@ -27,61 +27,61 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 200
-  star_players: 146
-  victories: 570
+  losses: 211
+  star_players: 151
+  victories: 584
 lobb:
-  losses: 140
+  losses: 143
   star_players: 64
-  victories: 249
+  victories: 251
 mantas:
-  losses: 68
-  star_players: 55
-  victories: 184
+  losses: 78
+  star_players: 60
+  victories: 199
 maty:
   losses: 4
   star_players: 9
   victories: 20
 movind:
-  losses: 55
-  star_players: 17
-  victories: 103
+  losses: 63
+  star_players: 23
+  victories: 120
 nussi:
   losses: 6
   star_players: 6
   victories: 18
 obdo:
-  losses: 54
-  star_players: 33
-  victories: 104
+  losses: 56
+  star_players: 34
+  victories: 107
 ories:
   losses: 9
   star_players: 0
   victories: 11
 paddy:
-  losses: 107
-  star_players: 154
-  victories: 340
+  losses: 121
+  star_players: 164
+  victories: 351
 rey:
-  losses: 114
-  star_players: 94
-  victories: 252
+  losses: 123
+  star_players: 99
+  victories: 266
 star_virus:
   losses: 119
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 143
-  star_players: 59
-  victories: 190
+  losses: 156
+  star_players: 61
+  victories: 201
 the_lord_of_dab:
-  losses: 18
-  star_players: 52
-  victories: 78
+  losses: 19
+  star_players: 54
+  victories: 82
 trym_ivar:
-  losses: 79
-  star_players: 20
-  victories: 146
+  losses: 85
+  star_players: 25
+  victories: 155
 wafels:
   losses: 7
   star_players: 9
@@ -91,10 +91,10 @@ waterflame:
   star_players: 111
   victories: 339
 yaarrf:
-  losses: 28
-  star_players: 15
-  victories: 47
+  losses: 39
+  star_players: 19
+  victories: 61
 zimma:
   losses: 146
-  star_players: 146
-  victories: 492
+  star_players: 147
+  victories: 493
