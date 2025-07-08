@@ -3,9 +3,9 @@ aambakk:
   star_players: 18
   victories: 36
 bindel:
-  losses: 152
+  losses: 153
   star_players: 181
-  victories: 481
+  victories: 484
 cursed:
   losses: 5
   star_players: 10
@@ -31,9 +31,9 @@ joss:
   star_players: 187
   victories: 696
 lobb:
-  losses: 181
+  losses: 187
   star_players: 69
-  victories: 299
+  victories: 303
 mantas:
   losses: 93
   star_players: 64
@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 91
+  losses: 94
   star_players: 41
-  victories: 181
+  victories: 184
 nussi:
   losses: 6
   star_players: 6
