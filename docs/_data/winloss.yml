@@ -31,9 +31,9 @@ joss:
   star_players: 209
   victories: 784
 lobb:
-  losses: 230
-  star_players: 76
-  victories: 355
+  losses: 232
+  star_players: 77
+  victories: 361
 mantas:
   losses: 102
   star_players: 69
@@ -59,9 +59,9 @@ ories:
   star_players: 0
   victories: 11
 paddy:
-  losses: 161
-  star_players: 205
-  victories: 457
+  losses: 163
+  star_players: 209
+  victories: 471
 rey:
   losses: 154
   star_players: 102
@@ -80,8 +80,8 @@ the_lord_of_dab:
   victories: 82
 trym_ivar:
   losses: 120
-  star_players: 45
-  victories: 202
+  star_players: 46
+  victories: 203
 wafels:
   losses: 7
   star_players: 9
@@ -91,9 +91,9 @@ waterflame:
   star_players: 129
   victories: 365
 yaarrf:
-  losses: 54
-  star_players: 23
-  victories: 76
+  losses: 57
+  star_players: 24
+  victories: 80
 zimma:
   losses: 146
   star_players: 147
