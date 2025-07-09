@@ -3,9 +3,9 @@ aambakk:
   star_players: 18
   victories: 36
 bindel:
-  losses: 173
-  star_players: 224
-  victories: 555
+  losses: 177
+  star_players: 225
+  victories: 561
 cursed:
   losses: 5
   star_players: 10
@@ -28,8 +28,8 @@ jo:
   victories: 21
 joss:
   losses: 251
-  star_players: 225
-  victories: 837
+  star_players: 226
+  victories: 843
 lobb:
   losses: 232
   star_players: 77
@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 143
-  star_players: 50
-  victories: 237
+  losses: 146
+  star_players: 52
+  victories: 241
 nussi:
   losses: 6
   star_players: 6
@@ -79,9 +79,9 @@ the_lord_of_dab:
   star_players: 54
   victories: 82
 trym_ivar:
-  losses: 122
+  losses: 125
   star_players: 47
-  victories: 204
+  victories: 210
 wafels:
   losses: 7
   star_players: 9
