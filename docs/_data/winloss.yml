@@ -28,8 +28,8 @@ jo:
   victories: 21
 joss:
   losses: 241
-  star_players: 209
-  victories: 785
+  star_players: 215
+  victories: 800
 lobb:
   losses: 232
   star_players: 77
@@ -71,9 +71,9 @@ star_virus:
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 253
-  star_players: 77
-  victories: 316
+  losses: 255
+  star_players: 84
+  victories: 323
 the_lord_of_dab:
   losses: 19
   star_players: 54
