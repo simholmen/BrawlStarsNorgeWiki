@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 285
+  losses: 288
   star_players: 243
-  victories: 893
+  victories: 895
 lobb:
   losses: 242
   star_players: 78
@@ -79,9 +79,9 @@ the_lord_of_dab:
   star_players: 55
   victories: 89
 trym_ivar:
-  losses: 138
-  star_players: 55
-  victories: 241
+  losses: 140
+  star_players: 57
+  victories: 242
 wafels:
   losses: 7
   star_players: 9
@@ -93,7 +93,7 @@ waterflame:
 yaarrf:
   losses: 116
   star_players: 37
-  victories: 145
+  victories: 147
 zimma:
   losses: 146
   star_players: 147
