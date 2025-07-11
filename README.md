@@ -20,30 +20,32 @@ Prosjektet bruker [Jekyll](https://jekyllrb.com/) for å generere en statisk net
 - **Klubboversikt** og historiske resultater.
 - **Turneringshistorikk** og leaderboard.
 
-BrawlStarsNorgeWiki/
-│
-├── docs/                       # Nettsidekilde (HTML, CSS, JS, Jekyll-data)
-│   ├── _data/                  # YAML-data (f.eks. winloss.yml)
-│   ├── _personer/              # Spillerprofiler i Markdown
-│   ├── diverse/                # Diverse undersider
-│   ├── style.css               # Hovedstilark
-│   ├── script.js               # Hoved JavaScript-fil
-│   └── index.html              # Hovedside
-│
-├── winratefetching/            # Python-skript for winrate/statistikk
-│   ├── winrate.py
-│   ├── extract_names_and_tags.py
-│   ├── run_winrate_with_names.py
-│   ├── update_all.sh           # Shell Skript for å kjøre winratefetching
-│   └── docs/fetchresult/       # JSON-filer med battlelogs og resultater
-│
-├── klubbleaderboardfetching/   # Python-skript for klubb-leaderboards
-│
-├── .github/workflows/          # GitHub Actions for automatisk oppdatering
-│
-├── automation.log              # Loggfil for automatiske oppdateringer
-├── README.md                   # Prosjektbeskrivelse
-└── Gemfile                     # Ruby/Jekyll avhengigheter
+## Prosjektstruktur
+
+docs/  
+ ├─ _data/                    # YAML-data (f.eks. winloss.yml)  
+ ├─ _personer/                 # Spillerprofiler i Markdown  
+ ├─ diverse/                   # Diverse undersider  
+ ├─ style.css                  # Hovedstilark  
+ ├─ script.js                  # Hoved JavaScript-fil  
+ └─ index.html                 # Hovedside  
+
+winratefetching/  
+ ├─ winrate.py  
+ ├─ extract_names_and_tags.py  
+ ├─ run_winrate_with_names.py  
+ ├─ update_all.sh               # Shell-skript for å kjøre winratefetching  
+ └─ docs/fetchresult/            # JSON-filer med battlelogs og resultater  
+
+klubbleaderboardfetching/  
+ └─ ...                       # Python-skript for klubb-leaderboards  
+
+.github/workflows/  
+ └─ ...                       # GitHub Actions for automatisk oppdatering  
+
+automation.log                 # Loggfil for automatiske oppdateringer  
+README.md                    # Prosjektbeskrivelse  
+Gemfile                      # Ruby/Jekyll avhengigheter  
 
 
 ## Komme i gang
