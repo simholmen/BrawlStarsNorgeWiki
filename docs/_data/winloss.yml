@@ -3,9 +3,9 @@ aambakk:
   star_players: 18
   victories: 36
 bindel:
-  losses: 187
-  star_players: 254
-  victories: 610
+  losses: 189
+  star_players: 271
+  victories: 628
 cursed:
   losses: 5
   star_players: 10
@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 324
+  losses: 329
   star_players: 283
-  victories: 1016
+  victories: 1020
 lobb:
   losses: 253
   star_players: 80
