@@ -44,7 +44,7 @@ BrawlStarsNorgeWiki/
 ├── automation.log              # Loggfil for automatiske oppdateringer
 ├── README.md                   # Prosjektbeskrivelse
 └── Gemfile                     # Ruby/Jekyll avhengigheter
-```
+
 
 ## Komme i gang
 
