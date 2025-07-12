@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 229
+  losses: 232
   star_players: 62
-  victories: 357
+  victories: 361
 nussi:
   losses: 6
   star_players: 6
@@ -59,9 +59,9 @@ ories:
   star_players: 0
   victories: 11
 paddy:
-  losses: 228
-  star_players: 326
-  victories: 774
+  losses: 230
+  star_players: 328
+  victories: 780
 rey:
   losses: 154
   star_players: 102
