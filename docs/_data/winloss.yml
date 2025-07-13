@@ -51,9 +51,9 @@ nussi:
   star_players: 6
   victories: 18
 obdo:
-  losses: 89
-  star_players: 50
-  victories: 153
+  losses: 90
+  star_players: 51
+  victories: 154
 ories:
   losses: 9
   star_players: 0
@@ -63,25 +63,25 @@ paddy:
   star_players: 328
   victories: 780
 rey:
-  losses: 164
+  losses: 169
   star_players: 107
-  victories: 301
+  victories: 304
 star_virus:
   losses: 119
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 318
+  losses: 325
   star_players: 108
-  victories: 420
+  victories: 422
 the_lord_of_dab:
   losses: 39
   star_players: 88
   victories: 137
 trym_ivar:
-  losses: 171
-  star_players: 76
-  victories: 311
+  losses: 176
+  star_players: 77
+  victories: 314
 wafels:
   losses: 7
   star_players: 9
