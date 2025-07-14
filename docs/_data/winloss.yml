@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 344
-  star_players: 289
-  victories: 1038
+  losses: 347
+  star_players: 290
+  victories: 1040
 lobb:
   losses: 282
   star_players: 90
@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 252
-  star_players: 75
-  victories: 428
+  losses: 254
+  star_players: 76
+  victories: 429
 nussi:
   losses: 6
   star_players: 6
@@ -79,9 +79,9 @@ the_lord_of_dab:
   star_players: 88
   victories: 137
 trym_ivar:
-  losses: 176
-  star_players: 77
-  victories: 314
+  losses: 177
+  star_players: 78
+  victories: 316
 wafels:
   losses: 7
   star_players: 9
