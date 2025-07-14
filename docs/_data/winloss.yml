@@ -31,13 +31,13 @@ joss:
   star_players: 288
   victories: 1034
 lobb:
-  losses: 273
-  star_players: 83
-  victories: 402
+  losses: 277
+  star_players: 84
+  victories: 404
 mantas:
-  losses: 218
-  star_players: 122
-  victories: 441
+  losses: 219
+  star_players: 131
+  victories: 452
 maty:
   losses: 4
   star_players: 9
@@ -71,7 +71,7 @@ star_virus:
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 333
+  losses: 334
   star_players: 109
   victories: 438
 the_lord_of_dab:
