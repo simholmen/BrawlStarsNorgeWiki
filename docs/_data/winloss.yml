@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 337
-  star_players: 283
-  victories: 1023
+  losses: 339
+  star_players: 287
+  victories: 1032
 lobb:
   losses: 256
   star_players: 80
@@ -59,9 +59,9 @@ ories:
   star_players: 0
   victories: 11
 paddy:
-  losses: 230
-  star_players: 328
-  victories: 780
+  losses: 232
+  star_players: 329
+  victories: 782
 rey:
   losses: 169
   star_players: 107
