@@ -15,9 +15,9 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 72
+  losses: 77
   star_players: 43
-  victories: 136
+  victories: 139
 herribart:
   losses: 28
   star_players: 29
@@ -27,13 +27,13 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 382
-  star_players: 343
-  victories: 1134
+  losses: 386
+  star_players: 344
+  victories: 1144
 lobb:
-  losses: 292
+  losses: 293
   star_players: 111
-  victories: 441
+  victories: 442
 mantas:
   losses: 243
   star_players: 156
@@ -73,7 +73,7 @@ star_virus:
 sus_ram:
   losses: 340
   star_players: 119
-  victories: 452
+  victories: 455
 the_lord_of_dab:
   losses: 43
   star_players: 93
