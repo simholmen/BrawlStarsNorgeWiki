@@ -19,7 +19,7 @@ gravity:
   star_players: 37
   victories: 119
 herribart:
-  losses: 21
+  losses: 23
   star_players: 25
   victories: 37
 jo:
@@ -59,9 +59,9 @@ ories:
   star_players: 0
   victories: 11
 paddy:
-  losses: 232
+  losses: 234
   star_players: 329
-  victories: 783
+  victories: 787
 rey:
   losses: 169
   star_players: 107
@@ -95,6 +95,6 @@ yaarrf:
   star_players: 52
   victories: 209
 zimma:
-  losses: 169
-  star_players: 150
-  victories: 524
+  losses: 172
+  star_players: 151
+  victories: 529
