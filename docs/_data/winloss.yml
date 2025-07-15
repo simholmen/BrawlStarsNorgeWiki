@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 379
-  star_players: 338
-  victories: 1116
+  losses: 381
+  star_players: 343
+  victories: 1127
 lobb:
   losses: 292
   star_players: 111
@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 321
-  star_players: 93
-  victories: 493
+  losses: 323
+  star_players: 95
+  victories: 497
 nussi:
   losses: 6
   star_players: 6
