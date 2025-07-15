@@ -3,10 +3,11 @@ layout: klubb
 title: Lonely Gang - Brawl Stars Norge Wiki
 name: Lonely Gang
 keyword: lonely
+image_ext: png
 aktiv: Ja
 stiftet: 08.11.2020
 leder: Mantas
-medlemmer: 200
+medlemmer: 340
 underklubber:
   - RPG lonely
   - Lonely Gods

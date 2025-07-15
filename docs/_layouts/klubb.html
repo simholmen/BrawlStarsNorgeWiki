@@ -5,7 +5,7 @@ layout: default
     <div class="infobox-title">
         {{ page.name }}
     </div>
-    <img src="/images/klubber/klubb_profilbilde/{{ page.name | downcase | replace: ' ', '_' }}.jpg"
+    <img src="/images/klubber/klubb_profilbilde/{{ page.name | downcase | replace: ' ', '_' }}.{{ page.image_ext | default: 'jpg' }}"
         alt="{{ page.name }} profilbilde">
     <table>
         <tbody>
