@@ -17,7 +17,7 @@ ez:
 gravity:
   losses: 63
   star_players: 37
-  victories: 119
+  victories: 120
 herribart:
   losses: 28
   star_players: 29
@@ -91,9 +91,9 @@ waterflame:
   star_players: 129
   victories: 365
 yaarrf:
-  losses: 170
+  losses: 174
   star_players: 52
-  victories: 209
+  victories: 214
 zimma:
   losses: 184
   star_players: 154
