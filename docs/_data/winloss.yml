@@ -32,10 +32,10 @@ joss:
   victories: 1180
 lobb:
   losses: 300
-  star_players: 121
-  victories: 471
+  star_players: 122
+  victories: 472
 mantas:
-  losses: 252
+  losses: 254
   star_players: 192
   victories: 568
 maty:
@@ -80,8 +80,8 @@ the_lord_of_dab:
   victories: 143
 trym_ivar:
   losses: 209
-  star_players: 104
-  victories: 371
+  star_players: 106
+  victories: 373
 wafels:
   losses: 7
   star_players: 9
