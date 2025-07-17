@@ -52,16 +52,16 @@ nussi:
   victories: 18
 obdo:
   losses: 98
-  star_players: 61
-  victories: 178
+  star_players: 66
+  victories: 186
 ories:
   losses: 9
   star_players: 0
   victories: 11
 paddy:
-  losses: 268
-  star_players: 363
-  victories: 858
+  losses: 270
+  star_players: 364
+  victories: 861
 rey:
   losses: 171
   star_players: 111
@@ -91,9 +91,9 @@ waterflame:
   star_players: 145
   victories: 416
 yaarrf:
-  losses: 228
+  losses: 229
   star_players: 86
-  victories: 321
+  victories: 326
 zimma:
   losses: 184
   star_players: 154
