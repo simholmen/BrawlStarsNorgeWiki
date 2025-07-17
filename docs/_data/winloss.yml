@@ -5,7 +5,7 @@ aambakk:
 bindel:
   losses: 237
   star_players: 351
-  victories: 781
+  victories: 783
 cursed:
   losses: 5
   star_players: 10
@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 439
-  star_players: 382
-  victories: 1221
+  losses: 443
+  star_players: 383
+  victories: 1227
 lobb:
   losses: 300
   star_players: 122
@@ -37,7 +37,7 @@ lobb:
 mantas:
   losses: 283
   star_players: 213
-  victories: 619
+  victories: 620
 maty:
   losses: 4
   star_players: 9
@@ -88,12 +88,12 @@ wafels:
   victories: 18
 waterflame:
   losses: 122
-  star_players: 166
-  victories: 439
+  star_players: 167
+  victories: 442
 yaarrf:
   losses: 240
   star_players: 89
-  victories: 340
+  victories: 343
 zimma:
   losses: 184
   star_players: 154
