@@ -16,8 +16,8 @@ ez:
   victories: 19
 gravity:
   losses: 97
-  star_players: 47
-  victories: 164
+  star_players: 48
+  victories: 165
 herribart:
   losses: 28
   star_players: 29
@@ -79,9 +79,9 @@ the_lord_of_dab:
   star_players: 94
   victories: 147
 trym_ivar:
-  losses: 217
-  star_players: 110
-  victories: 386
+  losses: 220
+  star_players: 116
+  victories: 394
 wafels:
   losses: 7
   star_players: 9
@@ -91,9 +91,9 @@ waterflame:
   star_players: 145
   victories: 416
 yaarrf:
-  losses: 216
-  star_players: 79
-  victories: 299
+  losses: 217
+  star_players: 82
+  victories: 305
 zimma:
   losses: 184
   star_players: 154
