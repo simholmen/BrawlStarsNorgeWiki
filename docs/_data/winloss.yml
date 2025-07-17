@@ -17,7 +17,7 @@ ez:
 gravity:
   losses: 108
   star_players: 48
-  victories: 172
+  victories: 173
 herribart:
   losses: 28
   star_players: 29
@@ -35,9 +35,9 @@ lobb:
   star_players: 122
   victories: 472
 mantas:
-  losses: 279
-  star_players: 212
-  victories: 615
+  losses: 283
+  star_players: 213
+  victories: 619
 maty:
   losses: 4
   star_players: 9
