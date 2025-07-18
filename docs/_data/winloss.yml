@@ -35,15 +35,15 @@ lobb:
   star_players: 122
   victories: 472
 mantas:
-  losses: 305
-  star_players: 220
-  victories: 650
+  losses: 306
+  star_players: 232
+  victories: 674
 maty:
   losses: 4
   star_players: 9
   victories: 20
 movind:
-  losses: 367
+  losses: 369
   star_players: 123
   victories: 550
 nussi:
@@ -63,7 +63,7 @@ paddy:
   star_players: 364
   victories: 861
 rey:
-  losses: 171
+  losses: 173
   star_players: 111
   victories: 311
 star_virus:
@@ -91,9 +91,9 @@ waterflame:
   star_players: 167
   victories: 442
 yaarrf:
-  losses: 266
+  losses: 277
   star_players: 93
-  victories: 361
+  victories: 368
 zimma:
   losses: 184
   star_players: 154
