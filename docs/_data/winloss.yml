@@ -21,7 +21,7 @@ gravity:
 herribart:
   losses: 33
   star_players: 33
-  victories: 52
+  victories: 53
 jo:
   losses: 3
   star_players: 5
@@ -75,21 +75,21 @@ sus_ram:
   star_players: 123
   victories: 472
 the_lord_of_dab:
-  losses: 61
-  star_players: 108
-  victories: 167
+  losses: 65
+  star_players: 110
+  victories: 171
 trym_ivar:
-  losses: 227
-  star_players: 122
-  victories: 405
+  losses: 228
+  star_players: 123
+  victories: 407
 wafels:
   losses: 7
   star_players: 9
   victories: 18
 waterflame:
-  losses: 123
-  star_players: 173
-  victories: 455
+  losses: 124
+  star_players: 179
+  victories: 464
 yaarrf:
   losses: 290
   star_players: 94
