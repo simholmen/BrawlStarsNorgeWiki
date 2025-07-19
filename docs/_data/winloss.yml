@@ -17,7 +17,7 @@ ez:
 gravity:
   losses: 112
   star_players: 50
-  victories: 181
+  victories: 183
 herribart:
   losses: 33
   star_players: 33
@@ -35,9 +35,9 @@ lobb:
   star_players: 122
   victories: 472
 mantas:
-  losses: 325
-  star_players: 241
-  victories: 695
+  losses: 329
+  star_players: 242
+  victories: 697
 maty:
   losses: 4
   star_players: 9
@@ -51,9 +51,9 @@ nussi:
   star_players: 6
   victories: 18
 obdo:
-  losses: 116
-  star_players: 76
-  victories: 217
+  losses: 117
+  star_players: 77
+  victories: 219
 ories:
   losses: 9
   star_players: 0
@@ -88,12 +88,12 @@ wafels:
   victories: 18
 waterflame:
   losses: 126
-  star_players: 186
-  victories: 477
+  star_players: 195
+  victories: 488
 yaarrf:
-  losses: 290
-  star_players: 94
-  victories: 385
+  losses: 291
+  star_players: 96
+  victories: 394
 zimma:
   losses: 187
   star_players: 160
