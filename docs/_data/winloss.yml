@@ -15,13 +15,13 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 115
+  losses: 117
   star_players: 53
-  victories: 199
+  victories: 201
 herribart:
-  losses: 39
-  star_players: 38
-  victories: 65
+  losses: 40
+  star_players: 51
+  victories: 83
 jo:
   losses: 3
   star_players: 5
@@ -59,9 +59,9 @@ ories:
   star_players: 0
   victories: 11
 paddy:
-  losses: 285
-  star_players: 391
-  victories: 900
+  losses: 288
+  star_players: 398
+  victories: 909
 rey:
   losses: 173
   star_players: 111
