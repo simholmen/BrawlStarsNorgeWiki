@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 455
+  losses: 456
   star_players: 392
-  victories: 1255
+  victories: 1260
 lobb:
   losses: 300
   star_players: 122
@@ -72,8 +72,8 @@ star_virus:
   victories: 340
 sus_ram:
   losses: 348
-  star_players: 123
-  victories: 472
+  star_players: 125
+  victories: 476
 the_lord_of_dab:
   losses: 78
   star_players: 114
@@ -87,9 +87,9 @@ wafels:
   star_players: 9
   victories: 18
 waterflame:
-  losses: 157
-  star_players: 279
-  victories: 656
+  losses: 161
+  star_players: 284
+  victories: 662
 yaarrf:
   losses: 331
   star_players: 117
