@@ -15,9 +15,9 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 147
-  star_players: 54
-  victories: 224
+  losses: 148
+  star_players: 56
+  victories: 228
 herribart:
   losses: 46
   star_players: 60
@@ -45,7 +45,7 @@ maty:
 movind:
   losses: 374
   star_players: 129
-  victories: 563
+  victories: 565
 nussi:
   losses: 6
   star_players: 6
@@ -75,13 +75,13 @@ sus_ram:
   star_players: 123
   victories: 472
 the_lord_of_dab:
-  losses: 72
-  star_players: 112
-  victories: 181
+  losses: 78
+  star_players: 114
+  victories: 187
 trym_ivar:
   losses: 236
   star_players: 141
-  victories: 445
+  victories: 446
 wafels:
   losses: 7
   star_players: 9
