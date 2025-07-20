@@ -19,9 +19,9 @@ gravity:
   star_players: 53
   victories: 199
 herribart:
-  losses: 36
-  star_players: 37
-  victories: 59
+  losses: 39
+  star_players: 38
+  victories: 65
 jo:
   losses: 3
   star_players: 5
@@ -61,7 +61,7 @@ ories:
 paddy:
   losses: 285
   star_players: 391
-  victories: 899
+  victories: 900
 rey:
   losses: 173
   star_players: 111
@@ -77,7 +77,7 @@ sus_ram:
 the_lord_of_dab:
   losses: 72
   star_players: 112
-  victories: 180
+  victories: 181
 trym_ivar:
   losses: 236
   star_players: 141
