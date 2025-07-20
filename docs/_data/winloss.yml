@@ -15,9 +15,9 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 155
+  losses: 157
   star_players: 56
-  victories: 232
+  victories: 233
 herribart:
   losses: 46
   star_players: 60
@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 458
-  star_players: 392
-  victories: 1261
+  losses: 461
+  star_players: 394
+  victories: 1263
 lobb:
   losses: 300
   star_players: 122
@@ -79,21 +79,21 @@ the_lord_of_dab:
   star_players: 114
   victories: 188
 trym_ivar:
-  losses: 236
-  star_players: 142
-  victories: 452
+  losses: 237
+  star_players: 144
+  victories: 461
 wafels:
   losses: 7
   star_players: 9
   victories: 18
 waterflame:
-  losses: 162
-  star_players: 286
-  victories: 670
+  losses: 163
+  star_players: 287
+  victories: 679
 yaarrf:
-  losses: 334
+  losses: 337
   star_players: 117
-  victories: 483
+  victories: 486
 zimma:
   losses: 187
   star_players: 160
