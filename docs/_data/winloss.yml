@@ -15,9 +15,9 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 150
+  losses: 153
   star_players: 56
-  victories: 228
+  victories: 229
 herribart:
   losses: 46
   star_players: 60
@@ -29,7 +29,7 @@ jo:
 joss:
   losses: 455
   star_players: 392
-  victories: 1250
+  victories: 1255
 lobb:
   losses: 300
   star_players: 122
@@ -88,8 +88,8 @@ wafels:
   victories: 18
 waterflame:
   losses: 157
-  star_players: 278
-  victories: 655
+  star_players: 279
+  victories: 656
 yaarrf:
   losses: 331
   star_players: 117
