@@ -35,9 +35,9 @@ lobb:
   star_players: 122
   victories: 472
 mantas:
-  losses: 391
-  star_players: 288
-  victories: 841
+  losses: 394
+  star_players: 289
+  victories: 845
 maty:
   losses: 4
   star_players: 9
@@ -87,13 +87,13 @@ wafels:
   star_players: 9
   victories: 18
 waterflame:
-  losses: 178
+  losses: 181
   star_players: 297
-  victories: 708
+  victories: 712
 yaarrf:
-  losses: 350
+  losses: 353
   star_players: 119
-  victories: 506
+  victories: 508
 zimma:
   losses: 187
   star_players: 160
