@@ -3,9 +3,9 @@ aambakk:
   star_players: 18
   victories: 36
 bindel:
-  losses: 273
-  star_players: 541
-  victories: 1049
+  losses: 274
+  star_players: 542
+  victories: 1051
 cursed:
   losses: 5
   star_players: 10
@@ -15,9 +15,9 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 163
+  losses: 167
   star_players: 59
-  victories: 239
+  victories: 243
 herribart:
   losses: 46
   star_players: 60
@@ -35,9 +35,9 @@ lobb:
   star_players: 122
   victories: 472
 mantas:
-  losses: 379
+  losses: 382
   star_players: 286
-  victories: 819
+  victories: 823
 maty:
   losses: 4
   star_players: 9
@@ -87,13 +87,13 @@ wafels:
   star_players: 9
   victories: 18
 waterflame:
-  losses: 165
-  star_players: 291
-  victories: 687
+  losses: 169
+  star_players: 294
+  victories: 693
 yaarrf:
-  losses: 340
+  losses: 343
   star_players: 119
-  victories: 499
+  victories: 504
 zimma:
   losses: 187
   star_players: 160
