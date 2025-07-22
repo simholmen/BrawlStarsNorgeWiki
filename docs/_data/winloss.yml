@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 437
-  star_players: 148
-  victories: 644
+  losses: 439
+  star_players: 151
+  victories: 650
 nussi:
   losses: 6
   star_players: 6
@@ -91,9 +91,9 @@ waterflame:
   star_players: 315
   victories: 737
 yaarrf:
-  losses: 399
+  losses: 400
   star_players: 146
-  victories: 578
+  victories: 579
 zimma:
   losses: 187
   star_players: 160
