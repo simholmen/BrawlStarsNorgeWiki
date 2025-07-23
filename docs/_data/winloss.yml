@@ -31,9 +31,9 @@ joss:
   star_players: 403
   victories: 1311
 lobb:
-  losses: 306
-  star_players: 128
-  victories: 497
+  losses: 308
+  star_players: 131
+  victories: 501
 mantas:
   losses: 444
   star_players: 310
@@ -87,9 +87,9 @@ wafels:
   star_players: 9
   victories: 18
 waterflame:
-  losses: 225
-  star_players: 325
-  victories: 772
+  losses: 230
+  star_players: 326
+  victories: 773
 yaarrf:
   losses: 435
   star_players: 153
