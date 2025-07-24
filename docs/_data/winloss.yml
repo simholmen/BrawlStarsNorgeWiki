@@ -36,8 +36,8 @@ lobb:
   victories: 554
 mantas:
   losses: 459
-  star_players: 318
-  victories: 945
+  star_players: 320
+  victories: 948
 maty:
   losses: 4
   star_players: 9
@@ -51,17 +51,17 @@ nussi:
   star_players: 6
   victories: 18
 obdo:
-  losses: 185
+  losses: 188
   star_players: 114
-  victories: 389
+  victories: 392
 ories:
   losses: 9
   star_players: 0
   victories: 11
 paddy:
-  losses: 322
+  losses: 323
   star_players: 434
-  victories: 1011
+  victories: 1012
 rey:
   losses: 193
   star_players: 118
@@ -79,9 +79,9 @@ the_lord_of_dab:
   star_players: 130
   victories: 215
 trym_ivar:
-  losses: 258
-  star_players: 165
-  victories: 526
+  losses: 263
+  star_players: 166
+  victories: 528
 wafels:
   losses: 7
   star_players: 9
