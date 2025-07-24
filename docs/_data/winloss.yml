@@ -51,7 +51,7 @@ nussi:
   star_players: 6
   victories: 18
 obdo:
-  losses: 213
+  losses: 215
   star_players: 119
   victories: 424
 ories:
@@ -71,9 +71,9 @@ star_virus:
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 377
+  losses: 381
   star_players: 134
-  victories: 523
+  victories: 528
 the_lord_of_dab:
   losses: 81
   star_players: 130
@@ -91,8 +91,8 @@ waterflame:
   star_players: 331
   victories: 799
 yaarrf:
-  losses: 511
-  star_players: 169
+  losses: 518
+  star_players: 170
   victories: 720
 zimma:
   losses: 187
