@@ -15,7 +15,7 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 223
+  losses: 225
   star_players: 85
   victories: 341
 herribart:
@@ -51,9 +51,9 @@ nussi:
   star_players: 6
   victories: 18
 obdo:
-  losses: 215
-  star_players: 120
-  victories: 430
+  losses: 216
+  star_players: 122
+  victories: 434
 ories:
   losses: 9
   star_players: 0
@@ -71,9 +71,9 @@ star_virus:
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 383
-  star_players: 134
-  victories: 529
+  losses: 385
+  star_players: 138
+  victories: 539
 the_lord_of_dab:
   losses: 86
   star_players: 132
@@ -81,7 +81,7 @@ the_lord_of_dab:
 trym_ivar:
   losses: 306
   star_players: 187
-  victories: 593
+  victories: 594
 wafels:
   losses: 7
   star_players: 9
