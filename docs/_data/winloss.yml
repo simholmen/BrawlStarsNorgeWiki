@@ -63,7 +63,7 @@ paddy:
   star_players: 439
   victories: 1024
 rey:
-  losses: 227
+  losses: 229
   star_players: 131
   victories: 423
 star_virus:
@@ -73,13 +73,13 @@ star_virus:
 sus_ram:
   losses: 387
   star_players: 138
-  victories: 539
+  victories: 541
 the_lord_of_dab:
   losses: 86
   star_players: 132
   victories: 223
 trym_ivar:
-  losses: 312
+  losses: 314
   star_players: 193
   victories: 615
 wafels:
@@ -91,9 +91,9 @@ waterflame:
   star_players: 331
   victories: 799
 yaarrf:
-  losses: 533
-  star_players: 180
-  victories: 760
+  losses: 535
+  star_players: 181
+  victories: 765
 zimma:
   losses: 187
   star_players: 160
