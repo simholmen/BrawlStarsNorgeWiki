@@ -15,7 +15,7 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 229
+  losses: 231
   star_players: 89
   victories: 356
 herribart:
@@ -71,9 +71,9 @@ star_virus:
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 428
+  losses: 434
   star_players: 149
-  victories: 588
+  victories: 590
 the_lord_of_dab:
   losses: 89
   star_players: 132
