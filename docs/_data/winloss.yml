@@ -31,9 +31,9 @@ joss:
   star_players: 427
   victories: 1383
 lobb:
-  losses: 445
-  star_players: 172
-  victories: 753
+  losses: 449
+  star_players: 173
+  victories: 758
 mantas:
   losses: 482
   star_players: 354
@@ -93,7 +93,7 @@ waterflame:
 yaarrf:
   losses: 568
   star_players: 189
-  victories: 827
+  victories: 838
 zimma:
   losses: 187
   star_players: 160
