@@ -27,9 +27,9 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 499
-  star_players: 427
-  victories: 1391
+  losses: 500
+  star_players: 428
+  victories: 1392
 lobb:
   losses: 482
   star_players: 178
@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 502
-  star_players: 165
-  victories: 753
+  losses: 503
+  star_players: 166
+  victories: 755
 nussi:
   losses: 6
   star_players: 6
@@ -92,8 +92,8 @@ waterflame:
   victories: 799
 yaarrf:
   losses: 587
-  star_players: 202
-  victories: 885
+  star_players: 203
+  victories: 886
 zimma:
   losses: 187
   star_players: 160
