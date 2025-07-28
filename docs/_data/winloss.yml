@@ -27,17 +27,17 @@ jo:
   star_players: 5
   victories: 21
 joss:
-  losses: 501
+  losses: 502
   star_players: 432
-  victories: 1402
+  victories: 1403
 lobb:
   losses: 488
   star_players: 179
   victories: 825
 mantas:
-  losses: 482
-  star_players: 354
-  victories: 1042
+  losses: 483
+  star_players: 357
+  victories: 1049
 maty:
   losses: 4
   star_players: 9
@@ -63,7 +63,7 @@ paddy:
   star_players: 459
   victories: 1062
 rey:
-  losses: 229
+  losses: 230
   star_players: 131
   victories: 423
 star_virus:
