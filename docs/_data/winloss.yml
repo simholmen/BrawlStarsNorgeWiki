@@ -19,9 +19,9 @@ gravity:
   star_players: 90
   victories: 373
 herribart:
-  losses: 47
+  losses: 49
   star_players: 61
-  victories: 99
+  victories: 101
 jo:
   losses: 3
   star_players: 5
@@ -33,7 +33,7 @@ joss:
 lobb:
   losses: 461
   star_players: 175
-  victories: 786
+  victories: 787
 mantas:
   losses: 482
   star_players: 354
@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 479
-  star_players: 158
-  victories: 703
+  losses: 482
+  star_players: 159
+  victories: 711
 nussi:
   losses: 6
   star_players: 6
