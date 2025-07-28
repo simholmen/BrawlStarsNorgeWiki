@@ -43,17 +43,17 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 501
-  star_players: 164
-  victories: 749
+  losses: 502
+  star_players: 165
+  victories: 753
 nussi:
   losses: 6
   star_players: 6
   victories: 18
 obdo:
-  losses: 242
-  star_players: 131
-  victories: 492
+  losses: 244
+  star_players: 132
+  victories: 497
 ories:
   losses: 9
   star_players: 0
@@ -71,9 +71,9 @@ star_virus:
   star_players: 78
   victories: 340
 sus_ram:
-  losses: 514
-  star_players: 164
-  victories: 665
+  losses: 517
+  star_players: 165
+  victories: 670
 the_lord_of_dab:
   losses: 99
   star_players: 144
