@@ -15,9 +15,9 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 249
-  star_players: 90
-  victories: 373
+  losses: 250
+  star_players: 93
+  victories: 376
 herribart:
   losses: 49
   star_players: 61
@@ -43,9 +43,9 @@ maty:
   star_players: 9
   victories: 20
 movind:
-  losses: 520
-  star_players: 171
-  victories: 785
+  losses: 522
+  star_players: 172
+  victories: 790
 nussi:
   losses: 6
   star_players: 6
