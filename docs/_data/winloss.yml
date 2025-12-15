@@ -55,7 +55,7 @@ obdo:
   star_players: 168
   victories: 600
 ories:
-  losses: 18
+  losses: 19
   star_players: 15
   victories: 53
 paddy:
@@ -63,9 +63,9 @@ paddy:
   star_players: 472
   victories: 1096
 rey:
-  losses: 275
-  star_players: 159
-  victories: 500
+  losses: 276
+  star_players: 161
+  victories: 503
 star_virus:
   losses: 133
   star_players: 87
