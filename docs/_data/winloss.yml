@@ -43,9 +43,9 @@ maty:
   star_players: 19
   victories: 37
 movind:
-  losses: 604
-  star_players: 178
-  victories: 865
+  losses: 606
+  star_players: 179
+  victories: 869
 nussi:
   losses: 6
   star_players: 6
@@ -63,9 +63,9 @@ paddy:
   star_players: 472
   victories: 1096
 rey:
-  losses: 269
+  losses: 271
   star_players: 159
-  victories: 494
+  victories: 500
 star_virus:
   losses: 132
   star_players: 87
@@ -79,9 +79,9 @@ the_lord_of_dab:
   star_players: 205
   victories: 396
 trym_ivar:
-  losses: 369
-  star_players: 223
-  victories: 687
+  losses: 371
+  star_players: 224
+  victories: 693
 wafels:
   losses: 11
   star_players: 10
