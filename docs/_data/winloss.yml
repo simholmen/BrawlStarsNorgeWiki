@@ -1,7 +1,7 @@
 aambakk:
-  losses: 7
-  star_players: 20
-  victories: 46
+  losses: 9
+  star_players: 22
+  victories: 56
 bindel:
   losses: 297
   star_players: 573
@@ -16,8 +16,8 @@ ez:
   victories: 19
 gravity:
   losses: 254
-  star_players: 97
-  victories: 413
+  star_players: 98
+  victories: 414
 herribart:
   losses: 60
   star_players: 67
