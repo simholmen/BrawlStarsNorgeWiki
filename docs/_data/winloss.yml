@@ -45,19 +45,19 @@ maty:
 movind:
   losses: 622
   star_players: 185
-  victories: 921
+  victories: 922
 nussi:
   losses: 7
   star_players: 8
   victories: 27
 obdo:
-  losses: 306
+  losses: 309
   star_players: 175
-  victories: 622
+  victories: 627
 ories:
   losses: 22
-  star_players: 31
-  victories: 87
+  star_players: 32
+  victories: 90
 paddy:
   losses: 346
   star_players: 473
