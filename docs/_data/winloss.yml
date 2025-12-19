@@ -1,7 +1,7 @@
 aambakk:
-  losses: 10
-  star_players: 26
-  victories: 64
+  losses: 12
+  star_players: 31
+  victories: 74
 bindel:
   losses: 297
   star_players: 573
@@ -55,9 +55,9 @@ obdo:
   star_players: 177
   victories: 643
 ories:
-  losses: 23
+  losses: 25
   star_players: 34
-  victories: 94
+  victories: 97
 paddy:
   losses: 346
   star_players: 473
