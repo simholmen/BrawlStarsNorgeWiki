@@ -15,9 +15,9 @@ ez:
   star_players: 7
   victories: 19
 gravity:
-  losses: 255
-  star_players: 98
-  victories: 421
+  losses: 258
+  star_players: 99
+  victories: 427
 herribart:
   losses: 60
   star_players: 67
@@ -31,17 +31,17 @@ joss:
   star_players: 447
   victories: 1443
 lobb:
-  losses: 599
+  losses: 600
   star_players: 213
-  victories: 959
+  victories: 961
 mantas:
   losses: 503
   star_players: 375
   victories: 1098
 maty:
-  losses: 16
-  star_players: 34
-  victories: 57
+  losses: 19
+  star_players: 40
+  victories: 61
 movind:
   losses: 638
   star_players: 189
@@ -51,7 +51,7 @@ nussi:
   star_players: 8
   victories: 27
 obdo:
-  losses: 337
+  losses: 338
   star_players: 181
   victories: 670
 ories:
