@@ -56,20 +56,20 @@ obdo:
   victories: 644
 ories:
   losses: 25
-  star_players: 34
-  victories: 97
+  star_players: 35
+  victories: 99
 paddy:
   losses: 346
   star_players: 473
   victories: 1102
 rey:
-  losses: 299
-  star_players: 191
-  victories: 549
+  losses: 301
+  star_players: 204
+  victories: 571
 star_virus:
-  losses: 150
-  star_players: 112
-  victories: 405
+  losses: 158
+  star_players: 119
+  victories: 422
 sus_ram:
   losses: 612
   star_players: 176
@@ -79,9 +79,9 @@ the_lord_of_dab:
   star_players: 234
   victories: 448
 trym_ivar:
-  losses: 388
-  star_players: 240
-  victories: 732
+  losses: 397
+  star_players: 244
+  victories: 748
 wafels:
   losses: 11
   star_players: 10
@@ -96,5 +96,5 @@ yaarrf:
   victories: 1002
 zimma:
   losses: 204
-  star_players: 193
-  victories: 633
+  star_players: 196
+  victories: 639
