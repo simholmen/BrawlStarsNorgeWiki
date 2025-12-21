@@ -1,7 +1,7 @@
 aambakk:
-  losses: 15
-  star_players: 34
-  victories: 77
+  losses: 19
+  star_players: 39
+  victories: 84
 bindel:
   losses: 297
   star_players: 573
@@ -51,13 +51,13 @@ nussi:
   star_players: 8
   victories: 27
 obdo:
-  losses: 342
-  star_players: 182
-  victories: 677
+  losses: 343
+  star_players: 184
+  victories: 683
 ories:
-  losses: 29
-  star_players: 47
-  victories: 144
+  losses: 31
+  star_players: 49
+  victories: 149
 paddy:
   losses: 346
   star_players: 473
@@ -67,9 +67,9 @@ rey:
   star_players: 222
   victories: 601
 star_virus:
-  losses: 158
-  star_players: 119
-  victories: 422
+  losses: 159
+  star_players: 121
+  victories: 425
 sus_ram:
   losses: 616
   star_players: 182
