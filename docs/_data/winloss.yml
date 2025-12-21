@@ -39,25 +39,25 @@ mantas:
   star_players: 375
   victories: 1098
 maty:
-  losses: 25
+  losses: 26
   star_players: 45
   victories: 70
 movind:
-  losses: 638
+  losses: 640
   star_players: 189
-  victories: 952
+  victories: 953
 nussi:
   losses: 7
   star_players: 8
   victories: 27
 obdo:
   losses: 358
-  star_players: 187
-  victories: 695
+  star_players: 188
+  victories: 697
 ories:
-  losses: 34
-  star_players: 53
-  victories: 154
+  losses: 38
+  star_players: 54
+  victories: 157
 paddy:
   losses: 346
   star_players: 473
@@ -71,9 +71,9 @@ star_virus:
   star_players: 121
   victories: 425
 sus_ram:
-  losses: 624
-  star_players: 187
-  victories: 827
+  losses: 625
+  star_players: 188
+  victories: 828
 the_lord_of_dab:
   losses: 180
   star_players: 234
