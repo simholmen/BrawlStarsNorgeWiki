@@ -1,7 +1,7 @@
 aambakk:
   losses: 21
-  star_players: 45
-  victories: 95
+  star_players: 48
+  victories: 99
 bindel:
   losses: 297
   star_players: 573
@@ -31,9 +31,9 @@ joss:
   star_players: 447
   victories: 1443
 lobb:
-  losses: 603
-  star_players: 214
-  victories: 973
+  losses: 604
+  star_players: 216
+  victories: 977
 mantas:
   losses: 503
   star_players: 375
@@ -51,9 +51,9 @@ nussi:
   star_players: 8
   victories: 27
 obdo:
-  losses: 347
+  losses: 351
   star_players: 184
-  victories: 685
+  victories: 687
 ories:
   losses: 31
   star_players: 49
@@ -75,9 +75,9 @@ sus_ram:
   star_players: 182
   victories: 811
 the_lord_of_dab:
-  losses: 177
+  losses: 180
   star_players: 234
-  victories: 450
+  victories: 453
 trym_ivar:
   losses: 402
   star_players: 249
