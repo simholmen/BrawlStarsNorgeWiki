@@ -39,8 +39,8 @@ mantas:
   star_players: 375
   victories: 1098
 maty:
-  losses: 28
-  star_players: 45
+  losses: 29
+  star_players: 46
   victories: 70
 movind:
   losses: 643
@@ -56,8 +56,8 @@ obdo:
   victories: 701
 ories:
   losses: 38
-  star_players: 55
-  victories: 160
+  star_players: 56
+  victories: 161
 paddy:
   losses: 346
   star_players: 473
@@ -80,7 +80,7 @@ the_lord_of_dab:
   victories: 453
 trym_ivar:
   losses: 402
-  star_players: 249
+  star_players: 250
   victories: 755
 wafels:
   losses: 11
