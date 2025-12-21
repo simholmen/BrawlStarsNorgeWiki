@@ -1,5 +1,5 @@
 aambakk:
-  losses: 21
+  losses: 22
   star_players: 48
   victories: 99
 bindel:
@@ -45,7 +45,7 @@ maty:
 movind:
   losses: 643
   star_players: 190
-  victories: 962
+  victories: 966
 nussi:
   losses: 7
   star_players: 8
@@ -67,9 +67,9 @@ rey:
   star_players: 223
   victories: 601
 star_virus:
-  losses: 159
-  star_players: 121
-  victories: 425
+  losses: 160
+  star_players: 123
+  victories: 428
 sus_ram:
   losses: 625
   star_players: 188
@@ -81,7 +81,7 @@ the_lord_of_dab:
 trym_ivar:
   losses: 404
   star_players: 251
-  victories: 758
+  victories: 761
 wafels:
   losses: 11
   star_players: 10
