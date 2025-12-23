@@ -11,9 +11,9 @@ cursed:
   star_players: 10
   victories: 36
 ez:
-  losses: 5
-  star_players: 7
-  victories: 19
+  losses: 7
+  star_players: 12
+  victories: 35
 gravity:
   losses: 265
   star_players: 103
@@ -35,49 +35,49 @@ lobb:
   star_players: 224
   victories: 1008
 mantas:
-  losses: 506
-  star_players: 375
-  victories: 1120
+  losses: 515
+  star_players: 382
+  victories: 1136
 maty:
   losses: 33
   star_players: 55
   victories: 81
 movind:
-  losses: 666
-  star_players: 194
-  victories: 993
+  losses: 674
+  star_players: 197
+  victories: 1009
 nussi:
   losses: 7
   star_players: 8
   victories: 27
 obdo:
-  losses: 389
-  star_players: 196
-  victories: 730
+  losses: 390
+  star_players: 197
+  victories: 732
 ories:
   losses: 45
-  star_players: 64
-  victories: 177
+  star_players: 66
+  victories: 181
 paddy:
   losses: 346
   star_players: 473
   victories: 1102
 rey:
-  losses: 315
-  star_players: 243
-  victories: 643
+  losses: 319
+  star_players: 247
+  victories: 650
 star_virus:
-  losses: 160
-  star_players: 124
-  victories: 433
+  losses: 174
+  star_players: 131
+  victories: 444
 sus_ram:
   losses: 638
   star_players: 194
   victories: 850
 the_lord_of_dab:
   losses: 191
-  star_players: 254
-  victories: 482
+  star_players: 256
+  victories: 485
 trym_ivar:
   losses: 413
   star_players: 274
