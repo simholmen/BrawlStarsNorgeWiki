@@ -35,9 +35,9 @@ lobb:
   star_players: 227
   victories: 1011
 mantas:
-  losses: 517
-  star_players: 395
-  victories: 1158
+  losses: 518
+  star_players: 401
+  victories: 1165
 maty:
   losses: 48
   star_players: 73
@@ -63,7 +63,7 @@ paddy:
   star_players: 473
   victories: 1102
 rey:
-  losses: 326
+  losses: 327
   star_players: 262
   victories: 689
 star_virus:
@@ -71,9 +71,9 @@ star_virus:
   star_players: 145
   victories: 468
 sus_ram:
-  losses: 641
-  star_players: 207
-  victories: 868
+  losses: 644
+  star_players: 209
+  victories: 873
 the_lord_of_dab:
   losses: 198
   star_players: 271
