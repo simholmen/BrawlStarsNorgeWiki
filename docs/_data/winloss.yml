@@ -55,15 +55,15 @@ obdo:
   star_players: 215
   victories: 824
 ories:
-  losses: 58
-  star_players: 85
-  victories: 215
+  losses: 62
+  star_players: 86
+  victories: 220
 paddy:
   losses: 346
   star_players: 473
   victories: 1102
 rey:
-  losses: 328
+  losses: 329
   star_players: 265
   victories: 692
 star_virus:
@@ -73,7 +73,7 @@ star_virus:
 sus_ram:
   losses: 650
   star_players: 209
-  victories: 884
+  victories: 885
 the_lord_of_dab:
   losses: 198
   star_players: 271
