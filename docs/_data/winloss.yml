@@ -51,13 +51,13 @@ nussi:
   star_players: 8
   victories: 27
 obdo:
-  losses: 444
-  star_players: 216
-  victories: 829
+  losses: 446
+  star_players: 218
+  victories: 836
 ories:
   losses: 69
-  star_players: 88
-  victories: 232
+  star_players: 89
+  victories: 241
 paddy:
   losses: 346
   star_players: 473
@@ -67,9 +67,9 @@ rey:
   star_players: 265
   victories: 692
 star_virus:
-  losses: 191
-  star_players: 157
-  victories: 482
+  losses: 192
+  star_players: 160
+  victories: 484
 sus_ram:
   losses: 650
   star_players: 209
