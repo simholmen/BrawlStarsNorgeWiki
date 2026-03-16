@@ -59,7 +59,7 @@ Gemfile                      # Ruby/
 
 2. **Start Jekyll-serveren lokalt**
    ```sh
-   bundle exec jekyll serve
+   bundle exec jekyll serve --source docs --livereload
    ```
    Nettsiden vil være tilgjengelig på [http://localhost:4000](http://localhost:4000).
 

@@ -7,7 +7,7 @@ image_ext: png
 aktiv: Ja
 stiftet: 08.11.2020
 leder: Mantas
-medlemmer: 340
+medlemmer: 400
 underklubber:
   - RPG lonely
   - Lonely Gods

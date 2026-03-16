@@ -15,7 +15,7 @@ underklubber:
 
 facts:
   - [Flest bans, BigW]
-  - [Turneringer, <a href="/diverse/mz-turneringer/">7</a>]
+  - [Turneringer, <a href="/diverse/mz-turneringer/">9</a>]
 
 ---
 
