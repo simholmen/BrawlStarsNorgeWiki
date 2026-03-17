@@ -1,0 +1,1224 @@
+generated_at: '2026-03-16T23:15:02.492955+00:00'
+source: challonge_api_once
+notes:
+- Set CHALLONGE_API_KEY before running this script.
+- match_winrate is a decimal between 0 and 1.
+leaderboards:
+  most_rounds_played:
+  - &id007
+    player_id: obdo_denniz_amiro
+    display_name: Obdo, Denniz, Amiro
+    matches_played: 5
+    match_wins: 3
+    match_winrate: 0.6
+    rounds_played: 206
+  - &id021
+    player_id: darkfury_hermanpingu_nono
+    display_name: Darkfury, Hermanpingu, Nono
+    matches_played: 3
+    match_wins: 1
+    match_winrate: 0.3333
+    rounds_played: 202
+  - &id037
+    player_id: lybx_bangrang_hoz
+    display_name: Lybx, Bangrang, Hoz
+    matches_played: 2
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 200
+  - &id002
+    player_id: mantas_sam_tullemafiaen
+    display_name: Mantas, Sam, Tullemafiaen
+    matches_played: 5
+    match_wins: 5
+    match_winrate: 1.0
+    rounds_played: 111
+  - &id036
+    player_id: joss_karl_ram_playplay
+    display_name: Joss, Karl-Ram, Playplay
+    matches_played: 2
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 102
+  - &id001
+    player_id: movind_chris_daniel_tullemafiaen
+    display_name: Movind, Chris-Daniel, Tullemafiaen
+    matches_played: 7
+    match_wins: 5
+    match_winrate: 0.7143
+    rounds_played: 19
+  - &id003
+    player_id: zimma_scaresquad_ocean
+    display_name: Zimma, Scaresquad, Ocean
+    matches_played: 5
+    match_wins: 4
+    match_winrate: 0.8
+    rounds_played: 15
+  - &id009
+    player_id: trym_sus_ram_zlizy
+    display_name: Trym, SUS-Ram, Zlizy
+    matches_played: 5
+    match_wins: 3
+    match_winrate: 0.6
+    rounds_played: 14
+  - &id008
+    player_id: rey_tigerboy_lord_fire_henn
+    display_name: Rey, Tigerboy, Lord Fire/Henn
+    matches_played: 5
+    match_wins: 3
+    match_winrate: 0.6
+    rounds_played: 13
+  - &id004
+    player_id: joss_tigerboy_aggron
+    display_name: Joss, Tigerboy, Aggron
+    matches_played: 4
+    match_wins: 4
+    match_winrate: 1.0
+    rounds_played: 12
+  - &id010
+    player_id: trym_rey_midnight_zephyr
+    display_name: Trym, Rey, Midnight Zephyr
+    matches_played: 4
+    match_wins: 3
+    match_winrate: 0.75
+    rounds_played: 12
+  - &id005
+    player_id: zimma_erik_dokulenteber
+    display_name: Zimma, Erik, Dokulenteber
+    matches_played: 4
+    match_wins: 4
+    match_winrate: 1.0
+    rounds_played: 12
+  - &id006
+    player_id: movind_scaresquad_adi_baa
+    display_name: Movind, Scaresquad, Adi Baa
+    matches_played: 5
+    match_wins: 3
+    match_winrate: 0.6
+    rounds_played: 11
+  - &id012
+    player_id: groven_erik_sofie
+    display_name: Groven, Erik, Sofie
+    matches_played: 3
+    match_wins: 3
+    match_winrate: 1.0
+    rounds_played: 11
+  - &id016
+    player_id: jesper_gravity_bennyrash
+    display_name: Jesper, Gravity, Bennyrash
+    matches_played: 3
+    match_wins: 2
+    match_winrate: 0.6667
+    rounds_played: 10
+  - &id017
+    player_id: nussi_chris_daniel
+    display_name: Nussi, Chris-Daniel, ++
+    matches_played: 3
+    match_wins: 2
+    match_winrate: 0.6667
+    rounds_played: 10
+  - &id019
+    player_id: wafels_brigg_molt
+    display_name: Wafels, Brigg, Molt
+    matches_played: 3
+    match_wins: 2
+    match_winrate: 0.6667
+    rounds_played: 10
+  - &id013
+    player_id: mantas_theflash_midnight_zephyr
+    display_name: Mantas, Theflash, Midnight Zephyr
+    matches_played: 4
+    match_wins: 2
+    match_winrate: 0.5
+    rounds_played: 9
+  - &id015
+    player_id: zimma_chris_daniel_molt
+    display_name: Zimma, Chris-Daniel, Molt
+    matches_played: 4
+    match_wins: 2
+    match_winrate: 0.5
+    rounds_played: 9
+  - &id011
+    player_id: darkfury_dennis_tigerboy
+    display_name: Darkfury, Dennis, Tigerboy
+    matches_played: 3
+    match_wins: 3
+    match_winrate: 1.0
+    rounds_played: 9
+  - &id014
+    player_id: rey_tigerboy_nono
+    display_name: Rey, Tigerboy, Nono
+    matches_played: 4
+    match_wins: 2
+    match_winrate: 0.5
+    rounds_played: 8
+  - &id022
+    player_id: lobb_wiederdude_osen_henn
+    display_name: Lobb, Wiederdude/osen, Henn
+    matches_played: 3
+    match_wins: 1
+    match_winrate: 0.3333
+    rounds_played: 7
+  - &id018
+    player_id: ories_molt_porkstar
+    display_name: Ories, Molt, Porkstar
+    matches_played: 3
+    match_wins: 2
+    match_winrate: 0.6667
+    rounds_played: 7
+  - &id024
+    player_id: trym_nussi_elli
+    display_name: Trym, Nussi, Elli
+    matches_played: 3
+    match_wins: 1
+    match_winrate: 0.3333
+    rounds_played: 7
+  - &id025
+    player_id: waterflame_lazer_brawl_dokulenteber
+    display_name: Waterflame, Lazer Brawl, Dokulenteber
+    matches_played: 3
+    match_wins: 1
+    match_winrate: 0.3333
+    rounds_played: 7
+  - &id023
+    player_id: soulzz_lazer_brawl_piralfen
+    display_name: Soulzz, Lazer Brawl, Piralfen
+    matches_played: 3
+    match_wins: 1
+    match_winrate: 0.3333
+    rounds_played: 6
+  - &id020
+    player_id: zimma_lazer_brawl_junstad
+    display_name: Zimma, Lazer Brawl, Junstad
+    matches_played: 3
+    match_wins: 2
+    match_winrate: 0.6667
+    rounds_played: 6
+  - &id027
+    player_id: brigg_jackgamer_pizzamann
+    display_name: Brigg, Jackgamer, Pizzamann
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 6
+  - &id039
+    player_id: sus_ram_gravity_sleepyhenn
+    display_name: Sus-Ram, Gravity, Sleepyhenn
+    matches_played: 2
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 6
+  - &id026
+    player_id: boobietrap_mantas_lavvek
+    display_name: Boobietrap, Mantas, Lavvek
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 5
+  - &id028
+    player_id: darkfury_pink_hate_ya_lord_fire
+    display_name: Darkfury, Pink Hate Ya, Lord Fire
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 5
+  - &id033
+    player_id: nussi_myhn_nichipezo
+    display_name: Nussi, Myhn, Nichipezo
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 5
+  - &id034
+    player_id: wafels_erik_bella
+    display_name: Wafels, Erik, Bella
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 5
+  - &id035
+    player_id: zimma_king_lavvek
+    display_name: Zimma, King, Lavvek
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 5
+  - &id029
+    player_id: lobb_gravity_the_flash
+    display_name: Lobb, Gravity, The Flash
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 4
+  - &id030
+    player_id: lobb_joss_svens_nico
+    display_name: Lobb/Joss, Svens, Nico
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 4
+  - &id031
+    player_id: mantas_lazer_brawl_movind
+    display_name: Mantas, Lazer Brawl, Movind
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 4
+  - &id032
+    player_id: mikkel_jackgamer_simen_master
+    display_name: Mikkel, Jackgamer, Simen Master
+    matches_played: 2
+    match_wins: 1
+    match_winrate: 0.5
+    rounds_played: 4
+  - &id038
+    player_id: sjur_gravity_osen
+    display_name: Sjur, Gravity, Osen
+    matches_played: 2
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 4
+  - &id040
+    player_id: waterflame_lord_fire_dokumenter
+    display_name: Waterflame, Lord Fire, Dokumenter
+    matches_played: 2
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 4
+  - &id043
+    player_id: boobietrap_adri_padri_nono
+    display_name: Boobietrap, Adri Padri, Nono
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id048
+    player_id: jo_dennizz_piralfen
+    display_name: JO, Dennizz, Piralfen
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id049
+    player_id: jo_tigerboy_adri_padri
+    display_name: JO, Tigerboy, Adri Padri
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id050
+    player_id: lobb_jackgamer_dizzy_banana
+    display_name: Lobb, Jackgamer, Dizzy Banana
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id051
+    player_id: lobb_neikim_2_0cean
+    display_name: Lobb, Neikim, 2.0cean
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id054
+    player_id: nussi_flash_storm
+    display_name: Nussi, Flash, Storm
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id056
+    player_id: obdo_gravity_lilleludde
+    display_name: Obdo, Gravity, Lilleludde
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id057
+    player_id: ories_chaos_geddium
+    display_name: Ories, Chaos, geddium
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id059
+    player_id: waterflame_anton_conweel
+    display_name: Waterflame, Anton, Conweel
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id061
+    player_id: waterflame_sus_ram_molt
+    display_name: Waterflame, Sus Ram, Molt
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 3
+  - &id041
+    player_id: al3x_eivaro_sushi
+    display_name: Al3x, Eivaro, Sushi
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id042
+    player_id: alex_vetel_eivaro
+    display_name: Alex, Vetel, Eivaro
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id044
+    player_id: brigg_magichawk_espi
+    display_name: Brigg, Magichawk, Espi
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id045
+    player_id: callux_tigerboy_joh
+    display_name: Callux, tigerboy, Joh
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id046
+    player_id: dab_lynotops_lillenussi
+    display_name: Dab, Lynotops, Lillenussi
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id047
+    player_id: ez_am_ben_gearty
+    display_name: EZ, Amøben, Gearty
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id052
+    player_id: lybx_gyat_hermanpingu_wiederdude
+    display_name: Lybx Gyat, Hermanpingu, Wiederdude
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id053
+    player_id: mais_bangrang_bella
+    display_name: Mais, Bangrang, Bella
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id055
+    player_id: nussi_hussein_porkstar
+    display_name: Nussi, Hussein, Porkstar
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id058
+    player_id: wafels_bella_kirill
+    display_name: Wafels, Bella, Kirill
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  - &id060
+    player_id: waterflame_mais_lillenussi
+    display_name: Waterflame, Mais, Lillenussi
+    matches_played: 1
+    match_wins: 0
+    match_winrate: 0.0
+    rounds_played: 2
+  most_match_wins:
+  - *id001
+  - *id002
+  - *id003
+  - *id004
+  - *id005
+  - *id006
+  - *id007
+  - *id008
+  - *id009
+  - *id010
+  - *id011
+  - *id012
+  - *id013
+  - *id014
+  - *id015
+  - *id016
+  - *id017
+  - *id018
+  - *id019
+  - *id020
+  - *id021
+  - *id022
+  - *id023
+  - *id024
+  - *id025
+  - *id026
+  - *id027
+  - *id028
+  - *id029
+  - *id030
+  - *id031
+  - *id032
+  - *id033
+  - *id034
+  - *id035
+  - *id036
+  - *id037
+  - *id038
+  - *id039
+  - *id040
+  - *id041
+  - *id042
+  - *id043
+  - *id044
+  - *id045
+  - *id046
+  - *id047
+  - *id048
+  - *id049
+  - *id050
+  - *id051
+  - *id052
+  - *id053
+  - *id054
+  - *id055
+  - *id056
+  - *id057
+  - *id058
+  - *id059
+  - *id060
+  - *id061
+  best_match_winrate:
+  - *id002
+  - *id003
+  - *id001
+  - *id006
+  - *id007
+  - *id008
+  - *id009
+players:
+  al3x_eivaro_sushi:
+    display_name: Al3x, Eivaro, Sushi
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  alex_vetel_eivaro:
+    display_name: Alex, Vetel, Eivaro
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  boobietrap_adri_padri_nono:
+    display_name: Boobietrap, Adri Padri, Nono
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  boobietrap_mantas_lavvek:
+    display_name: Boobietrap, Mantas, Lavvek
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 3
+    round_losses: 2
+    rounds_played: 5
+    titles: 0
+  brigg_jackgamer_pizzamann:
+    display_name: Brigg, Jackgamer, Pizzamann
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 3
+    round_losses: 3
+    rounds_played: 6
+    titles: 0
+  brigg_magichawk_espi:
+    display_name: Brigg, Magichawk, Espi
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  callux_tigerboy_joh:
+    display_name: Callux, tigerboy, Joh
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  dab_lynotops_lillenussi:
+    display_name: Dab, Lynotops, Lillenussi
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  darkfury_dennis_tigerboy:
+    display_name: Darkfury, Dennis, Tigerboy
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 3
+    match_losses: 0
+    match_winrate: 1.0
+    round_wins: 7
+    round_losses: 2
+    rounds_played: 9
+    titles: 0
+  darkfury_hermanpingu_nono:
+    display_name: Darkfury, Hermanpingu, Nono
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 1
+    match_losses: 2
+    match_winrate: 0.3333
+    round_wins: 100
+    round_losses: 102
+    rounds_played: 202
+    titles: 0
+  darkfury_pink_hate_ya_lord_fire:
+    display_name: Darkfury, Pink Hate Ya, Lord Fire
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 2
+    round_losses: 3
+    rounds_played: 5
+    titles: 0
+  ez_am_ben_gearty:
+    display_name: EZ, Amøben, Gearty
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  groven_erik_sofie:
+    display_name: Groven, Erik, Sofie
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 3
+    match_losses: 0
+    match_winrate: 1.0
+    round_wins: 7
+    round_losses: 4
+    rounds_played: 11
+    titles: 0
+  jesper_gravity_bennyrash:
+    display_name: Jesper, Gravity, Bennyrash
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 2
+    match_losses: 1
+    match_winrate: 0.6667
+    round_wins: 6
+    round_losses: 4
+    rounds_played: 10
+    titles: 0
+  jo_dennizz_piralfen:
+    display_name: JO, Dennizz, Piralfen
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  jo_tigerboy_adri_padri:
+    display_name: JO, Tigerboy, Adri Padri
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  joss_karl_ram_playplay:
+    display_name: Joss, Karl-Ram, Playplay
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 0
+    match_losses: 2
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 102
+    rounds_played: 102
+    titles: 0
+  joss_tigerboy_aggron:
+    display_name: Joss, Tigerboy, Aggron
+    tournaments_played: 1
+    matches_played: 4
+    match_wins: 4
+    match_losses: 0
+    match_winrate: 1.0
+    round_wins: 9
+    round_losses: 3
+    rounds_played: 12
+    titles: 0
+  lobb_gravity_the_flash:
+    display_name: Lobb, Gravity, The Flash
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 2
+    round_losses: 2
+    rounds_played: 4
+    titles: 0
+  lobb_jackgamer_dizzy_banana:
+    display_name: Lobb, Jackgamer, Dizzy Banana
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  lobb_joss_svens_nico:
+    display_name: Lobb/Joss, Svens, Nico
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 2
+    round_losses: 2
+    rounds_played: 4
+    titles: 0
+  lobb_neikim_2_0cean:
+    display_name: Lobb, Neikim, 2.0cean
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  lobb_wiederdude_osen_henn:
+    display_name: Lobb, Wiederdude/osen, Henn
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 1
+    match_losses: 2
+    match_winrate: 0.3333
+    round_wins: 3
+    round_losses: 4
+    rounds_played: 7
+    titles: 0
+  lybx_bangrang_hoz:
+    display_name: Lybx, Bangrang, Hoz
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 0
+    match_losses: 2
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 200
+    rounds_played: 200
+    titles: 0
+  lybx_gyat_hermanpingu_wiederdude:
+    display_name: Lybx Gyat, Hermanpingu, Wiederdude
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  mais_bangrang_bella:
+    display_name: Mais, Bangrang, Bella
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  mantas_lazer_brawl_movind:
+    display_name: Mantas, Lazer Brawl, Movind
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 2
+    round_losses: 2
+    rounds_played: 4
+    titles: 0
+  mantas_sam_tullemafiaen:
+    display_name: Mantas, Sam, Tullemafiaen
+    tournaments_played: 1
+    matches_played: 5
+    match_wins: 5
+    match_losses: 0
+    match_winrate: 1.0
+    round_wins: 109
+    round_losses: 2
+    rounds_played: 111
+    titles: 0
+  mantas_theflash_midnight_zephyr:
+    display_name: Mantas, Theflash, Midnight Zephyr
+    tournaments_played: 1
+    matches_played: 4
+    match_wins: 2
+    match_losses: 2
+    match_winrate: 0.5
+    round_wins: 4
+    round_losses: 5
+    rounds_played: 9
+    titles: 0
+  mikkel_jackgamer_simen_master:
+    display_name: Mikkel, Jackgamer, Simen Master
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 2
+    round_losses: 2
+    rounds_played: 4
+    titles: 0
+  movind_chris_daniel_tullemafiaen:
+    display_name: Movind, Chris-Daniel, Tullemafiaen
+    tournaments_played: 1
+    matches_played: 7
+    match_wins: 5
+    match_losses: 2
+    match_winrate: 0.7143
+    round_wins: 13
+    round_losses: 6
+    rounds_played: 19
+    titles: 0
+  movind_scaresquad_adi_baa:
+    display_name: Movind, Scaresquad, Adi Baa
+    tournaments_played: 1
+    matches_played: 5
+    match_wins: 3
+    match_losses: 2
+    match_winrate: 0.6
+    round_wins: 7
+    round_losses: 4
+    rounds_played: 11
+    titles: 0
+  nussi_chris_daniel:
+    display_name: Nussi, Chris-Daniel, ++
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 2
+    match_losses: 1
+    match_winrate: 0.6667
+    round_wins: 6
+    round_losses: 4
+    rounds_played: 10
+    titles: 0
+  nussi_flash_storm:
+    display_name: Nussi, Flash, Storm
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  nussi_hussein_porkstar:
+    display_name: Nussi, Hussein, Porkstar
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  nussi_myhn_nichipezo:
+    display_name: Nussi, Myhn, Nichipezo
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 2
+    round_losses: 3
+    rounds_played: 5
+    titles: 0
+  obdo_denniz_amiro:
+    display_name: Obdo, Denniz, Amiro
+    tournaments_played: 1
+    matches_played: 5
+    match_wins: 3
+    match_losses: 2
+    match_winrate: 0.6
+    round_wins: 202
+    round_losses: 4
+    rounds_played: 206
+    titles: 0
+  obdo_gravity_lilleludde:
+    display_name: Obdo, Gravity, Lilleludde
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  ories_chaos_geddium:
+    display_name: Ories, Chaos, geddium
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  ories_molt_porkstar:
+    display_name: Ories, Molt, Porkstar
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 2
+    match_losses: 1
+    match_winrate: 0.6667
+    round_wins: 4
+    round_losses: 3
+    rounds_played: 7
+    titles: 0
+  rey_tigerboy_lord_fire_henn:
+    display_name: Rey, Tigerboy, Lord Fire/Henn
+    tournaments_played: 1
+    matches_played: 5
+    match_wins: 3
+    match_losses: 2
+    match_winrate: 0.6
+    round_wins: 8
+    round_losses: 5
+    rounds_played: 13
+    titles: 0
+  rey_tigerboy_nono:
+    display_name: Rey, Tigerboy, Nono
+    tournaments_played: 1
+    matches_played: 4
+    match_wins: 2
+    match_losses: 2
+    match_winrate: 0.5
+    round_wins: 4
+    round_losses: 4
+    rounds_played: 8
+    titles: 0
+  sjur_gravity_osen:
+    display_name: Sjur, Gravity, Osen
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 0
+    match_losses: 2
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 4
+    rounds_played: 4
+    titles: 0
+  soulzz_lazer_brawl_piralfen:
+    display_name: Soulzz, Lazer Brawl, Piralfen
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 1
+    match_losses: 2
+    match_winrate: 0.3333
+    round_wins: 2
+    round_losses: 4
+    rounds_played: 6
+    titles: 0
+  sus_ram_gravity_sleepyhenn:
+    display_name: Sus-Ram, Gravity, Sleepyhenn
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 0
+    match_losses: 2
+    match_winrate: 0.0
+    round_wins: 2
+    round_losses: 4
+    rounds_played: 6
+    titles: 0
+  trym_nussi_elli:
+    display_name: Trym, Nussi, Elli
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 1
+    match_losses: 2
+    match_winrate: 0.3333
+    round_wins: 2
+    round_losses: 5
+    rounds_played: 7
+    titles: 0
+  trym_rey_midnight_zephyr:
+    display_name: Trym, Rey, Midnight Zephyr
+    tournaments_played: 1
+    matches_played: 4
+    match_wins: 3
+    match_losses: 1
+    match_winrate: 0.75
+    round_wins: 8
+    round_losses: 4
+    rounds_played: 12
+    titles: 0
+  trym_sus_ram_zlizy:
+    display_name: Trym, SUS-Ram, Zlizy
+    tournaments_played: 1
+    matches_played: 5
+    match_wins: 3
+    match_losses: 2
+    match_winrate: 0.6
+    round_wins: 6
+    round_losses: 8
+    rounds_played: 14
+    titles: 0
+  wafels_bella_kirill:
+    display_name: Wafels, Bella, Kirill
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  wafels_brigg_molt:
+    display_name: Wafels, Brigg, Molt
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 2
+    match_losses: 1
+    match_winrate: 0.6667
+    round_wins: 6
+    round_losses: 4
+    rounds_played: 10
+    titles: 0
+  wafels_erik_bella:
+    display_name: Wafels, Erik, Bella
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 2
+    round_losses: 3
+    rounds_played: 5
+    titles: 0
+  waterflame_anton_conweel:
+    display_name: Waterflame, Anton, Conweel
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  waterflame_lazer_brawl_dokulenteber:
+    display_name: Waterflame, Lazer Brawl, Dokulenteber
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 1
+    match_losses: 2
+    match_winrate: 0.3333
+    round_wins: 3
+    round_losses: 4
+    rounds_played: 7
+    titles: 0
+  waterflame_lord_fire_dokumenter:
+    display_name: Waterflame, Lord Fire, Dokumenter
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 0
+    match_losses: 2
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 4
+    rounds_played: 4
+    titles: 0
+  waterflame_mais_lillenussi:
+    display_name: Waterflame, Mais, Lillenussi
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 0
+    round_losses: 2
+    rounds_played: 2
+    titles: 0
+  waterflame_sus_ram_molt:
+    display_name: Waterflame, Sus Ram, Molt
+    tournaments_played: 1
+    matches_played: 1
+    match_wins: 0
+    match_losses: 1
+    match_winrate: 0.0
+    round_wins: 1
+    round_losses: 2
+    rounds_played: 3
+    titles: 0
+  zimma_chris_daniel_molt:
+    display_name: Zimma, Chris-Daniel, Molt
+    tournaments_played: 1
+    matches_played: 4
+    match_wins: 2
+    match_losses: 2
+    match_winrate: 0.5
+    round_wins: 5
+    round_losses: 4
+    rounds_played: 9
+    titles: 0
+  zimma_erik_dokulenteber:
+    display_name: Zimma, Erik, Dokulenteber
+    tournaments_played: 1
+    matches_played: 4
+    match_wins: 4
+    match_losses: 0
+    match_winrate: 1.0
+    round_wins: 9
+    round_losses: 3
+    rounds_played: 12
+    titles: 0
+  zimma_king_lavvek:
+    display_name: Zimma, King, Lavvek
+    tournaments_played: 1
+    matches_played: 2
+    match_wins: 1
+    match_losses: 1
+    match_winrate: 0.5
+    round_wins: 3
+    round_losses: 2
+    rounds_played: 5
+    titles: 0
+  zimma_lazer_brawl_junstad:
+    display_name: Zimma, Lazer Brawl, Junstad
+    tournaments_played: 1
+    matches_played: 3
+    match_wins: 2
+    match_losses: 1
+    match_winrate: 0.6667
+    round_wins: 4
+    round_losses: 2
+    rounds_played: 6
+    titles: 0
+  zimma_scaresquad_ocean:
+    display_name: Zimma, Scaresquad, Ocean
+    tournaments_played: 1
+    matches_played: 5
+    match_wins: 4
+    match_losses: 1
+    match_winrate: 0.8
+    round_wins: 10
+    round_losses: 5
+    rounds_played: 15
+    titles: 0
+tournaments:
+  total_tournaments: 6
+  total_matches: 74
+  total_rounds: 579
+  processed:
+  - id: mz3
+    title: 'MZ Turnering #3'
+    date: '2023-05-05'
+    challonge_id: ovea2dyg
+    name: Zephyr, Mai 2023
+    participants_count: 10
+    matches_count: 9
+  - id: mz4
+    title: 'MZ Turnering #4'
+    date: '2023-09-09'
+    challonge_id: 596c8m49
+    name: Zephyr, September 2023
+    participants_count: 8
+    matches_count: 7
+  - id: mz5
+    title: 'MZ Turnering #5'
+    date: '2024-02-11'
+    challonge_id: s8i7hn4q
+    name: Zephyr 3v3 februar 2024
+    participants_count: 13
+    matches_count: 12
+  - id: mz7
+    title: 'MZ Turnering #7'
+    date: '2025-03-16'
+    challonge_id: x86ogpg4
+    name: Zephyr 3v3 mars 2025
+    participants_count: 10
+    matches_count: 9
+  - id: mz8
+    title: 'MZ Turnering #8'
+    date: '2025-07-04'
+    challonge_id: cuvmteme
+    name: Zephy 3v3 Juli 2025
+    participants_count: 12
+    matches_count: 22
+  - id: mz9
+    title: 'MZ Turnering #9'
+    date: '2026-03-15'
+    challonge_id: ckhdn55u
+    name: Zephyr 3v3 mars 2026
+    participants_count: 8
+    matches_count: 15
+  skipped: []

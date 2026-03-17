@@ -216,6 +216,224 @@ title: MZ Turneringer - Brawl Stars Norge Wiki
     </table>
 </div>
 </p>
+
+<h3 id="Individuelle statistikker">Individuelle statistikker</h3>
+<p>
+<div class="table-container">
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Flest match wins</th>
+                <th>Wins</th>
+                <th>Spilt</th>
+                <th>Winrate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.most_match_wins limit:10 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.match_wins }}</td>
+                <td>{{ player.matches_played }}</td>
+                <td>{{ player.match_winrate | times: 100 | round: 1 }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Beste winrate (min 5)</th>
+                <th>Winrate</th>
+                <th>W/L</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.best_match_winrate_min5 limit:10 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.match_winrate | times: 100 | round: 1 }}%</td>
+                <td>{{ player.match_wins }}/{{ player.matches_played }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container">
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Flest runder spilt</th>
+                <th>Runder</th>
+                <th>Runde W/L</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.most_rounds_played limit:10 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.rounds_played }}</td>
+                <td>{{ player.round_wins }}-{{ player.round_losses }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Dårligst winrate (min 5)</th>
+                <th>Winrate</th>
+                <th>W/L</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.worst_match_winrate_min5 limit:10 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.match_winrate | times: 100 | round: 1 }}%</td>
+                <td>{{ player.match_wins }}/{{ player.matches_played }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="table-container">
+    <table class="type2" id="ranktable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Flest matcher spilt</th>
+                <th>Spilt</th>
+                <th>Wins</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.most_matches_played limit:10%}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.matches_played }}</td>
+                <td>{{ player.match_wins }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h4>Fun stats</h4>
+<p>
+    <b>Clutch Factor</b> = (runde wins − runde losses) per match (min 5). &nbsp;
+    <b>Toppdreper</b> = antall seire mot spillere i topp 10 (flest vunnede matcher). &nbsp;
+    <b>Underdog</b> = antall seire mot lag med høyere gjennomsnittlig antall vunnede matcher.
+</p>
+
+<div class="table-container">
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Beste Clutch Factor (min 5)</th>
+                <th>CF</th>
+                <th>Runde W/L</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.best_clutch_factor_min5 limit:10 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.clutch_factor | round: 3 }}</td>
+                <td>{{ player.round_wins }}-{{ player.round_losses }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container">
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Toppdreper (seire mot topp 10)</th>
+                <th>Seire</th>
+                <th>Totalt vunnet</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.boss_slayer limit:10 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.boss_slayer_wins }}</td>
+                <td>{{ player.match_wins }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Underdog-seire</th>
+                <th>Seire</th>
+                <th>Totalt vunnet</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in site.data.tournament_stats.individual_leaderboards.underdog limit:10 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.underdog_wins }}</td>
+                <td>{{ player.match_wins }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h4>Rivalry table</h4>
+<p>Spillerpar som har møtt hverandre flest ganger på tvers av turneringer.</p>
+<div class="table-container">
+    <table class="type2">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Spiller 1</th>
+                <th>W</th>
+                <th>W</th>
+                <th>Spiller 2</th>
+                <th>Totalt</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pair in site.data.tournament_stats.individual_leaderboards.rivalry_table limit:15 %}
+            <tr>
+                <td>{{ forloop.index }}</td>
+                <td>{{ pair.player1_name }}</td>
+                <td>{{ pair.player1_wins }}</td>
+                <td>{{ pair.player2_wins }}</td>
+                <td>{{ pair.player2_name }}</td>
+                <td>{{ pair.total_matches }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 <h2 id="Historie">Historie</h2>
 <h3 id="MZ Turnering #1">MZ Turnering #1 (30.01.2022)</h3>
 <p>
@@ -276,7 +494,8 @@ title: MZ Turneringer - Brawl Stars Norge Wiki
 </p>
 <h3 id="MZ Turnering #8">MZ Turnering #8 (04.07.2025)</h3>
 <p>
-    Den åttende turneringen ble holdt 4. juli 2025 og hadde 36 deltakere, 10 reserve spillere og en pricepool på 1000 kr.
+    Den åttende turneringen ble holdt 4. juli 2025 og hadde 36 deltakere, 10 reserve spillere og en pricepool på 1000
+    kr.
     Vinneren var <a href="/personer/mantas/">Mantas</a>, Sam (dansk reserve) og Tullemafiaen,
     2. plass gikk til <a href="/personer/trym-ivar/">Trym</a>, <a href="/personer/sus-ram/">Sus Ram</a> og zlizy.
     <iframe src="https://challonge.com/cuvmteme/module" width="100%" height="500" frameborder="0" scrolling="auto"
@@ -284,9 +503,13 @@ title: MZ Turneringer - Brawl Stars Norge Wiki
 </p>
 <h3 id="MZ Turnering #9">MZ Turnering #9 (15.03.2026)</h3>
 <p>
-    Den niende turneringen ble holdt 15. mars 2026 og hadde 24 deltakere, 10 reserve spillere og en pricepool på 500 kr. Vinneren var <a href="/personer/zimma/">Zimma</a>, Scaresquad og Ocean,
+    Den niende turneringen ble holdt 15. mars 2026 og hadde 24 deltakere, 10 reserve spillere og en pricepool på 500 kr.
+    Vinneren var <a href="/personer/zimma/">Zimma</a>, Scaresquad og Ocean,
     2. plass gikk til <a href="/personer/movind/">Movind</a>, Chris-Daniel og Tullemafiaen.
-    <br> <br>Noen merkverdige hendelser under turneringen var at <a href="/personer/trym-ivar/">Trym Ivar</a> måtte steppe inn som reserve for Scaresquad de siste 2 kampene fordi Scarsquad gikk tom for størm og hadde ikke lader tilgjengelig.
+    <br> <br>Noen merkverdige hendelser under turneringen var at <a href="/personer/trym-ivar/">Trym Ivar</a> måtte
+    steppe inn som reserve for Scaresquad de siste 2 kampene fordi Scarsquad gikk tom for størm og hadde ikke lader
+    tilgjengelig.
     Lagene som kom 1 og 2 i turneringen sweepet alle andre lag, og tapte kun mot hverandre.
-<iframe src="https://challonge.com/ckhdn55u/module" width="100%" height="500" frameborder="0" scrolling="auto" allowtransparency="true"></iframe>
+    <iframe src="https://challonge.com/ckhdn55u/module" width="100%" height="500" frameborder="0" scrolling="auto"
+        allowtransparency="true"></iframe>
 </p>
