@@ -1,7 +1,7 @@
 aambakk:
-  losses: 25
-  star_players: 52
-  victories: 118
+  losses: 29
+  star_players: 62
+  victories: 138
 bindel:
   losses: 297
   star_players: 573
@@ -15,9 +15,9 @@ ez:
   star_players: 12
   victories: 35
 gravity:
-  losses: 309
-  star_players: 128
-  victories: 521
+  losses: 313
+  star_players: 129
+  victories: 529
 herribart:
   losses: 69
   star_players: 75
@@ -35,9 +35,9 @@ lobb:
   star_players: 241
   victories: 1043
 mantas:
-  losses: 538
+  losses: 539
   star_players: 435
-  victories: 1214
+  victories: 1215
 maty:
   losses: 58
   star_players: 79
@@ -51,9 +51,9 @@ nussi:
   star_players: 12
   victories: 37
 obdo:
-  losses: 471
-  star_players: 249
-  victories: 895
+  losses: 478
+  star_players: 250
+  victories: 905
 ories:
   losses: 85
   star_players: 109
@@ -63,25 +63,25 @@ paddy:
   star_players: 479
   victories: 1118
 rey:
-  losses: 362
+  losses: 366
   star_players: 270
-  victories: 734
+  victories: 740
 star_virus:
   losses: 217
   star_players: 168
   victories: 508
 sus_ram:
-  losses: 677
-  star_players: 217
-  victories: 934
+  losses: 684
+  star_players: 218
+  victories: 942
 the_lord_of_dab:
   losses: 209
   star_players: 291
   victories: 564
 trym_ivar:
-  losses: 442
-  star_players: 334
-  victories: 923
+  losses: 449
+  star_players: 341
+  victories: 940
 wafels:
   losses: 21
   star_players: 13
@@ -95,6 +95,6 @@ yaarrf:
   star_players: 233
   victories: 1002
 zimma:
-  losses: 238
-  star_players: 228
-  victories: 745
+  losses: 241
+  star_players: 229
+  victories: 750
