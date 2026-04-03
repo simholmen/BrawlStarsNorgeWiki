@@ -43,9 +43,9 @@ maty:
   star_players: 79
   victories: 133
 movind:
-  losses: 727
+  losses: 729
   star_players: 209
-  victories: 1076
+  victories: 1079
 nussi:
   losses: 21
   star_players: 12
@@ -57,15 +57,15 @@ obdo:
 ories:
   losses: 85
   star_players: 109
-  victories: 273
+  victories: 274
 paddy:
   losses: 353
   star_players: 479
   victories: 1118
 rey:
-  losses: 366
+  losses: 368
   star_players: 270
-  victories: 741
+  victories: 744
 star_virus:
   losses: 217
   star_players: 168
@@ -95,6 +95,6 @@ yaarrf:
   star_players: 233
   victories: 1002
 zimma:
-  losses: 241
-  star_players: 229
-  victories: 750
+  losses: 243
+  star_players: 230
+  victories: 753
