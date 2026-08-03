@@ -31,13 +31,13 @@ joss:
   star_players: 479
   victories: 1494
 lobb:
-  losses: 692
+  losses: 695
   star_players: 248
-  victories: 1082
+  victories: 1083
 mantas:
   losses: 561
   star_players: 466
-  victories: 1270
+  victories: 1274
 maty:
   losses: 62
   star_players: 90
@@ -51,9 +51,9 @@ nussi:
   star_players: 13
   victories: 46
 obdo:
-  losses: 497
+  losses: 499
   star_players: 258
-  victories: 938
+  victories: 941
 ories:
   losses: 96
   star_players: 122
