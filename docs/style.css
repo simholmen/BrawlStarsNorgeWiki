@@ -294,3 +294,56 @@ tr:hover {
 ▼
 
 */
+
+/* Media query for skjermer mindre enn 768px (mobil) - lagt sist i filen slik at reglene vinner over de generelle reglene lenger opp */
+@media (max-width: 767px) {
+    /* Slutt å flyte infoboxen til høyre - la den stå øverst i normal rekkefølge (infobox -> toc -> resten av innholdet) */
+    .infobox {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0 0 20px 0;
+    }
+
+    .infobox img {
+        max-width: 300px; /* Ikke la profilbildet bli unødvendig stort på mobil */
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    /* Fjern begresningen som ga plass til den flytende infoboxen */
+    .strekstopp {
+        max-width: 100%;
+    }
+
+    /* TOC trenger ikke lenger vike plass til infoboxen på høyre side */
+    #toc {
+        margin-right: 0;
+    }
+
+    /* Samme flyte-fiks for bilder plassert til høyre i innholdet */
+    .figure-container {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0 0 20px 0;
+    }
+
+    .figure-container img,
+    .picture {
+        max-width: 100%;
+    }
+
+    /* Ingen tabeller skal stå ved siden av hverandre på mobil - alltid stablet under hverandre */
+    .table-container {
+        flex-direction: column;
+    }
+
+    /* Tabeller (inkludert type2) skal fylle skjermbredden i stedet for å være smale (50%/90%) */
+    table {
+        width: 100% !important;
+    }
+}
