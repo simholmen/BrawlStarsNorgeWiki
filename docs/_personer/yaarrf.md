@@ -2,27 +2,24 @@
 layout: person
 title: Yaarrf - Brawl Stars Norge Wiki
 name: Yaarrf
-subtitle: mais / lybx
-hjemsted: Trondheim, Norge
-born: 2009
-favorittbrus: 
-favoritt_brawler: Frank
-quote: "Kun én kamp unna Rank 35..."
-fiende: Kjøperne som stjal kontoen
-bsid: 
-facts:
-  - Startet å spille Brawl Stars i oktober 2019, som 10-åring
-  - Nådde topp 300 globalt i Power Play med laget sitt
-  - Endte topp 3 i Power League sommeren 2023 (Mythic III)
-  - Mistet hovedkontoen sin i en boosting-svindel sommeren 2025
-  - Spiller nå på en konto arvet fra Mantas, med Masters III
+subtitle: Ådne
+hjemsted: Norge
+born: 2013
+favorittbrus: Solo Super
+favoritt_brawler: Bull
+quote: ""
+fiende: No enemies
+bsid: P2VVUP2R8
+facts: []
 no_2024_profile: true
 image_ext: png
 ---
 ## Bakgrunn
-Yaarrf, også kjent som lybx og mais, er en norsk Brawl Stars-spiller fra Trondheim. Han begynte å spille i oktober 2019 etter måneder med mas fra en venn, bare 10 år gammel, og ble raskt hektet på spillet.
+Yaarrf er kjent for å ha det dårligste navnet i communitiet
 
 ## Karriere
+Yaarrf, også kjent som lybx og mais, er en norsk Brawl Stars-spiller fra Trondheim. Han begynte å spille i oktober 2019 etter måneder med mas fra en venn, bare 10 år gammel, og ble raskt hektet på spillet.
+
 Startet under navnet mais i klubben Norway I Legend, hvor han ble kjent med Indominus og Raxo. Sammen dannet de et Power Play-lag som nådde topp 300 globalt, mens Yaarrf selv oppnådde rundt 900 Power Play-poeng.
 
 Da Norway I Legend forfalt, gikk turen videre via The Audacity og EtParGodeMenn, før han var med på å starte klubben Wild Sides (senere Wild), hvor han møtte Mantas, The Flash, Gravity og Zlizzy. Han og The Flash brukte enorme mengder tid i Knockout med «meta comp»-en Frank/Bibi/Fang - Yaarrf var kun én kamp unna Rank 35 med Frank.
@@ -36,8 +33,5 @@ Han kom tilbake i november 2025 på en ny konto, og fikk i mai 2026 Mantas' gaml
 Spiller i dag for ERA Esports.
 
 ## Prestasjoner
-- Topp 300 globalt i Power Play
-- Topp 3 i Power League, sommer 2023 (Mythic III)
-- Masters III
-- Kvalifisert til dag 2 i sin første Monthly Qualifier (2026)
+- Day 2 quals
 - På lag med Mantas
