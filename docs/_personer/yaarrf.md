@@ -15,12 +15,11 @@ no_2024_profile: true
 image_ext: png
 ---
 ## Bakgrunn
-Yaarrf er kjent for å ha det dårligste navnet i communitiet
-
-## Karriere
 Yaarrf, også kjent som **lybx** og **mais**, er en norsk Brawl Stars-spiller fra Trondheim. Han startet å spille Brawl Stars i oktober 2019, etter at en venn hadde mast på ham i flere måneder om å laste ned spillet. Yaarrf var da bare 10 år gammel, men ble raskt hektet på spillet.
 
 Gjennom karrieren har Yaarrf vært involvert i flere norske klubber og communities, og har vært en del av både trophy pushing, Power League, Ranked og esport. Blant de viktigste delene av karrieren hans er perioden i **Wild Sides**, hans Power League-sesong i 2023, overgangen til konkurransespill i 2025 og hans første Monthly Qualifier i 2026.
+
+## Karriere
 
 Yaarrf startet Brawl Stars-karrieren under navnet **mais**. Etter at han hadde fått nok trofeer til å bli tatt opp, ble han med i den norske klubben **Norway I Legend**. Her begynte han for alvor å bli kjent med det norske Brawl Stars-miljøet.
 
