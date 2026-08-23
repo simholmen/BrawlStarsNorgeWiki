@@ -148,7 +148,7 @@ rows = list(individuals.values())
 
 by_wins = sorted(rows, key=lambda x: (-x["match_wins"], -x["matches_played"], x["display_name"].lower()))
 by_winrate = sorted(
-    [r for r in rows if r["matches_played"] >= 5],
+    rows,
     key=lambda x: (-x["match_winrate"], -x["matches_played"], x["display_name"].lower()),
 )
 by_worst_winrate = sorted(
@@ -173,7 +173,7 @@ by_underdog = sorted(
 # ── Write back to YAML ────────────────────────────────────────────────────────
 data["individual_leaderboards"] = {
     "most_match_wins": by_wins,
-    "best_match_winrate_min5": by_winrate,
+    "best_match_winrate": by_winrate,
     "worst_match_winrate_min5": by_worst_winrate,
     "most_rounds_played": by_rounds,
     "most_matches_played": by_matches,

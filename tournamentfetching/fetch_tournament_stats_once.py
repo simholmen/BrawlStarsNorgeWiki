@@ -47,6 +47,12 @@ TOURNAMENTS = [
         "date": "2026-03-15",
         "challonge_id": "ckhdn55u",
     },
+    {
+        "id": "mz10",
+        "title": "MZ Turnering #10",
+        "date": "2026-08-22",
+        "challonge_id": "its989pb",
+    },
 ]
 
 PLAYER_ALIASES = {
@@ -58,8 +64,10 @@ PLAYER_ALIASES = {
     "the_flash": "The Flash",
     "lord fire/henn": "Lord Fire",
     "lord fire": "Lord Fire",
+    "LordFire": "Lord Fire",
     "henn": "Sleepyhenn",
     "sleepyhenn": "Sleepyhenn",
+    "sleepyhen": "Sleepyhenn",
     "lobb/joss": "Lobb",
     "lobb": "Lobb",
     "joss": "Joss",
@@ -78,6 +86,14 @@ PLAYER_ALIASES = {
     "Wiederdude_osen": "Wiederdude",
     "2.0cean": "Ocean",
     "2.Ocean": "Ocean",
+    "dokumenter": "Dokulenteber",
+    "dokulenteber": "Dokulenteber",
+    "daniel": "Daniel",
+    "sjur": "Sjur",
+    "lazer_brawl": "Lazer Brawl",
+    "lazerbrawl": "Lazer Brawl",
+    "mais": "Yaarrf",
+    "yaarrf": "Yaarrf",
 }
 
 
@@ -96,6 +112,17 @@ def normalize_aliases(raw_aliases):
     return normalized
 
 
+def build_display_names(raw_aliases):
+    display_names = {}
+    for value in raw_aliases.values():
+        value = str(value).strip()
+        slug = to_slug(value)
+        if slug:
+            display_names[slug] = value
+    return display_names
+
+
+PLAYER_DISPLAY_NAMES = build_display_names(PLAYER_ALIASES)
 PLAYER_ALIASES = normalize_aliases(PLAYER_ALIASES)
 
 
@@ -305,7 +332,8 @@ def main():
             member_ids = []
             for member_name in member_names:
                 canonical_id = slugify_name(member_name)
-                ensure_player(players, canonical_id, member_name)
+                display_name = PLAYER_DISPLAY_NAMES.get(canonical_id, member_name)
+                ensure_player(players, canonical_id, display_name)
                 member_ids.append(canonical_id)
 
             participants_by_id[challonge_participant_id] = {
