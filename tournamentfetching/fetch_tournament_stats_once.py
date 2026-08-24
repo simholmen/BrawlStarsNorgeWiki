@@ -12,6 +12,18 @@ OUTPUT_PATH = os.path.join(REPO_ROOT, "docs", "_data", "tournament_stats.yml")
 
 TOURNAMENTS = [
     {
+        "id": "mz1",
+        "title": "MZ Turnering #1",
+        "date": "2022-12-10",
+        "challonge_id": "xi3ggjwr",
+    },
+    {
+        "id": "mz2",
+        "title": "MZ Turnering #2",
+        "date": "2023-02-11",
+        "challonge_id": "5dxtwzn1",
+    },
+    {
         "id": "mz3",
         "title": "MZ Turnering #3",
         "date": "2023-05-05",
