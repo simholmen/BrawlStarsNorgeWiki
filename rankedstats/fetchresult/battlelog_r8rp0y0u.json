@@ -1,0 +1,2307 @@
+{
+  "items": [
+    {
+      "battleTime": "20260818T122820.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 30,
+        "trophyChange": -1,
+        "starPlayer": {
+          "tag": "#GJCYUV9J0",
+          "name": "bезжалостный🫦",
+          "brawler": {
+            "id": 16000086,
+            "name": "SHADE",
+            "power": 11,
+            "trophies": 659
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#P8PPQ8L22",
+              "name": "²⁰Umleylas¹⁰",
+              "brawler": {
+                "id": 16000102,
+                "name": "SIRIUS",
+                "power": 10,
+                "trophies": 225
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 245
+              }
+            },
+            {
+              "tag": "#Q2VCG0LRJ",
+              "name": "What is love🍪",
+              "brawler": {
+                "id": 16000085,
+                "name": "KENJI",
+                "power": 11,
+                "trophies": 783
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2G99Q2Q0JG",
+              "name": "ЯR|rtx",
+              "brawler": {
+                "id": 16000011,
+                "name": "MORTIS",
+                "power": 11,
+                "trophies": 1526
+              }
+            },
+            {
+              "tag": "#2YVL089Y8",
+              "name": "🔥🥀ɗ𝑟íᴻ🥀🔥",
+              "brawler": {
+                "id": 16000037,
+                "name": "SPROUT",
+                "power": 11,
+                "trophies": 230
+              }
+            },
+            {
+              "tag": "#GJCYUV9J0",
+              "name": "bезжалостный🫦",
+              "brawler": {
+                "id": 16000086,
+                "name": "SHADE",
+                "power": 11,
+                "trophies": 659
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T122727.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 77,
+        "trophyChange": 20,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 225
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#8JU99QLU0",
+              "name": "LuckyBorn",
+              "brawler": {
+                "id": 16000037,
+                "name": "SPROUT",
+                "power": 7,
+                "trophies": 506
+              }
+            },
+            {
+              "tag": "#P8PPQ8L22",
+              "name": "²⁰Umleylas¹⁰",
+              "brawler": {
+                "id": 16000102,
+                "name": "SIRIUS",
+                "power": 10,
+                "trophies": 205
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 225
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2YYPUL0VUU",
+              "name": "presss35",
+              "brawler": {
+                "id": 16000105,
+                "name": "STARR NOVA",
+                "power": 11,
+                "trophies": 460
+              }
+            },
+            {
+              "tag": "#P0VQQLCGC",
+              "name": "Revan_2K",
+              "brawler": {
+                "id": 16000030,
+                "name": "EMZ",
+                "power": 10,
+                "trophies": 987
+              }
+            },
+            {
+              "tag": "#Y8UCLQQUV",
+              "name": "Rayz",
+              "brawler": {
+                "id": 16000020,
+                "name": "FRANK",
+                "power": 8,
+                "trophies": 990
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T122548.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 71,
+        "trophyChange": 20,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 205
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#P8PPQ8L22",
+              "name": "²⁰Umleylas¹⁰",
+              "brawler": {
+                "id": 16000102,
+                "name": "SIRIUS",
+                "power": 10,
+                "trophies": 185
+              }
+            },
+            {
+              "tag": "#2QPVJQCJ0J",
+              "name": "💀S1rota💀",
+              "brawler": {
+                "id": 16000069,
+                "name": "HANK",
+                "power": 7,
+                "trophies": 171
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 205
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2JL0JP2Q0Y",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000061,
+                "name": "GUS",
+                "power": 10,
+                "trophies": 202
+              }
+            },
+            {
+              "tag": "#20VGYV00LP",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 8,
+                "trophies": 197
+              }
+            },
+            {
+              "tag": "#22CV29YVCC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000105,
+                "name": "STARR NOVA",
+                "power": 8,
+                "trophies": 194
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T122407.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 47,
+        "trophyChange": 20,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 185
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#92C2V8VV0",
+              "name": "0i0",
+              "brawler": {
+                "id": 16000089,
+                "name": "MEEPLE",
+                "power": 7,
+                "trophies": 262
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 185
+              }
+            },
+            {
+              "tag": "#GQ9RY90GJ",
+              "name": "Kratos",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 7,
+                "trophies": 185
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2CGV0Y2PU8",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000026,
+                "name": "BIBI",
+                "power": 5,
+                "trophies": 218
+              }
+            },
+            {
+              "tag": "#2Y89YYV8VP",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000030,
+                "name": "EMZ",
+                "power": 7,
+                "trophies": 196
+              }
+            },
+            {
+              "tag": "#2CL89PRLU9",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000000,
+                "name": "SHELLY",
+                "power": 4,
+                "trophies": 219
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T122203.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 28,
+        "trophyChange": 20,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 165
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 165
+              }
+            },
+            {
+              "tag": "#2QVVYR09R",
+              "name": "NRG|ﾌԾ刀ﾑ丂😉🐉",
+              "brawler": {
+                "id": 16000086,
+                "name": "SHADE",
+                "power": 11,
+                "trophies": 175
+              }
+            },
+            {
+              "tag": "#9GPLV22J9",
+              "name": "CoA|ThundReX",
+              "brawler": {
+                "id": 16000044,
+                "name": "RUFFS",
+                "power": 11,
+                "trophies": 193
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2CLY89UU08",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 10,
+                "trophies": 185
+              }
+            },
+            {
+              "tag": "#2G2UGQJJP8",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000018,
+                "name": "DARRYL",
+                "power": 8,
+                "trophies": 164
+              }
+            },
+            {
+              "tag": "#UCQPJV2RC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 174
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T122110.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 68,
+        "trophyChange": 20,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 145
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98YU2820R",
+              "name": "[LP]GuTrOd",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 10,
+                "trophies": 33
+              }
+            },
+            {
+              "tag": "#PVRYV9LQJ",
+              "name": "ShackaGGwp",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 5,
+                "trophies": 60
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 145
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2JYJ0L90JR",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 6,
+                "trophies": 83
+              }
+            },
+            {
+              "tag": "#2LJY8VQ8U8",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000027,
+                "name": "8-BIT",
+                "power": 8,
+                "trophies": 73
+              }
+            },
+            {
+              "tag": "#2J090QVGGY",
+              "name": "andrejočka",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 8,
+                "trophies": 76
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121938.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 22,
+        "trophyChange": 19,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 126
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98YU2820R",
+              "name": "[LP]GuTrOd",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 10,
+                "trophies": 21
+              }
+            },
+            {
+              "tag": "#PVRYV9LQJ",
+              "name": "ShackaGGwp",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 5,
+                "trophies": 46
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 126
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2CQ9CUJJCC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000000,
+                "name": "SHELLY",
+                "power": 7,
+                "trophies": 71
+              }
+            },
+            {
+              "tag": "#2JUUQGP9Y9",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 6,
+                "trophies": 49
+              }
+            },
+            {
+              "tag": "#2JYJ0L90JR",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 7,
+                "trophies": 50
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121853.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 25,
+        "trophyChange": 18,
+        "starPlayer": {
+          "tag": "#PVRYV9LQJ",
+          "name": "ShackaGGwp",
+          "brawler": {
+            "id": 16000108,
+            "name": "WENDY",
+            "power": 5,
+            "trophies": 33
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98YU2820R",
+              "name": "[LP]GuTrOd",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 10,
+                "trophies": 10
+              }
+            },
+            {
+              "tag": "#PVRYV9LQJ",
+              "name": "ShackaGGwp",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 5,
+                "trophies": 33
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 108
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2UQ8VYQGP9",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 5,
+                "trophies": 64
+              }
+            },
+            {
+              "tag": "#2QCJGJULPV",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 6,
+                "trophies": 60
+              }
+            },
+            {
+              "tag": "#2RQGV9G0PU",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000027,
+                "name": "8-BIT",
+                "power": 7,
+                "trophies": 52
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121804.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 22,
+        "trophyChange": 17,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 91
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 91
+              }
+            },
+            {
+              "tag": "#98YU2820R",
+              "name": "[LP]GuTrOd",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 10,
+                "trophies": 0
+              }
+            },
+            {
+              "tag": "#PVRYV9LQJ",
+              "name": "ShackaGGwp",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 5,
+                "trophies": 21
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2GLR2QLLCG",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 11,
+                "trophies": 51
+              }
+            },
+            {
+              "tag": "#2UC80982UV",
+              "name": "SG|FRAN",
+              "brawler": {
+                "id": 16000038,
+                "name": "SURGE",
+                "power": 10,
+                "trophies": 33
+              }
+            },
+            {
+              "tag": "#2LLGV8RR9Q",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 9,
+                "trophies": 29
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121709.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 32,
+        "trophyChange": 16,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 75
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 75
+              }
+            },
+            {
+              "tag": "#Q9QY8JV8V",
+              "name": "666",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 9,
+                "trophies": 75
+              }
+            },
+            {
+              "tag": "#JRLVRJJU",
+              "name": "SHT captain",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 5,
+                "trophies": 33
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2V0CCPQ2UL",
+              "name": "sla",
+              "brawler": {
+                "id": 16000000,
+                "name": "SHELLY",
+                "power": 10,
+                "trophies": 47
+              }
+            },
+            {
+              "tag": "#2CUY88VULR",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000013,
+                "name": "POCO",
+                "power": 9,
+                "trophies": 65
+              }
+            },
+            {
+              "tag": "#2C00PG02PJ",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 69
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121549.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 43,
+        "trophyChange": 15,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 60
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#88V8JUUL",
+              "name": "oiiii",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 0
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 60
+              }
+            },
+            {
+              "tag": "#9GRJ9YP9U",
+              "name": "[NeMo] Lapka",
+              "brawler": {
+                "id": 16000083,
+                "name": "CLANCY",
+                "power": 1,
+                "trophies": 22
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2JPPP8J2R9",
+              "name": "thiago$",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 11,
+                "trophies": 36
+              }
+            },
+            {
+              "tag": "#2R0CPJCG9C",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 10,
+                "trophies": 26
+              }
+            },
+            {
+              "tag": "#2JJL9YY8RC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000020,
+                "name": "FRANK",
+                "power": 11,
+                "trophies": 30
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121435.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 63,
+        "trophyChange": 14,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 46
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 46
+              }
+            },
+            {
+              "tag": "#2L0Q9VYRQ",
+              "name": "«×Neo 007×»",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 21
+              }
+            },
+            {
+              "tag": "#9GRJ9YP9U",
+              "name": "[NeMo] Lapka",
+              "brawler": {
+                "id": 16000083,
+                "name": "CLANCY",
+                "power": 1,
+                "trophies": 11
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2JGVG2QUGU",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000010,
+                "name": "EL PRIMO",
+                "power": 11,
+                "trophies": 36
+              }
+            },
+            {
+              "tag": "#2UC2YQUY0U",
+              "name": "bryan fx",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 32
+              }
+            },
+            {
+              "tag": "#2UL288CP00",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 31
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121303.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 24,
+        "trophyChange": 13,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 33
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 33
+              }
+            },
+            {
+              "tag": "#2JCPR0YV88",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000000,
+                "name": "SHELLY",
+                "power": 10,
+                "trophies": 39
+              }
+            },
+            {
+              "tag": "#2CQCV8U89R",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 10,
+                "trophies": 47
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#VQPYY82CL",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 10,
+                "trophies": 19
+              }
+            },
+            {
+              "tag": "#2JLJQUYJGC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000018,
+                "name": "DARRYL",
+                "power": 11,
+                "trophies": 36
+              }
+            },
+            {
+              "tag": "#2RPPLU888G",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 8,
+                "trophies": 36
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121154.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 23,
+        "trophyChange": 12,
+        "starPlayer": {
+          "tag": "#Q2G82890Q",
+          "name": "𝐈𝕟𝕗𝕀𝕋𝕐 ⚡",
+          "brawler": {
+            "id": 16000073,
+            "name": "CHUCK",
+            "power": 7,
+            "trophies": 147
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#Q2G82890Q",
+              "name": "𝐈𝕟𝕗𝕀𝕋𝕐 ⚡",
+              "brawler": {
+                "id": 16000073,
+                "name": "CHUCK",
+                "power": 7,
+                "trophies": 147
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 21
+              }
+            },
+            {
+              "tag": "#GRVQ0VQR2",
+              "name": "DRAGO",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 8,
+                "trophies": 148
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#20YJL2V0LY",
+              "name": "DANIL",
+              "brawler": {
+                "id": 16000020,
+                "name": "FRANK",
+                "power": 4,
+                "trophies": 114
+              }
+            },
+            {
+              "tag": "#2LLRL8PYVY",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000027,
+                "name": "8-BIT",
+                "power": 5,
+                "trophies": 116
+              }
+            },
+            {
+              "tag": "#R9JVU09C0",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 6,
+                "trophies": 100
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T121102.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 39,
+        "trophyChange": 11,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000107,
+            "name": "NORI",
+            "power": 11,
+            "trophies": 10
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 10
+              }
+            },
+            {
+              "tag": "#Q2G82890Q",
+              "name": "𝐈𝕟𝕗𝕀𝕋𝕐 ⚡",
+              "brawler": {
+                "id": 16000073,
+                "name": "CHUCK",
+                "power": 7,
+                "trophies": 134
+              }
+            },
+            {
+              "tag": "#GRVQ0VQR2",
+              "name": "DRAGO",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 8,
+                "trophies": 129
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2C8GQG9G9J",
+              "name": "islam_$",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 9,
+                "trophies": 81
+              }
+            },
+            {
+              "tag": "#2J29UUVU0Q",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 11,
+                "trophies": 86
+              }
+            },
+            {
+              "tag": "#2JRG9JVY99",
+              "name": "АМИР",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 96
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260818T120943.000Z",
+      "event": {
+        "id": 15000144,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Sunny Soccer"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 29,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#20YP08QGC",
+          "name": "Ripper",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 9,
+            "trophies": 46
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 0
+              }
+            },
+            {
+              "tag": "#20YP08QGC",
+              "name": "Ripper",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 9,
+                "trophies": 46
+              }
+            },
+            {
+              "tag": "#P0UYJ2PY2",
+              "name": "TTM| MATTIA",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 146
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2QVJV000V2",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 57
+              }
+            },
+            {
+              "tag": "#UJVJRL08L",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000027,
+                "name": "8-BIT",
+                "power": 8,
+                "trophies": 70
+              }
+            },
+            {
+              "tag": "#J9YYUJ29G",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 8,
+                "trophies": 54
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T202303.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 48,
+        "trophyChange": 19,
+        "starPlayer": {
+          "tag": "#GYYPR0P9U",
+          "name": "ZETA|Cokky",
+          "brawler": {
+            "id": 16000096,
+            "name": "TRUNK",
+            "power": 7,
+            "trophies": 60
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2PRUURV8U0",
+              "name": "AZIZOS 🤜",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 4,
+                "trophies": 88
+              }
+            },
+            {
+              "tag": "#GYYPR0P9U",
+              "name": "ZETA|Cokky",
+              "brawler": {
+                "id": 16000096,
+                "name": "TRUNK",
+                "power": 7,
+                "trophies": 60
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 147
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#CVVYGLP0G",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000010,
+                "name": "EL PRIMO",
+                "power": 4,
+                "trophies": 101
+              }
+            },
+            {
+              "tag": "#2U0LV2JCRQ",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000013,
+                "name": "POCO",
+                "power": 4,
+                "trophies": 107
+              }
+            },
+            {
+              "tag": "#2G9UV9P8JY",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000027,
+                "name": "8-BIT",
+                "power": 4,
+                "trophies": 84
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T202152.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 53,
+        "trophyChange": 18,
+        "starPlayer": {
+          "tag": "#GYYPR0P9U",
+          "name": "ZETA|Cokky",
+          "brawler": {
+            "id": 16000096,
+            "name": "TRUNK",
+            "power": 7,
+            "trophies": 46
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#GYYPR0P9U",
+              "name": "ZETA|Cokky",
+              "brawler": {
+                "id": 16000096,
+                "name": "TRUNK",
+                "power": 7,
+                "trophies": 46
+              }
+            },
+            {
+              "tag": "#2PRUURV8U0",
+              "name": "AZIZOS 🤜",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 4,
+                "trophies": 73
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 129
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#UL9YG98V9",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000000,
+                "name": "SHELLY",
+                "power": 4,
+                "trophies": 97
+              }
+            },
+            {
+              "tag": "#2CGC2L9QJ0",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000013,
+                "name": "POCO",
+                "power": 6,
+                "trophies": 76
+              }
+            },
+            {
+              "tag": "#2GVU2Q0G28",
+              "name": "gg/tsmod",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 4,
+                "trophies": 95
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T202035.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 50,
+        "trophyChange": 17,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 11,
+            "trophies": 112
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 112
+              }
+            },
+            {
+              "tag": "#PYQ892R9C",
+              "name": "Tom Bombadil",
+              "brawler": {
+                "id": 16000098,
+                "name": "ZIGGY",
+                "power": 11,
+                "trophies": 129
+              }
+            },
+            {
+              "tag": "#9QCVGL02",
+              "name": "Akiboy69👾",
+              "brawler": {
+                "id": 16000040,
+                "name": "AMBER",
+                "power": 7,
+                "trophies": 21
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2QYGC8RLVY",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 11,
+                "trophies": 82
+              }
+            },
+            {
+              "tag": "#2C9G8GRUUR",
+              "name": "miha_xoxo🦈🤍",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 10,
+                "trophies": 90
+              }
+            },
+            {
+              "tag": "#2UQCPJLJVL",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000010,
+                "name": "EL PRIMO",
+                "power": 10,
+                "trophies": 78
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T201907.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 51,
+        "trophyChange": 16,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 11,
+            "trophies": 96
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 96
+              }
+            },
+            {
+              "tag": "#GYYPR0P9U",
+              "name": "ZETA|Cokky",
+              "brawler": {
+                "id": 16000096,
+                "name": "TRUNK",
+                "power": 7,
+                "trophies": 33
+              }
+            },
+            {
+              "tag": "#2J0C2JGYPY",
+              "name": "kuzey",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 10,
+                "trophies": 75
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2U8P2QQ0VL",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 8,
+                "trophies": 64
+              }
+            },
+            {
+              "tag": "#VQLRJ02VC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 9,
+                "trophies": 55
+              }
+            },
+            {
+              "tag": "#2RYGLQRVGQ",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000020,
+                "name": "FRANK",
+                "power": 10,
+                "trophies": 52
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T201743.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 55,
+        "trophyChange": 15,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 11,
+            "trophies": 81
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9QQU99R0V",
+              "name": "Else le amor🎗️",
+              "brawler": {
+                "id": 16000101,
+                "name": "GLOWY",
+                "power": 7,
+                "trophies": 92
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 81
+              }
+            },
+            {
+              "tag": "#GYJLQRR0L",
+              "name": "Wäschereiniger",
+              "brawler": {
+                "id": 16000090,
+                "name": "OLLIE",
+                "power": 7,
+                "trophies": 0
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2Y8VCY2QVU",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000013,
+                "name": "POCO",
+                "power": 7,
+                "trophies": 60
+              }
+            },
+            {
+              "tag": "#UJJ0JQLPU",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 4,
+                "trophies": 57
+              }
+            },
+            {
+              "tag": "#2C90L0LV2Q",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 7,
+                "trophies": 65
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T201616.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 54,
+        "trophyChange": 14,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 11,
+            "trophies": 67
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9QQU99R0V",
+              "name": "Else le amor🎗️",
+              "brawler": {
+                "id": 16000101,
+                "name": "GLOWY",
+                "power": 7,
+                "trophies": 79
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 67
+              }
+            },
+            {
+              "tag": "#2RU2RJQJL",
+              "name": "TRK|Crox",
+              "brawler": {
+                "id": 16000028,
+                "name": "SANDY",
+                "power": 1,
+                "trophies": 135
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2CRCC2VGUP",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000008,
+                "name": "NITA",
+                "power": 6,
+                "trophies": 104
+              }
+            },
+            {
+              "tag": "#CLVU8LCQ9",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000019,
+                "name": "PENNY",
+                "power": 6,
+                "trophies": 79
+              }
+            },
+            {
+              "tag": "#2PL20P8CCC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 7,
+                "trophies": 105
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T201453.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 48,
+        "trophyChange": 13,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 11,
+            "trophies": 54
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9QQU99R0V",
+              "name": "Else le amor🎗️",
+              "brawler": {
+                "id": 16000101,
+                "name": "GLOWY",
+                "power": 7,
+                "trophies": 67
+              }
+            },
+            {
+              "tag": "#2RU2RJQJL",
+              "name": "TRK|Crox",
+              "brawler": {
+                "id": 16000028,
+                "name": "SANDY",
+                "power": 1,
+                "trophies": 123
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 54
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#280PYQ2RJU",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 5,
+                "trophies": 85
+              }
+            },
+            {
+              "tag": "#2GY0C9VVG9",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000030,
+                "name": "EMZ",
+                "power": 7,
+                "trophies": 79
+              }
+            },
+            {
+              "tag": "#2JY9UGJVUV",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 6,
+                "trophies": 87
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T201338.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 38,
+        "trophyChange": 12,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 11,
+            "trophies": 42
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2RU2RJQJL",
+              "name": "TRK|Crox",
+              "brawler": {
+                "id": 16000028,
+                "name": "SANDY",
+                "power": 1,
+                "trophies": 112
+              }
+            },
+            {
+              "tag": "#QP0C2JP88",
+              "name": "FCB💙❤️wazooota",
+              "brawler": {
+                "id": 16000106,
+                "name": "BOLT",
+                "power": 7,
+                "trophies": 33
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 42
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2QVL0UY89V",
+              "name": "dsc.gg/talemod",
+              "brawler": {
+                "id": 16000010,
+                "name": "EL PRIMO",
+                "power": 1,
+                "trophies": 60
+              }
+            },
+            {
+              "tag": "#2989YVPU0P",
+              "name": "тг-bladebots_bs",
+              "brawler": {
+                "id": 16000027,
+                "name": "8-BIT",
+                "power": 1,
+                "trophies": 60
+              }
+            },
+            {
+              "tag": "#2R0RY0PYVP",
+              "name": "DZCM",
+              "brawler": {
+                "id": 16000000,
+                "name": "SHELLY",
+                "power": 1,
+                "trophies": 56
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260726T201238.000Z",
+      "event": {
+        "id": 15000366,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Split Difference"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 58,
+        "trophyChange": 11,
+        "starPlayer": {
+          "tag": "#R8RP0Y0U",
+          "name": "Joss🦂",
+          "brawler": {
+            "id": 16000104,
+            "name": "DAMIAN",
+            "power": 11,
+            "trophies": 31
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#PLPL29CG",
+              "name": "Nium:c",
+              "brawler": {
+                "id": 16000102,
+                "name": "SIRIUS",
+                "power": 10,
+                "trophies": 70
+              }
+            },
+            {
+              "tag": "#2QGLQP820Y",
+              "name": "LeS|crosyman",
+              "brawler": {
+                "id": 16000098,
+                "name": "ZIGGY",
+                "power": 7,
+                "trophies": 148
+              }
+            },
+            {
+              "tag": "#R8RP0Y0U",
+              "name": "Joss🦂",
+              "brawler": {
+                "id": 16000104,
+                "name": "DAMIAN",
+                "power": 11,
+                "trophies": 31
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2YQGVGY2YU",
+              "name": "тг surgeoffline",
+              "brawler": {
+                "id": 16000000,
+                "name": "SHELLY",
+                "power": 10,
+                "trophies": 95
+              }
+            },
+            {
+              "tag": "#2QCP9QQ2UJ",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 10,
+                "trophies": 79
+              }
+            },
+            {
+              "tag": "#2LR9YRP8GG",
+              "name": "robin",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 9,
+                "trophies": 95
+              }
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "paging": {
+    "cursors": {}
+  }
+}

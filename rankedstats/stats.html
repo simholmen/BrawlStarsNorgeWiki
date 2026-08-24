@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ranked Stats</title>
+<!--
+  rankedstats/stats.html — standalone local ranked-stats viewer.
+
+  This page is LOCAL-ONLY. It is meant to be opened directly from disk as a `file://` URL (or
+  served by any static file server you happen to have handy) — it is deliberately NOT wired into
+  the Jekyll site under `docs/`, has no Jekyll front matter, and does not load `docs/style.css`.
+  All styling below is self-contained inline CSS so the page renders identically no matter how it
+  is opened.
+
+  It talks directly to Supabase's PostgREST API via the `@supabase/supabase-js` v2 UMD bundle
+  loaded from the jsdelivr CDN below — no build step, no bundler, no npm install, no
+  `package.json`. Every query in this file is a plain SELECT against one of the `v_player_*`
+  views defined in `rankedstats/migrations/003_views.sql`; it never queries `ranked_sets`,
+  `set_participants`, or `battles` directly, and it never writes/inserts/updates/deletes anything.
+
+  The Supabase URL and key hardcoded below are a PUBLISHABLE (anon) key — a deliberately different,
+  weaker credential than the elevated write-capable key used by the server-side ingest script — so
+  it is safe to commit. Every table and view this page can see is governed by row-level security
+  policies that only ever grant SELECT to the `anon`/`authenticated` roles (see 001_init.sql and
+  003_views.sql), so this key cannot write anything even if asked to.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --border-color: #d9d9d9;
+    --header-bg: #f4f4f4;
+    --status-loading: #6b6b6b;
+    --status-error: #a4262c;
+    --status-empty: #6b6b6b;
+    --badge-bg: #2e7d32;
+    --rank-badge-bg: #8a5a00;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 24px;
+    color: #1a1a1a;
+    background: #ffffff;
+  }
+
+  h1 {
+    margin: 0 0 4px 0;
+    font-size: 1.6em;
+  }
+
+  h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+  }
+
+  .subtitle {
+    color: #6b6b6b;
+    margin: 0 0 20px 0;
+    font-size: 0.9em;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--header-bg);
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .control-group label {
+    font-size: 0.8em;
+    color: #444;
+  }
+
+  select, input[type="number"] {
+    padding: 6px 8px;
+    font-size: 0.95em;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+  }
+
+  select {
+    min-width: 220px;
+  }
+
+  input[type="number"] {
+    width: 80px;
+  }
+
+  section.stats-section {
+    margin-bottom: 32px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.92em;
+  }
+
+  table th, table td {
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    text-align: left;
+  }
+
+  table th {
+    background: var(--header-bg);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  table th:hover {
+    background: #e9e9e9;
+  }
+
+  table th[data-order]::after {
+    content: " \25B4";
+  }
+
+  table th[data-order="desc"]::after {
+    content: " \25BE";
+  }
+
+  tr.filtered-out {
+    display: none;
+  }
+
+  .status {
+    margin: 4px 0;
+    font-style: italic;
+  }
+
+  .status.loading {
+    color: var(--status-loading);
+  }
+
+  .status.error {
+    color: var(--status-error);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .status.empty {
+    color: var(--status-empty);
+  }
+
+  .overall-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .overall-stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .overall-stat .value {
+    font-size: 1.4em;
+    font-weight: 600;
+  }
+
+  .overall-stat .label {
+    font-size: 0.8em;
+    color: #6b6b6b;
+  }
+
+  .badge-tracked {
+    display: inline-block;
+    padding: 1px 6px;
+    margin-left: 6px;
+    border-radius: 10px;
+    background: var(--badge-bg);
+    color: #ffffff;
+    font-size: 0.75em;
+    font-weight: 600;
+  }
+
+  .rank-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    margin-left: 6px;
+    border-radius: 10px;
+    background: var(--rank-badge-bg);
+    color: #ffffff;
+    font-size: 0.6em;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<h1>Ranked Stats</h1>
+<p class="subtitle">Local stats viewer — reads directly from Supabase. Not part of the Jekyll site.</p>
+
+<div class="controls">
+  <div class="control-group">
+    <label for="player-select">Player</label>
+    <select id="player-select">
+      <option value="">Loading players...</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label for="min-sample-input">Minimum sets (filter)</label>
+    <input type="number" id="min-sample-input" value="3" min="0" step="1">
+  </div>
+</div>
+
+<p id="player-list-status" class="status" style="display: none;"></p>
+
+<!-- ===================== SECTION 1: OVERALL ===================== -->
+<section class="stats-section" id="overall-section">
+  <h2>Overall</h2>
+  <div id="overall-content">
+    <p class="status empty">Select a player to view stats.</p>
+  </div>
+</section>
+
+<!-- ===================== SECTION 2: BY MAP ===================== -->
+<section class="stats-section" id="map-section">
+  <h2>By map</h2>
+  <div id="map-content">
+    <p class="status empty">Select a player to view stats.</p>
+  </div>
+</section>
+
+<!-- ===================== SECTION 3: BY BRAWLER ===================== -->
+<section class="stats-section" id="brawler-section">
+  <h2>By brawler</h2>
+  <div id="brawler-content">
+    <p class="status empty">Select a player to view stats.</p>
+  </div>
+</section>
+
+<!-- ===================== SECTION 4: TEAMMATES ===================== -->
+<section class="stats-section" id="teammate-section">
+  <h2>Teammates</h2>
+  <div id="teammate-content">
+    <p class="status empty">Select a player to view stats.</p>
+  </div>
+</section>
+
+<!-- ===================== SECTION 5: RECENT MATCHES ===================== -->
+<section class="stats-section" id="recent-section">
+  <h2>Last 10 matches</h2>
+  <div id="recent-content">
+    <p class="status empty">Select a player to view stats.</p>
+  </div>
+  <div id="match-detail-content"></div>
+</section>
+
+<script>
+
+  // =========================================================================================
+  // === CONFIG ===
+  // === Publishable key only (RLS/grants govern access, SELECT-only). Safe to commit.
+  // =========================================================================================
+
+  const SUPABASE_URL = "https://pojzifcfobmsnsvrnvob.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_3WuJOVb5GuP4h6fCBGBV-Q_HjOjfH54";
+
+  // Named `sb`, never `supabase` at top level — the UMD bundle above occupies the global
+  // `window.supabase`, so shadowing that name with a top-level `const supabase = ...` would break it.
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+  // =========================================================================================
+  // === DOM HELPERS ===
+  // =========================================================================================
+
+  function clearElement(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  function setStatus(container, statusClass, message) {
+    clearElement(container);
+    const paragraph = document.createElement("p");
+    paragraph.className = "status " + statusClass;
+    paragraph.textContent = message;
+    container.appendChild(paragraph);
+  }
+
+  function formatWinrate(winrate) {
+    if (winrate === null || winrate === undefined) {
+      return "—";
+    }
+    return (winrate * 100).toFixed(1) + "%";
+  }
+
+  function makeCell(text) {
+    const cell = document.createElement("td");
+    cell.textContent = text;
+    return cell;
+  }
+
+  // =========================================================================================
+  // === SORT HELPER ===
+  // === Mirrors the click-to-sort pattern from docs/script.js:3-21 (toggle asc/desc via a
+  // === data-order attribute on the clicked header cell, parseFloat compare when both cells in
+  // === the column are numeric, otherwise localeCompare) — generalized here to take an arbitrary
+  // === table element and column index instead of a single hardcoded table id.
+  // =========================================================================================
+
+  function sortTableByColumn(table, columnIndex) {
+    const headerRow = table.tHead.rows[0];
+    const headerCell = headerRow.cells[columnIndex];
+    const isAscending = headerCell.getAttribute("data-order") === "asc";
+    const rows = Array.from(table.tBodies[0].rows);
+
+    rows.sort(function (rowA, rowB) {
+      const textA = rowA.cells[columnIndex].textContent.trim();
+      const textB = rowB.cells[columnIndex].textContent.trim();
+      const numA = parseFloat(textA.replace(/[%\s]/g, ""));
+      const numB = parseFloat(textB.replace(/[%\s]/g, ""));
+      if (!isNaN(numA) && !isNaN(numB)) {
+        return isAscending ? numA - numB : numB - numA;
+      }
+      return isAscending ? textA.localeCompare(textB) : textB.localeCompare(textA);
+    });
+
+    rows.forEach(function (row) {
+      table.tBodies[0].appendChild(row);
+    });
+
+    for (let i = 0; i < headerRow.cells.length; i++) {
+      if (i !== columnIndex) {
+        headerRow.cells[i].removeAttribute("data-order");
+      }
+    }
+    headerCell.setAttribute("data-order", isAscending ? "desc" : "asc");
+  }
+
+  function makeSortableHeader(table, columnIndex, label) {
+    const th = document.createElement("th");
+    th.textContent = label;
+    th.addEventListener("click", function () {
+      sortTableByColumn(table, columnIndex);
+    });
+    return th;
+  }
+
+  // =========================================================================================
+  // === MIN-SAMPLE FILTER ===
+  // === Client-side only: every filterable row carries a data-sets attribute with the row's
+  // === sample size, set once at render time. Changing the threshold input just toggles the
+  // === "filtered-out" class on already-rendered rows — no re-query.
+  // =========================================================================================
+
+  function applyMinSampleFilter() {
+    const minSampleInput = document.getElementById("min-sample-input");
+    const threshold = parseInt(minSampleInput.value, 10) || 0;
+    const filterableTableIds = ["map-table", "brawler-table", "teammate-table"];
+
+    filterableTableIds.forEach(function (tableId) {
+      const table = document.getElementById(tableId);
+      if (!table || !table.tBodies[0]) {
+        return;
+      }
+      const rows = Array.from(table.tBodies[0].rows);
+      rows.forEach(function (row) {
+        const rowSampleSize = parseInt(row.getAttribute("data-sets"), 10) || 0;
+        if (rowSampleSize < threshold) {
+          row.classList.add("filtered-out");
+        } else {
+          row.classList.remove("filtered-out");
+        }
+      });
+    });
+  }
+
+  document.getElementById("min-sample-input").addEventListener("input", applyMinSampleFilter);
+
+  // =========================================================================================
+  // === PLAYER PICKER ===
+  // =========================================================================================
+
+  async function loadPlayers() {
+    const select = document.getElementById("player-select");
+    const listStatus = document.getElementById("player-list-status");
+
+    const { data, error } = await sb
+      .from("players")
+      .select("tag,name")
+      .eq("is_tracked", true)
+      .order("name");
+
+    clearElement(select);
+
+    if (error) {
+      listStatus.style.display = "block";
+      listStatus.className = "status error";
+      listStatus.textContent = "Error loading players: " + error.message;
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "(failed to load players)";
+      select.appendChild(placeholder);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      listStatus.style.display = "block";
+      listStatus.className = "status empty";
+      listStatus.textContent = "No tracked players found yet.";
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "(no tracked players)";
+      select.appendChild(placeholder);
+      return;
+    }
+
+    listStatus.style.display = "none";
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "-- choose a player --";
+    select.appendChild(placeholder);
+
+    data.forEach(function (player) {
+      const option = document.createElement("option");
+      option.value = player.tag;
+      option.textContent = player.name || player.tag;
+      select.appendChild(option);
+    });
+  }
+
+  function onPlayerSelected() {
+    const select = document.getElementById("player-select");
+    const tag = select.value;
+
+    if (!tag) {
+      const emptyMessage = "Select a player to view stats.";
+      setStatus(document.getElementById("overall-content"), "empty", emptyMessage);
+      setStatus(document.getElementById("map-content"), "empty", emptyMessage);
+      setStatus(document.getElementById("brawler-content"), "empty", emptyMessage);
+      setStatus(document.getElementById("teammate-content"), "empty", emptyMessage);
+      setStatus(document.getElementById("recent-content"), "empty", emptyMessage);
+      clearElement(document.getElementById("match-detail-content"));
+      return;
+    }
+
+    loadOverall(tag);
+    loadMapStats(tag);
+    loadBrawlerStats(tag);
+    loadTeammates(tag);
+    loadRecentMatches(tag);
+  }
+
+  document.getElementById("player-select").addEventListener("change", onPlayerSelected);
+
+  // =========================================================================================
+  // === SECTION 1: OVERALL ===
+  // =========================================================================================
+
+  async function loadOverall(tag) {
+    const container = document.getElementById("overall-content");
+    setStatus(container, "loading", "Loading...");
+
+    const [overallResult, currentRankResult] = await Promise.all([
+      sb.from("v_player_overall").select("*").eq("player_tag", tag),
+      sb.from("v_player_current_rank").select("rank_label").eq("player_tag", tag),
+    ]);
+
+    const { data, error } = overallResult;
+
+    if (error) {
+      setStatus(container, "error", "Error: " + error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      setStatus(container, "empty", "No ranked sets recorded yet.");
+      return;
+    }
+
+    const currentRankLabel =
+      currentRankResult.data && currentRankResult.data[0]
+        ? currentRankResult.data[0].rank_label
+        : null;
+
+    renderOverall(container, data[0], currentRankLabel);
+  }
+
+  function renderOverall(container, row, currentRankLabel) {
+    clearElement(container);
+
+    const summary = document.createElement("div");
+    summary.className = "overall-summary";
+
+    const stats = [
+      { label: "Sets played", value: String(row.sets_played) },
+      { label: "Wins", value: String(row.wins) },
+      { label: "Losses", value: String(row.losses) },
+      { label: "Draws", value: String(row.draws) },
+      { label: "Winrate", value: formatWinrate(row.winrate) },
+    ];
+
+    stats.forEach(function (stat) {
+      const statBlock = document.createElement("div");
+      statBlock.className = "overall-stat";
+
+      const valueEl = document.createElement("span");
+      valueEl.className = "value";
+      valueEl.textContent = stat.value;
+
+      if (stat.label === "Winrate" && currentRankLabel) {
+        const rankBadge = document.createElement("span");
+        rankBadge.className = "rank-badge";
+        rankBadge.textContent = currentRankLabel;
+        valueEl.appendChild(rankBadge);
+      }
+
+      const labelEl = document.createElement("span");
+      labelEl.className = "label";
+      labelEl.textContent = stat.label;
+
+      statBlock.appendChild(valueEl);
+      statBlock.appendChild(labelEl);
+      summary.appendChild(statBlock);
+    });
+
+    container.appendChild(summary);
+  }
+
+  // =========================================================================================
+  // === SECTION 2: BY MAP ===
+  // =========================================================================================
+
+  async function loadMapStats(tag) {
+    const container = document.getElementById("map-content");
+    setStatus(container, "loading", "Loading...");
+
+    const { data, error } = await sb
+      .from("v_player_map")
+      .select("*")
+      .eq("player_tag", tag)
+      .order("sets_played", { ascending: false });
+
+    if (error) {
+      setStatus(container, "error", "Error: " + error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      setStatus(container, "empty", "No ranked sets recorded yet.");
+      return;
+    }
+
+    renderMapTable(container, data);
+    applyMinSampleFilter();
+  }
+
+  function renderMapTable(container, rows) {
+    clearElement(container);
+
+    const table = document.createElement("table");
+    table.id = "map-table";
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    const columnLabels = ["Mode", "Map", "Sets", "Wins", "Losses", "Draws", "Winrate"];
+    columnLabels.forEach(function (label, index) {
+      headerRow.appendChild(makeSortableHeader(table, index, label));
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    rows.forEach(function (row) {
+      const tr = document.createElement("tr");
+      tr.setAttribute("data-sets", String(row.sets_played));
+      tr.appendChild(makeCell(row.mode));
+      tr.appendChild(makeCell(row.map));
+      tr.appendChild(makeCell(String(row.sets_played)));
+      tr.appendChild(makeCell(String(row.wins)));
+      tr.appendChild(makeCell(String(row.losses)));
+      tr.appendChild(makeCell(String(row.draws)));
+      tr.appendChild(makeCell(formatWinrate(row.winrate)));
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    container.appendChild(table);
+  }
+
+  // =========================================================================================
+  // === SECTION 3: BY BRAWLER ===
+  // =========================================================================================
+
+  async function loadBrawlerStats(tag) {
+    const container = document.getElementById("brawler-content");
+    setStatus(container, "loading", "Loading...");
+
+    const { data, error } = await sb
+      .from("v_player_brawler")
+      .select("*")
+      .eq("player_tag", tag)
+      .order("sets_played", { ascending: false });
+
+    if (error) {
+      setStatus(container, "error", "Error: " + error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      setStatus(container, "empty", "No ranked sets recorded yet.");
+      return;
+    }
+
+    renderBrawlerTable(container, data);
+    applyMinSampleFilter();
+  }
+
+  function renderBrawlerTable(container, rows) {
+    clearElement(container);
+
+    const table = document.createElement("table");
+    table.id = "brawler-table";
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    const columnLabels = ["Brawler", "Sets", "Wins", "Losses", "Draws", "Winrate"];
+    columnLabels.forEach(function (label, index) {
+      headerRow.appendChild(makeSortableHeader(table, index, label));
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    rows.forEach(function (row) {
+      const tr = document.createElement("tr");
+      tr.setAttribute("data-sets", String(row.sets_played));
+      tr.appendChild(makeCell(row.brawler_name || String(row.brawler_id)));
+      tr.appendChild(makeCell(String(row.sets_played)));
+      tr.appendChild(makeCell(String(row.wins)));
+      tr.appendChild(makeCell(String(row.losses)));
+      tr.appendChild(makeCell(String(row.draws)));
+      tr.appendChild(makeCell(formatWinrate(row.winrate)));
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    container.appendChild(table);
+  }
+
+  // =========================================================================================
+  // === SECTION 4: TEAMMATES ===
+  // =========================================================================================
+
+  async function loadTeammates(tag) {
+    const container = document.getElementById("teammate-content");
+    setStatus(container, "loading", "Loading...");
+
+    const { data, error } = await sb
+      .from("v_player_teammate")
+      .select("*")
+      .eq("player_tag", tag)
+      .order("sets_together", { ascending: false });
+
+    if (error) {
+      setStatus(container, "error", "Error: " + error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      setStatus(container, "empty", "No ranked sets recorded yet.");
+      return;
+    }
+
+    renderTeammateTable(container, data);
+    applyMinSampleFilter();
+  }
+
+  function renderTeammateTable(container, rows) {
+    clearElement(container);
+
+    const table = document.createElement("table");
+    table.id = "teammate-table";
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    const columnLabels = ["Teammate", "Tag", "Sets together", "Wins", "Winrate"];
+    columnLabels.forEach(function (label, index) {
+      headerRow.appendChild(makeSortableHeader(table, index, label));
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    rows.forEach(function (row) {
+      const tr = document.createElement("tr");
+      tr.setAttribute("data-sets", String(row.sets_together));
+
+      const nameCell = document.createElement("td");
+      nameCell.textContent = row.teammate_name || row.teammate_tag;
+      if (row.teammate_is_tracked) {
+        const badge = document.createElement("span");
+        badge.className = "badge-tracked";
+        badge.textContent = "Roster";
+        nameCell.appendChild(badge);
+      }
+      tr.appendChild(nameCell);
+
+      tr.appendChild(makeCell(row.teammate_tag));
+      tr.appendChild(makeCell(String(row.sets_together)));
+      tr.appendChild(makeCell(String(row.wins)));
+      tr.appendChild(makeCell(formatWinrate(row.winrate)));
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    container.appendChild(table);
+  }
+
+  // =========================================================================================
+  // === SECTION 5: RECENT MATCHES ===
+  // =========================================================================================
+
+  function formatDateTime(isoString) {
+    if (!isoString) {
+      return "—";
+    }
+    return new Date(isoString).toLocaleString();
+  }
+
+  async function loadRecentMatches(tag) {
+    const container = document.getElementById("recent-content");
+    setStatus(container, "loading", "Loading...");
+    clearElement(document.getElementById("match-detail-content"));
+
+    const { data, error } = await sb
+      .from("v_player_recent")
+      .select("*")
+      .eq("player_tag", tag)
+      .order("ended_at", { ascending: false })
+      .limit(10);
+
+    if (error) {
+      setStatus(container, "error", "Error: " + error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      setStatus(container, "empty", "No ranked sets recorded yet.");
+      return;
+    }
+
+    renderRecentTable(container, data);
+  }
+
+  function renderRecentTable(container, rows) {
+    clearElement(container);
+
+    const table = document.createElement("table");
+    table.id = "recent-table";
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    ["Date", "Mode", "Map", "Brawler", "Result"].forEach(function (label) {
+      const th = document.createElement("th");
+      th.textContent = label;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    rows.forEach(function (row) {
+      const tr = document.createElement("tr");
+      tr.style.cursor = "pointer";
+      tr.appendChild(makeCell(formatDateTime(row.ended_at)));
+      tr.appendChild(makeCell(row.mode));
+      tr.appendChild(makeCell(row.map));
+      tr.appendChild(makeCell(row.brawler_name));
+      tr.appendChild(makeCell(row.result));
+      tr.addEventListener("click", function () {
+        loadMatchDetail(row.set_id);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    container.appendChild(table);
+  }
+
+  async function loadMatchDetail(setId) {
+    const container = document.getElementById("match-detail-content");
+    setStatus(container, "loading", "Loading match detail...");
+
+    const { data, error } = await sb
+      .from("v_set_detail")
+      .select("*")
+      .eq("set_id", setId);
+
+    if (error) {
+      setStatus(container, "error", "Error: " + error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      setStatus(container, "empty", "Match detail not found.");
+      return;
+    }
+
+    renderMatchDetail(container, data[0]);
+  }
+
+  function renderMatchDetail(container, set) {
+    clearElement(container);
+
+    const heading = document.createElement("h3");
+    heading.textContent = set.mode + " — " + set.map;
+    container.appendChild(heading);
+
+    const summaryList = document.createElement("ul");
+    const summaryItems = [
+      "Started: " + formatDateTime(set.started_at),
+      "Ended: " + formatDateTime(set.ended_at),
+      "Games played: " + set.games_played,
+      "Team 0 wins: " + set.team0_wins,
+      "Team 1 wins: " + set.team1_wins,
+      "Winning team: " +
+        (set.winning_team_index === null || set.winning_team_index === undefined
+          ? "— (draw / unresolved)"
+          : "Team " + set.winning_team_index),
+      "Complete: " + (set.is_complete ? "yes" : "no"),
+    ];
+    summaryItems.forEach(function (text) {
+      const li = document.createElement("li");
+      li.textContent = text;
+      summaryList.appendChild(li);
+    });
+    container.appendChild(summaryList);
+
+    const participants = set.participants || [];
+    [0, 1].forEach(function (teamIndex) {
+      const teamHeading = document.createElement("h4");
+      teamHeading.textContent = "Team " + teamIndex;
+      container.appendChild(teamHeading);
+
+      const teamTable = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      ["Player", "Tag", "Brawler", "Power", "Rank"].forEach(function (label) {
+        const th = document.createElement("th");
+        th.textContent = label;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      teamTable.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      participants
+        .filter(function (participant) {
+          return participant.team_index === teamIndex;
+        })
+        .forEach(function (participant) {
+          const tr = document.createElement("tr");
+          tr.appendChild(makeCell(participant.player_name || participant.player_tag));
+          tr.appendChild(makeCell(participant.player_tag));
+          tr.appendChild(makeCell(participant.brawler_name));
+          tr.appendChild(makeCell(String(participant.brawler_power)));
+          tr.appendChild(makeCell(participant.rank_label || String(participant.rank_value)));
+          tbody.appendChild(tr);
+        });
+      teamTable.appendChild(tbody);
+
+      container.appendChild(teamTable);
+    });
+
+    const gamesHeading = document.createElement("h4");
+    gamesHeading.textContent = "Games";
+    container.appendChild(gamesHeading);
+
+    const gamesTable = document.createElement("table");
+    const gamesThead = document.createElement("thead");
+    const gamesHeaderRow = document.createElement("tr");
+    ["#", "Battle time", "Duration (s)", "Winning team", "Star player"].forEach(function (label) {
+      const th = document.createElement("th");
+      th.textContent = label;
+      gamesHeaderRow.appendChild(th);
+    });
+    gamesThead.appendChild(gamesHeaderRow);
+    gamesTable.appendChild(gamesThead);
+
+    const gamesTbody = document.createElement("tbody");
+    const games = set.games || [];
+    games.forEach(function (game) {
+      const tr = document.createElement("tr");
+      tr.appendChild(makeCell(String(game.game_number)));
+      tr.appendChild(makeCell(formatDateTime(game.battle_time)));
+      tr.appendChild(makeCell(String(game.duration)));
+      tr.appendChild(
+        makeCell(
+          game.winning_team_index === null || game.winning_team_index === undefined
+            ? "draw"
+            : "Team " + game.winning_team_index
+        )
+      );
+      tr.appendChild(makeCell(game.star_player_tag || "—"));
+      gamesTbody.appendChild(tr);
+    });
+    gamesTable.appendChild(gamesTbody);
+
+    container.appendChild(gamesTable);
+  }
+
+  // =========================================================================================
+  // === INIT ===
+  // =========================================================================================
+
+  loadPlayers();
+
+</script>
+
+</body>
+</html>

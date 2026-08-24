@@ -1,0 +1,2307 @@
+{
+  "items": [
+    {
+      "battleTime": "20260630T193823.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 105,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#9G88LYGV",
+          "name": "Oliver",
+          "brawler": {
+            "id": 16000081,
+            "name": "LILY",
+            "power": 11,
+            "trophies": 1470
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000038,
+                "name": "SURGE",
+                "power": 11,
+                "trophies": 1000
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1470
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1228
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2JV90G20C9",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 1199
+              }
+            },
+            {
+              "tag": "#2JQ2JU892R",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000048,
+                "name": "GROM",
+                "power": 10,
+                "trophies": 1218
+              }
+            },
+            {
+              "tag": "#2CYQYJJL08",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 10,
+                "trophies": 1218
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T193540.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 80,
+        "trophyChange": -7,
+        "starPlayer": {
+          "tag": "#9G2VU0C9U",
+          "name": "mortik",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1273
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1478
+              }
+            },
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1372
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1235
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#R2C0LGJ28",
+              "name": "XDn4k 🚭",
+              "brawler": {
+                "id": 16000015,
+                "name": "PIPER",
+                "power": 11,
+                "trophies": 992
+              }
+            },
+            {
+              "tag": "#9G2VU0C9U",
+              "name": "mortik",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1273
+              }
+            },
+            {
+              "tag": "#YVPRVC9UQ",
+              "name": "Боец",
+              "brawler": {
+                "id": 16000011,
+                "name": "MORTIS",
+                "power": 11,
+                "trophies": 1258
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T193342.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 100,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#9G88LYGV",
+          "name": "Oliver",
+          "brawler": {
+            "id": 16000081,
+            "name": "LILY",
+            "power": 11,
+            "trophies": 1468
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1468
+              }
+            },
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1362
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1225
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#YJYRQRR2J",
+              "name": "w0wsz",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 10,
+                "trophies": 416
+              }
+            },
+            {
+              "tag": "#2UUUQ9GQJU",
+              "name": "RASOX",
+              "brawler": {
+                "id": 16000030,
+                "name": "EMZ",
+                "power": 10,
+                "trophies": 636
+              }
+            },
+            {
+              "tag": "#9V22CQ2J",
+              "name": "AM|Oversaes🇦🇲",
+              "brawler": {
+                "id": 16000015,
+                "name": "PIPER",
+                "power": 11,
+                "trophies": 1027
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T193132.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 196,
+        "trophyChange": -7,
+        "starPlayer": {
+          "tag": "#2UU8JYR2P0",
+          "name": "YAVUZ 75 🇹🇷",
+          "brawler": {
+            "id": 16000043,
+            "name": "EDGAR",
+            "power": 11,
+            "trophies": 2042
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1370
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1476
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1232
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2CLVQ88JQV",
+              "name": "Fut |Finn",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1131
+              }
+            },
+            {
+              "tag": "#J0U8JJQ8Q",
+              "name": "Вадим вітровий",
+              "brawler": {
+                "id": 16000038,
+                "name": "SURGE",
+                "power": 9,
+                "trophies": 1032
+              }
+            },
+            {
+              "tag": "#2UU8JYR2P0",
+              "name": "YAVUZ 75 🇹🇷",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 2042
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T192747.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 77,
+        "trophyChange": 11,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1221
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#V9JGV8GCL",
+              "name": "G/gr8ant$",
+              "brawler": {
+                "id": 16000011,
+                "name": "MORTIS",
+                "power": 11,
+                "trophies": 1244
+              }
+            },
+            {
+              "tag": "#2RCCV0VQVL",
+              "name": "Brawl stars",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 1736
+              }
+            },
+            {
+              "tag": "#YY2J0JRRR",
+              "name": "oklm\\TTP🏆",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 11,
+                "trophies": 1211
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1359
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1465
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1221
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T192602.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 50,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1211
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1349
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1211
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1455
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2JVPUPJUQU",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1311
+              }
+            },
+            {
+              "tag": "#2VPRVVRJRV",
+              "name": "Django",
+              "brawler": {
+                "id": 16000048,
+                "name": "GROM",
+                "power": 11,
+                "trophies": 1310
+              }
+            },
+            {
+              "tag": "#2R9L28R9LY",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 11,
+                "trophies": 1310
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T192441.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 161,
+        "trophyChange": -7,
+        "starPlayer": {
+          "tag": "#2YGVQUVPR0",
+          "name": "Ali grand",
+          "brawler": {
+            "id": 16000011,
+            "name": "MORTIS",
+            "power": 11,
+            "trophies": 2026
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1357
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1218
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1463
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2YGVQUVPR0",
+              "name": "Ali grand",
+              "brawler": {
+                "id": 16000011,
+                "name": "MORTIS",
+                "power": 11,
+                "trophies": 2026
+              }
+            },
+            {
+              "tag": "#L8UP8JG89",
+              "name": "NT|Samurai xx ⚔",
+              "brawler": {
+                "id": 16000037,
+                "name": "SPROUT",
+                "power": 11,
+                "trophies": 849
+              }
+            },
+            {
+              "tag": "#JGV0YPL0R",
+              "name": "🦣🦣🦣",
+              "brawler": {
+                "id": 16000027,
+                "name": "8-BIT",
+                "power": 11,
+                "trophies": 1065
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T192132.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 129,
+        "trophyChange": -7,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1225
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1365
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1471
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1225
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#P0UQ08992",
+              "name": "August",
+              "brawler": {
+                "id": 16000042,
+                "name": "BYRON",
+                "power": 11,
+                "trophies": 1016
+              }
+            },
+            {
+              "tag": "#2JRYP0G0U",
+              "name": "Erpy",
+              "brawler": {
+                "id": 16000054,
+                "name": "FANG",
+                "power": 11,
+                "trophies": 967
+              }
+            },
+            {
+              "tag": "#88YGVG0Y2",
+              "name": "Abyss|Dark Ice༄",
+              "brawler": {
+                "id": 16000046,
+                "name": "BELLE",
+                "power": 11,
+                "trophies": 1037
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T191851.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 166,
+        "trophyChange": 15,
+        "starPlayer": {
+          "tag": "#LRQ0VQ8QU",
+          "name": "DE-IDENTIFIED",
+          "brawler": {
+            "id": 16000064,
+            "name": "GRAY",
+            "power": 11,
+            "trophies": 1219
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1352
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1456
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1210
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#22U9VRUG2",
+              "name": "jaimeslespatate",
+              "brawler": {
+                "id": 16000065,
+                "name": "MANDY",
+                "power": 11,
+                "trophies": 1122
+              }
+            },
+            {
+              "tag": "#GVVRPGGYY",
+              "name": "KDF|Kuza",
+              "brawler": {
+                "id": 16000011,
+                "name": "MORTIS",
+                "power": 11,
+                "trophies": 1474
+              }
+            },
+            {
+              "tag": "#LRQ0VQ8QU",
+              "name": "DE-IDENTIFIED",
+              "brawler": {
+                "id": 16000064,
+                "name": "GRAY",
+                "power": 11,
+                "trophies": 1219
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T191531.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 77,
+        "trophyChange": 14,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1196
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1340
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1442
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1196
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2YJVP8CJL",
+              "name": "Amarillo",
+              "brawler": {
+                "id": 16000022,
+                "name": "TICK",
+                "power": 11,
+                "trophies": 1134
+              }
+            },
+            {
+              "tag": "#PLGC9YQPL",
+              "name": "Cat master",
+              "brawler": {
+                "id": 16000054,
+                "name": "FANG",
+                "power": 11,
+                "trophies": 1614
+              }
+            },
+            {
+              "tag": "#QJCPL9LCU",
+              "name": "AUGUST",
+              "brawler": {
+                "id": 16000038,
+                "name": "SURGE",
+                "power": 11,
+                "trophies": 1066
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T191340.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 45,
+        "trophyChange": 13,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1183
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2GUPRYRJUJ",
+              "name": "🖤 Faon4ik 🤡",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 11,
+                "trophies": 1210
+              }
+            },
+            {
+              "tag": "#2R89LUJ08J",
+              "name": "VOKILAST",
+              "brawler": {
+                "id": 16000015,
+                "name": "PIPER",
+                "power": 11,
+                "trophies": 660
+              }
+            },
+            {
+              "tag": "#2CJ988L8C0",
+              "name": "PM|ZAYKA",
+              "brawler": {
+                "id": 16000042,
+                "name": "BYRON",
+                "power": 11,
+                "trophies": 1502
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1329
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1429
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1183
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T191212.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 119,
+        "trophyChange": 12,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1171
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#P0YVV29CY",
+              "name": "!Gtrŕ.🕊️",
+              "brawler": {
+                "id": 16000039,
+                "name": "COLETTE",
+                "power": 11,
+                "trophies": 1514
+              }
+            },
+            {
+              "tag": "#8YY9L8Q",
+              "name": "ELGRECO",
+              "brawler": {
+                "id": 16000022,
+                "name": "TICK",
+                "power": 11,
+                "trophies": 1373
+              }
+            },
+            {
+              "tag": "#G9RU2Y2U",
+              "name": "Maruko",
+              "brawler": {
+                "id": 16000064,
+                "name": "GRAY",
+                "power": 11,
+                "trophies": 1835
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1417
+              }
+            },
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000014,
+                "name": "BO",
+                "power": 11,
+                "trophies": 1319
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1171
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T175450.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 78,
+        "trophyChange": 11,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1160
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1160
+              }
+            },
+            {
+              "tag": "#PLUC20JU8",
+              "name": "faultier",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 11,
+                "trophies": 1108
+              }
+            },
+            {
+              "tag": "#GGJ2QU0C9",
+              "name": "Elenix Poseidón",
+              "brawler": {
+                "id": 16000042,
+                "name": "BYRON",
+                "power": 11,
+                "trophies": 1193
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#29QJ8CP88U",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 1148
+              }
+            },
+            {
+              "tag": "#2UQ22UCUCY",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 11,
+                "trophies": 1132
+              }
+            },
+            {
+              "tag": "#RYGRGRPJU",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000015,
+                "name": "PIPER",
+                "power": 10,
+                "trophies": 1150
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T153142.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 70,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1150
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000045,
+                "name": "STU",
+                "power": 11,
+                "trophies": 1092
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1406
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1150
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#20GPYPRGQ",
+              "name": "дочь аллаха",
+              "brawler": {
+                "id": 16000047,
+                "name": "SQUEAK",
+                "power": 11,
+                "trophies": 1073
+              }
+            },
+            {
+              "tag": "#YPV2LRP22",
+              "name": "mega gnom",
+              "brawler": {
+                "id": 16000065,
+                "name": "MANDY",
+                "power": 11,
+                "trophies": 1386
+              }
+            },
+            {
+              "tag": "#2CL8CRGQP2",
+              "name": "LE B🥇",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 1681
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T152406.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 61,
+        "trophyChange": -6,
+        "starPlayer": {
+          "tag": "#GV89CU2YU",
+          "name": "Gemeli23",
+          "brawler": {
+            "id": 16000043,
+            "name": "EDGAR",
+            "power": 11,
+            "trophies": 1408
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000045,
+                "name": "STU",
+                "power": 11,
+                "trophies": 1087
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1404
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1156
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#GVGR0VYRR",
+              "name": "Dani Pirati",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 2030
+              }
+            },
+            {
+              "tag": "#GV89CU2YU",
+              "name": "Gemeli23",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 1408
+              }
+            },
+            {
+              "tag": "#YUQRP9YPR",
+              "name": "БАКЛАЖАН",
+              "brawler": {
+                "id": 16000103,
+                "name": "NAJIA",
+                "power": 11,
+                "trophies": 2109
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T152201.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 121,
+        "trophyChange": 11,
+        "starPlayer": {
+          "tag": "#2UQLVL9V9C",
+          "name": "Brawler",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1194
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000045,
+                "name": "STU",
+                "power": 11,
+                "trophies": 1076
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1393
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1145
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2UQLVL9V9C",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1194
+              }
+            },
+            {
+              "tag": "#2CGCPLY228",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000015,
+                "name": "PIPER",
+                "power": 11,
+                "trophies": 1188
+              }
+            },
+            {
+              "tag": "#2RJRPGLPQ2",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 10,
+                "trophies": 1192
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T151908.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 46,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#9G88LYGV",
+          "name": "Oliver",
+          "brawler": {
+            "id": 16000081,
+            "name": "LILY",
+            "power": 11,
+            "trophies": 1383
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000045,
+                "name": "STU",
+                "power": 11,
+                "trophies": 1066
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1383
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1135
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2R8LVV2PCP",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000012,
+                "name": "CROW",
+                "power": 11,
+                "trophies": 1183
+              }
+            },
+            {
+              "tag": "#2CUQQV9RLV",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000015,
+                "name": "PIPER",
+                "power": 11,
+                "trophies": 1183
+              }
+            },
+            {
+              "tag": "#J2LU00UYC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000042,
+                "name": "BYRON",
+                "power": 11,
+                "trophies": 1184
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T151744.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 101,
+        "trophyChange": -6,
+        "starPlayer": {
+          "tag": "#2VVV8P8QL",
+          "name": "MegaDragon",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1238
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1391
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1141
+              }
+            },
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000045,
+                "name": "STU",
+                "power": 11,
+                "trophies": 1071
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2VVV8P8QL",
+              "name": "MegaDragon",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1238
+              }
+            },
+            {
+              "tag": "#PV99R09LR",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 11,
+                "trophies": 1139
+              }
+            },
+            {
+              "tag": "#LVCCCRV2L",
+              "name": "Dragon",
+              "brawler": {
+                "id": 16000038,
+                "name": "SURGE",
+                "power": 11,
+                "trophies": 1027
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T151511.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 91,
+        "trophyChange": 11,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1130
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9LLG0GUJR",
+              "name": "BG MAGISToz",
+              "brawler": {
+                "id": 16000065,
+                "name": "MANDY",
+                "power": 11,
+                "trophies": 819
+              }
+            },
+            {
+              "tag": "#9VJRL82JJ",
+              "name": "THOL@NY",
+              "brawler": {
+                "id": 16000076,
+                "name": "KIT",
+                "power": 11,
+                "trophies": 1154
+              }
+            },
+            {
+              "tag": "#P8JLP8Q9C",
+              "name": "Rémy",
+              "brawler": {
+                "id": 16000018,
+                "name": "DARRYL",
+                "power": 11,
+                "trophies": 356
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1380
+              }
+            },
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000045,
+                "name": "STU",
+                "power": 11,
+                "trophies": 1052
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1130
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T151237.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 49,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#9G88LYGV",
+          "name": "Oliver",
+          "brawler": {
+            "id": 16000081,
+            "name": "LILY",
+            "power": 11,
+            "trophies": 1370
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1370
+              }
+            },
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000045,
+                "name": "STU",
+                "power": 11,
+                "trophies": 1034
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1120
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2JU0P9YUCJ",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 11,
+                "trophies": 1167
+              }
+            },
+            {
+              "tag": "#2CC9200JPV",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 1165
+              }
+            },
+            {
+              "tag": "#2C02J8QQJQ",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000015,
+                "name": "PIPER",
+                "power": 11,
+                "trophies": 1166
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T151108.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 64,
+        "trophyChange": -6,
+        "starPlayer": {
+          "tag": "#QL9V09LP2",
+          "name": "AlamourTsosmi",
+          "brawler": {
+            "id": 16000043,
+            "name": "EDGAR",
+            "power": 11,
+            "trophies": 1029
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2LC08YY8L2",
+              "name": "le C en crime",
+              "brawler": {
+                "id": 16000085,
+                "name": "KENJI",
+                "power": 11,
+                "trophies": 1664
+              }
+            },
+            {
+              "tag": "#2CPUVUJURG",
+              "name": "Kel2000",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 11,
+                "trophies": 1098
+              }
+            },
+            {
+              "tag": "#QL9V09LP2",
+              "name": "AlamourTsosmi",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 1029
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 9,
+                "trophies": 615
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1378
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1126
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T150848.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 23,
+        "trophyChange": 12,
+        "starPlayer": {
+          "tag": "#9G88LYGV",
+          "name": "Oliver",
+          "brawler": {
+            "id": 16000081,
+            "name": "LILY",
+            "power": 11,
+            "trophies": 1366
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 9,
+                "trophies": 603
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1366
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1114
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2LR90Y2PVY",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 9,
+                "trophies": 1024
+              }
+            },
+            {
+              "tag": "#2GYGRJ22CP",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000030,
+                "name": "EMZ",
+                "power": 10,
+                "trophies": 986
+              }
+            },
+            {
+              "tag": "#2GJ2VPVPVP",
+              "name": "Akatu_Win",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 10,
+                "trophies": 1021
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T150753.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 48,
+        "trophyChange": 11,
+        "starPlayer": {
+          "tag": "#8GPPG98YJ",
+          "name": "HerriBart🦧",
+          "brawler": {
+            "id": 16000003,
+            "name": "BROCK",
+            "power": 11,
+            "trophies": 1103
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 9,
+                "trophies": 592
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1355
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1103
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2RYPJ92LYP",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000001,
+                "name": "COLT",
+                "power": 10,
+                "trophies": 1030
+              }
+            },
+            {
+              "tag": "#20P8GQCYLL",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000009,
+                "name": "DYNAMIKE",
+                "power": 9,
+                "trophies": 995
+              }
+            },
+            {
+              "tag": "#2JRG9J2UGP",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000048,
+                "name": "GROM",
+                "power": 10,
+                "trophies": 1017
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T150619.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 39,
+        "trophyChange": 10,
+        "starPlayer": {
+          "tag": "#9G88LYGV",
+          "name": "Oliver",
+          "brawler": {
+            "id": 16000081,
+            "name": "LILY",
+            "power": 11,
+            "trophies": 1345
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 9,
+                "trophies": 582
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1345
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1093
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#29UURLYRY8",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 10,
+                "trophies": 989
+              }
+            },
+            {
+              "tag": "#289LP89JJC",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000012,
+                "name": "CROW",
+                "power": 10,
+                "trophies": 1019
+              }
+            },
+            {
+              "tag": "#2VPL28R8C9",
+              "name": "MORTIS ESPOLETA",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 10,
+                "trophies": 968
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260630T150458.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "defeat",
+        "duration": 125,
+        "trophyChange": -5,
+        "starPlayer": {
+          "tag": "#9CPRVVUYY",
+          "name": "Michi",
+          "brawler": {
+            "id": 16000039,
+            "name": "COLETTE",
+            "power": 11,
+            "trophies": 2078
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#98V29JVJ9",
+              "name": "Gartnern",
+              "brawler": {
+                "id": 16000023,
+                "name": "LEON",
+                "power": 9,
+                "trophies": 584
+              }
+            },
+            {
+              "tag": "#9G88LYGV",
+              "name": "Oliver",
+              "brawler": {
+                "id": 16000081,
+                "name": "LILY",
+                "power": 11,
+                "trophies": 1353
+              }
+            },
+            {
+              "tag": "#8GPPG98YJ",
+              "name": "HerriBart🦧",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1098
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#PQGYJVP2V",
+              "name": "ROST",
+              "brawler": {
+                "id": 16000064,
+                "name": "GRAY",
+                "power": 11,
+                "trophies": 1033
+              }
+            },
+            {
+              "tag": "#9CPRVVUYY",
+              "name": "Michi",
+              "brawler": {
+                "id": 16000039,
+                "name": "COLETTE",
+                "power": 11,
+                "trophies": 2078
+              }
+            },
+            {
+              "tag": "#9YQGQCRRV",
+              "name": "🇦🇷Messi🇹🇷😈",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 9,
+                "trophies": 1312
+              }
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "paging": {
+    "cursors": {}
+  }
+}
