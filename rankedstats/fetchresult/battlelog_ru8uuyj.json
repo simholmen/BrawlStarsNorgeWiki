@@ -1,6 +1,650 @@
 {
   "items": [
     {
+      "battleTime": "20260825T121452.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 51,
+        "trophyChange": 20,
+        "starPlayer": {
+          "tag": "#2L8VY8LJQ2",
+          "name": "Atomic 效",
+          "brawler": {
+            "id": 16000004,
+            "name": "RICO",
+            "power": 11,
+            "trophies": 2195
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2L8VY8LJQ2",
+              "name": "Atomic 效",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2195
+              }
+            },
+            {
+              "tag": "#RU8UUYJ",
+              "name": "Cursed",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 11,
+                "trophies": 1407
+              }
+            },
+            {
+              "tag": "#8R0VGC0VL",
+              "name": "OBG|HoSsen🎩🪄",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2840
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2UGYCJCCY9",
+              "name": "medimusanoob",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 2647
+              }
+            },
+            {
+              "tag": "#2UYVCGQLJY",
+              "name": "🤫🤫🤫🤫🤫🤫",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2054
+              }
+            },
+            {
+              "tag": "#8P8JVY0LG",
+              "name": "rhyzel",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 2031
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260825T121235.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 170,
+        "trophyChange": 20,
+        "starPlayer": {
+          "tag": "#RU8UUYJ",
+          "name": "Cursed",
+          "brawler": {
+            "id": 16000099,
+            "name": "PIERCE",
+            "power": 11,
+            "trophies": 1387
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#8R0VGC0VL",
+              "name": "OBG|HoSsen🎩🪄",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2836
+              }
+            },
+            {
+              "tag": "#RU8UUYJ",
+              "name": "Cursed",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 11,
+                "trophies": 1387
+              }
+            },
+            {
+              "tag": "#2L8VY8LJQ2",
+              "name": "Atomic 效",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2187
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#C0G8PC90",
+              "name": "Legendar",
+              "brawler": {
+                "id": 16000021,
+                "name": "GENE",
+                "power": 11,
+                "trophies": 2020
+              }
+            },
+            {
+              "tag": "#2LYGL98GJ2",
+              "name": "セİZavvichQu🗽",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1227
+              }
+            },
+            {
+              "tag": "#LVVURRCLC",
+              "name": "agentpro",
+              "brawler": {
+                "id": 16000037,
+                "name": "SPROUT",
+                "power": 11,
+                "trophies": 1931
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260825T120857.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 78,
+        "trophyChange": 19,
+        "starPlayer": {
+          "tag": "#2L8VY8LJQ2",
+          "name": "Atomic 效",
+          "brawler": {
+            "id": 16000004,
+            "name": "RICO",
+            "power": 11,
+            "trophies": 2179
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#9PGQ8JRUU",
+              "name": "ilduque_",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2042
+              }
+            },
+            {
+              "tag": "#9LYPVJJCC",
+              "name": "Tusk",
+              "brawler": {
+                "id": 16000089,
+                "name": "MEEPLE",
+                "power": 11,
+                "trophies": 2038
+              }
+            },
+            {
+              "tag": "#LQ9Q9CL0L",
+              "name": "🌪️storm🌪️",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 10,
+                "trophies": 2913
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2L8VY8LJQ2",
+              "name": "Atomic 效",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2179
+              }
+            },
+            {
+              "tag": "#RU8UUYJ",
+              "name": "Cursed",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 11,
+                "trophies": 1368
+              }
+            },
+            {
+              "tag": "#8R0VGC0VL",
+              "name": "OBG|HoSsen🎩🪄",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2832
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260825T120611.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 56,
+        "trophyChange": 18,
+        "starPlayer": {
+          "tag": "#2L8VY8LJQ2",
+          "name": "Atomic 效",
+          "brawler": {
+            "id": 16000004,
+            "name": "RICO",
+            "power": 11,
+            "trophies": 2171
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#8R0VGC0VL",
+              "name": "OBG|HoSsen🎩🪄",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2828
+              }
+            },
+            {
+              "tag": "#RU8UUYJ",
+              "name": "Cursed",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 11,
+                "trophies": 1350
+              }
+            },
+            {
+              "tag": "#2L8VY8LJQ2",
+              "name": "Atomic 效",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2171
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#RC9UUY2PP",
+              "name": "腌好的哦不会🖤",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2697
+              }
+            },
+            {
+              "tag": "#GQC2RR9U2",
+              "name": "🌘 I lov3 POCO",
+              "brawler": {
+                "id": 16000003,
+                "name": "BROCK",
+                "power": 11,
+                "trophies": 1515
+              }
+            },
+            {
+              "tag": "#8RPYPLJ08",
+              "name": "ОЛЕГ МАЯМІ",
+              "brawler": {
+                "id": 16000049,
+                "name": "BUZZ",
+                "power": 11,
+                "trophies": 2004
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260825T120422.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 59,
+        "trophyChange": 17,
+        "starPlayer": {
+          "tag": "#2L8VY8LJQ2",
+          "name": "Atomic 效",
+          "brawler": {
+            "id": 16000004,
+            "name": "RICO",
+            "power": 11,
+            "trophies": 2163
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2QV99LGG",
+              "name": "ZIO",
+              "brawler": {
+                "id": 16000107,
+                "name": "NORI",
+                "power": 11,
+                "trophies": 2743
+              }
+            },
+            {
+              "tag": "#L0JUVQ8CJ",
+              "name": "K$N|Maks 🥶",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2817
+              }
+            },
+            {
+              "tag": "#P9VY88RQU",
+              "name": "MertBaba",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 2123
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2L8VY8LJQ2",
+              "name": "Atomic 效",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2163
+              }
+            },
+            {
+              "tag": "#8R0VGC0VL",
+              "name": "OBG|HoSsen🎩🪄",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2824
+              }
+            },
+            {
+              "tag": "#RU8UUYJ",
+              "name": "Cursed",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 11,
+                "trophies": 1333
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260825T120236.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 70,
+        "trophyChange": 16,
+        "starPlayer": {
+          "tag": "#2L8VY8LJQ2",
+          "name": "Atomic 效",
+          "brawler": {
+            "id": 16000004,
+            "name": "RICO",
+            "power": 11,
+            "trophies": 2155
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2L8VY8LJQ2",
+              "name": "Atomic 效",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2155
+              }
+            },
+            {
+              "tag": "#RU8UUYJ",
+              "name": "Cursed",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 11,
+                "trophies": 1317
+              }
+            },
+            {
+              "tag": "#8R0VGC0VL",
+              "name": "OBG|HoSsen🎩🪄",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2820
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#2VQGVVGQPP",
+              "name": "1 к",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 9,
+                "trophies": 2861
+              }
+            },
+            {
+              "tag": "#2JYR2U228J",
+              "name": "Roleny$",
+              "brawler": {
+                "id": 16000043,
+                "name": "EDGAR",
+                "power": 11,
+                "trophies": 1226
+              }
+            },
+            {
+              "tag": "#990GL889C",
+              "name": "Prime Noxy🇩🇿",
+              "brawler": {
+                "id": 16000076,
+                "name": "KIT",
+                "power": 11,
+                "trophies": 2317
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "battleTime": "20260825T120041.000Z",
+      "event": {
+        "id": 15000368,
+        "mode": "knockout",
+        "modeId": 20,
+        "map": "Belle's Rock"
+      },
+      "battle": {
+        "mode": "knockout",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 50,
+        "trophyChange": 15,
+        "starPlayer": {
+          "tag": "#2L8VY8LJQ2",
+          "name": "Atomic 效",
+          "brawler": {
+            "id": 16000004,
+            "name": "RICO",
+            "power": 11,
+            "trophies": 2147
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2L8VY8LJQ2",
+              "name": "Atomic 效",
+              "brawler": {
+                "id": 16000004,
+                "name": "RICO",
+                "power": 11,
+                "trophies": 2147
+              }
+            },
+            {
+              "tag": "#8R0VGC0VL",
+              "name": "OBG|HoSsen🎩🪄",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2816
+              }
+            },
+            {
+              "tag": "#RU8UUYJ",
+              "name": "Cursed",
+              "brawler": {
+                "id": 16000099,
+                "name": "PIERCE",
+                "power": 11,
+                "trophies": 1302
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#PLG98P98C",
+              "name": "Brawler",
+              "brawler": {
+                "id": 16000106,
+                "name": "BOLT",
+                "power": 11,
+                "trophies": 2786
+              }
+            },
+            {
+              "tag": "#CLY2P9QP",
+              "name": "Tugorditofav",
+              "brawler": {
+                "id": 16000108,
+                "name": "WENDY",
+                "power": 11,
+                "trophies": 2641
+              }
+            },
+            {
+              "tag": "#PJLV8JJP2",
+              "name": "Lost Wings 🪽",
+              "brawler": {
+                "id": 16000097,
+                "name": "MINA",
+                "power": 11,
+                "trophies": 1886
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
       "battleTime": "20260824T132049.000Z",
       "event": {
         "id": 15000050,
@@ -1650,650 +2294,6 @@
                 "name": "COLT",
                 "power": 11,
                 "trophies": 1077
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260819T122301.000Z",
-      "event": {
-        "id": 15000051,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Super Beach"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "victory",
-        "duration": 87,
-        "trophyChange": 18,
-        "starPlayer": {
-          "tag": "#YQ89YQLG2",
-          "name": "Bêrzah😡",
-          "brawler": {
-            "id": 16000107,
-            "name": "NORI",
-            "power": 11,
-            "trophies": 523
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#8002VV2V00",
-              "name": "Bøtta🪣",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 837
-              }
-            },
-            {
-              "tag": "#RU8UUYJ",
-              "name": "Cursed",
-              "brawler": {
-                "id": 16000052,
-                "name": "MEG",
-                "power": 11,
-                "trophies": 1017
-              }
-            },
-            {
-              "tag": "#YQ89YQLG2",
-              "name": "Bêrzah😡",
-              "brawler": {
-                "id": 16000107,
-                "name": "NORI",
-                "power": 11,
-                "trophies": 523
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#QGRG8P202",
-              "name": "Maksym",
-              "brawler": {
-                "id": 16000009,
-                "name": "DYNAMIKE",
-                "power": 11,
-                "trophies": 1406
-              }
-            },
-            {
-              "tag": "#Q0QUVCJQR",
-              "name": "FUT|PRO MORTIS",
-              "brawler": {
-                "id": 16000100,
-                "name": "GIGI",
-                "power": 11,
-                "trophies": 2001
-              }
-            },
-            {
-              "tag": "#GR09Y0CPL",
-              "name": "MGN|༒𓆩₦ł₦ℑ₳𓆪༒",
-              "brawler": {
-                "id": 16000012,
-                "name": "CROW",
-                "power": 11,
-                "trophies": 1397
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260819T122057.000Z",
-      "event": {
-        "id": 15000051,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Super Beach"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "victory",
-        "duration": 89,
-        "trophyChange": 17,
-        "starPlayer": {
-          "tag": "#RU8UUYJ",
-          "name": "Cursed",
-          "brawler": {
-            "id": 16000052,
-            "name": "MEG",
-            "power": 11,
-            "trophies": 1000
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#RYCVQURR2",
-              "name": "Агент молч зуб",
-              "brawler": {
-                "id": 16000011,
-                "name": "MORTIS",
-                "power": 11,
-                "trophies": 1218
-              }
-            },
-            {
-              "tag": "#QL20PY292",
-              "name": "🌊mi bombo🗽",
-              "brawler": {
-                "id": 16000050,
-                "name": "GRIFF",
-                "power": 11,
-                "trophies": 1067
-              }
-            },
-            {
-              "tag": "#9QVPRL2C",
-              "name": "The_maitre_Yoda",
-              "brawler": {
-                "id": 16000085,
-                "name": "KENJI",
-                "power": 11,
-                "trophies": 1055
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#8002VV2V00",
-              "name": "Bøtta🪣",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 821
-              }
-            },
-            {
-              "tag": "#RU8UUYJ",
-              "name": "Cursed",
-              "brawler": {
-                "id": 16000052,
-                "name": "MEG",
-                "power": 11,
-                "trophies": 1000
-              }
-            },
-            {
-              "tag": "#YQ89YQLG2",
-              "name": "Bêrzah😡",
-              "brawler": {
-                "id": 16000107,
-                "name": "NORI",
-                "power": 11,
-                "trophies": 507
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260819T121832.000Z",
-      "event": {
-        "id": 15000051,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Super Beach"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "victory",
-        "duration": 61,
-        "trophyChange": 12,
-        "starPlayer": {
-          "tag": "#YQ89YQLG2",
-          "name": "Bêrzah😡",
-          "brawler": {
-            "id": 16000107,
-            "name": "NORI",
-            "power": 11,
-            "trophies": 492
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#9JU0YYCVV",
-              "name": "inci",
-              "brawler": {
-                "id": 16000043,
-                "name": "EDGAR",
-                "power": 11,
-                "trophies": 1730
-              }
-            },
-            {
-              "tag": "#2CJUCQYVQR",
-              "name": "FUT/KING👌",
-              "brawler": {
-                "id": 16000001,
-                "name": "COLT",
-                "power": 11,
-                "trophies": 1846
-              }
-            },
-            {
-              "tag": "#YVCU98Y9",
-              "name": "TRX | ph4ntoM👻",
-              "brawler": {
-                "id": 16000078,
-                "name": "MELODIE",
-                "power": 11,
-                "trophies": 542
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#8002VV2V00",
-              "name": "Bøtta🪣",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 806
-              }
-            },
-            {
-              "tag": "#RU8UUYJ",
-              "name": "Cursed",
-              "brawler": {
-                "id": 16000032,
-                "name": "MAX",
-                "power": 11,
-                "trophies": 1083
-              }
-            },
-            {
-              "tag": "#YQ89YQLG2",
-              "name": "Bêrzah😡",
-              "brawler": {
-                "id": 16000107,
-                "name": "NORI",
-                "power": 11,
-                "trophies": 492
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260819T121700.000Z",
-      "event": {
-        "id": 15000051,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Super Beach"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "victory",
-        "duration": 53,
-        "trophyChange": 11,
-        "starPlayer": {
-          "tag": "#RU8UUYJ",
-          "name": "Cursed",
-          "brawler": {
-            "id": 16000032,
-            "name": "MAX",
-            "power": 11,
-            "trophies": 1072
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#8002VV2V00",
-              "name": "Bøtta🪣",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 792
-              }
-            },
-            {
-              "tag": "#RU8UUYJ",
-              "name": "Cursed",
-              "brawler": {
-                "id": 16000032,
-                "name": "MAX",
-                "power": 11,
-                "trophies": 1072
-              }
-            },
-            {
-              "tag": "#YQ89YQLG2",
-              "name": "Bêrzah😡",
-              "brawler": {
-                "id": 16000107,
-                "name": "NORI",
-                "power": 11,
-                "trophies": 478
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#LRQ8P0PVP",
-              "name": "セイフ🩵🐬𝑆𝐸𝐼𝐹",
-              "brawler": {
-                "id": 16000054,
-                "name": "FANG",
-                "power": 11,
-                "trophies": 1713
-              }
-            },
-            {
-              "tag": "#2QQ2QGQ9LL",
-              "name": "im broke",
-              "brawler": {
-                "id": 16000003,
-                "name": "BROCK",
-                "power": 11,
-                "trophies": 860
-              }
-            },
-            {
-              "tag": "#2LUPQQ0ULY",
-              "name": "moinmoinbs",
-              "brawler": {
-                "id": 16000045,
-                "name": "STU",
-                "power": 11,
-                "trophies": 1344
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260819T121536.000Z",
-      "event": {
-        "id": 15000051,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Super Beach"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "victory",
-        "duration": 30,
-        "trophyChange": 10,
-        "starPlayer": {
-          "tag": "#YQ89YQLG2",
-          "name": "Bêrzah😡",
-          "brawler": {
-            "id": 16000107,
-            "name": "NORI",
-            "power": 11,
-            "trophies": 465
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#2YLVR8QPU",
-              "name": "亗 DESTROYER 亗",
-              "brawler": {
-                "id": 16000097,
-                "name": "MINA",
-                "power": 11,
-                "trophies": 1126
-              }
-            },
-            {
-              "tag": "#VY0UYY8U",
-              "name": "Abdelsalam YT",
-              "brawler": {
-                "id": 16000072,
-                "name": "PEARL",
-                "power": 11,
-                "trophies": 1045
-              }
-            },
-            {
-              "tag": "#Q8JGL0YYU",
-              "name": "fairs 👌",
-              "brawler": {
-                "id": 16000038,
-                "name": "SURGE",
-                "power": 11,
-                "trophies": 1114
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#8002VV2V00",
-              "name": "Bøtta🪣",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 779
-              }
-            },
-            {
-              "tag": "#RU8UUYJ",
-              "name": "Cursed",
-              "brawler": {
-                "id": 16000032,
-                "name": "MAX",
-                "power": 11,
-                "trophies": 1062
-              }
-            },
-            {
-              "tag": "#YQ89YQLG2",
-              "name": "Bêrzah😡",
-              "brawler": {
-                "id": 16000107,
-                "name": "NORI",
-                "power": 11,
-                "trophies": 465
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260819T121436.000Z",
-      "event": {
-        "id": 15000051,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Super Beach"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "victory",
-        "duration": 63,
-        "trophyChange": 20,
-        "starPlayer": {
-          "tag": "#YQ89YQLG2",
-          "name": "Bêrzah😡",
-          "brawler": {
-            "id": 16000107,
-            "name": "NORI",
-            "power": 11,
-            "trophies": 453
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#8002VV2V00",
-              "name": "Bøtta🪣",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 767
-              }
-            },
-            {
-              "tag": "#RU8UUYJ",
-              "name": "Cursed",
-              "brawler": {
-                "id": 16000041,
-                "name": "LOU",
-                "power": 11,
-                "trophies": 1020
-              }
-            },
-            {
-              "tag": "#YQ89YQLG2",
-              "name": "Bêrzah😡",
-              "brawler": {
-                "id": 16000107,
-                "name": "NORI",
-                "power": 11,
-                "trophies": 453
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#R0P2G9VJ2",
-              "name": "OPT |LuxioG5🗣",
-              "brawler": {
-                "id": 16000068,
-                "name": "MAISIE",
-                "power": 11,
-                "trophies": 1887
-              }
-            },
-            {
-              "tag": "#92PUVP90U",
-              "name": "xFinnal♏",
-              "brawler": {
-                "id": 16000006,
-                "name": "BARLEY",
-                "power": 11,
-                "trophies": 1161
-              }
-            },
-            {
-              "tag": "#288CP28GG",
-              "name": "𝑹𝒂𝑰𝒔𝑺𝒔’𝟕",
-              "brawler": {
-                "id": 16000009,
-                "name": "DYNAMIKE",
-                "power": 11,
-                "trophies": 1233
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260819T121244.000Z",
-      "event": {
-        "id": 15000051,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Super Beach"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "victory",
-        "duration": 27,
-        "trophyChange": 15,
-        "starPlayer": {
-          "tag": "#YQ89YQLG2",
-          "name": "Bêrzah😡",
-          "brawler": {
-            "id": 16000107,
-            "name": "NORI",
-            "power": 11,
-            "trophies": 442
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#2U880YG0RC",
-              "name": "LL | LACUSTRE",
-              "brawler": {
-                "id": 16000009,
-                "name": "DYNAMIKE",
-                "power": 10,
-                "trophies": 841
-              }
-            },
-            {
-              "tag": "#P0VUC28LJ",
-              "name": "seila",
-              "brawler": {
-                "id": 16000043,
-                "name": "EDGAR",
-                "power": 11,
-                "trophies": 1485
-              }
-            },
-            {
-              "tag": "#2CP9J9CYJU",
-              "name": "ss/pro🤫🥶",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 803
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#8002VV2V00",
-              "name": "Bøtta🪣",
-              "brawler": {
-                "id": 16000010,
-                "name": "EL PRIMO",
-                "power": 11,
-                "trophies": 756
-              }
-            },
-            {
-              "tag": "#RU8UUYJ",
-              "name": "Cursed",
-              "brawler": {
-                "id": 16000099,
-                "name": "PIERCE",
-                "power": 11,
-                "trophies": 1084
-              }
-            },
-            {
-              "tag": "#YQ89YQLG2",
-              "name": "Bêrzah😡",
-              "brawler": {
-                "id": 16000107,
-                "name": "NORI",
-                "power": 11,
-                "trophies": 442
               }
             }
           ]

@@ -1,6 +1,98 @@
 {
   "items": [
     {
+      "battleTime": "20260825T163604.000Z",
+      "event": {
+        "id": 15000143,
+        "mode": "brawlBall",
+        "modeId": 5,
+        "map": "Beach Ball"
+      },
+      "battle": {
+        "mode": "brawlBall",
+        "type": "ranked",
+        "result": "victory",
+        "duration": 123,
+        "trophyChange": 15,
+        "starPlayer": {
+          "tag": "#8Q0YGP8P",
+          "name": "MZ|Ories🏄",
+          "brawler": {
+            "id": 16000085,
+            "name": "KENJI",
+            "power": 11,
+            "trophies": 1914
+          }
+        },
+        "teams": [
+          [
+            {
+              "tag": "#2C8GULQJV",
+              "name": "[БЛЕТ]ELITA",
+              "brawler": {
+                "id": 16000035,
+                "name": "GALE",
+                "power": 9,
+                "trophies": 510
+              }
+            },
+            {
+              "tag": "#89QG9RCUL",
+              "name": "($_$)",
+              "brawler": {
+                "id": 16000070,
+                "name": "CORDELIUS",
+                "power": 11,
+                "trophies": 752
+              }
+            },
+            {
+              "tag": "#9R0G2Y8YJ",
+              "name": "BY|🕸️FlameZ🕷️",
+              "brawler": {
+                "id": 16000085,
+                "name": "KENJI",
+                "power": 11,
+                "trophies": 1050
+              }
+            }
+          ],
+          [
+            {
+              "tag": "#YG8JQQYRP",
+              "name": "ebal yly",
+              "brawler": {
+                "id": 16000026,
+                "name": "BIBI",
+                "power": 11,
+                "trophies": 1185
+              }
+            },
+            {
+              "tag": "#8G2QGR89Q",
+              "name": "ID",
+              "brawler": {
+                "id": 16000054,
+                "name": "FANG",
+                "power": 11,
+                "trophies": 1392
+              }
+            },
+            {
+              "tag": "#8Q0YGP8P",
+              "name": "MZ|Ories🏄",
+              "brawler": {
+                "id": 16000085,
+                "name": "KENJI",
+                "power": 11,
+                "trophies": 1914
+              }
+            }
+          ]
+        ]
+      }
+    },
+    {
       "battleTime": "20260821T115729.000Z",
       "event": {
         "id": 15000025,
@@ -2199,98 +2291,6 @@
                 "name": "KENJI",
                 "power": 11,
                 "trophies": 1910
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "battleTime": "20260818T213229.000Z",
-      "event": {
-        "id": 15000144,
-        "mode": "brawlBall",
-        "modeId": 5,
-        "map": "Sunny Soccer"
-      },
-      "battle": {
-        "mode": "brawlBall",
-        "type": "ranked",
-        "result": "defeat",
-        "duration": 42,
-        "trophyChange": -10,
-        "starPlayer": {
-          "tag": "#2UVV00RRY",
-          "name": "TH|Asier25",
-          "brawler": {
-            "id": 16000013,
-            "name": "POCO",
-            "power": 11,
-            "trophies": 1382
-          }
-        },
-        "teams": [
-          [
-            {
-              "tag": "#PLP8QLY0",
-              "name": "DocThor54",
-              "brawler": {
-                "id": 16000005,
-                "name": "SPIKE",
-                "power": 11,
-                "trophies": 1034
-              }
-            },
-            {
-              "tag": "#L8JYR808R",
-              "name": "Tochckaa",
-              "brawler": {
-                "id": 16000012,
-                "name": "CROW",
-                "power": 11,
-                "trophies": 1326
-              }
-            },
-            {
-              "tag": "#8Q0YGP8P",
-              "name": "MZ|Ories🏄",
-              "brawler": {
-                "id": 16000085,
-                "name": "KENJI",
-                "power": 11,
-                "trophies": 1920
-              }
-            }
-          ],
-          [
-            {
-              "tag": "#2C2RYYQ8Y",
-              "name": "BND|Vexphar",
-              "brawler": {
-                "id": 16000108,
-                "name": "WENDY",
-                "power": 11,
-                "trophies": 2196
-              }
-            },
-            {
-              "tag": "#2UVV00RRY",
-              "name": "TH|Asier25",
-              "brawler": {
-                "id": 16000013,
-                "name": "POCO",
-                "power": 11,
-                "trophies": 1382
-              }
-            },
-            {
-              "tag": "#LPUQ2RRRG",
-              "name": "UXIA",
-              "brawler": {
-                "id": 16000099,
-                "name": "PIERCE",
-                "power": 11,
-                "trophies": 1175
               }
             }
           ]

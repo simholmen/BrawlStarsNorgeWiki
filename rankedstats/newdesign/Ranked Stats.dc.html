@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:system-ui,sans-serif}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}.dv-note{margin:0 0 22px;max-width:820px;font:13px/1.6 system-ui,sans-serif;color:rgba(0,0,0,.6)}.dv-note b{color:#1a1a1a}a{color:#2a78d6}a:hover{color:#1a5aa8}</style></helmet>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Ranked statistics — brawler filter tree, ranked gold</span></div>
+<p class="dv-note">The sidebar carries a <b>brawler filter grouped by class</b> — click a class row to filter by it, click the chevron to expand and pick an individual brawler; each row carries its own sets and winrate. The filter drives everything: KPIs, map table, teammates, form and the last-10 list all recompute, and an active-filter bar sits above the tables with a one-click clear.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a"><div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Ranked gold — 2b's navy and gold, deepened background, tighter panels</div>
+<div class="dv-card" style="width:1320px;border-color:#070b14">
+<div style="font-family:'Inter Tight',system-ui,sans-serif;background:#070b14;color:#eef1f8;min-height:1180px;position:relative">
+
+<div style="position:relative;border-bottom:3px solid #ffd23d;background:linear-gradient(120deg,#1a2340 0%,#0f1526 55%,#181e33 100%);overflow:hidden">
+<div style="position:absolute;inset:auto 0 0 0;height:190px;opacity:.45">{{ eloChartDark }}</div>
+<div style="position:relative;padding:22px 30px 20px;display:flex;align-items:center;gap:24px">
+<div style="width:104px;height:120px;flex:none;border-radius:16px;background:{{ p.rankColor }};display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(0,0,0,.5)">
+<div style="font:700 34px/1 'Barlow Condensed';color:#10151f">{{ p.rankShort }}</div>
+<div style="font:700 13px/1 'Barlow Condensed';letter-spacing:.12em;color:#10151f;margin-top:4px">{{ p.rankTier }}</div>
+<div style="font:700 10px/1 'Inter Tight';color:rgba(16,21,31,.72);margin-top:7px">{{ p.eloNow }}</div>
+</div>
+<div style="min-width:0">
+<div style="font:700 44px/1 'Barlow Condensed';letter-spacing:.02em;text-transform:uppercase">{{ p.name }}</div>
+<div style="font:500 13px 'Inter Tight';color:#a7b1cb;margin-top:7px">{{ p.rank }} · {{ p.tag }} · rank score {{ p.eloNow }} <span style="color:#ffd23d;font-weight:700">{{ p.eloDelta }}</span> i {{ season }}</div>
+<div style="display:flex;align-items:center;gap:9px;margin-top:13px">
+<span style="font:700 10px 'Inter Tight';letter-spacing:.1em;text-transform:uppercase;color:#8f9ab6">Form</span>
+<div style="display:flex;gap:5px"><sc-for list="{{ streak }}" as="s" hint-placeholder-count="10"><div style="width:22px;height:22px;border-radius:6px;background:{{ s.bgA }};color:#070b14;font:700 11px/22px 'Inter Tight';text-align:center">{{ s.ch }}</div></sc-for></div>
+</div>
+</div>
+<div style="margin-left:auto;display:grid;grid-template-columns:repeat(3,132px);gap:10px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5"><div style="background:rgba(7,11,20,.75);border:1px solid #2c3854;border-radius:12px;padding:11px 13px">
+<div style="font:700 9.5px 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:#8f9ab6">{{ k.label }}</div>
+<div style="font:700 30px/1.15 'Barlow Condensed';color:{{ k.colA }}">{{ k.value }}</div>
+</div></sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:flex;min-height:960px">
+<aside style="width:262px;flex:none;background:#0c1220;border-right:1px solid #24304f;padding:20px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font:700 10px/1 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:#7d88a6">Spiller</div>
+<select value="{{ playerKey }}" onChange="{{ onPlayer }}" style="font:700 15px 'Inter Tight';padding:10px;border:1px solid #2c3854;border-radius:9px;background:#121a2e;color:#fff">
+<sc-for list="{{ roster }}" as="r" hint-placeholder-count="4"><option value="{{ r.key }}">{{ r.name }}</option></sc-for>
+</select>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="display:flex;justify-content:space-between;align-items:baseline">
+<div style="font:700 10px/1 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:#7d88a6">Brawler</div>
+<sc-if value="{{ filterActive }}" hint-placeholder-val="{{ true }}"><div onClick="{{ clearFilter }}" style="cursor:pointer;font:700 9.5px 'Inter Tight';letter-spacing:.06em;text-transform:uppercase;color:#ffd23d">Nullstill ✕</div></sc-if>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ classTree }}" as="c" hint-placeholder-count="7"><div style="border:1px solid {{ c.bdA }};border-radius:9px;overflow:hidden;background:{{ c.bgA }}">
+<div style="display:flex;align-items:center;gap:8px;padding:8px 9px">
+<div onClick="{{ c.toggle }}" style="cursor:pointer;width:16px;text-align:center;font:700 11px 'Inter Tight';color:#8f9ab6">{{ c.chev }}</div>
+<div onClick="{{ c.click }}" style="cursor:pointer;flex:1;min-width:0">
+<div style="font:700 12px 'Inter Tight';color:{{ c.fgA }}">{{ c.name }}</div>
+<div style="display:flex;align-items:center;gap:7px;margin-top:4px">
+<div style="flex:1;height:5px;border-radius:99px;background:#1d2740;overflow:hidden"><div style="height:100%;background:{{ c.barA }};width:{{ c.wrPct }}%"></div></div>
+<span style="font:700 12px 'Barlow Condensed';color:{{ c.barA }}">{{ c.wrPct }}%</span>
+<span style="font:500 10px 'Inter Tight';color:#66708c">{{ c.sets }}s</span>
+</div>
+</div>
+</div>
+<sc-if value="{{ c.expanded }}" hint-placeholder-val="{{ true }}"><div style="border-top:1px solid #1d2740">
+<sc-for list="{{ c.brawlers }}" as="b" hint-placeholder-count="3"><div onClick="{{ b.click }}" style="cursor:pointer;display:grid;grid-template-columns:1fr 34px 34px;gap:6px;align-items:center;padding:6px 9px 6px 33px;background:{{ b.bgA }}">
+<span style="font:500 11.5px 'Inter Tight';color:{{ b.fgA }}">{{ b.label }}</span>
+<span style="font:500 10px 'Inter Tight';color:#66708c;text-align:right">{{ b.sets }}s</span>
+<span style="font:700 13px 'Barlow Condensed';color:{{ b.barA }};text-align:right">{{ b.wrPct }}%</span>
+</div></sc-for>
+</div></sc-if>
+</div></sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font:700 10px/1 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:#7d88a6">Mode</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ modeChips }}" as="c" hint-placeholder-count="7"><div onClick="{{ c.click }}" style="cursor:pointer;font:700 11px 'Inter Tight';padding:6px 10px;border-radius:8px;background:{{ c.dbg }};color:{{ c.dfg }};border:1px solid {{ c.dbd }}">{{ c.label }}</div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font:700 10px/1 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:#7d88a6">Periode</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ rangeChips }}" as="c" hint-placeholder-count="3"><div onClick="{{ c.click }}" style="cursor:pointer;font:700 11px 'Inter Tight';padding:6px 10px;border-radius:8px;background:{{ c.dbg }};color:{{ c.dfg }};border:1px solid {{ c.dbd }}">{{ c.label }}</div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font:700 10px/1 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:#7d88a6">Minimum sett</div>
+<div style="display:flex;align-items:center;gap:9px">
+<input type="range" min="1" max="15" value="{{ minSets }}" onChange="{{ onMin }}" onInput="{{ onMin }}" style="flex:1;accent-color:#ffd23d">
+<span style="font:700 20px 'Barlow Condensed';color:#ffd23d;width:24px;text-align:right">{{ minSets }}</span>
+</div>
+<div style="font:500 11px/1.5 'Inter Tight';color:#66708c">{{ hiddenCount }} rader skjult</div>
+</div>
+</aside>
+
+<main style="flex:1;padding:20px 26px;display:flex;flex-direction:column;gap:15px;min-width:0">
+<div style="display:flex;align-items:center;gap:12px;background:#121a2e;border:1px solid #24304f;border-left:4px solid #ffd23d;border-radius:11px;padding:11px 15px">
+<div style="font:700 10px 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:#7d88a6">Filter</div>
+<div style="font:700 19px/1 'Barlow Condensed';letter-spacing:.04em;text-transform:uppercase;color:#ffd23d">{{ filterLabel }}</div>
+<div style="font:500 11.5px 'Inter Tight';color:#8f9ab6">· {{ mode }} · {{ season }} · min {{ minSets }} sett</div>
+<sc-if value="{{ filterActive }}" hint-placeholder-val="{{ true }}"><div onClick="{{ clearFilter }}" style="cursor:pointer;margin-left:auto;font:700 11px 'Inter Tight';padding:6px 11px;border-radius:8px;background:#0c1220;border:1px solid #2c3854;color:#c9d2e8">Vis alle brawlere ✕</div></sc-if>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+<sc-for list="{{ callouts }}" as="c" hint-placeholder-count="2"><div style="display:flex;gap:14px;align-items:center;background:#121a2e;border:1px solid #24304f;border-left:4px solid {{ c.tone }};border-radius:12px;padding:13px 15px">
+<div style="width:74px;height:54px;border-radius:9px;background:#233054;flex:none"></div>
+<div style="min-width:0"><div style="font:700 10px 'Inter Tight';letter-spacing:.11em;text-transform:uppercase;color:{{ c.tone }}">{{ c.tag }}</div><div style="font:700 23px/1.2 'Barlow Condensed';text-transform:uppercase">{{ c.map }}</div><div style="font:500 11.5px 'Inter Tight';color:#7d88a6">{{ c.mode }} · {{ c.sets }} sett</div></div>
+<div style="margin-left:auto;font:700 38px/1 'Barlow Condensed';color:{{ c.tone }}">{{ c.wr }}%</div>
+</div></sc-for>
+</div>
+
+<sc-for list="{{ hudTables }}" as="tb" hint-placeholder-count="3"><div style="background:#121a2e;border:1px solid #24304f;border-radius:12px;overflow:hidden">
+<div onClick="{{ tb.toggle }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:11px 16px;background:linear-gradient(100deg,{{ tb.tint }},#121a2e 70%);border-bottom:1px solid #24304f">
+<span style="font:700 13px/1 'Inter Tight';color:#ffd23d;width:12px">{{ tb.chev }}</span>
+<div style="font:700 20px/1 'Barlow Condensed';letter-spacing:.05em;text-transform:uppercase">{{ tb.title }}</div>
+<div style="margin-left:auto;font:500 11.5px 'Inter Tight';color:#a7b1cb">{{ tb.count }} rader over grensen</div>
+</div>
+<sc-if value="{{ tb.open }}" hint-placeholder-val="{{ true }}">
+<table style="width:100%;border-collapse:collapse">
+<thead><tr>
+<th onClick="{{ tb.sort.label }}" style="text-align:left;padding:9px 16px;font:700 10px 'Inter Tight';letter-spacing:.1em;text-transform:uppercase;color:#7d88a6;cursor:pointer">{{ tb.head }} {{ tb.arrow.label }}</th>
+<th onClick="{{ tb.sort.sets }}" style="text-align:right;padding:9px 10px;font:700 10px 'Inter Tight';letter-spacing:.1em;text-transform:uppercase;color:#7d88a6;cursor:pointer;width:70px">Sett {{ tb.arrow.sets }}</th>
+<th onClick="{{ tb.sort.w }}" style="text-align:right;padding:9px 10px;font:700 10px 'Inter Tight';letter-spacing:.1em;text-transform:uppercase;color:#7d88a6;cursor:pointer;width:56px">W {{ tb.arrow.w }}</th>
+<th onClick="{{ tb.sort.l }}" style="text-align:right;padding:9px 10px;font:700 10px 'Inter Tight';letter-spacing:.1em;text-transform:uppercase;color:#7d88a6;cursor:pointer;width:56px">L {{ tb.arrow.l }}</th>
+<th style="text-align:left;padding:9px 10px;font:700 10px 'Inter Tight';letter-spacing:.1em;text-transform:uppercase;color:#7d88a6;width:108px">Trend</th>
+<th onClick="{{ tb.sort.wr }}" style="text-align:left;padding:9px 16px 9px 10px;font:700 10px 'Inter Tight';letter-spacing:.1em;text-transform:uppercase;color:#7d88a6;cursor:pointer;width:220px">Winrate {{ tb.arrow.wr }}</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ tb.rows }}" as="r" hint-placeholder-count="6"><tr style="border-top:1px solid #1d2740">
+<td style="padding:9px 16px"><div style="display:flex;align-items:center;gap:10px">
+<div style="width:32px;height:32px;border-radius:8px;background:#233054;flex:none"></div>
+<div style="min-width:0"><div style="font:700 17px/1.15 'Barlow Condensed';text-transform:uppercase;letter-spacing:.02em">{{ r.label }}<sc-if value="{{ r.roster }}" hint-placeholder-val="{{ false }}"><span style="margin-left:8px;font:700 9.5px 'Inter Tight';padding:2px 6px;border-radius:4px;background:#ffd23d;color:#070b14;letter-spacing:.06em">ROSTER</span></sc-if></div>
+<sc-if value="{{ r.sub }}" hint-placeholder-val="{{ true }}"><div style="font:500 11px 'Inter Tight';color:#7d88a6">{{ r.sub }}</div></sc-if></div>
+<sc-if value="{{ r.thin }}" hint-placeholder-val="{{ false }}"><span title="Lite datagrunnlag" style="font:700 9.5px 'Inter Tight';padding:2px 6px;border-radius:4px;background:#3c2f10;color:#ffd23d">TYNT</span></sc-if>
+</div></td>
+<td style="padding:9px 10px;text-align:right;font:700 18px 'Barlow Condensed'">{{ r.sets }}</td>
+<td style="padding:9px 10px;text-align:right;font:600 16px 'Barlow Condensed';color:#5fd39a">{{ r.w }}</td>
+<td style="padding:9px 10px;text-align:right;font:600 16px 'Barlow Condensed';color:#ff7d84">{{ r.l }}</td>
+<td style="padding:9px 10px">{{ r.sparkA }}</td>
+<td style="padding:9px 16px 9px 10px"><div style="display:flex;align-items:center;gap:10px"><div style="flex:1;height:12px;border-radius:4px;background:#1d2740;border:1px solid #24304f;overflow:hidden"><div style="height:100%;background:{{ r.barA }};width:{{ r.wrPct }}%"></div></div><span style="font:700 21px 'Barlow Condensed';width:52px;text-align:right;color:{{ r.barA }}">{{ r.wrPct }}%</span></div></td>
+</tr></sc-for>
+</tbody></table>
+</sc-if>
+</div></sc-for>
+
+<div style="background:#121a2e;border:1px solid #24304f;border-radius:12px;overflow:hidden">
+<div onClick="{{ recentPanel.toggle }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:11px 16px;background:linear-gradient(100deg,#2a2140,#121a2e 70%);border-bottom:1px solid #24304f">
+<span style="font:700 13px/1 'Inter Tight';color:#ffd23d;width:12px">{{ recentPanel.chev }}</span>
+<div style="font:700 20px/1 'Barlow Condensed';letter-spacing:.05em;text-transform:uppercase">Siste sett</div>
+<div style="margin-left:auto;font:500 11.5px 'Inter Tight';color:#a7b1cb">Klikk for settdetaljer</div>
+</div>
+<sc-if value="{{ recentPanel.open }}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{ recent }}" as="m" hint-placeholder-count="10"><div onClick="{{ m.open }}" style="cursor:pointer;display:grid;grid-template-columns:96px 1fr 148px 148px 24px;gap:12px;align-items:center;padding:10px 16px;border-top:1px solid #1d2740;background:{{ m.darkRowBg }};border-left:4px solid {{ m.resA }}">
+<div style="font:500 11.5px 'Inter Tight';color:#7d88a6">{{ m.date }}</div>
+<div style="display:flex;align-items:center;gap:11px"><div style="width:44px;height:31px;border-radius:6px;background:#233054;flex:none"></div><div><div style="font:700 18px/1.1 'Barlow Condensed';text-transform:uppercase">{{ m.map }}</div><div style="font:500 11px 'Inter Tight';color:#7d88a6">{{ m.mode }}</div></div></div>
+<div style="display:flex;align-items:center;gap:9px"><div style="width:26px;height:26px;border-radius:7px;background:#233054;flex:none"></div><span style="font:500 12.5px 'Inter Tight'">{{ m.brawler }}</span></div>
+<div style="display:flex;align-items:center;gap:9px"><span style="font:700 11.5px 'Inter Tight';padding:4px 10px;border-radius:6px;background:{{ m.resABg }};color:{{ m.resA }}">{{ m.resultEn }}</span><span style="font:700 19px 'Barlow Condensed';color:#c9d2e8">{{ m.score }}</span></div>
+<div style="font:600 15px 'Inter Tight';color:#4d5876;text-align:right">›</div>
+</div></sc-for>
+</sc-if>
+</div>
+</main>
+</div>
+
+<sc-if value="{{ detail }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;inset:0;background:rgba(4,7,13,.78);display:flex;align-items:flex-start;justify-content:center;padding:80px 30px">
+<div style="width:860px;background:#121a2e;border:1px solid #2c3854;border-top:3px solid #ffd23d;border-radius:16px;box-shadow:0 30px 70px rgba(0,0,0,.6);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:linear-gradient(110deg,#1a2340,#131a2e);border-bottom:1px solid #24304f">
+<div style="display:flex;align-items:center;gap:14px"><div style="width:60px;height:44px;border-radius:8px;background:#233054"></div>
+<div><div style="font:700 25px/1.05 'Barlow Condensed';letter-spacing:.03em;text-transform:uppercase">{{ detail.map }}</div><div style="font:500 12px 'Inter Tight';color:#8f9ab6">{{ detail.mode }} · {{ detail.date }} · {{ detail.start }}–{{ detail.end }} · {{ detail.status }}</div></div></div>
+<div onClick="{{ closeSet }}" style="cursor:pointer;width:32px;height:32px;border-radius:9px;background:#0c1220;border:1px solid #2c3854;display:flex;align-items:center;justify-content:center;font:700 14px 'Inter Tight';color:#8f9ab6">✕</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:center;gap:22px;padding:14px 20px;background:#0c1220;border-bottom:1px solid #24304f">
+<div style="font:700 15px 'Inter Tight';color:#c9d2e8">Lag 0</div>
+<div style="font:700 44px/1 'Barlow Condensed';color:#ffd23d">{{ detail.t0wins }} – {{ detail.t1wins }}</div>
+<div style="font:700 15px 'Inter Tight';color:#c9d2e8">Lag 1</div>
+<div style="font:600 12px 'Inter Tight';color:#7d88a6;margin-left:12px">{{ detail.games }} runder · vinner {{ detail.winner }}</div>
+</div>
+<div style="padding:15px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<sc-for list="{{ detail.teams }}" as="t" hint-placeholder-count="2"><div style="border:1px solid #24304f;border-radius:11px;overflow:hidden">
+<div style="display:flex;justify-content:space-between;padding:9px 13px;background:{{ t.darkHead }};font:700 12px 'Inter Tight'"><span>{{ t.name }}</span><span style="font-weight:500;color:#c9d2e8">{{ t.note }}</span></div>
+<sc-for list="{{ t.players }}" as="pl" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:1fr 100px;gap:8px;align-items:center;padding:9px 13px;border-top:1px solid #1d2740">
+<div style="display:flex;align-items:center;gap:9px"><div style="width:28px;height:28px;border-radius:7px;background:#233054;flex:none"></div><div><div style="font:600 12.5px 'Inter Tight'">{{ pl.name }}</div><div style="font:500 10.5px 'Inter Tight';color:#66708c">{{ pl.tag }} · {{ pl.brawler }}</div></div></div>
+<div style="text-align:right;font:500 11px 'Inter Tight';color:#8f9ab6">P{{ pl.power }}<br>{{ pl.rank }}</div>
+</div></sc-for>
+</div></sc-for>
+</div>
+<div style="padding:0 20px 20px"><div style="border:1px solid #24304f;border-radius:11px;overflow:hidden">
+<div style="padding:9px 13px;background:#0c1220;font:700 12px 'Inter Tight';letter-spacing:.07em;text-transform:uppercase">Runder</div>
+<sc-for list="{{ detail.rounds }}" as="g" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:52px 1fr 80px 1fr;gap:10px;padding:9px 13px;border-top:1px solid #1d2740;font:500 12px 'Inter Tight'">
+<span style="font:700 16px 'Barlow Condensed'">R{{ g.n }}</span><span style="color:#7d88a6">{{ g.time }}</span><span>{{ g.dur }}</span><span style="text-align:right">{{ g.winner }} · ★ {{ g.star }}</span>
+</div></sc-for>
+</div></div>
+</div></div>
+</sc-if>
+</div></div></div>
+
+</div>
+<p class="dv-next">Try next: "make the brawler tree collapsible" · "try rank-tier colours instead of gold" · "add mode icons and real brawler portraits"</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1420,&quot;height&quot;:1100}}">
+const MODE_MAPS = [
+  ["Gem Grab","Hard Rock Mine"],["Gem Grab","Double Swoosh"],["Gem Grab","Undermine"],
+  ["Brawl Ball","Backyard Bowl"],["Brawl Ball","Sneaky Fields"],["Brawl Ball","Pinhole Punt"],
+  ["Knockout","Belle's Rock"],["Knockout","Goldarm Gulch"],["Knockout","Flaring Phoenix"],
+  ["Bounty","Snake Prairie"],["Bounty","Layer Cake"],["Bounty","Shooting Star"],
+  ["Heist","Safe Zone"],["Heist","Hot Potato"],
+  ["Hot Zone","Ring of Fire"],["Hot Zone","Dueling Beetles"]
+];
+const BRAWLERS = ["Piper","Gene","Byron","Sandy","Max","Buzz","Angelo","Kit","Larry & Lawrie","Cordelius","Surge","Poco","Frank","Mortis"];
+const MATES = [
+  {name:"Bindel",tag:"#2LQP8V0",roster:true},{name:"Joss",tag:"#8YCV9RG",roster:true},
+  {name:"Lobb",tag:"#PV2GLC9",roster:true},{name:"Mantas",tag:"#9RQ0YU8",roster:true},
+  {name:"Movind",tag:"#LC8YV2P",roster:false},{name:"Trym Ivar",tag:"#28GQVLR",roster:true},
+  {name:"Waterflame",tag:"#YV8P2QC",roster:false},{name:"Ories",tag:"#GQ9RL0V",roster:false}
+];
+const OPP = ["Kx7","Sondre","Nordlys","Frost","Vega","Kebab","Rakkar","Bjørn","Tromso","Ludo"];
+const TIERS = {Bronze:"#c07d47",Silver:"#adb6c2",Gold:"#e8b427",Diamond:"#5ed0ef",Mythic:"#c05ae0",Legendary:"#ff6b74",Masters:"#ffd23d",Pro:"#f4f6fb"};
+
+const CLASSES = [
+  ["Damage Dealer",["Max","Surge"]],
+  ["Marksman",["Piper","Angelo"]],
+  ["Assassin",["Buzz","Cordelius","Mortis"]],
+  ["Support",["Byron","Kit","Poco"]],
+  ["Controller",["Gene","Sandy"]],
+  ["Artillery",["Larry & Lawrie"]],
+  ["Tank",["Frank"]]
+];
+const CLASS_OF = {};CLASSES.forEach(([c,list])=>list.forEach(b=>{CLASS_OF[b]=c;}));
+const PAL = {
+  A:{good:"#5fd39a",mid:"#ffd23d",bad:"#ff7d84",base:"#1d2740"},
+  B:{good:"#35e0d8",mid:"#b06bff",bad:"#ff5c8a",base:"#241c47"},
+  C:{good:"#b8ff5c",mid:"#ffb545",bad:"#ff8a5c",base:"#20291f"}
+};
+function tone(wr,k){const p=PAL[k];return wr>=0.6?p.good:wr>=0.45?p.mid:p.bad;}
+const PV = {
+  D:{good:"#8faa57",mid:"#d8a13c",bad:"#c8503a",track:"#2a251d",panel:"#1c1a15",sel:"#2a2318",bd:"#332e24",selBd:"#e2563b",fg:"#e2d8c6",selFg:"#e9a689",muted:"#9a9081",chipBg:"#1a1813",chipOn:"#e2563b",chipOnFg:"#14120f",tintA:"#2a2318",tintB:"#2b1f19",tintC:"#232419",head0:"#2a2318",head1:"#2b1f19",rowOpen:"#221f19",rowBase:"#191710",resBgW:"#232a15",resBgL:"#2e1a14",resBgD:"#242019"},
+  E:{good:"#58c8a8",mid:"#d9b45c",bad:"#d2604a",track:"#16324a",panel:"#0d2033",sel:"#153a56",bd:"#1d3f5c",selBd:"#c8763d",fg:"#d5e6ef",selFg:"#f0b57e",muted:"#7e9cb0",chipBg:"#0a1b2b",chipOn:"#c8763d",chipOnFg:"#071522",tintA:"#123a52",tintB:"#3a2a1c",tintC:"#123f45",head0:"#123a52",head1:"#332018",rowOpen:"#123048",rowBase:"#0a1c2d",resBgW:"#0f3730",resBgL:"#331d18",resBgD:"#16324a"},
+  F:{good:"#2f6b43",mid:"#b8862b",bad:"#b23a2e",track:"#e2d8c4",panel:"#faf5ec",sel:"#f2e6cf",bd:"#d6c9b2",selBd:"#b23a2e",fg:"#3b342a",selFg:"#8c2c22",muted:"#6f6455",chipBg:"#f3ece0",chipOn:"#1e1a14",chipOnFg:"#f7f2e7",tintA:"#e8ddc7",tintB:"#eddfc9",tintC:"#e4e0cd",head0:"#e8ddc7",head1:"#f0e2d2",rowOpen:"#f3e8d4",rowBase:"#fdfaf3",resBgW:"#e2ecdf",resBgL:"#f5e0dc",resBgD:"#eee8dc"}
+};
+function pvTone(wr,k){const p=PV[k];return wr>=0.6?p.good:wr>=0.45?p.mid:p.bad;}
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*16777619)>>>0;}return h;}
+function lcg(seed){let s=seed>>>0;return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
+function distribute(total,n,rnd){const w=[];let sum=0;for(let i=0;i<n;i++){const v=0.35+rnd();w.push(v);sum+=v;}
+  const out=w.map(v=>Math.max(1,Math.round(total*v/sum)));return out;}
+function wld(sets,wr,rnd){const d=rnd()<0.35?1:0;const w=Math.max(0,Math.min(sets-d,Math.round(sets*wr+(rnd()-0.5)*1.6)));return{sets,w,l:sets-d-w,d};}
+
+function makePlayer(cfg){
+  const rnd=lcg(cfg.seed);
+  const maps=MODE_MAPS.map(([mode,map])=>{
+    const sets=1+Math.floor(rnd()*Math.round(cfg.volume/6));
+    const r=wld(sets,Math.min(0.9,Math.max(0.1,cfg.wr+(rnd()-0.5)*0.42)),rnd);
+    return{mode,map,label:map,sub:mode,...r,spark:Array.from({length:8},()=>0.2+rnd()*0.7)};
+  });
+  const total=maps.reduce((a,m)=>a+m.sets,0);
+  const bSets=distribute(total,BRAWLERS.length,rnd);
+  const brawlers=BRAWLERS.map((b,i)=>({label:b,sub:null,...wld(bSets[i],Math.min(0.92,Math.max(0.08,cfg.wr+(rnd()-0.5)*0.4)),rnd),spark:Array.from({length:8},()=>0.2+rnd()*0.7)}));
+  const mSets=distribute(Math.round(total*0.8),MATES.length,rnd);
+  const mates=MATES.map((m,i)=>({label:m.name,sub:m.tag,roster:m.roster,...wld(mSets[i],Math.min(0.93,Math.max(0.1,cfg.wr+(rnd()-0.5)*0.34)),rnd),spark:Array.from({length:8},()=>0.2+rnd()*0.7)}));
+  const overall=maps.reduce((a,m)=>({sets:a.sets+m.sets,w:a.w+m.w,l:a.l+m.l,d:a.d+m.d}),{sets:0,w:0,l:0,d:0});
+  const elo=[];let e=cfg.elo-Math.round(180+rnd()*260);
+  for(let i=0;i<22;i++){e+=Math.round((rnd()-0.42)*90);elo.push(e);}
+  elo[elo.length-1]=cfg.elo;
+  const recent=[];
+  for(let i=0;i<10;i++){
+    const mm=MODE_MAPS[Math.floor(rnd()*MODE_MAPS.length)];
+    const roll=rnd();const res=roll<cfg.wr?"win":(roll>0.94?"draw":"loss");
+    const t0=res==="win"?2:(res==="draw"?1:1),t1=res==="win"?(rnd()<0.5?0:1):(res==="draw"?1:2);
+    const day=22-i*2;
+    const mates3=[MATES[Math.floor(rnd()*MATES.length)],MATES[Math.floor(rnd()*MATES.length)]];
+    recent.push({
+      id:"s"+i,date:"2026-08-"+String(day).padStart(2,"0"),dateShort:day+". aug",
+      mode:mm[0],map:mm[1],brawler:BRAWLERS[Math.floor(rnd()*BRAWLERS.length)],
+      res,t0,t1,games:t0+t1,
+      start:"20:"+String(10+i).padStart(2,"0"),end:"20:"+String(10+i+11).padStart(2,"0"),
+      mates:mates3,seed:cfg.seed+i*37
+    });
+  }
+  return{...cfg,maps,brawlers,mates,overall,elo,recent};
+}
+
+const PLAYERS = [
+  makePlayer({key:"zimma",name:"Zimma",tag:"#8VQP2LR",rank:"Legendary II",elo:9420,wr:0.63,volume:130,seed:12345}),
+  makePlayer({key:"joss",name:"Joss",tag:"#8YCV9RG",rank:"Masters I",elo:10680,wr:0.71,volume:150,seed:777}),
+  makePlayer({key:"lobb",name:"Lobb",tag:"#PV2GLC9",rank:"Mythic III",elo:8190,wr:0.55,volume:110,seed:4242}),
+  makePlayer({key:"movind",name:"Movind",tag:"#LC8YV2P",rank:"Diamond II",elo:6540,wr:0.49,volume:90,seed:909})
+];
+const MODES = ["All modes","Gem Grab","Brawl Ball","Knockout","Bounty","Heist","Hot Zone"];
+const RANGES = ["Sesong 53","Siste 30 dager","Siste 7 dager"];
+
+class Component extends DCLogic {
+  state = {playerKey:"zimma",minSets:3,mode:"All modes",range:"Sesong 53",tab:"map",openId:null,
+    filter:{kind:"all",value:null},expanded:{"Assassin":true},collapsed:{},
+    sort:{map:{key:"sets",dir:-1},brawler:{key:"sets",dir:-1},mate:{key:"sets",dir:-1}}};
+  isOpen(id){return !this.state.collapsed[id];}
+  toggler(id){return ()=>this.setState(s=>({collapsed:{...s.collapsed,[id]:!s.collapsed[id]}}));}
+  panel(id){const open=this.isOpen(id);return {open,chev:open?"▾":"▸",toggle:this.toggler(id)};}
+  withCollapse(list){return list.map(t=>({...t,...this.panel("tbl:"+t.title)}));}
+
+  bar(wr){return wr>=0.6?"#2f9e6b":wr>=0.45?"#c99a15":"#cf4b52";}
+  darkBar(wr){return wr>=0.6?"#5fd39a":wr>=0.45?"#ffd23d":"#ff7d84";}
+
+  prep(rows,kind){
+    const {minSets,mode}=this.state;
+    let out=rows.filter(r=>r.sets>=minSets);
+    if(kind==="map"&&mode!=="All modes")out=out.filter(r=>r.mode===mode);
+    out=out.map(r=>{
+      const wr=r.sets?r.w/r.sets:0;
+      return{...r,wr,wrPct:Math.round(wr*100),barColor:this.bar(wr),darkBar:this.darkBar(wr),
+        thin:r.sets<minSets+2,spark:this.sparkEl(r.spark,this.darkBarNeutral(wr)),
+        darkBar2:wr>=0.6?"#2f9e6b":wr>=0.45?"#c99a15":"#cf4b52",
+        darkSpark:this.sparkEl(r.spark,this.darkBar(wr),"#1d2740"),
+        barA:tone(wr,"A"),barB:tone(wr,"B"),barC:tone(wr,"C"),
+        sparkA:this.sparkEl(r.spark,tone(wr,"A"),PAL.A.base),
+        sparkB:this.sparkEl(r.spark,tone(wr,"B"),PAL.B.base),
+        sparkC:this.sparkEl(r.spark,tone(wr,"C"),PAL.C.base),
+        pv:{D:{bar:pvTone(wr,"D"),spark:this.sparkEl(r.spark,pvTone(wr,"D"),PV.D.track)},
+            E:{bar:pvTone(wr,"E"),spark:this.sparkEl(r.spark,pvTone(wr,"E"),PV.E.track)},
+            F:{bar:pvTone(wr,"F"),spark:this.sparkEl(r.spark,pvTone(wr,"F"),PV.F.track)}}};
+    });
+    const s=this.state.sort[kind];
+    out.sort((a,b)=>{
+      const av=s.key==="label"?a.label:s.key==="wr"?a.wr:a[s.key];
+      const bv=s.key==="label"?b.label:s.key==="wr"?b.wr:b[s.key];
+      if(typeof av==="string")return s.dir*av.localeCompare(bv);
+      return s.dir*(av-bv);
+    });
+    return out;
+  }
+  darkBarNeutral(wr){return this.bar(wr);}
+
+  sparkEl(vals,color,base){
+    const w=92,h=26,pts=vals.map((v,i)=>[(i/(vals.length-1))*w,h-4-v*(h-8)]);
+    return React.createElement("svg",{width:w,height:h,key:"sp"},
+      React.createElement("line",{x1:0,y1:h/2,x2:w,y2:h/2,stroke:base||"#eef0f4",strokeWidth:1}),
+      React.createElement("polyline",{points:pts.map(p=>p.join(",")).join(" "),fill:"none",stroke:color,strokeWidth:1.8,strokeLinejoin:"round",strokeLinecap:"round"}),
+      React.createElement("circle",{cx:pts[pts.length-1][0]-1,cy:pts[pts.length-1][1],r:2.4,fill:color}));
+  }
+
+  eloChartEl(elo,dark){
+    const grid=dark?"#1d2740":"#eef0f4",lbl=dark?"#7d88a6":"#a2a8b8",
+      line1=dark?"#ffd23d":"#3563e9",fill=dark?"rgba(255,210,61,.13)":"rgba(53,99,233,.10)";
+    const w=640,h=170,min=Math.min(...elo)-120,max=Math.max(...elo)+120;
+    const pts=elo.map((v,i)=>[(i/(elo.length-1))*(w-46)+38,h-18-((v-min)/(max-min))*(h-40)]);
+    const line=pts.map(p=>p.join(",")).join(" ");
+    const area=`38,${h-18} `+line+` ${pts[pts.length-1][0]},${h-18}`;
+    const ticks=[0,1,2,3].map(i=>min+(max-min)*i/3);
+    return React.createElement("svg",{viewBox:`0 0 ${w} ${h}`,style:{width:"100%",height:"100%"}},
+      ...ticks.map((t,i)=>React.createElement("g",{key:"t"+i},
+        React.createElement("line",{x1:38,y1:h-18-((t-min)/(max-min))*(h-40),x2:w-8,y2:h-18-((t-min)/(max-min))*(h-40),stroke:grid,strokeWidth:1}),
+        React.createElement("text",{x:0,y:h-14-((t-min)/(max-min))*(h-40),fill:lbl,style:{font:"500 10px 'Inter Tight',sans-serif"}},Math.round(t)))),
+      React.createElement("polygon",{points:area,fill:fill}),
+      React.createElement("polyline",{points:line,fill:"none",stroke:line1,strokeWidth:2.4,strokeLinejoin:"round"}),
+      React.createElement("circle",{cx:pts[pts.length-1][0],cy:pts[pts.length-1][1],r:4,fill:line1}));
+  }
+
+  sortH(kind){
+    const mk=key=>()=>this.setState(s=>({sort:{...s.sort,[kind]:{key,dir:s.sort[kind].key===key?-s.sort[kind].dir:-1}}}));
+    return{label:mk("label"),sets:mk("sets"),w:mk("w"),l:mk("l"),d:mk("d"),wr:mk("wr")};
+  }
+  arrows(kind){
+    const s=this.state.sort[kind],a=k=>s.key===k?(s.dir===-1?"▼":"▲"):"";
+    return{label:a("label"),sets:a("sets"),w:a("w"),l:a("l"),d:a("d"),wr:a("wr")};
+  }
+
+  detailFor(m,p){
+    const rnd=lcg(m.seed);
+    const pick=arr=>arr[Math.floor(rnd()*arr.length)];
+    const rankOf=()=>pick(["Mythic I","Mythic III","Legendary I","Legendary II","Legendary III","Masters I"]);
+    const t0=[{name:p.name,tag:p.tag,brawler:m.brawler,power:11,rank:p.rank},
+      ...m.mates.map(x=>({name:x.name,tag:x.tag,brawler:pick(BRAWLERS),power:10+Math.round(rnd()),rank:rankOf()}))];
+    const t1=[0,1,2].map(i=>({name:pick(OPP)+(i?" "+(i+1):""),tag:"#"+Math.random().toString(36).slice(2,9).toUpperCase(),brawler:pick(BRAWLERS),power:10+Math.round(rnd()),rank:rankOf()}));
+    const winner=m.res==="win"?"Lag 0":m.res==="loss"?"Lag 1":"Uavgjort";
+    const rounds=Array.from({length:m.games},(_,i)=>({n:i+1,time:m.start.slice(0,3)+String(12+i*6).padStart(2,"0"),
+      dur:(1+Math.floor(rnd()*2))+"m "+String(Math.floor(rnd()*59)).padStart(2,"0")+"s",
+      winner:rnd()<0.5?"Lag 0":"Lag 1",star:pick([...t0,...t1]).name}));
+    return{
+      date:m.date,mode:m.mode,map:m.map,start:m.start,end:m.end,games:m.games,t0wins:m.t0,t1wins:m.t1,
+      winner,status:"Fullført",
+      facts:[{k:"Start",v:m.start},{k:"Slutt",v:m.end},{k:"Runder",v:String(m.games)},
+        {k:"Rundeseiere",v:m.t0+" – "+m.t1},{k:"Vinnerlag",v:winner},{k:"Status",v:"Fullført"}],
+      teams:[{name:"Lag 0",note:p.name+"s lag",headBg:"#e8effe",darkHead:"#1d2b52",headB:"#2a1f5c",headC:"#1e2c1a",pv:{D:{head:PV.D.head0},E:{head:PV.E.head0},F:{head:PV.F.head0}},players:t0},
+        {name:"Lag 1",note:"Motstandere",headBg:"#f7f8fa",darkHead:"#2b1d2e",headB:"#3a1b34",headC:"#2e2416",pv:{D:{head:PV.D.head1},E:{head:PV.E.head1},F:{head:PV.F.head1}},players:t1}],
+      rounds
+    };
+  }
+
+  renderVals(){
+    const st=this.state;
+    const p=PLAYERS.find(x=>x.key===st.playerKey)||PLAYERS[0];
+    const f=st.filter;
+    const selNames=f.kind==="brawler"?[f.value]:f.kind==="class"?(CLASSES.find(c=>c[0]===f.value)||[null,[]])[1]:null;
+    const totalSets=p.brawlers.reduce((a,b)=>a+b.sets,0);
+    const selSets=selNames?p.brawlers.filter(b=>selNames.includes(b.label)).reduce((a,b)=>a+b.sets,0):totalSets;
+    const share=totalSets?selSets/totalSets:1;
+    const scale=(rows,tag)=>rows.map(r=>{
+      const rnd=lcg(hash(tag+r.label+f.kind+String(f.value)));
+      const sets=Math.max(0,Math.round(r.sets*share+(rnd()-0.4)));
+      const base=r.sets?r.w/r.sets:0;
+      const w=Math.min(sets,Math.max(0,Math.round(sets*Math.min(0.95,Math.max(0.05,base+(rnd()-0.5)*0.25)))));
+      return{...r,sets,w,l:sets-w,d:0};
+    });
+    const srcMaps=selNames?scale(p.maps,"m"):p.maps;
+    const srcMates=selNames?scale(p.mates,"t"):p.mates;
+    const srcBrawlers=selNames?p.brawlers.filter(b=>selNames.includes(b.label)):p.brawlers;
+    const mapRows=this.prep(srcMaps,"map"),brawlerRows=this.prep(srcBrawlers,"brawler"),mateRows=this.prep(srcMates,"mate");
+    const o=srcMaps.reduce((a,m)=>({sets:a.sets+m.sets,w:a.w+m.w,l:a.l+m.l,d:a.d+m.d}),{sets:0,w:0,l:0,d:0});
+    const wr=o.sets?o.w/o.sets:0;
+    const classTree=CLASSES.map(([cname,list])=>{
+      const rows=p.brawlers.filter(b=>list.includes(b.label));
+      const cs=rows.reduce((a,b)=>a+b.sets,0),cw=rows.reduce((a,b)=>a+b.w,0);
+      const cwr=cs?cw/cs:0;
+      const act=f.kind==="class"&&f.value===cname;
+      return{name:cname,sets:cs,wrPct:Math.round(cwr*100),
+        barA:tone(cwr,"A"),barB:tone(cwr,"B"),barC:tone(cwr,"C"),
+        bgA:act?"#1a2340":"#121a2e",bdA:act?"#ffd23d":"#24304f",fgA:act?"#ffd23d":"#dfe6f5",
+        bgB:act?"#241a52":"#17122e",bdB:act?"#35e0d8":"#2e2554",fgB:act?"#35e0d8":"#e6dffa",
+        bgC:act?"#1b2a1c":"#151b19",bdC:act?"#b8ff5c":"#26302c",fgC:act?"#b8ff5c":"#dceadd",
+        pv:{D:{bar:pvTone(cwr,"D"),bg:act?PV.D.sel:PV.D.panel,bd:act?PV.D.selBd:PV.D.bd,fg:act?PV.D.selFg:PV.D.fg},
+            E:{bar:pvTone(cwr,"E"),bg:act?PV.E.sel:PV.E.panel,bd:act?PV.E.selBd:PV.E.bd,fg:act?PV.E.selFg:PV.E.fg},
+            F:{bar:pvTone(cwr,"F"),bg:act?PV.F.sel:PV.F.panel,bd:act?PV.F.selBd:PV.F.bd,fg:act?PV.F.selFg:PV.F.fg}},
+        active:act,
+        expanded:!!st.expanded[cname],chev:st.expanded[cname]?"▾":"▸",
+        toggle:()=>this.setState(s=>({expanded:{...s.expanded,[cname]:!s.expanded[cname]}})),
+        click:()=>this.setState({filter:f.kind==="class"&&f.value===cname?{kind:"all",value:null}:{kind:"class",value:cname},openId:null}),
+        brawlers:rows.map(b=>{
+          const bwr=b.sets?b.w/b.sets:0;
+          const bact=f.kind==="brawler"&&f.value===b.label;
+          return{label:b.label,sets:b.sets,wrPct:Math.round(bwr*100),
+            barA:tone(bwr,"A"),barB:tone(bwr,"B"),barC:tone(bwr,"C"),
+            bgA:bact?"#1a2340":"transparent",fgA:bact?"#ffd23d":"#b9c3d8",
+            bgB:bact?"#241a52":"transparent",fgB:bact?"#35e0d8":"#b3a9d8",
+            bgC:bact?"#1b2a1c":"transparent",fgC:bact?"#b8ff5c":"#a5b6a8",
+            pv:{D:{bar:pvTone(bwr,"D"),bg:bact?PV.D.sel:"transparent",fg:bact?PV.D.selFg:PV.D.fg},
+                E:{bar:pvTone(bwr,"E"),bg:bact?PV.E.sel:"transparent",fg:bact?PV.E.selFg:PV.E.fg},
+                F:{bar:pvTone(bwr,"F"),bg:bact?PV.F.sel:"transparent",fg:bact?PV.F.selFg:PV.F.fg}},
+            active:bact,
+            click:()=>this.setState({filter:f.kind==="brawler"&&f.value===b.label?{kind:"all",value:null}:{kind:"brawler",value:b.label},openId:null})};
+        }).sort((x,y)=>y.sets-x.sets)};
+    });
+    const hidden=(srcMaps.length-mapRows.length)+(srcBrawlers.length-brawlerRows.length)+(srcMates.length-mateRows.length);
+    const recentSrc=selNames?p.recent.filter(r=>selNames.includes(r.brawler)):p.recent;
+    const rankWord=p.rank.split(" ")[0],rankTier=p.rank.split(" ")[1]||"";
+    const eloDelta=(p.elo[p.elo.length-1]-p.elo[0]>=0?"+":"")+(p.elo[p.elo.length-1]-p.elo[0]);
+    const sorted=[...mapRows].sort((a,b)=>b.wr-a.wr);
+    const best=sorted[0],worst=sorted[sorted.length-1];
+    const chip=(label,active,onClick)=>({label,click:onClick,
+      bg:active?"#e8effe":"#fff",fg:active?"#2b52c0":"#5c6478",bd:active?"#c3d3fb":"#dfe3ea",
+      dbg:active?"#ffd23d":"#0e1424",dfg:active?"#0b0f1a":"#9aa5c0",dbd:active?"#ffd23d":"#2c3854",
+      vbg:active?"#35e0d8":"#0d0a24",vfg:active?"#08061a":"#b3a9d8",vbd:active?"#35e0d8":"#372a68",
+      lbg:active?"#b8ff5c":"#0e120e",lfg:active?"#0a0d0a":"#a5b6a8",lbd:active?"#b8ff5c":"#2c382e",
+      pv:{D:{bg:active?PV.D.chipOn:PV.D.chipBg,fg:active?PV.D.chipOnFg:PV.D.muted,bd:active?PV.D.chipOn:PV.D.bd},
+          E:{bg:active?PV.E.chipOn:PV.E.chipBg,fg:active?PV.E.chipOnFg:PV.E.muted,bd:active?PV.E.chipOn:PV.E.bd},
+          F:{bg:active?PV.F.chipOn:PV.F.chipBg,fg:active?PV.F.chipOnFg:PV.F.muted,bd:active?PV.F.chipOn:PV.F.bd}},
+      iconBg:active?"rgba(11,15,26,.28)":"#233054"});
+    const tabDefs=[["map","Per map",mapRows.length],["brawler","Per brawler",brawlerRows.length],["mate","Lagkamerater",mateRows.length]];
+    const activeRows=st.tab==="map"?mapRows:st.tab==="brawler"?brawlerRows:mateRows;
+    const m=recentSrc.find(r=>r.id===st.openId);
+
+    return{
+      roster:PLAYERS.map(x=>({key:x.key,name:x.name})),
+      playerKey:st.playerKey,minSets:st.minSets,mode:st.mode,modes:MODES,season:st.range,
+      onPlayer:e=>this.setState({playerKey:e.target.value,openId:null}),
+      onMin:e=>this.setState({minSets:Math.max(1,parseInt(e.target.value||"1",10))}),
+      onMode:e=>this.setState({mode:e.target.value}),
+      closeSet:()=>this.setState({openId:null}),
+      p:{...p,wld:o.w+" / "+o.l+" / "+o.d,wrPct:Math.round(wr*100),sets:o.sets,
+        rankColor:TIERS[rankWord]||"#adb6c2",rankShort:rankWord.slice(0,3).toUpperCase(),rankTier:rankTier,
+        eloNow:p.elo[p.elo.length-1],eloDelta,lastSetDate:p.recent[0].date},
+      kpis:[
+        {label:"Sett spilt",value:o.sets,sub:st.range,color:"#141821",darkColor:"#eef1f8",colA:"#eef1f8",colB:"#f2eefc",colC:"#edf3ee",pv:{D:{col:"#ece4d4"},E:{col:"#e8f1f5"},F:{col:"#1e1a14"}}},
+        {label:"Winrate",value:Math.round(wr*100)+"%",sub:"per sett",color:this.bar(wr),darkColor:this.darkBar(wr),colA:tone(wr,"A"),colB:tone(wr,"B"),colC:tone(wr,"C"),pv:{D:{col:pvTone(wr,"D")},E:{col:pvTone(wr,"E")},F:{col:pvTone(wr,"F")}}},
+        {label:"Seiere",value:o.w,sub:"sett vunnet",color:"#2f9e6b",darkColor:"#5fd39a",colA:PAL.A.good,colB:PAL.B.good,colC:PAL.C.good,pv:{D:{col:PV.D.good},E:{col:PV.E.good},F:{col:PV.F.good}}},
+        {label:"Tap",value:o.l,sub:"sett tapt",color:"#cf4b52",darkColor:"#ff7d84",colA:PAL.A.bad,colB:PAL.B.bad,colC:PAL.C.bad,pv:{D:{col:PV.D.bad},E:{col:PV.E.bad},F:{col:PV.F.bad}}},
+        {label:"Uavgjort",value:o.d,sub:"delte sett",color:"#7b8296",darkColor:"#9aa5c0",colA:"#9aa5c0",colB:"#8b82b8",colC:"#7f8f87",pv:{D:{col:PV.D.muted},E:{col:PV.E.muted},F:{col:PV.F.muted}}}
+      ],
+      classTree,
+      filterActive:f.kind!=="all",
+      filterLabel:f.kind==="all"?"Alle brawlere":f.kind==="class"?f.value+" (klasse)":f.value,
+      clearFilter:()=>this.setState({filter:{kind:"all",value:null},openId:null}),
+      eloChart:this.eloChartEl(p.elo),
+      eloChartDark:this.eloChartEl(p.elo,true),
+      callouts:[
+        {tag:"Best map",map:best?best.map:"—",mode:best?best.mode:"",sets:best?best.sets:0,wr:best?best.wrPct:0,tone:"#2f9e6b",toneB:PAL.B.good,toneC:PAL.C.good,pv:{D:{tone:PV.D.good},E:{tone:PV.E.good},F:{tone:PV.F.good}}},
+        {tag:"Worst map",map:worst?worst.map:"—",mode:worst?worst.mode:"",sets:worst?worst.sets:0,wr:worst?worst.wrPct:0,tone:"#cf4b52",toneB:PAL.B.bad,toneC:PAL.C.bad,pv:{D:{tone:PV.D.bad},E:{tone:PV.E.bad},F:{tone:PV.F.bad}}}
+      ],
+      modeChips:MODES.map(md=>chip(md,st.mode===md,()=>this.setState({mode:md}))),
+      rangeChips:RANGES.map(r=>chip(r,st.range===r,()=>this.setState({range:r}))),
+      tabs:tabDefs.map(([k,label,count])=>({label,count,click:()=>this.setState({tab:k}),
+        fg:st.tab===k?"#141821":"#8b92a5",bg:st.tab===k?"#f4f6fa":"transparent",bd:st.tab===k?"#3563e9":"transparent",
+        dfg:st.tab===k?"#0b0f1a":"#8f9ab6",dbg:st.tab===k?"#ffd23d":"transparent",dbd:st.tab===k?"#ffd23d":"transparent"})),
+      hudTables:this.withCollapse([
+        {title:"Per map",head:"Map",tint:"#1d2b52",tintB:"#2a1f5c",tintC:"#1e2c1a",pv:{D:{tint:PV.D.tintA},E:{tint:PV.E.tintA},F:{tint:PV.F.tintA}},count:mapRows.length,rows:mapRows,sort:this.sortH("map"),arrow:this.arrows("map")},
+        {title:"Per brawler",head:"Brawler",tint:"#3c2f10",tintB:"#3a1b4e",tintC:"#2e2416",pv:{D:{tint:PV.D.tintB},E:{tint:PV.E.tintB},F:{tint:PV.F.tintB}},count:brawlerRows.length,rows:brawlerRows,sort:this.sortH("brawler"),arrow:this.arrows("brawler")},
+        {title:"Lagkamerater",head:"Spiller",tint:"#16342c",tintB:"#152f4e",tintC:"#14291f",pv:{D:{tint:PV.D.tintC},E:{tint:PV.E.tintC},F:{tint:PV.F.tintC}},count:mateRows.length,rows:mateRows,sort:this.sortH("mate"),arrow:this.arrows("mate")}
+      ]),
+      recentPanel:this.panel("recent"),
+      mapRows,brawlerRows,mateRows,activeRows,
+      activeName:st.tab==="map"?"Mode & map":st.tab==="brawler"?"Brawler":"Spiller",
+      activeSort:this.sortH(st.tab),activeArrow:this.arrows(st.tab),
+      sortH:{map:this.sortH("map"),brawler:this.sortH("brawler"),mate:this.sortH("mate")},
+      arrow:{map:this.arrows("map"),brawler:this.arrows("brawler"),mate:this.arrows("mate")},
+      darkTables:[
+        {title:"Per map",head:"Map",count:mapRows.length,rows:mapRows,sort:this.sortH("map"),arrow:this.arrows("map")},
+        {title:"Per brawler",head:"Brawler",count:brawlerRows.length,rows:brawlerRows,sort:this.sortH("brawler"),arrow:this.arrows("brawler")}
+      ],
+      visibleCount:mapRows.length+brawlerRows.length+mateRows.length,hiddenCount:hidden,
+      streak:recentSrc.slice().reverse().map(r=>({ch:r.res==="win"?"W":r.res==="loss"?"L":"D",
+        bg:r.res==="win"?"#5fd39a":r.res==="loss"?"#ff7d84":"#9aa5c0",
+        bgA:r.res==="win"?PAL.A.good:r.res==="loss"?PAL.A.bad:"#4d5876",
+        bgB:r.res==="win"?PAL.B.good:r.res==="loss"?PAL.B.bad:"#4b3f7a",
+        bgC:r.res==="win"?PAL.C.good:r.res==="loss"?PAL.C.bad:"#3c4a3f",
+        pv:{D:{bg:r.res==="win"?PV.D.good:r.res==="loss"?PV.D.bad:PV.D.track},
+            E:{bg:r.res==="win"?PV.E.good:r.res==="loss"?PV.E.bad:PV.E.track},
+            F:{bg:r.res==="win"?PV.F.good:r.res==="loss"?PV.F.bad:PV.F.track}}})),
+      recent:recentSrc.map(r=>{
+        const win=r.res==="win",loss=r.res==="loss";
+        const col=win?"#2f9e6b":loss?"#cf4b52":"#7b8296";
+        const open=st.openId===r.id;
+        return{...r,result:win?"Seier":loss?"Tap":"Uavgjort",resultEn:win?"WIN":loss?"LOSS":"DRAW",
+          score:r.t0+"–"+r.t1,resColor:col,resBg:win?"#e7f6ee":loss?"#fdecec":"#f1f3f7",
+          darkRes:win?"#5fd39a":loss?"#ff7d84":"#9aa5c0",darkResBg:win?"#14301f":loss?"#331416":"#1d2740",
+          resA:win?PAL.A.good:loss?PAL.A.bad:"#9aa5c0",resABg:win?"#14301f":loss?"#331416":"#1d2740",
+          resB:win?PAL.B.good:loss?PAL.B.bad:"#8b82b8",resBBg:win?"#10322f":loss?"#33121f":"#241c47",
+          resC:win?PAL.C.good:loss?PAL.C.bad:"#7f8f87",resCBg:win?"#20300f":loss?"#331c12":"#20291f",
+          rowBgB:open?"#20194a":"#140f2a",rowBgC:open?"#1c2519":"#131a17",
+          pv:["D","E","F"].reduce((acc,k)=>{const q=PV[k];acc[k]={
+            res:win?q.good:loss?q.bad:q.muted,resBg:win?q.resBgW:loss?q.resBgL:q.resBgD,
+            rowBg:open?q.rowOpen:q.rowBase};return acc;},{}),
+          rowBg:open?"#eaf3ff":"transparent",bg:open?"#f4f7ff":"#fff",bd:open?"#c3d3fb":"#e9ecf2",
+          darkBg:open?"#1a2440":"transparent",darkRowBg:open?"#1a2440":"#0e1424",toggleLabel:open?"Skjul ▲":"Vis ▼",
+          open:()=>this.setState({openId:open?null:r.id})};
+      }),
+      detail:m?this.detailFor(m,p):null
+    };
+  }
+}
+</script>
+</body>
+</html>
