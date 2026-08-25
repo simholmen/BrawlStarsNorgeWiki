@@ -92,3 +92,10 @@ layout: default
     <img src="/images/bsProfiler2025/{{ page.name | downcase | replace: ' ', '_' }}.png" alt="{{ page.name }}" class="bsprofil">
     <figcaption class="bsprofil-caption">{{ page.name }}'s Brawl Stars profil - Juni 2025</figcaption>
 </figure>
+
+{% unless page.no_2026_profile %}
+<figure class="bsprofil-container">
+    <img src="/images/bsProfiler2026/{{ page.name | downcase | replace: ' ', '_' }}.png" alt="{{ page.name }}" class="bsprofil">
+    <figcaption class="bsprofil-caption">{{ page.name }}'s Brawl Stars profil - Oppdatert august 2026</figcaption>
+</figure>
+{% endunless %}
