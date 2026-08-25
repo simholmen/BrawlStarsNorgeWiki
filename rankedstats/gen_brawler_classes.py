@@ -1,4 +1,4 @@
-"""Generate rankedstats/brawler_classes.js from the live BrawlAPI brawler list.
+"""Generate docs/rankedstats/brawler_classes.js from the live BrawlAPI brawler list.
 
 This is a maintainer-run, build-time generator — it is never invoked from the
 browser at page load. Run it manually whenever Supercell ships new brawlers
@@ -11,7 +11,10 @@ It fetches `https://api.brawlapi.com/v1/brawlers` (keyless, no auth header
 required — see notes/claude-specs/research/brawl-stars-brawler-class-mapping.md
 for the live-verified endpoint shape), builds a `brawler_id -> class name`
 mapping, and writes it out as a plain `<script>`-friendly JS file (two global
-`const`s, no module syntax) for rankedstats/stats.html to load directly.
+`const`s, no module syntax) for docs/rankedstats/stats.html to load directly.
+The published static site lives entirely under `docs/rankedstats/` (see that
+folder's own copy of stats.html/stats.css/images/) — this repo's `rankedstats/`
+folder holds only the Supabase ingest pipeline, not a second copy of the page.
 
 Retry/backoff mirrors the style used by `fetch_battlelog` in
 rankedstats/bs_api.py (same retryable status-code set, same
@@ -29,7 +32,8 @@ BRAWLERS_URL = "https://api.brawlapi.com/v1/brawlers"
 RETRY_STATUS_CODES = {429, 502, 503, 504, 520}
 MAX_ATTEMPTS = 4
 
-OUTPUT_PATH = Path(__file__).resolve().parent / "brawler_classes.js"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_PATH = REPO_ROOT / "docs" / "rankedstats" / "brawler_classes.js"
 
 UNCLASSIFIED_LABEL = "Unclassified"
 BRAWLER_CLASS_ORDER = [
@@ -164,9 +168,9 @@ def build_class_map(brawlers: list) -> dict:
 
 
 def write_output_file(class_map: dict):
-    """Write `class_map` out as rankedstats/brawler_classes.js.
+    """Write `class_map` out as docs/rankedstats/brawler_classes.js.
 
-    The file is a plain script (not an ES module) so rankedstats/stats.html
+    The file is a plain script (not an ES module) so docs/rankedstats/stats.html
     can load it with a bare `<script src="brawler_classes.js"></script>`
     tag, no bundler required. Keys are written as sorted, unquoted numeric
     literals so the file stays deterministic across regenerations.

@@ -1,10 +1,16 @@
 # Ranked Stats
 
 A small, self-contained system that ingests the roster's Brawl Stars **Ranked** (`soloRanked`)
-battlelogs into a Supabase Postgres database, and shows per-player stats in a standalone local
-HTML page. It is deliberately separate from the Jekyll site under `docs/` and from
-`winratefetching/`/`tournamentfetching/` — nothing outside this folder is touched, except two
-keys appended to the root `.env` (see below).
+battlelogs into a Supabase Postgres database, and shows per-player stats in a standalone HTML
+page. The ingest pipeline in this folder is deliberately separate from the Jekyll site under
+`docs/` and from `winratefetching/`/`tournamentfetching/` — nothing outside this folder is
+touched, except two keys appended to the root `.env` (see below) and the generated
+`docs/rankedstats/brawler_classes.js` (see "Contents" below).
+
+The **published viewer page itself lives under `docs/rankedstats/`** (`stats.html`, `stats.css`,
+`brawler_classes.js`, `images/`), not in this folder — that's the only copy, so GitHub Pages can
+serve it directly alongside the wiki. This folder holds only the ingest pipeline that fills the
+database the viewer reads from.
 
 ## Contents
 
@@ -33,8 +39,11 @@ keys appended to the root `.env` (see below).
 - `supa.py` — a thin PostgREST wrapper (`upsert`/`select`/`patch`) used to write to Supabase.
 - `ingest.py` — the orchestration entrypoint: fetches every roster player's battlelog, groups it
   into sets, and writes it to Supabase.
-- `stats.html` — a standalone, local-only page that reads the `v_player_*` views directly from
-  Supabase and renders per-player stats. Opened via `file://`, not part of Jekyll.
+- `gen_brawler_classes.py` — maintainer-run generator that writes
+  `docs/rankedstats/brawler_classes.js` from the live BrawlAPI brawler list (see its own docstring).
+- `docs/rankedstats/stats.html` (outside this folder) — the published page that reads the
+  `v_player_*` views directly from Supabase and renders per-player stats. Not part of the Jekyll
+  build (no front matter), just a static file GitHub Pages serves as-is.
 
 ## One-time setup
 
@@ -54,11 +63,11 @@ keys appended to the root `.env` (see below).
    key, and the **publishable** (anon) key.
 4. Add the URL and secret key to the repo root `.env` as `SUPABASE_URL` and
    `SUPABASE_SECRET_KEY`. This file is already gitignored — never commit it.
-5. Paste the project URL and the publishable key into `stats.html`'s `SUPABASE_URL` and
-   `SUPABASE_PUBLISHABLE_KEY` constants near the top of its `<script>` block. The publishable key
-   is safe to commit: every table and view it can see is governed by row-level-security policies
-   that only ever grant `SELECT` to the `anon`/`authenticated` roles, so it can never write
-   anything.
+5. Paste the project URL and the publishable key into `docs/rankedstats/stats.html`'s
+   `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` constants near the top of its `<script>` block.
+   The publishable key is safe to commit: every table and view it can see is governed by
+   row-level-security policies that only ever grant `SELECT` to the `anon`/`authenticated` roles,
+   so it can never write anything.
 
 Never make ad-hoc schema changes through the Supabase Table Editor UI — that silently desyncs the
 live database from these migration files, which are meant to be the single source of truth for
@@ -78,9 +87,9 @@ below). It fetches every roster player's battlelog, groups it into sets, and wri
 updated sets to Supabase. Re-running it immediately after a successful run is a no-op (it prints
 0 new sets and 0 new battles).
 
-Then open `rankedstats/stats.html` directly in a browser (double-click it, or `open
-rankedstats/stats.html`) to view the stats. It reads straight from Supabase over the network, so
-no local server or build step is required.
+Then open `docs/rankedstats/stats.html` directly in a browser (double-click it, or `open
+docs/rankedstats/stats.html`) to view the stats. It reads straight from Supabase over the network,
+so no local server or build step is required.
 
 ## Why only `soloRanked` is ingested
 
@@ -128,8 +137,10 @@ from rolling off before it can be captured.
 
 Every path in this package already resolves from `__file__`
 (`REPO_ROOT = Path(__file__).resolve().parent.parent`), and all configuration comes from `.env` —
-so the `rankedstats/` folder is copy-portable to a VM or another machine as-is, with no hardcoded
-local paths.
+so `ingest.py`'s whole ingest pipeline is copy-portable to a VM or another machine as-is, with no
+hardcoded local paths. `gen_brawler_classes.py` is the one exception: it writes into
+`docs/rankedstats/`, so it needs the rest of the repo checked out alongside `rankedstats/`, not
+just this folder on its own.
 
 **Open item, confirmed during this project's build, not just suspected**: Brawl Stars API keys
 appear to be IP-bound. A live call from the build sandbox returned HTTP 403
