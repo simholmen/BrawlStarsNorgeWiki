@@ -19,6 +19,7 @@ ENV_PATH = REPO_ROOT / ".env"
 FETCHRESULT_DIR = Path(__file__).resolve().parent / "fetchresult"
 
 BATTLELOG_URL_TEMPLATE = "https://api.brawlstars.com/v1/players/{encoded_tag}/battlelog"
+PLAYER_URL_TEMPLATE = "https://api.brawlstars.com/v1/players/{encoded_tag}"
 RETRY_STATUS_CODES = {429, 502, 503, 504, 520}
 
 
@@ -122,6 +123,84 @@ def fetch_battlelog(tag: str) -> list:
     _write_debug_response(tag, payload)
 
     return items
+
+
+def fetch_player_profile(tag: str) -> dict:
+    """Fetch a player's live profile from the Brawl Stars API (not the battlelog).
+
+    Args:
+        tag: the player tag, including the leading `#` (e.g. "#YQ29980").
+
+    Returns:
+        dict: {"icon_id": int | None, "ranked_season_id": int | None,
+        "ranked_rank": int | None, "ranked_rank_name": str | None,
+        "ranked_elo": int | None}. Any field may be None -- e.g. a player with no
+        Ranked activity this season has no ranked_* fields in the raw response.
+
+    Raises:
+        RuntimeError: if no API key is configured, or the API returns 403.
+        requests.HTTPError: for any other non-retryable HTTP error.
+        requests.RequestException: for network errors that persist through
+            all retry attempts.
+    """
+    api_key = load_api_key()
+    if not api_key:
+        raise RuntimeError(
+            "Missing BRAWLSTARS_API_KEY. Set it in the environment or in "
+            f"{ENV_PATH}."
+        )
+
+    encoded_tag = urllib.parse.quote(tag, safe="")
+    url = PLAYER_URL_TEMPLATE.format(encoded_tag=encoded_tag)
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/json",
+    }
+
+    attempts = 4
+    last_error = None
+    response = None
+
+    for attempt in range(1, attempts + 1):
+        try:
+            response = requests.get(url, headers=headers, timeout=30)
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt < attempts:
+                time.sleep(2 ** (attempt - 1))
+                continue
+            raise
+
+        if response.status_code == 200:
+            break
+
+        if response.status_code == 403:
+            raise RuntimeError(
+                "403 from Brawl Stars API — check BRAWLSTARS_API_KEY and "
+                "that this machine's IP is allow-listed for the key (keys "
+                "are IP-bound)."
+            )
+
+        if response.status_code in RETRY_STATUS_CODES and attempt < attempts:
+            time.sleep(2 ** (attempt - 1))
+            continue
+
+        response.raise_for_status()
+
+    if response is None or response.status_code != 200:
+        if last_error:
+            raise last_error
+        raise RuntimeError("Unknown error while fetching Brawl Stars player profile")
+
+    payload = response.json()
+
+    return {
+        "icon_id": payload.get("icon", {}).get("id"),
+        "ranked_season_id": payload.get("rankedSeasonId"),
+        "ranked_rank": payload.get("rankedRank"),
+        "ranked_rank_name": payload.get("rankedRankName"),
+        "ranked_elo": payload.get("rankedElo"),
+    }
 
 
 def _write_debug_response(tag: str, payload: dict):

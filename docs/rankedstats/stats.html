@@ -50,7 +50,7 @@
       <h1 class="hero-player-name" id="hero-player-name">Velg en spiller</h1>
       <p class="hero-subline" id="hero-subline"></p>
       <div class="hero-form-row">
-        <span class="hero-form-label">Form</span>
+        <span class="hero-form-label"></span>
         <div class="hero-form" id="hero-form"></div>
       </div>
     </div>
@@ -99,6 +99,13 @@
 
     <!-- ===================== ACTIVE FILTER BAR ===================== -->
     <div class="filter-bar" id="filter-bar"></div>
+
+    <!-- ===================== SECTION: LEADERBOARD (no player selected) ===================== -->
+    <section class="stats-section" id="leaderboard-section" style="display: none;">
+      <div id="leaderboard-content">
+        <p class="status loading">Laster...</p>
+      </div>
+    </section>
 
     <!-- ===================== BEST/WORST MAP CALLOUTS ===================== -->
     <div class="callouts" id="map-callouts"></div>
@@ -217,7 +224,7 @@
     noTrackedPlayers: "Ingen sporede spillere funnet ennå.",
     failedToLoadPlayers: "(klarte ikke å laste spillere)",
     noTrackedPlayersOption: "(ingen sporede spillere)",
-    choosePlayer: "-- velg en spiller --",
+    choosePlayer: "- Felles leaderboard -",
 
     // --- section titles ---
     mapSectionTitle: "Map",
@@ -283,7 +290,7 @@
     allModes: "Alle modes",
     modeGroupTitle: "Mode",
     periodGroupTitle: "Periode",
-    allTime: "Alle tider",
+    allTime: "All time",
     last30Days: "Siste 30 dager",
     last7Days: "Siste 7 dager",
     rowsHiddenSuffix: "rader skjult",
@@ -301,6 +308,18 @@
     resultWin: "Seier",
     resultLoss: "Tap",
     resultDraw: "Uavgjort",
+
+    // --- leaderboard (no player selected) ---
+    leaderboardSectionTitle: "Ledertavle",
+    leaderboardRankColumn: "#",
+    leaderboardPrevPage: "‹ Forrige",
+    leaderboardNextPage: "Neste ›",
+    leaderboardPageLabel: "Side",
+    leaderboardPageOfLabel: "av",
+    leaderboardExcludedSuffix: "spillere ekskludert (under minimum sett)",
+    leaderboardHeroTitle: "Brawl Stars Norge ranked leaderboard",
+    leaderboardHeroSubtitle: "Velg eller klikk på en spiller for å se spillerenes individuelle statistikk.",
+    leaderboardLogoAlt: "Brawl Stars Norge",
   };
 
   // =========================================================================================
@@ -317,6 +336,13 @@
     setRows: [],
     mateRows: [],
     rankHistory: [],
+    // Live, periodic (~30 min) snapshots of the player's Ranked season/rank/elo, straight
+    // from the player-profile API endpoint — a continuous elo number, unlike rankHistory's
+    // coarse 1-22 tier value derived per completed set. Preferred over rankHistory for the
+    // hero badge/chart whenever at least 1 (badge) or 2 (chart) rows exist; renderHero/
+    // renderEloChart fall back to rankHistory/renderRankChart otherwise (e.g. a player with
+    // no snapshots yet).
+    rankSnapshots: [],
     filter: { kind: null, value: null },
     mode: "All modes",
     period: "All time",
@@ -327,6 +353,20 @@
     // default) means collapsed. Never read/written by applyFilters/aggregate — only by
     // renderBrawlerTree() in the SIDEBAR FILTERS section below.
     expandedClasses: {},
+
+    // --- leaderboard (no player selected) --- bulk fetch across every tracked player, loaded
+    // once at init; rosterByTag maps tag -> display name for the leaderboard's aggregate()
+    // labelFn; rosterIconByTag maps tag -> profile icon id (null if unknown), read by
+    // buildRowIconCell via profileIconUrl(); leaderboardPage is 1-indexed;
+    // leaderboardFilterSignature/leaderboardExcludedCount are internal bookkeeping for
+    // renderLeaderboard()/updateMinSetsHint().
+    allSetRows: [],
+    rosterByTag: new Map(),
+    rosterIconByTag: new Map(),
+    leaderboardPage: 1,
+    leaderboardFilterSignature: null,
+    leaderboardExcludedCount: 0,
+    leaderboardLoadError: null,
   };
 
   async function loadPlayerData(tag) {
@@ -346,13 +386,19 @@
     });
     clearElement(document.getElementById("match-detail-content"));
 
-    const [setRowsResult, mateRowsResult, rankHistoryResult] = await Promise.all([
-      sb.from("v_player_set_rows").select("*").eq("player_tag", tag),
-      sb.from("v_player_teammate_rows").select("*").eq("player_tag", tag),
-      sb.from("v_player_rank_history").select("*").eq("player_tag", tag),
-    ]);
+    const [setRowsResult, mateRowsResult, rankHistoryResult, rankSnapshotsResult] =
+      await Promise.all([
+        sb.from("v_player_set_rows").select("*").eq("player_tag", tag),
+        sb.from("v_player_teammate_rows").select("*").eq("player_tag", tag),
+        sb.from("v_player_rank_history").select("*").eq("player_tag", tag),
+        sb.from("v_player_rank_snapshots").select("*").eq("player_tag", tag),
+      ]);
 
-    const firstError = setRowsResult.error || mateRowsResult.error || rankHistoryResult.error;
+    const firstError =
+      setRowsResult.error ||
+      mateRowsResult.error ||
+      rankHistoryResult.error ||
+      rankSnapshotsResult.error;
     if (firstError) {
       allContainers.forEach(function (container) {
         setStatus(container, "error", LABELS.errorPrefix + firstError.message);
@@ -363,8 +409,14 @@
     const setRows = setRowsResult.data || [];
     const mateRows = mateRowsResult.data || [];
     const rankHistory = rankHistoryResult.data || [];
+    const rankSnapshots = rankSnapshotsResult.data || [];
 
-    if (setRows.length === 0 && mateRows.length === 0 && rankHistory.length === 0) {
+    if (
+      setRows.length === 0 &&
+      mateRows.length === 0 &&
+      rankHistory.length === 0 &&
+      rankSnapshots.length === 0
+    ) {
       allContainers.forEach(function (container) {
         setStatus(container, "empty", LABELS.noSetsRecorded);
       });
@@ -375,6 +427,7 @@
     STATE.setRows = setRows;
     STATE.mateRows = mateRows;
     STATE.rankHistory = rankHistory;
+    STATE.rankSnapshots = rankSnapshots;
 
     renderAll();
   }
@@ -459,6 +512,35 @@
     return aggregatedRows;
   }
 
+  // === Leaderboard aggregation (no player selected) — reuses applyFilters/aggregate completely
+  // === unmodified, grouping by player_tag instead of map/brawler/teammate. Groups below
+  // === STATE.minSets are excluded from the ranked list entirely (not just badge-flagged), same
+  // === "excluded from consideration" instinct as renderCallouts' best/worst-map gate. ===
+  function computeLeaderboardRows() {
+    const filteredRows = applyFilters(STATE.allSetRows);
+    const playerGroups = aggregate(
+      filteredRows,
+      function (row) { return row.player_tag; },
+      function (row) { return STATE.rosterByTag.get(row.player_tag) || row.player_tag; }
+    );
+
+    const qualifyingRows = playerGroups.filter(function (group) {
+      return group.sets >= STATE.minSets;
+    });
+    const excludedCount = playerGroups.length - qualifyingRows.length;
+
+    qualifyingRows.sort(function (rowA, rowB) {
+      const winrateA = rowA.winrate === null ? -1 : rowA.winrate;
+      const winrateB = rowB.winrate === null ? -1 : rowB.winrate;
+      if (winrateB !== winrateA) {
+        return winrateB - winrateA;
+      }
+      return rowB.sets - rowA.sets;
+    });
+
+    return { rankedRows: qualifyingRows, excludedCount: excludedCount };
+  }
+
   // =========================================================================================
   // === Field-shaping bridge — Task 10 confirmed the map/brawler/teammate row shapes below are
   // === exactly what `renderMapTable`/`renderBrawlerTable`/`renderTeammateTable` need, so this
@@ -467,12 +549,50 @@
   // === recent-matches renderer and its own bridge block below.
   // =========================================================================================
 
+  // === Resets the hero back to its initial "no player selected" placeholder state. Fixes a
+  // === pre-existing bug where deselecting a player left the previous player's KPIs/form/chart
+  // === stale on screen (renderAll() was never called on deselect before this dispatch branch). ===
+  function renderHeroEmptyState() {
+    document.getElementById("hero-player-name").textContent = LABELS.leaderboardHeroTitle;
+    document.getElementById("hero-subline").textContent = LABELS.leaderboardHeroSubtitle;
+    const rankIcon = document.getElementById("hero-rank-icon");
+    rankIcon.src = "../images/bsnorge.jpg";
+    rankIcon.alt = LABELS.leaderboardLogoAlt;
+    document.getElementById("hero-rank-roman").textContent = "";
+    clearElement(document.getElementById("hero-rank-chart"));
+    clearElement(document.getElementById("hero-kpis"));
+    clearElement(document.getElementById("hero-form"));
+  }
+
+  // === Toggles between the leaderboard section (no player selected) and the 4 per-player
+  // === sections + callouts. Called from renderAll() on every render. ===
+  function setMainSectionsVisible(showLeaderboard) {
+    document.getElementById("leaderboard-section").style.display = showLeaderboard ? "" : "none";
+    ["map-callouts", "map-section", "brawler-section", "teammate-section", "recent-section"].forEach(
+      function (id) {
+        document.getElementById(id).style.display = showLeaderboard ? "none" : "";
+      }
+    );
+    if (showLeaderboard) {
+      clearElement(document.getElementById("map-callouts"));
+    }
+  }
+
   function renderAll() {
-    renderHero(STATE.tag);
     renderBrawlerTree();
     renderModeChips();
     renderPeriodChips();
     renderFilterBar();
+
+    setMainSectionsVisible(STATE.tag === null);
+    if (STATE.tag === null) {
+      renderHeroEmptyState();
+      renderLeaderboard();
+      updateMinSetsHint();
+      return;
+    }
+
+    renderHero(STATE.tag);
 
     const filteredSetRows = applyFilters(STATE.setRows);
     const filteredMateRows = applyFilters(STATE.mateRows);
@@ -612,16 +732,16 @@
 
   // =========================================================================================
   // === HERO ===
-  // === Reads only STATE.rankHistory (already fetched by loadPlayerData) and the currently
-  // === selected <option> in #player-select — issues no network requests of its own. Mirrors the
-  // === exact `ended_at`-ascending sort renderAll() uses for `currentRankLabel` so both agree on
-  // === which rank-history row is "current". Also renders the Task 15 rank-tier chart
-  // === (`renderRankChart`) and appends a period-relative rank-delta span to `#hero-subline`.
+  // === Reads STATE.rankSnapshots/STATE.rankHistory (already fetched by loadPlayerData) and the
+  // === currently selected <option> in #player-select — issues no network requests of its own.
+  // === Prefers the live rank/elo snapshots (renderEloChart, continuous elo, ~30-min cadence)
+  // === over the coarse tier-per-completed-set history (renderRankChart) whenever this player has
+  // === at least 1 snapshot; falls back to the history path exactly as before otherwise (e.g. a
+  // === player with no snapshots yet). Appends a period-relative delta span to `#hero-subline`
+  // === either way — elo delta when snapshots are used, tier-value delta in the fallback.
   // =========================================================================================
 
   function renderHero(tag) {
-    renderRankChart(STATE.rankHistory);
-
     const rankIconEl = document.getElementById("hero-rank-icon");
     const rankRomanEl = document.getElementById("hero-rank-roman");
     const playerNameEl = document.getElementById("hero-player-name");
@@ -631,6 +751,71 @@
     const selectedOption = playerSelect.options[playerSelect.selectedIndex];
     const displayName = (selectedOption && selectedOption.textContent) || tag;
     playerNameEl.textContent = displayName;
+
+    // Shared by both paths below — latestRow only needs rank_label/tier_name/tier_level, which
+    // v_player_rank_snapshots and v_player_rank_history both expose identically (same rank_tiers
+    // join), so one badge renderer covers both.
+    function applyRankBadge(latestRow, deltaText) {
+      clearElement(sublineEl);
+      sublineEl.appendChild(
+        document.createTextNode((latestRow.rank_label || "—") + " · " + tag)
+      );
+      if (deltaText !== null) {
+        const deltaEl = document.createElement("span");
+        deltaEl.className = "hero-rank-delta";
+        deltaEl.textContent = " " + deltaText;
+        sublineEl.appendChild(deltaEl);
+      }
+      const iconUrl = tierIconUrl(latestRow.tier_name);
+      if (iconUrl) {
+        rankIconEl.src = iconUrl;
+        rankIconEl.alt = latestRow.tier_name;
+      } else {
+        rankIconEl.removeAttribute("src");
+        rankIconEl.alt = "";
+      }
+      rankRomanEl.textContent = tierRoman(latestRow.tier_level);
+    }
+
+    function formatDelta(delta) {
+      return delta > 0 ? "+" + delta : delta < 0 ? String(delta) : "±0";
+    }
+
+    const sortedRankSnapshots = STATE.rankSnapshots.slice().sort(function (rowA, rowB) {
+      return new Date(rowA.fetched_at) - new Date(rowB.fetched_at);
+    });
+
+    if (sortedRankSnapshots.length > 0) {
+      renderEloChart(sortedRankSnapshots);
+
+      const latestSnapshot = sortedRankSnapshots[sortedRankSnapshots.length - 1];
+
+      // Delta baseline: the earliest snapshot within the CURRENT period window only (never
+      // mode-filtered — snapshot rows have no `mode` field, same reasoning as
+      // filterRankHistoryByPeriod below).
+      const periodRankSnapshots = filterRankSnapshotsByPeriod(STATE.rankSnapshots);
+      const sortedPeriodRankSnapshots = periodRankSnapshots.slice().sort(function (rowA, rowB) {
+        return new Date(rowA.fetched_at) - new Date(rowB.fetched_at);
+      });
+      const baselineSnapshot =
+        sortedPeriodRankSnapshots.length > 0 ? sortedPeriodRankSnapshots[0] : null;
+
+      let deltaText = null;
+      if (
+        baselineSnapshot &&
+        latestSnapshot.ranked_elo !== null &&
+        baselineSnapshot.ranked_elo !== null
+      ) {
+        deltaText = formatDelta(latestSnapshot.ranked_elo - baselineSnapshot.ranked_elo);
+      }
+
+      applyRankBadge(latestSnapshot, deltaText);
+      return;
+    }
+
+    // --- fallback: no rank snapshots exist yet for this player (pre-deployment history, or
+    // --- profile fetches have been failing) — today's exact tier-history behavior ---
+    renderRankChart(STATE.rankHistory);
 
     const sortedRankHistory = STATE.rankHistory.slice().sort(function (rowA, rowB) {
       return new Date(rowA.ended_at) - new Date(rowB.ended_at);
@@ -654,30 +839,10 @@
     });
     const baselineRank = sortedPeriodRankHistory.length > 0 ? sortedPeriodRankHistory[0] : null;
 
-    clearElement(sublineEl);
-    sublineEl.appendChild(
-      document.createTextNode((latestRank.rank_label || "—") + " · " + tag)
-    );
-
-    if (baselineRank) {
-      const rankDelta = latestRank.rank_value - baselineRank.rank_value;
-      const rankDeltaText =
-        rankDelta > 0 ? "+" + rankDelta : rankDelta < 0 ? String(rankDelta) : "±0";
-      const rankDeltaEl = document.createElement("span");
-      rankDeltaEl.className = "hero-rank-delta";
-      rankDeltaEl.textContent = " " + rankDeltaText;
-      sublineEl.appendChild(rankDeltaEl);
-    }
-
-    const iconUrl = tierIconUrl(latestRank.tier_name);
-    if (iconUrl) {
-      rankIconEl.src = iconUrl;
-      rankIconEl.alt = latestRank.tier_name;
-    } else {
-      rankIconEl.removeAttribute("src");
-      rankIconEl.alt = "";
-    }
-    rankRomanEl.textContent = tierRoman(latestRank.tier_level);
+    const deltaText = baselineRank
+      ? formatDelta(latestRank.rank_value - baselineRank.rank_value)
+      : null;
+    applyRankBadge(latestRank, deltaText);
   }
 
   // === Period-only filter for rank-history rows (Task 15) — byte-for-byte the same cutoff-date
@@ -697,13 +862,28 @@
     });
   }
 
+  // === Same period-only cutoff-date filter as filterRankHistoryByPeriod above, over
+  // === v_player_rank_snapshots rows instead (fetched_at, not ended_at). ===
+  function filterRankSnapshotsByPeriod(rows) {
+    if (STATE.period === "All time") {
+      return rows;
+    }
+    const daysBack = STATE.period === "Last 7 days" ? 7 : 30;
+    const cutoffDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
+    return rows.filter(function (row) {
+      return new Date(row.fetched_at) >= cutoffDate;
+    });
+  }
+
   // =========================================================================================
-  // === RANK-TIER CHART (Task 15) ===
+  // === RANK-TIER CHART (Task 15) — FALLBACK ===
   // === `renderRankChart(history)` draws a translucent rank-tier line chart into
   // === #hero-rank-chart, absolutely positioned behind .hero-content by CSS. Y-axis labels are
   // === drawn only from tier_values/rank_labels actually observed in this player's own
   // === `history` — never a fabricated 1-22 full-range label, and never an "Elo"/points value.
   // === Built entirely with createElementNS — no raw markup injection anywhere.
+  // === renderHero() only calls this when the player has no rank snapshots yet (see
+  // === renderEloChart below, the preferred source once snapshots exist).
   // =========================================================================================
 
   const SVG_NS = "http://www.w3.org/2000/svg";
@@ -814,6 +994,112 @@
     const terminalPoint = document.createElementNS(SVG_NS, "circle");
     terminalPoint.setAttribute("cx", String((sortedHistory.length - 1) * xStep));
     terminalPoint.setAttribute("cy", String(rankValueToY(lastRow.rank_value)));
+    terminalPoint.setAttribute("r", "4");
+    terminalPoint.style.fill = "var(--accent-gold)";
+    svg.appendChild(terminalPoint);
+
+    container.appendChild(svg);
+  }
+
+  // =========================================================================================
+  // === ELO CHART (preferred over the rank-tier chart above once a player has snapshots) ===
+  // === `renderEloChart(snapshots)` is renderRankChart's twin, plotting continuous `ranked_elo`
+  // === over `fetched_at` instead of the coarse 1-22 `rank_value` over `ended_at` — elo has no
+  // === lookup table, so gridlines are always the plain rounded elo number, never a tier label.
+  // === Same viewBox/visual language (gold line+area+terminal point) so it reads as the same
+  // === component, not a new design. `snapshots` is assumed already sorted by fetched_at
+  // === ascending (renderHero sorts once and reuses that order for both the chart and the badge).
+  // =========================================================================================
+
+  function renderEloChart(snapshots) {
+    const container = document.getElementById("hero-rank-chart");
+    clearElement(container);
+
+    // A single point (or no points at all) cannot draw a meaningful line — render nothing rather
+    // than a misleading flat/empty chart, and never throw.
+    if (snapshots.length < 2) {
+      return;
+    }
+
+    const viewBoxWidth = 640;
+    const viewBoxHeight = 170;
+
+    let minElo = snapshots[0].ranked_elo;
+    let maxElo = snapshots[0].ranked_elo;
+    snapshots.forEach(function (row) {
+      if (row.ranked_elo < minElo) {
+        minElo = row.ranked_elo;
+      }
+      if (row.ranked_elo > maxElo) {
+        maxElo = row.ranked_elo;
+      }
+    });
+    // A perfectly flat history (elo unchanged across every snapshot) would otherwise divide by
+    // zero below — widen the observed range for the y-axis math only, same trick as
+    // renderRankChart's rankRange/rankRangeMin.
+    const eloRange = maxElo === minElo ? 1 : maxElo - minElo;
+    const eloRangeMin = maxElo === minElo ? minElo - 0.5 : minElo;
+
+    function eloValueToY(eloValue) {
+      return viewBoxHeight - ((eloValue - eloRangeMin) / eloRange) * viewBoxHeight;
+    }
+
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "0 0 " + viewBoxWidth + " " + viewBoxHeight);
+
+    // --- 4 evenly-spaced gridlines, each labelled with the plain rounded elo value at that
+    // --- height — no label-snapping to a nearby observation, unlike the tier chart, since elo
+    // --- is continuous and any rounded number on the axis is already meaningful. ---
+    const gridlineCount = 4;
+    for (let gridlineIndex = 0; gridlineIndex < gridlineCount; gridlineIndex++) {
+      const gridEloValue = minElo + (eloRange * gridlineIndex) / (gridlineCount - 1);
+      const gridY = eloValueToY(gridEloValue);
+
+      const gridline = document.createElementNS(SVG_NS, "line");
+      gridline.setAttribute("x1", "0");
+      gridline.setAttribute("y1", String(gridY));
+      gridline.setAttribute("x2", String(viewBoxWidth));
+      gridline.setAttribute("y2", String(gridY));
+      gridline.style.stroke = "var(--divider)";
+      gridline.setAttribute("stroke-width", "1");
+      svg.appendChild(gridline);
+
+      const gridLabel = document.createElementNS(SVG_NS, "text");
+      gridLabel.setAttribute("x", "4");
+      gridLabel.setAttribute("y", String(gridY - 4));
+      gridLabel.setAttribute("font-size", "10");
+      gridLabel.style.fill = "var(--text-muted-2)";
+      gridLabel.textContent = String(Math.round(gridEloValue));
+      svg.appendChild(gridLabel);
+    }
+
+    // --- gold area fill + line + terminal point, one point per snapshot, evenly spaced by index
+    // --- order across the viewBox's width. ---
+    const xStep = viewBoxWidth / (snapshots.length - 1);
+    const linePoints = snapshots.map(function (row, index) {
+      return index * xStep + "," + eloValueToY(row.ranked_elo);
+    });
+
+    const area = document.createElementNS(SVG_NS, "polygon");
+    area.setAttribute(
+      "points",
+      "0," + viewBoxHeight + " " + linePoints.join(" ") + " " + viewBoxWidth + "," + viewBoxHeight
+    );
+    area.style.fill = "rgba(255,210,61,.13)";
+    svg.appendChild(area);
+
+    const line = document.createElementNS(SVG_NS, "polyline");
+    line.setAttribute("points", linePoints.join(" "));
+    line.setAttribute("fill", "none");
+    line.style.stroke = "var(--accent-gold)";
+    line.setAttribute("stroke-width", "2.4");
+    line.setAttribute("stroke-linejoin", "round");
+    svg.appendChild(line);
+
+    const lastRow = snapshots[snapshots.length - 1];
+    const terminalPoint = document.createElementNS(SVG_NS, "circle");
+    terminalPoint.setAttribute("cx", String((snapshots.length - 1) * xStep));
+    terminalPoint.setAttribute("cy", String(eloValueToY(lastRow.ranked_elo)));
     terminalPoint.setAttribute("r", "4");
     terminalPoint.style.fill = "var(--accent-gold)";
     svg.appendChild(terminalPoint);
@@ -982,6 +1268,19 @@
   // === whose punctuation doesn't hyphenate cleanly (and 1 filename that doesn't follow the
   // === `<slug>_portrait.png` convention).
   // =========================================================================================
+
+  // === `profileIconUrl` turns a player's `icon_id` (fetched server-side from the live API's
+  // === player-profile endpoint, stored in `players.icon_id`) into an image URL on Brawlify's
+  // === public CDN, which mirrors every Supercell profile icon by id — this project never
+  // === downloads or bundles the icon images themselves. `PLAYER_ICON_FALLBACK_URL` is shown
+  // === instead of the blank swatch whenever the id is unknown or the CDN image fails to load.
+  // =========================================================================================
+
+  const PLAYER_ICON_FALLBACK_URL = "../images/rankedstats/fallback.png";
+
+  function profileIconUrl(iconId) {
+    return iconId ? "https://cdn.brawlify.com/profile-icons/regular/" + iconId + ".png" : null;
+  }
 
   const MODE_ICON_FILENAMES = {
     bounty: "bounty_icon.png",
@@ -1199,6 +1498,12 @@
   }
 
   function updateMinSetsHint() {
+    if (STATE.tag === null) {
+      const hintEl = document.getElementById("min-sample-hint");
+      hintEl.textContent = STATE.leaderboardExcludedCount + " " + LABELS.leaderboardExcludedSuffix;
+      return;
+    }
+
     const filterableTableIds = ["map-table", "brawler-table", "teammate-table"];
     let hiddenCount = 0;
 
@@ -1272,9 +1577,13 @@
     return filteredRows;
   }
 
+  function currentTreeRows() {
+    return STATE.tag === null ? STATE.allSetRows : STATE.setRows;
+  }
+
   function buildBrawlerClassGroups() {
     const brawlerAggregates = aggregate(
-      filterByModeAndPeriod(STATE.setRows),
+      filterByModeAndPeriod(currentTreeRows()),
       function (row) {
         return row.brawler_id;
       },
@@ -1483,7 +1792,7 @@
     clearElement(container);
 
     const distinctModes = new Set();
-    STATE.setRows.forEach(function (row) {
+    currentTreeRows().forEach(function (row) {
       distinctModes.add(row.mode);
     });
 
@@ -1574,7 +1883,7 @@
 
     const { data, error } = await sb
       .from("players")
-      .select("tag,name")
+      .select("tag,name,icon_id")
       .eq("is_tracked", true)
       .order("name");
 
@@ -1588,7 +1897,7 @@
       placeholder.value = "";
       placeholder.textContent = LABELS.failedToLoadPlayers;
       select.appendChild(placeholder);
-      return;
+      return [];
     }
 
     if (!data || data.length === 0) {
@@ -1599,7 +1908,7 @@
       placeholder.value = "";
       placeholder.textContent = LABELS.noTrackedPlayersOption;
       select.appendChild(placeholder);
-      return;
+      return [];
     }
 
     listStatus.style.display = "none";
@@ -1615,19 +1924,56 @@
       option.textContent = player.name || player.tag;
       select.appendChild(option);
     });
+
+    return data;
+  }
+
+  // === Bulk fetch across every tracked player for the leaderboard (no player selected) view.
+  // === Called once at init, after loadPlayers() resolves the roster it depends on. ===
+  async function loadLeaderboardData(trackedPlayers) {
+    STATE.rosterByTag = new Map(
+      trackedPlayers.map(function (p) { return [p.tag, p.name || p.tag]; })
+    );
+    STATE.rosterIconByTag = new Map(
+      trackedPlayers.map(function (p) { return [p.tag, p.icon_id || null]; })
+    );
+
+    const trackedTags = trackedPlayers.map(function (p) { return p.tag; });
+    if (trackedTags.length === 0) {
+      STATE.allSetRows = [];
+      renderAll();
+      return;
+    }
+
+    const { data, error } = await sb
+      .from("v_player_set_rows")
+      .select("*")
+      .in("player_tag", trackedTags);
+
+    if (error) {
+      STATE.allSetRows = [];
+      STATE.leaderboardLoadError = error.message;
+      renderAll();
+      return;
+    }
+
+    STATE.allSetRows = data || [];
+    STATE.leaderboardLoadError = null;
+    renderAll();
   }
 
   function onPlayerSelected() {
     const select = document.getElementById("player-select");
     const tag = select.value;
 
+    clearElement(document.getElementById("match-detail-content"));
+
     if (!tag) {
-      const emptyMessage = LABELS.selectPlayerToViewStats;
-      setStatus(document.getElementById("map-content"), "empty", emptyMessage);
-      setStatus(document.getElementById("brawler-content"), "empty", emptyMessage);
-      setStatus(document.getElementById("teammate-content"), "empty", emptyMessage);
-      setStatus(document.getElementById("recent-content"), "empty", emptyMessage);
-      clearElement(document.getElementById("match-detail-content"));
+      STATE.tag = null;
+      STATE.setRows = [];
+      STATE.mateRows = [];
+      STATE.rankHistory = [];
+      renderAll();
       return;
     }
 
@@ -1635,6 +1981,162 @@
   }
 
   document.getElementById("player-select").addEventListener("change", onPlayerSelected);
+
+  // === Programmatic equivalent of a user picking `tag` from #player-select — used by the
+  // === leaderboard's clickable rows so clicking a player is indistinguishable from selecting
+  // === them in the sidebar (same load, same rendered page). ===
+  function selectPlayer(tag) {
+    document.getElementById("player-select").value = tag;
+    onPlayerSelected();
+  }
+
+  // =========================================================================================
+  // === LEADERBOARD (no player selected) ===
+  // === Renders a ranked list of every tracked player by overall winrate, re-scoped by the same
+  // === sidebar tree/mode/period/min-sets controls as player mode (see currentTreeRows() above and
+  // === computeLeaderboardRows() in the DATA LAYER section). Pagination is a real prev/next pager
+  // === over a fixed page size — NOT the teammate panel's cumulative "load more" pattern — since
+  // === the leaderboard is always fully re-ranked, and only the current page's rows are ever
+  // === materialized in the DOM. No column sort: with true paging (not "load more"), sorting the
+  // === 10 DOM rows on a given page would silently ignore every other page's rows.
+  // =========================================================================================
+
+  const LEADERBOARD_PAGE_SIZE = 10;
+
+  function buildLeaderboardPagination(totalRows, totalPages) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "leaderboard-pagination";
+
+    const prevButton = document.createElement("button");
+    prevButton.type = "button";
+    prevButton.className = "load-more-button";
+    prevButton.textContent = LABELS.leaderboardPrevPage;
+    prevButton.disabled = STATE.leaderboardPage === 1;
+    prevButton.addEventListener("click", function () {
+      STATE.leaderboardPage = Math.max(1, STATE.leaderboardPage - 1);
+      renderLeaderboard();
+    });
+    wrapper.appendChild(prevButton);
+
+    const pageInfo = document.createElement("span");
+    pageInfo.className = "leaderboard-page-info";
+    pageInfo.textContent =
+      LABELS.leaderboardPageLabel + " " + STATE.leaderboardPage + " " +
+      LABELS.leaderboardPageOfLabel + " " + totalPages;
+    wrapper.appendChild(pageInfo);
+
+    const nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "load-more-button";
+    nextButton.textContent = LABELS.leaderboardNextPage;
+    nextButton.disabled = STATE.leaderboardPage === totalPages;
+    nextButton.addEventListener("click", function () {
+      STATE.leaderboardPage = Math.min(totalPages, STATE.leaderboardPage + 1);
+      renderLeaderboard();
+    });
+    wrapper.appendChild(nextButton);
+
+    return wrapper;
+  }
+
+  function renderLeaderboard() {
+    const container = document.getElementById("leaderboard-content");
+
+    const filterSignature =
+      STATE.mode + "||" + STATE.period + "||" + STATE.minSets + "||" +
+      STATE.filter.kind + "||" + STATE.filter.value;
+    if (filterSignature !== STATE.leaderboardFilterSignature) {
+      STATE.leaderboardPage = 1;
+      STATE.leaderboardFilterSignature = filterSignature;
+    }
+
+    if (STATE.leaderboardLoadError) {
+      STATE.leaderboardExcludedCount = 0;
+      setStatus(container, "error", LABELS.errorPrefix + STATE.leaderboardLoadError);
+      return;
+    }
+
+    const { rankedRows, excludedCount } = computeLeaderboardRows();
+    STATE.leaderboardExcludedCount = excludedCount;
+
+    if (rankedRows.length === 0) {
+      setStatus(
+        container,
+        "empty",
+        excludedCount > 0
+          ? excludedCount + " " + LABELS.leaderboardExcludedSuffix
+          : LABELS.noSetsRecorded
+      );
+      return;
+    }
+
+    const totalPages = Math.ceil(rankedRows.length / LEADERBOARD_PAGE_SIZE);
+    STATE.leaderboardPage = Math.min(Math.max(1, STATE.leaderboardPage), totalPages);
+
+    clearElement(container);
+
+    const table = document.createElement("table");
+    table.id = "leaderboard-table";
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    [
+      LABELS.leaderboardRankColumn,
+      LABELS.playerLabel,
+      LABELS.tableSets,
+      LABELS.tableWins,
+      LABELS.tableLosses,
+      LABELS.tableDraws,
+      LABELS.tableTrend,
+      LABELS.tableWinrate,
+    ].forEach(function (label) {
+      const th = document.createElement("th");
+      th.textContent = label;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    const startIndex = (STATE.leaderboardPage - 1) * LEADERBOARD_PAGE_SIZE;
+    const pageRows = rankedRows.slice(startIndex, startIndex + LEADERBOARD_PAGE_SIZE);
+
+    pageRows.forEach(function (group, indexOnPage) {
+      const tr = document.createElement("tr");
+      tr.className = "leaderboard-row";
+      tr.addEventListener("click", function () {
+        selectPlayer(group.rows[0].player_tag);
+      });
+      tr.appendChild(makeCell(String(startIndex + indexOnPage + 1)));
+      const playerIconId = STATE.rosterIconByTag.get(group.rows[0].player_tag);
+      tr.appendChild(
+        buildRowIconCell(
+          group.label,
+          group.rows[0].player_tag,
+          false,
+          null,
+          profileIconUrl(playerIconId),
+          PLAYER_ICON_FALLBACK_URL
+        )
+      );
+      tr.appendChild(makeCell(String(group.sets)));
+      tr.appendChild(makeCell(String(group.wins)));
+      tr.appendChild(makeCell(String(group.losses)));
+      tr.appendChild(makeCell(String(group.draws)));
+      const trendCell = document.createElement("td");
+      const sparkline = renderSparkline(group.rows);
+      if (sparkline) {
+        trendCell.appendChild(sparkline);
+      }
+      tr.appendChild(trendCell);
+      tr.appendChild(buildWinrateCell(group.winrate));
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    container.appendChild(table);
+    container.appendChild(buildLeaderboardPagination(rankedRows.length, totalPages));
+  }
 
   // =========================================================================================
   // === BEST/WORST MAP CALLOUT CARDS ===
@@ -1741,21 +2243,29 @@
   // === STATE reads — so each renderer decides its own THIN-badge threshold and passes it in.
   // =========================================================================================
 
-  function buildRowIconCell(label, subLabel, isThin, extraBadgeEls, iconUrl) {
+  function buildRowIconCell(label, subLabel, isThin, extraBadgeEls, iconUrl, fallbackUrl) {
     const cell = document.createElement("td");
 
     const wrapper = document.createElement("div");
     wrapper.className = "table-row-cell";
 
-    if (iconUrl) {
+    if (iconUrl || fallbackUrl) {
       const icon = document.createElement("img");
       icon.className = "table-row-icon";
-      icon.src = iconUrl;
+      icon.src = iconUrl || fallbackUrl;
       icon.alt = label;
       icon.loading = "lazy";
-      // A brawler/map shipped after the last asset export won't have artwork yet — fall back to
-      // the plain placeholder swatch instead of showing a broken-image icon.
+      // A brawler/map shipped after the last asset export won't have artwork yet (no
+      // fallbackUrl passed) — fall back to the plain placeholder swatch instead of showing a
+      // broken-image icon. Callers that do pass fallbackUrl (player profile icons) get one
+      // retry against it before giving up the same way.
+      let triedFallback = false;
       icon.onerror = function () {
+        if (fallbackUrl && !triedFallback) {
+          triedFallback = true;
+          icon.src = fallbackUrl;
+          return;
+        }
         icon.onerror = null;
         icon.removeAttribute("src");
         icon.alt = "";
@@ -2072,7 +2582,14 @@
     }
 
     tr.appendChild(
-      buildRowIconCell(row.teammate_name || row.teammate_tag, null, isThin, extraBadgeEls)
+      buildRowIconCell(
+        row.teammate_name || row.teammate_tag,
+        null,
+        isThin,
+        extraBadgeEls,
+        profileIconUrl(row.teammate_icon_id),
+        PLAYER_ICON_FALLBACK_URL
+      )
     );
     tr.appendChild(makeCell(row.teammate_tag));
     tr.appendChild(makeCell(String(row.sets_together)));
@@ -2583,7 +3100,21 @@
   clearElement(document.getElementById("recent-section"));
   document.getElementById("recent-section").appendChild(recentPanel);
 
-  loadPlayers();
+  // Leaderboard panel (no player selected) — same wrap-in-place pattern as the 4 above, reusing
+  // --tint-map since it is never shown simultaneously with the map panel.
+  const leaderboardPanel = makeCollapsiblePanel({
+    id: "leaderboard-panel",
+    title: LABELS.leaderboardSectionTitle,
+    tint: "var(--tint-map)",
+    rightText: "",
+    bodyEl: document.getElementById("leaderboard-content"),
+  });
+  clearElement(document.getElementById("leaderboard-section"));
+  document.getElementById("leaderboard-section").appendChild(leaderboardPanel);
+
+  loadPlayers().then(function (trackedPlayers) {
+    loadLeaderboardData(trackedPlayers);
+  });
 
 </script>
 

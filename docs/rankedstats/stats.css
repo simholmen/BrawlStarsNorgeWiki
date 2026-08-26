@@ -464,6 +464,55 @@
     color: var(--accent-gold);
   }
 
+  .load-more-button:disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* ==========================================================================================
+     Leaderboard pagination row — appended below the leaderboard table by
+     buildLeaderboardPagination in stats.html. Buttons reuse .load-more-button's visual treatment
+     but sit side-by-side with a page-info label between them instead of stacking full-width.
+     ========================================================================================== */
+  .leaderboard-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+  }
+
+  .leaderboard-pagination .load-more-button {
+    width: auto;
+    flex: 0 0 auto;
+    margin-top: 0;
+  }
+
+  .leaderboard-page-info {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--text-muted-2);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* --- Leaderboard rows are clickable: clicking a player is equivalent to selecting them in
+     the sidebar (see selectPlayer() in stats.html). --- */
+  #leaderboard-table tbody tr.leaderboard-row {
+    cursor: pointer;
+    transition: background-color 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  #leaderboard-table tbody tr.leaderboard-row td {
+    cursor: pointer;
+  }
+
+  #leaderboard-table tbody tr.leaderboard-row:hover {
+    background: rgba(255, 210, 61, 0.16);
+    box-shadow: inset 3px 0 0 var(--accent-gold);
+  }
+
   /* ==========================================================================================
      Table row anatomy — shared by the map/brawler/teammate tables' first column, built by
      `buildRowIconCell` in stats.html's TABLE ROW HELPERS section. `.table-row-cell` is the
@@ -630,6 +679,10 @@
     background: linear-gradient(120deg, #1a2340 0%, #0f1526 55%, #181e33 100%);
     border-bottom: 3px solid var(--accent-gold);
     padding: var(--space-2xl);
+    /* Reserves the height a player's KPI cards + form row need, so switching between the
+       leaderboard's empty hero and a selected player's hero never shifts the page layout. */
+    min-height: 204px;
+    box-sizing: border-box;
   }
 
   /* --- Task 15: rank-tier chart, absolutely positioned behind .hero-content --- */

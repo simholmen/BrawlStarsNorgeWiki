@@ -49,7 +49,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from rankedstats import supa  # noqa: E402
-from rankedstats.bs_api import fetch_battlelog  # noqa: E402
+from rankedstats.bs_api import fetch_battlelog, fetch_player_profile  # noqa: E402
 from rankedstats.roster import load_roster  # noqa: E402
 from rankedstats.sets import (  # noqa: E402
     MAX_INTRA_SET_GAP,
@@ -140,6 +140,41 @@ def ingest_player(tag: str, roster_tags: set, roster_name_by_tag: dict) -> dict:
     }
 
     items = fetch_battlelog(tag)
+
+    # The live player profile is a separate API call from the battlelog, and feeds two
+    # things that are both "nice to have" rather than load-bearing: players.icon_id and a
+    # timestamped player_rank_snapshots row (season/rank/elo at fetch time). The fetch AND
+    # both writes live inside this one try/except so a failure here -- API-side or
+    # Supabase-side -- only skips this run's profile update for this player, never aborts
+    # the battle/set ingest below.
+    try:
+        profile = fetch_player_profile(tag)
+        now_iso = datetime.now(timezone.utc).isoformat()
+
+        if profile["icon_id"] is not None:
+            supa.upsert(
+                "players",
+                [{"tag": tag, "icon_id": profile["icon_id"], "updated_at": now_iso}],
+                on_conflict="tag",
+            )
+
+        if profile["ranked_elo"] is not None or profile["ranked_rank"] is not None:
+            supa.upsert(
+                "player_rank_snapshots",
+                [{
+                    "player_tag": tag,
+                    "fetched_at": now_iso,
+                    "ranked_season_id": profile["ranked_season_id"],
+                    "ranked_rank": profile["ranked_rank"],
+                    "ranked_rank_name": profile["ranked_rank_name"],
+                    "ranked_elo": profile["ranked_elo"],
+                }],
+                on_conflict="player_tag,fetched_at",
+                ignore_duplicates=True,
+            )
+    except Exception as exc:
+        print(f"WARN: could not fetch/store player profile for {tag}: {exc}")
+
     groups = group_into_sets(items, owner_tag=tag)
 
     if not groups:
