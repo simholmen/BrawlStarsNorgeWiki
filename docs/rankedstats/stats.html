@@ -33,22 +33,27 @@
 <body>
 
 <!-- ===================== HERO ===================== -->
-<!-- .hero-content holds 3 children, in order: .hero-rank-badge, .hero-identity (name + subline +
-     the "Form" chip row, all stacked in one column), and .hero-kpis (5 KPI cards, right-aligned
-     via margin-left: auto on .hero-kpis). #hero-rank-chart (Task 15) is the FIRST child of
-     .hero, absolutely positioned behind .hero-content — .hero already has position: relative to
-     support that without further restructuring; .hero-content itself has position: relative and
-     z-index: 1 so the foreground layers on top of the chart. -->
+<!-- .hero-content holds 3 children, in order: .hero-rank-badge (the player's profile icon,
+     #hero-player-icon), .hero-identity (name + subline row + the "Form" chip row, all stacked in
+     one column), and .hero-kpis (5 KPI cards, right-aligned via margin-left: auto on .hero-kpis).
+     .hero-subline-row holds the small rank-tier icon (#hero-rank-icon) immediately before the
+     rank/tag text (#hero-subline) it illustrates. #hero-rank-chart (Task 15) is the FIRST child
+     of .hero, absolutely positioned behind .hero-content — .hero already has position: relative
+     to support that without further restructuring; .hero-content itself has position: relative
+     and z-index: 1 so the foreground layers on top of the chart. -->
 <header class="hero" id="hero">
   <div id="hero-rank-chart" class="hero-rank-chart"></div>
   <div class="hero-content">
     <div class="hero-rank-badge" id="hero-rank-badge">
-      <img class="hero-rank-icon" id="hero-rank-icon" alt="" />
-      <span class="hero-rank-roman" id="hero-rank-roman"></span>
+      <img class="hero-player-icon" id="hero-player-icon" alt="" />
     </div>
     <div class="hero-identity">
       <h1 class="hero-player-name" id="hero-player-name">Velg en spiller</h1>
-      <p class="hero-subline" id="hero-subline"></p>
+      <div class="hero-subline-row" id="hero-subline-row">
+        <img class="hero-subline-rank-icon" id="hero-rank-icon" alt="" />
+        <p class="hero-subline" id="hero-subline"></p>
+      </div>
+      <p class="hero-contact-hint" id="hero-contact-hint"></p>
       <div class="hero-form-row">
         <span class="hero-form-label"></span>
         <div class="hero-form" id="hero-form"></div>
@@ -70,24 +75,28 @@
         </select>
       </div>
       <div class="control-group">
-        <div class="tree-header" id="brawler-tree-header"></div>
-        <div class="tree-list" id="brawler-tree-list"></div>
-      </div>
-      <div class="control-group">
-        <span class="control-group-title">Mode</span>
-        <div class="chip-row" id="mode-chips"></div>
-      </div>
-      <div class="control-group">
-        <span class="control-group-title">Periode</span>
-        <div class="chip-row" id="period-chips"></div>
-      </div>
-      <div class="control-group">
         <label for="min-sample-input">Minimum sett</label>
         <div class="min-sets-row">
           <input type="range" id="min-sample-input" min="1" max="15" value="3">
           <span id="min-sample-value">3</span>
         </div>
         <span id="min-sample-hint" class="min-sets-hint"></span>
+      </div>
+      <div class="control-group">
+        <span class="control-group-title">Periode</span>
+        <div class="chip-row" id="period-chips"></div>
+      </div>
+      <div class="control-group">
+        <span class="control-group-title">Mode</span>
+        <div class="chip-row" id="mode-chips"></div>
+      </div>
+      <div class="control-group">
+        <div class="tree-header" id="brawler-tree-header"></div>
+        <div class="tree-list" id="brawler-tree-list"></div>
+      </div>
+      <div class="control-group">
+        <div class="tree-header" id="rank-tree-header"></div>
+        <div class="tree-list" id="rank-tree-list"></div>
       </div>
     </div>
 
@@ -278,12 +287,12 @@
     tablePlayer: "Spiller",
     tableBrawlerCol: "Brawler",
     tablePower: "Styrke",
-    tableRank: "Rang",
+    tableRank: "Rank",
     tableGameNumber: "#",
     tableBattleTime: "Kamptidspunkt",
     tableDuration: "Varighet (s)",
     tableWinningTeam: "Vinnende lag",
-    tableStarPlayer: "Stjernespiller",
+    tableStarPlayer: "Star player",
     draw: "uavgjort",
 
     // --- filters (mode/period chips, min-sets slider, active-filter bar) ---
@@ -293,6 +302,15 @@
     allTime: "All time",
     last30Days: "Siste 30 dager",
     last7Days: "Siste 7 dager",
+    thisSeason: "Denne sesongen",
+
+    // --- hero rank delta (Task 15) — period-relative suffix appended after the +/- number, so
+    // --- the delta reads e.g. "+263 elo denne sesongen" instead of a bare "+263" ---
+    heroDeltaUnitElo: "elo",
+    heroDeltaPeriodAllTime: "totalt",
+    heroDeltaPeriodSeason: "denne sesongen",
+    heroDeltaPeriodLast30: "siste 30 dager",
+    heroDeltaPeriodLast7: "siste 7 dager",
     rowsHiddenSuffix: "rader skjult",
     activeFilterLabel: "Aktivt filter",
     clear: "Nullstill",
@@ -301,6 +319,9 @@
     // --- LABELS.clear (above) is reused for the tree's own "✕ Nullstill" clear link, not
     // --- duplicated under a new key. ---
     brawlerTreeTitle: "Brawler",
+
+    // --- sidebar rank-tier filter tree (Pro/Masters/Legendary/Mythic/Diamond only) ---
+    rankTreeTitle: "Rank",
 
     // --- recent matches / modal (Task 14) ---
     clickForDetails: "Klikk for settdetaljer",
@@ -319,6 +340,7 @@
     leaderboardExcludedSuffix: "spillere ekskludert (under minimum sett)",
     leaderboardHeroTitle: "Brawl Stars Norge ranked leaderboard",
     leaderboardHeroSubtitle: "Velg eller klikk på en spiller for å se spillerenes individuelle statistikk.",
+    leaderboardHeroContactHint: "Ta kontakt med @Zimma2832 på Discord om du vil bli lagt til",
     leaderboardLogoAlt: "Brawl Stars Norge",
   };
 
@@ -344,8 +366,13 @@
     // no snapshots yet).
     rankSnapshots: [],
     filter: { kind: null, value: null },
+    // Independent of `filter` (brawler/class) — a single tier_name ("Pro"/"Masters"/"Legendary"/
+    // "Mythic"/"Diamond") or null for no rank filter. Kept separate rather than folded into
+    // `filter.kind` because the two are meant to combine (e.g. a brawler AND a rank at once),
+    // not act as mutually-exclusive alternatives the way "brawler" vs "class" do.
+    rankFilter: null,
     mode: "All modes",
-    period: "All time",
+    period: "This season",
     minSets: 3,
     collapsed: {},
     // Keyed by class name (a BRAWLER_CLASS_ORDER entry). `true` means that class's row in the
@@ -367,7 +394,70 @@
     leaderboardFilterSignature: null,
     leaderboardExcludedCount: 0,
     leaderboardLoadError: null,
+    // column: one of "label"/"sets"/"wins"/"losses"/"draws"/"winrate", or null for the default
+    // ranking (winrate desc, sets desc tiebreak) computeLeaderboardRows() already applies.
+    leaderboardSort: { column: null, direction: null },
   };
+
+  // === "This season" period cutoff — the current season is whichever ranked_season_id is the
+  // === highest ever observed across the whole roster's SETS (STATE.allSetRows, from
+  // === v_player_set_rows.ranked_season_id — stamped by ingest.py on every set going forward,
+  // === backfilled for older ones by migrations/010_ranked_season_id.sql), and its start is the
+  // === earliest started_at any tracked player has a set for in that season. This is
+  // === necessarily a global (not per-player) boundary: a player who hasn't queued Ranked yet
+  // === this season has no set row for it at all, so their own data alone can't date the
+  // === season's start.
+  // ===
+  // === Deliberately NOT derived from player_rank_snapshots.fetched_at (the earlier approach):
+  // === that table only records whatever season is CURRENT at each ~30-min poll, so its
+  // === earliest row for the current season is just "whenever ingestion happened to first poll
+  // === during it" — for a season that had already been running a while before snapshot
+  // === collection started, that date is long after the season's real start, which under-counts
+  // === "This season" results (a season underway when polling began looked like it had just
+  // === started). ranked_season_id on the sets themselves has no such lag.
+  // ===
+  // === Returns null when no set has a season id yet (chip then behaves like "All time"). ===
+  function currentSeasonStartDate() {
+    let currentSeasonId = null;
+    STATE.allSetRows.forEach(function (row) {
+      if (row.ranked_season_id !== null && row.ranked_season_id !== undefined) {
+        if (currentSeasonId === null || row.ranked_season_id > currentSeasonId) {
+          currentSeasonId = row.ranked_season_id;
+        }
+      }
+    });
+
+    if (currentSeasonId === null) {
+      return null;
+    }
+
+    let seasonStart = null;
+    STATE.allSetRows.forEach(function (row) {
+      if (row.ranked_season_id !== currentSeasonId) {
+        return;
+      }
+      const startedAt = new Date(row.started_at);
+      if (seasonStart === null || startedAt < seasonStart) {
+        seasonStart = startedAt;
+      }
+    });
+
+    return seasonStart;
+  }
+
+  // === Shared by applyFilters/filterRankHistoryByPeriod/filterRankSnapshotsByPeriod/
+  // === filterByModeAndPeriod below — resolves STATE.period to a cutoff Date (rows older than
+  // === this are dropped), or null for "All time"/an as-yet-undated "This season". ===
+  function periodCutoffDate() {
+    if (STATE.period === "All time") {
+      return null;
+    }
+    if (STATE.period === "This season") {
+      return currentSeasonStartDate();
+    }
+    const daysBack = STATE.period === "Last 7 days" ? 7 : 30;
+    return new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
+  }
 
   async function loadPlayerData(tag) {
     const mapContainer = document.getElementById("map-content");
@@ -435,9 +525,8 @@
   function applyFilters(rows) {
     let filteredRows = rows;
 
-    if (STATE.period !== "All time") {
-      const daysBack = STATE.period === "Last 7 days" ? 7 : 30;
-      const cutoffDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
+    const cutoffDate = periodCutoffDate();
+    if (cutoffDate !== null) {
       filteredRows = filteredRows.filter(function (row) {
         return new Date(row.ended_at) >= cutoffDate;
       });
@@ -457,6 +546,12 @@
       filteredRows = filteredRows.filter(function (row) {
         const brawlerClass = BRAWLER_CLASSES[row.brawler_id] || "Unclassified";
         return brawlerClass === STATE.filter.value;
+      });
+    }
+
+    if (STATE.rankFilter !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return row.tier_name === STATE.rankFilter;
       });
     }
 
@@ -555,10 +650,14 @@
   function renderHeroEmptyState() {
     document.getElementById("hero-player-name").textContent = LABELS.leaderboardHeroTitle;
     document.getElementById("hero-subline").textContent = LABELS.leaderboardHeroSubtitle;
+    document.getElementById("hero-contact-hint").textContent = LABELS.leaderboardHeroContactHint;
+    document.getElementById("hero-rank-badge").classList.add("hero-rank-badge--bare");
+    const playerIcon = document.getElementById("hero-player-icon");
+    playerIcon.src = "../images/bsnorge.jpg";
+    playerIcon.alt = LABELS.leaderboardLogoAlt;
     const rankIcon = document.getElementById("hero-rank-icon");
-    rankIcon.src = "../images/bsnorge.jpg";
-    rankIcon.alt = LABELS.leaderboardLogoAlt;
-    document.getElementById("hero-rank-roman").textContent = "";
+    rankIcon.removeAttribute("src");
+    rankIcon.alt = "";
     clearElement(document.getElementById("hero-rank-chart"));
     clearElement(document.getElementById("hero-kpis"));
     clearElement(document.getElementById("hero-form"));
@@ -580,6 +679,7 @@
 
   function renderAll() {
     renderBrawlerTree();
+    renderRankTree();
     renderModeChips();
     renderPeriodChips();
     renderFilterBar();
@@ -743,7 +843,7 @@
 
   function renderHero(tag) {
     const rankIconEl = document.getElementById("hero-rank-icon");
-    const rankRomanEl = document.getElementById("hero-rank-roman");
+    const playerIconEl = document.getElementById("hero-player-icon");
     const playerNameEl = document.getElementById("hero-player-name");
     const sublineEl = document.getElementById("hero-subline");
 
@@ -752,7 +852,27 @@
     const displayName = (selectedOption && selectedOption.textContent) || tag;
     playerNameEl.textContent = displayName;
 
-    // Shared by both paths below — latestRow only needs rank_label/tier_name/tier_level, which
+    document.getElementById("hero-rank-badge").classList.remove("hero-rank-badge--bare");
+    document.getElementById("hero-contact-hint").textContent = "";
+
+    // Same "try the CDN icon, fall back to the local placeholder on error" pattern as
+    // buildRowIconCell's icon param (used for the leaderboard/teammate table row icons).
+    const playerIconUrl = profileIconUrl(STATE.rosterIconByTag.get(tag));
+    playerIconEl.src = playerIconUrl || PLAYER_ICON_FALLBACK_URL;
+    playerIconEl.alt = displayName;
+    let triedPlayerIconFallback = false;
+    playerIconEl.onerror = function () {
+      if (playerIconUrl && !triedPlayerIconFallback) {
+        triedPlayerIconFallback = true;
+        playerIconEl.src = PLAYER_ICON_FALLBACK_URL;
+        return;
+      }
+      playerIconEl.onerror = null;
+      playerIconEl.removeAttribute("src");
+      playerIconEl.alt = "";
+    };
+
+    // Shared by both paths below — latestRow only needs rank_label/tier_name, which
     // v_player_rank_snapshots and v_player_rank_history both expose identically (same rank_tiers
     // join), so one badge renderer covers both.
     function applyRankBadge(latestRow, deltaText) {
@@ -774,11 +894,25 @@
         rankIconEl.removeAttribute("src");
         rankIconEl.alt = "";
       }
-      rankRomanEl.textContent = tierRoman(latestRow.tier_level);
     }
 
     function formatDelta(delta) {
       return delta > 0 ? "+" + delta : delta < 0 ? String(delta) : "±0";
+    }
+
+    // Which period the delta was computed over — mirrors periodCutoffDate's own STATE.period
+    // branching, so the suffix always names the window actually used as the delta baseline.
+    function heroDeltaPeriodSuffix() {
+      if (STATE.period === "This season") {
+        return LABELS.heroDeltaPeriodSeason;
+      }
+      if (STATE.period === "Last 30 days") {
+        return LABELS.heroDeltaPeriodLast30;
+      }
+      if (STATE.period === "Last 7 days") {
+        return LABELS.heroDeltaPeriodLast7;
+      }
+      return LABELS.heroDeltaPeriodAllTime;
     }
 
     const sortedRankSnapshots = STATE.rankSnapshots.slice().sort(function (rowA, rowB) {
@@ -806,7 +940,12 @@
         latestSnapshot.ranked_elo !== null &&
         baselineSnapshot.ranked_elo !== null
       ) {
-        deltaText = formatDelta(latestSnapshot.ranked_elo - baselineSnapshot.ranked_elo);
+        deltaText =
+          formatDelta(latestSnapshot.ranked_elo - baselineSnapshot.ranked_elo) +
+          " " +
+          LABELS.heroDeltaUnitElo +
+          " " +
+          heroDeltaPeriodSuffix();
       }
 
       applyRankBadge(latestSnapshot, deltaText);
@@ -826,7 +965,6 @@
     if (!latestRank) {
       sublineEl.textContent = "— · " + tag;
       rankIconEl.removeAttribute("src");
-      rankRomanEl.textContent = "";
       return;
     }
 
@@ -840,7 +978,7 @@
     const baselineRank = sortedPeriodRankHistory.length > 0 ? sortedPeriodRankHistory[0] : null;
 
     const deltaText = baselineRank
-      ? formatDelta(latestRank.rank_value - baselineRank.rank_value)
+      ? formatDelta(latestRank.rank_value - baselineRank.rank_value) + " " + heroDeltaPeriodSuffix()
       : null;
     applyRankBadge(latestRank, deltaText);
   }
@@ -852,11 +990,10 @@
   // === misleading) or, worse, incorrectly zero out every row the moment a mode filter is active
   // === (since `row.mode === STATE.mode` would never match an undefined `row.mode`). ===
   function filterRankHistoryByPeriod(rows) {
-    if (STATE.period === "All time") {
+    const cutoffDate = periodCutoffDate();
+    if (cutoffDate === null) {
       return rows;
     }
-    const daysBack = STATE.period === "Last 7 days" ? 7 : 30;
-    const cutoffDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
     return rows.filter(function (row) {
       return new Date(row.ended_at) >= cutoffDate;
     });
@@ -865,11 +1002,10 @@
   // === Same period-only cutoff-date filter as filterRankHistoryByPeriod above, over
   // === v_player_rank_snapshots rows instead (fetched_at, not ended_at). ===
   function filterRankSnapshotsByPeriod(rows) {
-    if (STATE.period === "All time") {
+    const cutoffDate = periodCutoffDate();
+    if (cutoffDate === null) {
       return rows;
     }
-    const daysBack = STATE.period === "Last 7 days" ? 7 : 30;
-    const cutoffDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
     return rows.filter(function (row) {
       return new Date(row.fetched_at) >= cutoffDate;
     });
@@ -1239,16 +1375,10 @@
   // === MODE / TIER HELPERS ===
   // === Pure, dependency-free display formatters. `prettyMode` degrades gracefully for any
   // === unseen camelCase mode string (new modes ship regularly, so no closed lookup list here).
-  // === Tier helpers take `tier_name`/`tier_level` as already-structured inputs (never parse
-  // === `rank_label`) — those columns come straight from rank_tiers via the views in
+  // === `tierIconUrl` takes `tier_name` as an already-structured input (never parses
+  // === `rank_label`) — that column comes straight from rank_tiers via the views in
   // === 007_redesign_views.sql.
   // =========================================================================================
-
-  const TIER_ROMAN_NUMERALS = {
-    1: "I",
-    2: "II",
-    3: "III"
-  };
 
   function prettyMode(mode) {
     if (!mode) {
@@ -1330,13 +1460,6 @@
       return null;
     }
     return "images/ranks/icon_rank_sticker_" + tier_name.toLowerCase() + ".png";
-  }
-
-  function tierRoman(tier_level) {
-    if (tier_level === null || tier_level === undefined) {
-      return "";
-    }
-    return TIER_ROMAN_NUMERALS[tier_level] || "";
   }
 
   // =========================================================================================
@@ -1549,7 +1672,7 @@
   // === SIDEBAR FILTERS: BRAWLER CLASS TREE ===
   // === `renderBrawlerTree()` is a pure DOM-rebuild function called from renderAll() on every
   // === render, same convention as renderModeChips/renderPeriodChips below — no network requests.
-  // === The tree is built from STATE.setRows filtered by mode+period ONLY (via the local
+  // === The tree is built from STATE.setRows filtered by mode+period+rank (via the local
   // === `filterByModeAndPeriod` helper, a deliberate small duplication of applyFilters' period/mode
   // === logic) — never by STATE.filter itself, since that would collapse the tree to a single row.
   // === Selecting a class or brawler writes STATE.filter in the exact `{kind, value}` shape
@@ -1560,9 +1683,8 @@
   function filterByModeAndPeriod(rows) {
     let filteredRows = rows;
 
-    if (STATE.period !== "All time") {
-      const daysBack = STATE.period === "Last 7 days" ? 7 : 30;
-      const cutoffDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
+    const cutoffDate = periodCutoffDate();
+    if (cutoffDate !== null) {
       filteredRows = filteredRows.filter(function (row) {
         return new Date(row.ended_at) >= cutoffDate;
       });
@@ -1571,6 +1693,47 @@
     if (STATE.mode !== "All modes") {
       filteredRows = filteredRows.filter(function (row) {
         return row.mode === STATE.mode;
+      });
+    }
+
+    if (STATE.rankFilter !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return row.tier_name === STATE.rankFilter;
+      });
+    }
+
+    return filteredRows;
+  }
+
+  // === Same mode+period base as `filterByModeAndPeriod` (duplicated rather than reused, since
+  // === that helper also applies STATE.rankFilter — deliberately excluded here), plus the active
+  // === brawler/class filter — used only to build the RANK tree below, so that tree reflects any
+  // === brawler/class already selected but never collapses to a single row from its own rank
+  // === selection. ===
+  function filterByModePeriodAndBrawler(rows) {
+    let filteredRows = rows;
+
+    const cutoffDate = periodCutoffDate();
+    if (cutoffDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.ended_at) >= cutoffDate;
+      });
+    }
+
+    if (STATE.mode !== "All modes") {
+      filteredRows = filteredRows.filter(function (row) {
+        return row.mode === STATE.mode;
+      });
+    }
+
+    if (STATE.filter.kind === "brawler") {
+      filteredRows = filteredRows.filter(function (row) {
+        return row.brawler_id === STATE.filter.value;
+      });
+    } else if (STATE.filter.kind === "class") {
+      filteredRows = filteredRows.filter(function (row) {
+        const brawlerClass = BRAWLER_CLASSES[row.brawler_id] || "Unclassified";
+        return brawlerClass === STATE.filter.value;
       });
     }
 
@@ -1779,6 +1942,119 @@
   }
 
   // =========================================================================================
+  // === SIDEBAR FILTERS: RANK TIER TREE ===
+  // === Same shape/convention as the brawler tree above (flat rows, no nesting — there's no
+  // === "class" grouping level for ranks), scoped to only the 5 tiers worth filtering on
+  // === (Pro/Masters/Legendary/Mythic/Diamond, highest first) — Gold/Silver/Bronze are excluded
+  // === per user request, since nobody filters ranked stats down to those. Built from
+  // === `filterByModePeriodAndBrawler`, so it reflects mode/period/brawler selections but never
+  // === collapses to a single row from its own STATE.rankFilter selection. Selecting a row writes
+  // === STATE.rankFilter directly (a bare tier_name or null) — kept separate from STATE.filter so
+  // === a rank and a brawler/class can be active at the same time (see STATE.rankFilter's own
+  // === comment for why).
+  // =========================================================================================
+
+  const RANK_FILTER_ORDER = ["Pro", "Masters", "Legendary", "Mythic", "Diamond"];
+
+  function buildRankGroups() {
+    const rankAggregates = aggregate(
+      filterByModePeriodAndBrawler(currentTreeRows()),
+      function (row) {
+        return row.tier_name;
+      },
+      function (row) {
+        return row.tier_name;
+      }
+    );
+
+    const aggregatesByTier = new Map();
+    rankAggregates.forEach(function (rankAggregate) {
+      aggregatesByTier.set(rankAggregate.key, rankAggregate);
+    });
+
+    const orderedGroups = [];
+    RANK_FILTER_ORDER.forEach(function (tierName) {
+      const rankAggregate = aggregatesByTier.get(tierName);
+      if (!rankAggregate || rankAggregate.sets === 0) {
+        return;
+      }
+      orderedGroups.push(rankAggregate);
+    });
+
+    return orderedGroups;
+  }
+
+  function buildRankRow(rankAggregate) {
+    const isActive = STATE.rankFilter === rankAggregate.key;
+
+    const row = document.createElement("div");
+    row.className = isActive ? "tree-rank-row active" : "tree-rank-row";
+    row.addEventListener("click", function () {
+      STATE.rankFilter = isActive ? null : rankAggregate.key;
+      renderAll();
+    });
+
+    const iconUrl = tierIconUrl(rankAggregate.key);
+    if (iconUrl) {
+      const icon = document.createElement("img");
+      icon.className = "tree-rank-icon";
+      icon.src = iconUrl;
+      icon.alt = rankAggregate.label;
+      icon.loading = "lazy";
+      row.appendChild(icon);
+    }
+
+    const nameEl = document.createElement("span");
+    nameEl.className = "tree-rank-name";
+    nameEl.textContent = rankAggregate.label;
+    row.appendChild(nameEl);
+
+    const setsEl = document.createElement("span");
+    setsEl.className = "tree-rank-sets";
+    setsEl.textContent = rankAggregate.sets + "s";
+    row.appendChild(setsEl);
+
+    const winrateEl = document.createElement("span");
+    winrateEl.className = "tree-rank-wr";
+    winrateEl.textContent = formatWinrate(rankAggregate.winrate);
+    const tone = winrateTone(rankAggregate.winrate);
+    if (tone) {
+      winrateEl.style.color = tone;
+    }
+    row.appendChild(winrateEl);
+
+    return row;
+  }
+
+  function renderRankTree() {
+    const headerContainer = document.getElementById("rank-tree-header");
+    const listContainer = document.getElementById("rank-tree-list");
+    clearElement(headerContainer);
+    clearElement(listContainer);
+
+    const title = document.createElement("span");
+    title.className = "control-group-title";
+    title.textContent = LABELS.rankTreeTitle;
+    headerContainer.appendChild(title);
+
+    if (STATE.rankFilter !== null) {
+      const clearLink = document.createElement("span");
+      clearLink.className = "tree-clear";
+      clearLink.textContent = "✕ " + LABELS.clear;
+      clearLink.addEventListener("click", function () {
+        STATE.rankFilter = null;
+        renderAll();
+      });
+      headerContainer.appendChild(clearLink);
+    }
+
+    const rankGroups = buildRankGroups();
+    rankGroups.forEach(function (rankAggregate) {
+      listContainer.appendChild(buildRankRow(rankAggregate));
+    });
+  }
+
+  // =========================================================================================
   // === SIDEBAR FILTERS: MODE / PERIOD CHIPS + ACTIVE-FILTER BAR ===
   // === `renderModeChips`/`renderPeriodChips`/`renderFilterBar` are all pure DOM-rebuild
   // === functions called from renderAll() on every render — no network requests, no cached
@@ -1818,9 +2094,10 @@
     clearElement(container);
 
     const periods = [
-      { value: "All time", label: LABELS.allTime },
+      { value: "This season", label: LABELS.thisSeason },
       { value: "Last 30 days", label: LABELS.last30Days },
       { value: "Last 7 days", label: LABELS.last7Days },
+      { value: "All time", label: LABELS.allTime },
     ];
 
     periods.forEach(function (period) {
@@ -1851,6 +2128,8 @@
     const periodText =
       STATE.period === "All time"
         ? LABELS.allTime
+        : STATE.period === "This season"
+        ? LABELS.thisSeason
         : STATE.period === "Last 7 days"
         ? LABELS.last7Days
         : LABELS.last30Days;
@@ -1858,15 +2137,24 @@
     const summary = document.createElement("span");
     summary.className = "filter-bar-summary";
     summary.textContent =
-      "· " + modeText + " · " + periodText + " · min " + STATE.minSets + " " + LABELS.tableSets;
+      "· " +
+      modeText +
+      " · " +
+      periodText +
+      (STATE.rankFilter !== null ? " · " + STATE.rankFilter : "") +
+      " · min " +
+      STATE.minSets +
+      " " +
+      LABELS.tableSets;
     container.appendChild(summary);
 
-    if (STATE.filter.kind !== null) {
+    if (STATE.filter.kind !== null || STATE.rankFilter !== null) {
       const clearButton = document.createElement("span");
       clearButton.className = "filter-bar-clear";
       clearButton.textContent = LABELS.clear;
       clearButton.addEventListener("click", function () {
         STATE.filter = { kind: null, value: null };
+        STATE.rankFilter = null;
         renderAll();
       });
       container.appendChild(clearButton);
@@ -1945,19 +2233,19 @@
       return;
     }
 
-    const { data, error } = await sb
+    const setRowsResult = await sb
       .from("v_player_set_rows")
       .select("*")
       .in("player_tag", trackedTags);
 
-    if (error) {
+    if (setRowsResult.error) {
       STATE.allSetRows = [];
-      STATE.leaderboardLoadError = error.message;
+      STATE.leaderboardLoadError = setRowsResult.error.message;
       renderAll();
       return;
     }
 
-    STATE.allSetRows = data || [];
+    STATE.allSetRows = setRowsResult.data || [];
     STATE.leaderboardLoadError = null;
     renderAll();
   }
@@ -1997,11 +2285,40 @@
   // === computeLeaderboardRows() in the DATA LAYER section). Pagination is a real prev/next pager
   // === over a fixed page size — NOT the teammate panel's cumulative "load more" pattern — since
   // === the leaderboard is always fully re-ranked, and only the current page's rows are ever
-  // === materialized in the DOM. No column sort: with true paging (not "load more"), sorting the
-  // === 10 DOM rows on a given page would silently ignore every other page's rows.
+  // === materialized in the DOM. Column sort (STATE.leaderboardSort, applied by
+  // === sortLeaderboardRows()) therefore re-sorts the FULL rankedRows array before pagination
+  // === slices it, not just the current page's DOM rows — otherwise sorting would silently ignore
+  // === every other page's rows and rank numbers ("#") would stop matching the sort order.
   // =========================================================================================
 
-  const LEADERBOARD_PAGE_SIZE = 10;
+  const LEADERBOARD_PAGE_SIZE = 50;
+
+  function sortLeaderboardRows(rankedRows) {
+    const column = STATE.leaderboardSort.column;
+    if (!column) {
+      return;
+    }
+    const multiplier = STATE.leaderboardSort.direction === "asc" ? 1 : -1;
+    rankedRows.sort(function (rowA, rowB) {
+      if (column === "label") {
+        return multiplier * rowA.label.localeCompare(rowB.label);
+      }
+      const valueA = column === "winrate" && rowA.winrate === null ? -1 : rowA[column];
+      const valueB = column === "winrate" && rowB.winrate === null ? -1 : rowB[column];
+      return multiplier * (valueA - valueB);
+    });
+  }
+
+  function handleLeaderboardSort(column) {
+    if (STATE.leaderboardSort.column === column) {
+      STATE.leaderboardSort.direction = STATE.leaderboardSort.direction === "asc" ? "desc" : "asc";
+    } else {
+      STATE.leaderboardSort.column = column;
+      STATE.leaderboardSort.direction = "desc";
+    }
+    STATE.leaderboardPage = 1;
+    renderLeaderboard();
+  }
 
   function buildLeaderboardPagination(totalRows, totalPages) {
     const wrapper = document.createElement("div");
@@ -2058,6 +2375,7 @@
 
     const { rankedRows, excludedCount } = computeLeaderboardRows();
     STATE.leaderboardExcludedCount = excludedCount;
+    sortLeaderboardRows(rankedRows);
 
     if (rankedRows.length === 0) {
       setStatus(
@@ -2080,18 +2398,32 @@
 
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    [
-      LABELS.leaderboardRankColumn,
-      LABELS.playerLabel,
-      LABELS.tableSets,
-      LABELS.tableWins,
-      LABELS.tableLosses,
-      LABELS.tableDraws,
-      LABELS.tableTrend,
-      LABELS.tableWinrate,
-    ].forEach(function (label) {
+    // Column order: #, Player, Sets, W, L, D, Trend, Winrate. Rank and Trend have no `column`
+    // entry — rank is a derived position, and Trend has no single-cell value to compare. Unlike
+    // the map/brawler/teammate tables (makeSortableHeader, which just reorders the already-
+    // rendered <tr>s), the leaderboard is paginated, so a header click has to re-sort the FULL
+    // ranked list (via STATE.leaderboardSort) and re-render, not just the current page's rows.
+    const columns = [
+      { label: LABELS.leaderboardRankColumn, column: null },
+      { label: LABELS.playerLabel, column: "label" },
+      { label: LABELS.tableSets, column: "sets" },
+      { label: LABELS.tableWins, column: "wins" },
+      { label: LABELS.tableLosses, column: "losses" },
+      { label: LABELS.tableDraws, column: "draws" },
+      { label: LABELS.tableTrend, column: null },
+      { label: LABELS.tableWinrate, column: "winrate" },
+    ];
+    columns.forEach(function (col) {
       const th = document.createElement("th");
-      th.textContent = label;
+      th.textContent = col.label;
+      if (col.column) {
+        if (STATE.leaderboardSort.column === col.column) {
+          th.setAttribute("data-order", STATE.leaderboardSort.direction);
+        }
+        th.addEventListener("click", function () {
+          handleLeaderboardSort(col.column);
+        });
+      }
       headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
@@ -2109,12 +2441,26 @@
       });
       tr.appendChild(makeCell(String(startIndex + indexOnPage + 1)));
       const playerIconId = STATE.rosterIconByTag.get(group.rows[0].player_tag);
+      // group.rows is sorted ascending by ended_at (aggregate()'s own contract), so the last
+      // entry is this player's most recent set within the active filters — its tier_name is
+      // the closest available proxy for "current rank" without a separate rank-snapshot fetch.
+      const currentTierName = group.rows[group.rows.length - 1].tier_name;
+      const rankIconUrl = tierIconUrl(currentTierName);
+      let currentRankBadge = null;
+      if (rankIconUrl) {
+        currentRankBadge = document.createElement("img");
+        currentRankBadge.className = "leaderboard-rank-icon";
+        currentRankBadge.src = rankIconUrl;
+        currentRankBadge.alt = currentTierName;
+        currentRankBadge.title = currentTierName;
+        currentRankBadge.loading = "lazy";
+      }
       tr.appendChild(
         buildRowIconCell(
           group.label,
           group.rows[0].player_tag,
           false,
-          null,
+          currentRankBadge ? [currentRankBadge] : null,
           profileIconUrl(playerIconId),
           PLAYER_ICON_FALLBACK_URL
         )
@@ -2778,6 +3124,38 @@
     brawlerNameEl.textContent = row.brawler_name;
     brawlerCell.appendChild(brawlerNameEl);
     rowEl.appendChild(brawlerCell);
+
+    // The rank tier the player was sitting at when this set was played — v_player_set_rows
+    // already joins rank_tiers per-row (same tier_name/rank_label pair the hero badge uses), so
+    // this reuses tierIconUrl rather than duplicating the icon-path convention.
+    const rankCell = document.createElement("div");
+    rankCell.className = "recent-rank-cell";
+    const rankIconUrl = tierIconUrl(row.tier_name);
+    if (rankIconUrl) {
+      const rankImg = document.createElement("img");
+      rankImg.className = "recent-rank-icon";
+      rankImg.src = rankIconUrl;
+      rankImg.alt = row.tier_name || "";
+      rankImg.loading = "lazy";
+      // Same "fall back to a plain placeholder swatch on error" pattern as the map/brawler icons
+      // above, for a tier with no shipped sticker artwork (or a bad path).
+      rankImg.onerror = function () {
+        rankImg.onerror = null;
+        rankImg.className = "recent-rank-placeholder";
+        rankImg.removeAttribute("src");
+        rankImg.alt = "";
+      };
+      rankCell.appendChild(rankImg);
+    } else {
+      const rankPlaceholder = document.createElement("div");
+      rankPlaceholder.className = "recent-rank-placeholder";
+      rankCell.appendChild(rankPlaceholder);
+    }
+    const rankLabelEl = document.createElement("span");
+    rankLabelEl.className = "recent-rank-label";
+    rankLabelEl.textContent = row.rank_label || "—";
+    rankCell.appendChild(rankLabelEl);
+    rowEl.appendChild(rankCell);
 
     const resultCell = document.createElement("div");
     resultCell.className = "recent-result-cell";

@@ -22,7 +22,8 @@ a no-op.
        participant set, `is_complete = false`, `ended_at` within `MAX_INTRA_SET_GAP` of the
        new set's earliest game) to attach to instead of creating a duplicate set.
     5. Otherwise, insert a new `ranked_sets` row (`on_conflict=set_key`) from the set
-       summary's computed fields.
+       summary's computed fields, stamped with `ranked_season_id` from this player's live
+       profile fetch (the same fetch that feeds `player_rank_snapshots`).
     6. Upsert all 6 `set_participants` rows for the set (`on_conflict=set_id,player_tag`).
     7. Insert the set's `battles` rows (`on_conflict=dedupe_key`, ignore-duplicates) -- the
        real idempotency guard against double-counting a match two roster players shared.
@@ -141,15 +142,19 @@ def ingest_player(tag: str, roster_tags: set, roster_name_by_tag: dict) -> dict:
 
     items = fetch_battlelog(tag)
 
-    # The live player profile is a separate API call from the battlelog, and feeds two
-    # things that are both "nice to have" rather than load-bearing: players.icon_id and a
-    # timestamped player_rank_snapshots row (season/rank/elo at fetch time). The fetch AND
-    # both writes live inside this one try/except so a failure here -- API-side or
-    # Supabase-side -- only skips this run's profile update for this player, never aborts
-    # the battle/set ingest below.
+    # The live player profile is a separate API call from the battlelog, and feeds three
+    # things that are all "nice to have" rather than load-bearing: players.icon_id, a
+    # timestamped player_rank_snapshots row (season/rank/elo at fetch time), and the
+    # ranked_season_id stamped on any new ranked_sets row below. The fetch AND both writes
+    # live inside this one try/except so a failure here -- API-side or Supabase-side -- only
+    # skips this run's profile update for this player, never aborts the battle/set ingest
+    # below; ranked_season_id simply stays None (same as an unbackfilled pre-season-id set)
+    # when that happens.
+    ranked_season_id = None
     try:
         profile = fetch_player_profile(tag)
         now_iso = datetime.now(timezone.utc).isoformat()
+        ranked_season_id = profile["ranked_season_id"]
 
         if profile["icon_id"] is not None:
             supa.upsert(
@@ -188,7 +193,7 @@ def ingest_player(tag: str, roster_tags: set, roster_name_by_tag: dict) -> dict:
         set_summary = summarize_set(group)
         summary["sets_seen"] += 1
 
-        set_result = ingest_set(set_summary)
+        set_result = ingest_set(set_summary, ranked_season_id)
 
         if set_result["is_new"]:
             summary["sets_new"] += 1
@@ -275,8 +280,15 @@ def upsert_players_for_groups(
         supa.upsert("players", other_rows, on_conflict="tag")
 
 
-def ingest_set(set_summary: dict) -> dict:
+def ingest_set(set_summary: dict, ranked_season_id: int | None) -> dict:
     """Write one set (and its games) to Supabase. Steps 3-8 of the module docstring.
+
+    Args:
+        set_summary: this set's summarized fields (see sets.summarize_set).
+        ranked_season_id: the owning player's CURRENT season id (from this run's profile
+            fetch), stamped on the ranked_sets row only when a brand new row is inserted
+            below -- an existing set (found via step 3 or step 4) already has whatever
+            season id it was first inserted with, and that is never overwritten here.
 
     Returns:
         dict with keys is_new (bool), games_inserted (int), games_skipped (int).
@@ -294,7 +306,7 @@ def ingest_set(set_summary: dict) -> dict:
         existing_set_id = find_open_set_to_attach(set_summary, all_tags)
 
     if existing_set_id is None:
-        existing_set_id = insert_new_ranked_set(set_summary)
+        existing_set_id = insert_new_ranked_set(set_summary, ranked_season_id)
         is_new_set = True
 
     upsert_set_participants(existing_set_id, set_summary)
@@ -371,11 +383,14 @@ def find_open_set_to_attach(set_summary: dict, all_tags: list) -> str | None:
     return None
 
 
-def insert_new_ranked_set(set_summary: dict) -> str:
+def insert_new_ranked_set(set_summary: dict, ranked_season_id: int | None) -> str:
     """Step 5: insert a brand new `ranked_sets` row, keyed by `set_key`.
 
     `set_key` is set here and never rewritten again -- later steps (and later polls that
-    converge onto this same set via step 3 or step 4) must not touch it.
+    converge onto this same set via step 3 or step 4) must not touch it. `ranked_season_id`
+    is the same "identity, fixed at insert time" field: it's the owning player's CURRENT
+    season at the moment this set is first seen, not something that could later change for
+    an existing row.
     """
 
     new_set_row = {
@@ -385,6 +400,7 @@ def insert_new_ranked_set(set_summary: dict) -> str:
         "map": set_summary["map"],
         "started_at": set_summary["started_at"].isoformat(),
         "ended_at": set_summary["ended_at"].isoformat(),
+        "ranked_season_id": ranked_season_id,
         "games_played": set_summary["games_played"],
         "team0_wins": set_summary["team0_wins"],
         "team1_wins": set_summary["team1_wins"],
