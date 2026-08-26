@@ -1,9 +1,27 @@
+* {
+    box-sizing: border-box; /* Padding/border regnes inn i elementets bredde, ikke lagt oppå den - hindrer at elementer blir bredere enn skjermen */
+}
+
+html {
+    overflow-x: hidden; /* Siste skanse mot horisontal scrolling om noe likevel skulle bli for bredt */
+}
+
 body {
     font-family: 'Georgia', serif; /* Font generell tekst */
     background-color: #f8f9fa; /* Bakgrunnsfarge på hele siden (body) */
     color: #202122; /* Farge på generell tekst */
     margin: 10px; /* Avstand mellom toppen og bunnen av siden og body containeren */
     padding: 0px; /* Padding mellom body containeren og resten av siden */
+    overflow-wrap: break-word; /* Bryt lange ord/lenker i stedet for å la de dytte siden bredere */
+}
+
+img,
+iframe {
+    max-width: 100%; /* Ingen bilde eller iframe (f.eks. Challonge-embeds) skal kunne bli bredere enn sin container */
+}
+
+img {
+    height: auto;
 }
 
 #content {
@@ -345,5 +363,20 @@ tr:hover {
     /* Tabeller (inkludert type2) skal fylle skjermbredden i stedet for å være smale (50%/90%) */
     table {
         width: 100% !important;
+    }
+
+    /* Mindre overskrift og logo på mobil, slik at header-raden alltid får plass uten å dytte siden bredere */
+    .header-container h1 {
+        font-size: 1.3em;
+    }
+
+    .responsive-bsnorge {
+        max-width: 36px;
+    }
+
+    /* #content sin faste venstre/høyre padding tar unødvendig mye plass på smale skjermer */
+    #content {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }

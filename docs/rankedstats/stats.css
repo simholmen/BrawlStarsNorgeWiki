@@ -88,10 +88,19 @@
     box-sizing: border-box;
   }
 
+  html {
+    /* Belt-and-suspenders against any element (fixed-width grid, long unbroken string, etc.)
+       forcing the page itself to scroll sideways — real fixes for the known offenders live at
+       their own rules/media queries above, this just guarantees no leftover case slips through. */
+    overflow-x: hidden;
+  }
+
   body {
     font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
+    max-width: 100%;
+    overflow-x: hidden;
     color: var(--text-primary);
     background: var(--bg);
     position: relative; /* Task 14's `.modal-overlay` ended up `position: fixed` (viewport-relative,
@@ -261,6 +270,7 @@
   }
 
   .tree-class {
+    flex-shrink: 0;
     border: 1px solid var(--panel-border);
     border-radius: var(--radius-lg);
     background: var(--panel);
@@ -383,6 +393,7 @@
      class-style grouping/chevron), same visual weight as `.tree-brawler-row` above, with a
      leading rank-sticker icon in place of the brawler tree's indentation. */
   .tree-rank-row {
+    flex-shrink: 0;
     cursor: pointer;
     display: grid;
     grid-template-columns: 18px 1fr 34px 34px;
@@ -612,6 +623,7 @@
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-primary);
+    overflow-wrap: anywhere;
   }
 
   .table-row-sublabel {
@@ -771,6 +783,7 @@
        badge/title's vertical position between the two states depending on which column happened
        to be tallest — top-aligning keeps the badge and title pinned to the same y on both. */
     align-items: flex-start;
+    flex-wrap: wrap;
     gap: var(--space-2xl);
   }
 
@@ -809,6 +822,7 @@
   #hero-player-name {
     margin: 0;
     font-size: 44px;
+    overflow-wrap: anywhere;
   }
 
   /* --- Rank-tier icon + rank/tag text, stacked right under the name --- */
@@ -893,8 +907,9 @@
   .hero-kpis {
     margin-left: auto;
     display: grid;
-    grid-template-columns: repeat(3, 132px);
+    grid-template-columns: repeat(3, minmax(90px, 132px));
     gap: 10px;
+    max-width: 100%;
   }
 
   .hero-kpi-card {
@@ -921,6 +936,9 @@
     color: var(--text-primary);
   }
 
+  /* Desktop/tablet default: sidebar + main side by side, same as before this pass. The mobile
+     media query further down replaces this with a stacked, full-width-filter-bar layout below
+     900px — see the "Mobile / narrow layout" section. */
   .layout {
     display: flex;
   }
@@ -954,6 +972,7 @@
   .filter-bar {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: var(--space-md);
     background: var(--panel);
     border: 1px solid var(--panel-border);
@@ -974,6 +993,7 @@
     font-size: 11.5px;
     font-weight: 500;
     color: var(--text-muted-1);
+    overflow-wrap: anywhere;
   }
 
   .filter-bar-clear {
@@ -1082,6 +1102,7 @@
   .panel-header {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: var(--space-md);
     padding: var(--space-md) var(--space-lg);
     border-bottom: 1px solid var(--panel-border);
@@ -1432,9 +1453,11 @@
 
   /* ==========================================================================================
      Mobile / narrow layout — lagt sist i filen slik at reglene vinner over de generelle reglene
-     lenger opp. Collapses the sidebar+main split onto one stacked column. `.layout` / `.sidebar` /
-     `.main` now exist in the DOM (added by Task 6, markup + base rules above) — these overrides
-     are active as soon as the viewport narrows below 900px.
+     lenger opp. `.layout` is already a single stacked column with the filter bar full-width above
+     `.layout` collapses the sidebar+main split into one stacked column below 900px: the filters
+     (`.sidebar`, despite the name) become a full-width bar above `.main` instead of a side column,
+     so `.main`'s panels (map/brawler/teammate/recent) get the full page width on tablet/mobile —
+     desktop keeps the side-by-side layout defined above unchanged.
      ========================================================================================== */
   @media (max-width: 900px) {
     .layout {
@@ -1445,9 +1468,173 @@
       width: 100%;
       border-right: none;
       border-bottom: 1px solid var(--panel-border);
+      padding: var(--space-lg);
+      gap: var(--space-lg);
     }
 
     .main {
       padding: var(--space-lg);
+    }
+
+    /* With the sidebar no longer squeezed into a narrow side column, its filter groups have room
+       to lay out in a row instead of each stacking full-width: the quick pickers (player/min-sets/
+       period/mode) get a compact column each and wrap as needed, while the brawler/rank trees (the
+       tall, scrollable lists) each claim roughly half the row so they sit side by side rather than
+       one on top of the other. `flex-wrap` on `.controls` (set above, unconditionally) already
+       lets any of this wrap to full-width on its own once the viewport gets too narrow for it —
+       the 600px query below just makes that explicit for phones. `:has()` targets each
+       `.control-group` by the control it contains rather than by position, so this keeps working
+       even if stats.html reorders them. */
+    .controls {
+      align-items: flex-start;
+    }
+
+    .controls > .control-group:has(#player-select),
+    .controls > .control-group:has(#min-sample-input),
+    .controls > .control-group:has(#period-chips),
+    .controls > .control-group:has(#mode-chips) {
+      flex: 1 1 220px;
+      max-width: 320px;
+    }
+
+    .controls > .control-group:has(#brawler-tree-header),
+    .controls > .control-group:has(#rank-tree-header) {
+      flex: 1 1 320px;
+    }
+
+    /* Brawler/rank filter trees can get tall (many brawlers) — cap their height on mobile so
+       the filters don't push all the stats off-screen below the fold; the list scrolls inside
+       itself instead of the whole page. */
+    .tree-list {
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
+    .hero {
+      padding: var(--space-lg);
+    }
+
+    #hero-rank-badge {
+      width: 72px;
+      height: 72px;
+    }
+
+    #hero-player-name {
+      font-size: 28px;
+    }
+
+    .hero-kpis {
+      margin-left: 0;
+      width: 100%;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ==========================================================================================
+     Phone-width layout — tightens up further for narrow phone screens (the primary target being
+     a quick check on the go): thins out the data tables to the columns that actually matter,
+     and swaps every remaining fixed-pixel grid (recent matches list, best/worst callouts) for a
+     layout that wraps instead of forcing the page to scroll horizontally.
+     ========================================================================================== */
+  @media (max-width: 600px) {
+    /* Not enough width left for the 900px query's row-of-filters/side-by-side-trees layout —
+       drop every filter group back to one-per-line. */
+    .controls > .control-group:has(#player-select),
+    .controls > .control-group:has(#min-sample-input),
+    .controls > .control-group:has(#period-chips),
+    .controls > .control-group:has(#mode-chips),
+    .controls > .control-group:has(#brawler-tree-header),
+    .controls > .control-group:has(#rank-tree-header) {
+      flex-basis: 100%;
+      max-width: none;
+    }
+
+    table {
+      font-size: 0.82em;
+    }
+
+    table th,
+    table td {
+      padding: 5px 6px;
+    }
+
+    /* Map/brawler tables: keep Map/Brawler, Sets, Wins, Winrate — drop Losses/Draws/Trend. */
+    #map-table th:nth-child(4),
+    #map-table td:nth-child(4),
+    #map-table th:nth-child(5),
+    #map-table td:nth-child(5),
+    #map-table th:nth-child(6),
+    #map-table td:nth-child(6),
+    #brawler-table th:nth-child(4),
+    #brawler-table td:nth-child(4),
+    #brawler-table th:nth-child(5),
+    #brawler-table td:nth-child(5),
+    #brawler-table th:nth-child(6),
+    #brawler-table td:nth-child(6) {
+      display: none;
+    }
+
+    /* Teammate table: keep Teammate, Sets together, Wins, Winrate — drop Tag/Trend. */
+    #teammate-table th:nth-child(2),
+    #teammate-table td:nth-child(2),
+    #teammate-table th:nth-child(5),
+    #teammate-table td:nth-child(5) {
+      display: none;
+    }
+
+    /* Leaderboard: keep #, Player, Sets, Wins, Winrate — drop Losses/Draws/Trend. */
+    #leaderboard-table th:nth-child(5),
+    #leaderboard-table td:nth-child(5),
+    #leaderboard-table th:nth-child(6),
+    #leaderboard-table td:nth-child(6),
+    #leaderboard-table th:nth-child(7),
+    #leaderboard-table td:nth-child(7) {
+      display: none;
+    }
+
+    .table-row-label {
+      font-size: 14px;
+    }
+
+    .sparkline-svg {
+      width: 64px;
+    }
+
+    /* Best/worst map callouts: one per row instead of a cramped 2-up grid. */
+    .callouts {
+      grid-template-columns: 1fr;
+    }
+
+    .callout-wr {
+      font-size: 28px;
+    }
+
+    /* Recent matches: the desktop version is a fixed 6-column grid (96px 1fr 148px 128px 148px
+       24px) that's far wider than a phone screen — auto-fit lets every cell claim at least
+       120px and wrap onto as many rows as it needs instead of overflowing sideways. */
+    .recent-row {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      row-gap: 6px;
+    }
+
+    .recent-chevron {
+      text-align: left;
+    }
+
+    .modal-overlay {
+      padding: 20px 12px;
+    }
+
+    .modal-header {
+      padding: 12px var(--space-lg);
+    }
+
+    #match-detail-title {
+      font-size: 19px;
+    }
+
+    .modal-team-table,
+    .modal-rounds-table {
+      font-size: 0.8em;
     }
   }
