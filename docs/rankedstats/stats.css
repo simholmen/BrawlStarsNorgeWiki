@@ -673,6 +673,53 @@
     height: 26px;
   }
 
+  /* ==========================================================================================
+     Skeleton loaders — shimmering placeholders shown by renderSkeletonTable/
+     renderSkeletonRecentList/renderSkeletonLines (stats.html) in place of setStatus(...,
+     "loading", ...) while a section's data is in flight. They reuse the SAME row markup the real
+     content renders into (buildRowIconCell's icon+text anatomy via `.table-icon-placeholder`/
+     `.table-row-text`, `.recent-row`'s grid via `.recent-map-placeholder`/etc.) so nothing
+     reflows once real rows replace them — `.skeleton-shimmer` only overrides those elements'
+     static `background`, and only needs to be declared after them below to win the cascade at
+     equal specificity. `.skeleton-bar` is the one genuinely new element: a filler line for text
+     that has no "placeholder" box of its own in the real markup.
+     ========================================================================================== */
+  @keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, var(--divider) 25%, var(--panel-border) 50%, var(--divider) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  }
+
+  .skeleton-bar {
+    display: block;
+    height: 13px;
+    border-radius: var(--radius-xs);
+  }
+
+  .skeleton-bar--label {
+    height: 15px;
+  }
+
+  .skeleton-w-45 { width: 45%; }
+  .skeleton-w-60 { width: 60%; }
+  .skeleton-w-75 { width: 75%; }
+  .skeleton-w-85 { width: 85%; }
+
+  .skeleton-table tbody tr:hover {
+    background: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-shimmer {
+      animation: none;
+    }
+  }
+
   .status {
     margin: 4px 0;
     font-style: italic;
