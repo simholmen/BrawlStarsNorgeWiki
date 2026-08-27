@@ -1303,6 +1303,46 @@
     text-align: right;
   }
 
+  /* Combined recent matches (no player selected) — same `.recent-row` built by buildRecentRow,
+     just with an extra leading player-identity cell (buildCombinedRecentRow) since rows span
+     every tracked player instead of just one. */
+  .recent-row--combined {
+    grid-template-columns: 160px 96px 1fr 148px 128px 148px 24px;
+  }
+
+  .recent-player-cell {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .recent-player-icon {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    object-fit: cover;
+    border-radius: var(--radius-ms);
+    display: block;
+  }
+
+  .recent-player-placeholder {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: var(--radius-ms);
+    background: var(--placeholder-swatch);
+  }
+
+  .recent-player-name {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   /* ==========================================================================================
      Match detail modal — static chrome lives in stats.html as a direct child of <body>
      (`#match-detail-overlay` > `.modal-box` > `.modal-header` + `#match-detail-content`), toggled
@@ -1770,6 +1810,22 @@
 
     .recent-chevron {
       display: none;
+    }
+
+    /* Combined recent matches: same compact card as `.recent-row` above, with the player
+       identity cell added as its own full-width row on top. */
+    .recent-row--combined {
+      grid-template-areas:
+        "player  player"
+        "map     result"
+        "brawler rank"
+        "date    date";
+    }
+
+    .recent-player-cell {
+      grid-area: player;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--divider);
     }
   }
 

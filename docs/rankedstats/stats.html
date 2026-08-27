@@ -117,6 +117,13 @@
       </div>
     </section>
 
+    <!-- ===================== SECTION: COMBINED RECENT MATCHES (no player selected) ===================== -->
+    <section class="stats-section" id="combined-recent-section" style="display: none;">
+      <div id="combined-recent-content">
+        <p class="status loading">Laster...</p>
+      </div>
+    </section>
+
     <!-- ===================== BEST/WORST MAP CALLOUTS ===================== -->
     <div class="callouts" id="map-callouts"></div>
 
@@ -344,6 +351,10 @@
     leaderboardHeroSubtitle: "Velg eller klikk på en spiller for å se spillerenes individuelle statistikk.",
     leaderboardHeroContactHint: "Ta kontakt med @Zimma2832 på Discord om du vil bli lagt til",
     leaderboardLogoAlt: "Brawl Stars Norge",
+
+    // --- combined recent matches (no player selected) — pagination reuses the leaderboard's
+    // --- own Prev/Next/Page/of labels above rather than duplicating them under new keys ---
+    combinedRecentSectionTitle: "Siste kamper (alle spillere)",
   };
 
   // =========================================================================================
@@ -399,6 +410,13 @@
     // column: one of "label"/"sets"/"wins"/"losses"/"draws"/"winrate", or null for the default
     // ranking (winrate desc, sets desc tiebreak) computeLeaderboardRows() already applies.
     leaderboardSort: { column: null, direction: null },
+
+    // --- combined recent matches (no player selected) --- same STATE.allSetRows bulk fetch as
+    // the leaderboard table, just flattened to individual sets instead of grouped per player;
+    // combinedRecentPage is 1-indexed, combinedRecentFilterSignature is the same
+    // "reset page to 1 when filters change" bookkeeping pattern as leaderboardFilterSignature.
+    combinedRecentPage: 1,
+    combinedRecentFilterSignature: null,
   };
 
   // === "This season" period cutoff — the current season is whichever ranked_season_id is the
@@ -669,6 +687,7 @@
   // === sections + callouts. Called from renderAll() on every render. ===
   function setMainSectionsVisible(showLeaderboard) {
     document.getElementById("leaderboard-section").style.display = showLeaderboard ? "" : "none";
+    document.getElementById("combined-recent-section").style.display = showLeaderboard ? "" : "none";
     ["map-callouts", "map-section", "brawler-section", "teammate-section", "recent-section"].forEach(
       function (id) {
         document.getElementById(id).style.display = showLeaderboard ? "none" : "";
@@ -690,6 +709,7 @@
     if (STATE.tag === null) {
       renderHeroEmptyState();
       renderLeaderboard();
+      renderCombinedRecent();
       updateMinSetsHint();
       return;
     }
@@ -2564,6 +2584,134 @@
   }
 
   // =========================================================================================
+  // === COMBINED RECENT MATCHES (no player selected) ===
+  // === Same STATE.allSetRows bulk fetch the leaderboard table ranks (see loadLeaderboardData),
+  // === just flattened to individual sets instead of grouped per player, newest first, paginated
+  // === COMBINED_RECENT_PAGE_SIZE at a time. Respects the same mode/period/brawler-or-class
+  // === filters as the rest of the sidebar (applyFilters) but ignores STATE.minSets — that
+  // === threshold only makes sense for a per-player aggregate, not a raw list of sets. Reuses
+  // === buildRecentRow's per-set row (map/brawler/rank/result cells, click-to-open match modal)
+  // === via buildCombinedRecentRow, which just prepends a player identity cell so it's clear
+  // === whose set each row is. Pagination reuses the leaderboard's own prev/next pager pattern
+  // === (buildLeaderboardPagination) against STATE.combinedRecentPage instead of leaderboardPage.
+  // =========================================================================================
+
+  const COMBINED_RECENT_PAGE_SIZE = 10;
+
+  function buildCombinedRecentRow(row) {
+    const rowEl = buildRecentRow(row);
+    rowEl.classList.add("recent-row--combined");
+
+    const playerCell = document.createElement("div");
+    playerCell.className = "recent-player-cell";
+    const iconUrl = profileIconUrl(STATE.rosterIconByTag.get(row.player_tag));
+    if (iconUrl) {
+      const icon = document.createElement("img");
+      icon.className = "recent-player-icon";
+      icon.src = iconUrl;
+      icon.alt = "";
+      icon.loading = "lazy";
+      icon.onerror = function () {
+        icon.onerror = null;
+        icon.className = "recent-player-placeholder";
+        icon.removeAttribute("src");
+      };
+      playerCell.appendChild(icon);
+    } else {
+      const placeholder = document.createElement("div");
+      placeholder.className = "recent-player-placeholder";
+      playerCell.appendChild(placeholder);
+    }
+    const nameEl = document.createElement("span");
+    nameEl.className = "recent-player-name";
+    nameEl.textContent = STATE.rosterByTag.get(row.player_tag) || row.player_tag;
+    playerCell.appendChild(nameEl);
+
+    rowEl.insertBefore(playerCell, rowEl.firstChild);
+    return rowEl;
+  }
+
+  function buildCombinedRecentPagination(totalPages) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "leaderboard-pagination";
+
+    const prevButton = document.createElement("button");
+    prevButton.type = "button";
+    prevButton.className = "load-more-button";
+    prevButton.textContent = LABELS.leaderboardPrevPage;
+    prevButton.disabled = STATE.combinedRecentPage === 1;
+    prevButton.addEventListener("click", function () {
+      STATE.combinedRecentPage = Math.max(1, STATE.combinedRecentPage - 1);
+      renderCombinedRecent();
+    });
+    wrapper.appendChild(prevButton);
+
+    const pageInfo = document.createElement("span");
+    pageInfo.className = "leaderboard-page-info";
+    pageInfo.textContent =
+      LABELS.leaderboardPageLabel + " " + STATE.combinedRecentPage + " " +
+      LABELS.leaderboardPageOfLabel + " " + totalPages;
+    wrapper.appendChild(pageInfo);
+
+    const nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "load-more-button";
+    nextButton.textContent = LABELS.leaderboardNextPage;
+    nextButton.disabled = STATE.combinedRecentPage === totalPages;
+    nextButton.addEventListener("click", function () {
+      STATE.combinedRecentPage = Math.min(totalPages, STATE.combinedRecentPage + 1);
+      renderCombinedRecent();
+    });
+    wrapper.appendChild(nextButton);
+
+    return wrapper;
+  }
+
+  function renderCombinedRecent() {
+    const container = document.getElementById("combined-recent-content");
+
+    const filterSignature =
+      STATE.mode + "||" + STATE.period + "||" + STATE.filter.kind + "||" + STATE.filter.value;
+    if (filterSignature !== STATE.combinedRecentFilterSignature) {
+      STATE.combinedRecentPage = 1;
+      STATE.combinedRecentFilterSignature = filterSignature;
+    }
+
+    if (STATE.leaderboardLoadError) {
+      setStatus(container, "error", LABELS.errorPrefix + STATE.leaderboardLoadError);
+      return;
+    }
+
+    const rows = applyFilters(STATE.allSetRows)
+      .slice()
+      .sort(function (rowA, rowB) {
+        return new Date(rowB.ended_at) - new Date(rowA.ended_at);
+      });
+
+    if (rows.length === 0) {
+      setStatus(container, "empty", LABELS.noSetsRecorded);
+      return;
+    }
+
+    const totalPages = Math.ceil(rows.length / COMBINED_RECENT_PAGE_SIZE);
+    STATE.combinedRecentPage = Math.min(Math.max(1, STATE.combinedRecentPage), totalPages);
+
+    clearElement(container);
+
+    const startIndex = (STATE.combinedRecentPage - 1) * COMBINED_RECENT_PAGE_SIZE;
+    const pageRows = rows.slice(startIndex, startIndex + COMBINED_RECENT_PAGE_SIZE);
+
+    const list = document.createElement("div");
+    list.className = "recent-list";
+    pageRows.forEach(function (row) {
+      list.appendChild(buildCombinedRecentRow(row));
+    });
+    container.appendChild(list);
+
+    container.appendChild(buildCombinedRecentPagination(totalPages));
+  }
+
+  // =========================================================================================
   // === BEST/WORST MAP CALLOUT CARDS ===
   // === `renderCallouts(mapRows)` takes the exact `mapRows` array renderAll() already builds for
   // === the map table (see the TEMPORARY bridge in the DATA LAYER section above) — it never
@@ -3550,41 +3698,42 @@
     // No real pick-order data exists yet — approximates it from roster position: left team's
     // 1st pick, then right team drafts all 3, then left team's remaining 2 (a 1-3-2 pattern),
     // per the confirmed layout. Swap this for a real field the moment one is ingested.
-    const draftOrder = [];
-    [team0Participants[0], team1Participants[0], team1Participants[1], team1Participants[2], team0Participants[1], team0Participants[2]].forEach(
-      function (participant, index) {
-        if (!participant) {
-          return;
-        }
-        draftOrder.push({
-          participant: participant,
-          side: index === 0 || index >= 4 ? 0 : 1,
-        });
-      }
-    );
-    if (draftOrder.length > 0) {
-      const draftLabel = document.createElement("div");
-      draftLabel.className = "rm-draft-label";
-      draftLabel.appendChild(buildIconSvg(["M4 6h16M4 12h16M4 18h10"], { size: 11 }));
-      draftLabel.appendChild(document.createTextNode(LABELS.draftLabel));
-      container.appendChild(draftLabel);
-
-      const draftRow = document.createElement("div");
-      draftRow.className = "rm-draft";
-      draftOrder.forEach(function (entry, index) {
-        const pick = document.createElement("div");
-        pick.className = "rm-draft-pick";
-        const avatar = buildAvatarEl(entry.participant, 32);
-        avatar.style.border = "2px solid " + (entry.side === 0 ? "var(--win)" : "var(--loss)");
-        pick.appendChild(avatar);
-        const num = document.createElement("span");
-        num.className = "rm-draft-num";
-        num.textContent = String(index + 1);
-        pick.appendChild(num);
-        draftRow.appendChild(pick);
-      });
-      container.appendChild(draftRow);
-    }
+    // Draft section disabled — not shown for any set.
+    // const draftOrder = [];
+    // [team0Participants[0], team1Participants[0], team1Participants[1], team1Participants[2], team0Participants[1], team0Participants[2]].forEach(
+    //   function (participant, index) {
+    //     if (!participant) {
+    //       return;
+    //     }
+    //     draftOrder.push({
+    //       participant: participant,
+    //       side: index === 0 || index >= 4 ? 0 : 1,
+    //     });
+    //   }
+    // );
+    // if (draftOrder.length > 0) {
+    //   const draftLabel = document.createElement("div");
+    //   draftLabel.className = "rm-draft-label";
+    //   draftLabel.appendChild(buildIconSvg(["M4 6h16M4 12h16M4 18h10"], { size: 11 }));
+    //   draftLabel.appendChild(document.createTextNode(LABELS.draftLabel));
+    //   container.appendChild(draftLabel);
+    //
+    //   const draftRow = document.createElement("div");
+    //   draftRow.className = "rm-draft";
+    //   draftOrder.forEach(function (entry, index) {
+    //     const pick = document.createElement("div");
+    //     pick.className = "rm-draft-pick";
+    //     const avatar = buildAvatarEl(entry.participant, 32);
+    //     avatar.style.border = "2px solid " + (entry.side === 0 ? "var(--win)" : "var(--loss)");
+    //     pick.appendChild(avatar);
+    //     const num = document.createElement("span");
+    //     num.className = "rm-draft-num";
+    //     num.textContent = String(index + 1);
+    //     pick.appendChild(num);
+    //     draftRow.appendChild(pick);
+    //   });
+    //   container.appendChild(draftRow);
+    // }
 
     const faceoff = document.createElement("div");
     faceoff.className = "rm-faceoff";
@@ -3795,6 +3944,19 @@
   });
   clearElement(document.getElementById("leaderboard-section"));
   document.getElementById("leaderboard-section").appendChild(leaderboardPanel);
+
+  // Combined recent matches panel (no player selected) — same wrap-in-place pattern as the
+  // leaderboard panel above, reusing --tint-recent since it is never shown simultaneously with
+  // the per-player recent panel.
+  const combinedRecentPanel = makeCollapsiblePanel({
+    id: "combined-recent-panel",
+    title: LABELS.combinedRecentSectionTitle,
+    tint: "var(--tint-recent)",
+    rightText: "",
+    bodyEl: document.getElementById("combined-recent-content"),
+  });
+  clearElement(document.getElementById("combined-recent-section"));
+  document.getElementById("combined-recent-section").appendChild(combinedRecentPanel);
 
   loadPlayers().then(function (trackedPlayers) {
     loadLeaderboardData(trackedPlayers);
