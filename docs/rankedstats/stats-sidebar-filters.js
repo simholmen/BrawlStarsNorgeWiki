@@ -137,7 +137,14 @@
     return orderedGroups;
   }
 
-  function buildBrawlerRow(brawlerAggregate) {
+  // Named buildBrawlerTreeRow (not buildBrawlerRow) — stats-tables.js declares its own top-level
+  // buildBrawlerRow(row) for its table row markup, and since neither file is module/IIFE-scoped,
+  // two same-named top-level `function` declarations across separate <script> tags collide in the
+  // shared global scope; whichever loads last (stats-tables.js, per stats.html's script order)
+  // silently wins. That collision previously made the sidebar tree call stats-tables.js's row
+  // builder with an `aggregate()` group object (key/label/sets, not brawler_id/brawler_name/
+  // sets_played) — rendering "undefined" for the name and sets in the Brawler filter tree.
+  function buildBrawlerTreeRow(brawlerAggregate) {
     const isActive =
       STATE.filter.kind === "brawler" && STATE.filter.value === brawlerAggregate.key;
 
@@ -247,7 +254,7 @@
       const children = document.createElement("div");
       children.className = "tree-children";
       classGroup.brawlers.forEach(function (brawlerAggregate) {
-        children.appendChild(buildBrawlerRow(brawlerAggregate));
+        children.appendChild(buildBrawlerTreeRow(brawlerAggregate));
       });
       classRow.appendChild(children);
     }
