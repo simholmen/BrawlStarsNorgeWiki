@@ -53,6 +53,31 @@
     return data;
   }
 
+  // === PostgREST caps any single response at its server-configured max-rows (1000 on this
+  // === project) regardless of a client-side `.limit()` — confirmed by an unfiltered
+  // === v_player_set_rows request coming back `Content-Range: 0-999/*` against an actual table
+  // === size of 3942. `fetchAllRows` pages through with `.range()` until a page comes back short
+  // === of `pageSize`, so callers get the true full result set. Only used for the one query
+  // === (allParticipantRows below) big enough to hit that cap — every other fetch in this app
+  // === (per-player queries, the tracked-only leaderboard fetch) stays comfortably under 1000
+  // === rows and is left as a single plain request. ===
+  async function fetchAllRows(buildQuery) {
+    const pageSize = 1000;
+    let allRows = [];
+    let from = 0;
+    for (;;) {
+      const { data, error } = await buildQuery().range(from, from + pageSize - 1);
+      if (error) {
+        return { data: null, error: error };
+      }
+      allRows = allRows.concat(data || []);
+      if (!data || data.length < pageSize) {
+        return { data: allRows, error: null };
+      }
+      from += pageSize;
+    }
+  }
+
   // === Bulk fetch across every tracked player for the leaderboard (no player selected) view.
   // === Called once at init, after loadPlayers() resolves the roster it depends on. ===
   async function loadLeaderboardData(trackedPlayers) {
@@ -66,23 +91,48 @@
     const trackedTags = trackedPlayers.map(function (p) { return p.tag; });
     if (trackedTags.length === 0) {
       STATE.allSetRows = [];
+      STATE.allParticipantRows = [];
       renderAll();
       return;
     }
 
-    const setRowsResult = await sb
-      .from("v_player_set_rows")
-      .select("*")
-      .in("player_tag", trackedTags);
+    // v_player_set_rows (007_redesign_views.sql) carries no player_tag filter of its own — every
+    // row is one (player, completed set) participation, tracked or not, so the SAME view fetched
+    // a second time with no `.in("player_tag", ...)` restriction returns every participant of
+    // every set our tracked roster played: teammates and opponents included, not just our own
+    // picks. Only the columns the map-expansion breakdown (buildMapExpandBrawlerRows, stats-
+    // tables.js) and the brawler-matchup breakdown (buildBrawlerExpandOpponentRows, same file —
+    // team_index is what lets it tell "same team" from "opposing team" within a set) actually
+    // aggregate by are selected. This one goes through fetchAllRows (not a plain request) since it
+    // is well over the server's 1000-row page cap (~3900+ rows, one per set PARTICIPANT rather
+    // than per tracked player). `.order("set_id").order("player_tag")` is REQUIRED, not cosmetic —
+    // (set_id, player_tag) is set_participants' own primary key (001_init.sql), so it's a fully
+    // deterministic sort with no ties. Without it, Postgres has no guaranteed row order for a
+    // paginated `.range()` query, so two separate requests against the same table can (and, when
+    // verified directly against this project, did — confirmed via two unordered fetches sharing
+    // ~276 duplicate rows) return different orderings, silently dropping some sets' rows out of
+    // every page entirely while duplicating others.
+    const [setRowsResult, participantRowsResult] = await Promise.all([
+      sb.from("v_player_set_rows").select("*").in("player_tag", trackedTags),
+      fetchAllRows(function () {
+        return sb
+          .from("v_player_set_rows")
+          .select("set_id,player_tag,ended_at,brawler_id,brawler_name,result,team_index")
+          .order("set_id", { ascending: true })
+          .order("player_tag", { ascending: true });
+      }),
+    ]);
 
-    if (setRowsResult.error) {
+    if (setRowsResult.error || participantRowsResult.error) {
       STATE.allSetRows = [];
-      STATE.leaderboardLoadError = setRowsResult.error.message;
+      STATE.allParticipantRows = [];
+      STATE.leaderboardLoadError = (setRowsResult.error || participantRowsResult.error).message;
       renderAll();
       return;
     }
 
     STATE.allSetRows = setRowsResult.data || [];
+    STATE.allParticipantRows = participantRowsResult.data || [];
     STATE.leaderboardLoadError = null;
     renderAll();
   }
@@ -148,6 +198,30 @@
     suppressUrlPush = true;
     selectPlayer(playerTagFromUrl());
     suppressUrlPush = false;
+  });
+
+  // === Browsing view toggle (no player selected) — the two icon buttons in the hero
+  // === (#view-btn-leaderboard/#view-btn-maps). Switching TO the Kart view resets the mode and
+  // === brawler/class filters, since updateFilterVisibilityForView() (stats-sidebar-filters.js)
+  // === hides those two controls there — leaving a stale selection active but invisible would
+  // === silently filter the map list with no way to see or clear it. ===
+  function setBrowseView(view) {
+    if (STATE.browseView === view) {
+      return;
+    }
+    STATE.browseView = view;
+    if (view === "maps") {
+      STATE.mode = "All modes";
+      STATE.filter = { kind: null, value: null };
+    }
+    renderAll();
+  }
+
+  document.getElementById("view-btn-leaderboard").addEventListener("click", function () {
+    setBrowseView("leaderboard");
+  });
+  document.getElementById("view-btn-maps").addEventListener("click", function () {
+    setBrowseView("maps");
   });
 
   // =========================================================================================
@@ -271,10 +345,12 @@
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
     // Column order: #, Player, Sets, W, L, D, Trend, Winrate. Rank and Trend have no `column`
-    // entry — rank is a derived position, and Trend has no single-cell value to compare. Unlike
-    // the map/brawler/teammate tables (makeSortableHeader, which just reorders the already-
-    // rendered <tr>s), the leaderboard is paginated, so a header click has to re-sort the FULL
-    // ranked list (via STATE.leaderboardSort) and re-render, not just the current page's rows.
+    // entry — rank is a derived position, and Trend has no single-cell value to compare. This
+    // table's own bespoke pager (Prev/Next over STATE.leaderboardSort, not renderSortableTable's
+    // incremental "load more") re-sorts the FULL ranked list on every header click and re-renders
+    // — same "sort everything, not just the loaded page" contract renderSortableTable
+    // (stats-tables.js) gives the map/brawler/teammate tables, just implemented separately here
+    // since the pagination shape differs.
     const columns = [
       { label: LABELS.leaderboardRankColumn, column: null },
       { label: LABELS.playerLabel, column: "label" },
@@ -482,5 +558,62 @@
     container.appendChild(list);
 
     container.appendChild(buildCombinedRecentPagination(totalPages));
+  }
+
+  // =========================================================================================
+  // === GLOBAL MAP STATS (no player selected) ===
+  // === computeGlobalMapRows (stats-state.js) does the actual aggregation; this just wires its
+  // === output into the exact same renderMapTable the per-player Map section uses, so the two
+  // === tables are visually identical and share one implementation. "global-map-table" (not
+  // === "map-table") keeps it from colliding with the per-player table's id — both containers
+  // === exist in the DOM at once, just never both visible. isPersonal=false is passed straight
+  // === through to renderMapTable/openMapPreviewModal so a row's modal reads "everyone" rather
+  // === than "personal" (see the MAP PREVIEW MODAL comment in stats-recent-matches.js).
+  // =========================================================================================
+
+  function renderGlobalMapTable() {
+    const container = document.getElementById("global-map-content");
+
+    if (STATE.leaderboardLoadError) {
+      setStatus(container, "error", LABELS.errorPrefix + STATE.leaderboardLoadError);
+      return;
+    }
+
+    const rows = computeGlobalMapRows();
+
+    if (rows.length === 0) {
+      setStatus(container, "empty", LABELS.noSetsRecorded);
+      return;
+    }
+
+    renderMapTable(container, rows, "global-map-table", false);
+  }
+
+  // =========================================================================================
+  // === GLOBAL BRAWLER STATS (no player selected, Statistikk/Kart view only) ===
+  // === computeGlobalBrawlerRows (stats-state.js) aggregates our tracked roster's own picks per
+  // === brawler, same "own roster only" scope computeGlobalMapRows uses for the map list above —
+  // === this just wires its output into renderGlobalBrawlerTable (stats-tables.js), which builds
+  // === the clickable table AND owns the click-to-expand "who did this brawler beat, and lose to"
+  // === matchup breakdown (buildBrawlerExpandOpponentRows, same file — THAT part draws from every
+  // === set participant, teammates and opponents included, same as the map breakdown does).
+  // =========================================================================================
+
+  function renderGlobalBrawlerTable() {
+    const container = document.getElementById("global-brawler-content");
+
+    if (STATE.leaderboardLoadError) {
+      setStatus(container, "error", LABELS.errorPrefix + STATE.leaderboardLoadError);
+      return;
+    }
+
+    const rows = computeGlobalBrawlerRows();
+
+    if (rows.length === 0) {
+      setStatus(container, "empty", LABELS.noSetsRecorded);
+      return;
+    }
+
+    renderGlobalBrawlerListTable(container, rows);
   }
 

@@ -125,6 +125,11 @@
     last7Days: "Siste 7 dager",
     thisSeason: "Denne sesongen",
 
+    // --- custom period (date-range chip) ---
+    periodCustom: "Egendefinert",
+    customFromLabel: "Fra",
+    customToLabel: "Til",
+
     // --- hero rank delta (Task 15) — period-relative suffix appended after the +/- number, so
     // --- the delta reads e.g. "+263 elo denne sesongen" instead of a bare "+263" ---
     heroDeltaUnitElo: "elo",
@@ -132,6 +137,7 @@
     heroDeltaPeriodSeason: "denne sesongen",
     heroDeltaPeriodLast30: "siste 30 dager",
     heroDeltaPeriodLast7: "siste 7 dager",
+    heroDeltaPeriodCustom: "i valgt periode",
     rowsHiddenSuffix: "rader skjult",
     activeFilterLabel: "Aktivt filter",
     clear: "Nullstill",
@@ -165,8 +171,32 @@
     leaderboardHeroContactHint: "Ta kontakt med @Zimma2832 på Discord om du vil bli lagt til",
     leaderboardLogoAlt: "Brawl Stars Norge",
 
+    // --- view switcher (Ledertavle/Kart toggle, no player selected — Task 16) ---
+    mapsHeroTitle: "Brawl Stars Norge kart-statistikk",
+    mapsHeroSubtitle: "Velg et kart for å se de beste brawlerne der, blant alle sporede spillere.",
+
     // --- combined recent matches (no player selected) — pagination reuses the leaderboard's
     // --- own Prev/Next/Page/of labels above rather than duplicating them under new keys ---
     combinedRecentSectionTitle: "Siste kamper (alle spillere)",
+
+    // --- global map stats (no player selected) — reuses the per-player Map section's own
+    // --- tableMap/tableSets/etc. column labels above, just this section's own panel title ---
+    globalMapSectionTitle: "Map (alle spillere)",
+
+    // --- map preview modal (top brawlers by winrate on a map) — reuses the match-detail modal's
+    // --- own chrome (closeModal, setsSuffix, etc. above), just this section's own strings ---
+    clickForMapPreview: "Klikk for å se topp brawlere",
+    mapPreviewHeadingGlobal: "Topp 5 brawlere (winrate blant alle sporede spillere)",
+    mapPreviewHeadingPersonal: "Topp brawlere (dine sett på dette kartet)",
+    mapPreviewNoDataGlobal: "Ikke nok data for dette kartet ennå (blant alle sporede spillere).",
+    mapPreviewNoDataPersonal: "Ikke nok av dine egne sett på dette kartet ennå.",
+    mapPreviewTotalSuffixGlobal: "totalt på dette kartet, blant alle sporede spillere",
+    mapPreviewTotalSuffixPersonal: "av dine egne sett på dette kartet",
+
+    // --- global brawler stats + matchup breakdown (no player selected, Statistikk/Kart view) —
+    // --- reuses tableBrawler/tableSets/etc. above for its own column labels, just this section's
+    // --- panel title and the click-to-expand row hint (parallel to clickForMapPreview above) ---
+    globalBrawlerSectionTitle: "Brawler (alle spillere)",
+    clickForBrawlerMatchups: "Klikk for å se motstandere",
   };
 

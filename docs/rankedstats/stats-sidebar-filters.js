@@ -19,6 +19,12 @@
         return new Date(row.ended_at) >= cutoffDate;
       });
     }
+    const upperBoundDate = periodUpperBoundDate();
+    if (upperBoundDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.ended_at) < upperBoundDate;
+      });
+    }
 
     if (STATE.mode !== "All modes") {
       filteredRows = filteredRows.filter(function (row) {
@@ -26,9 +32,9 @@
       });
     }
 
-    if (STATE.rankFilter !== null) {
+    if (STATE.rankFilter.length > 0) {
       filteredRows = filteredRows.filter(function (row) {
-        return row.tier_name === STATE.rankFilter;
+        return STATE.rankFilter.includes(row.tier_name);
       });
     }
 
@@ -47,6 +53,12 @@
     if (cutoffDate !== null) {
       filteredRows = filteredRows.filter(function (row) {
         return new Date(row.ended_at) >= cutoffDate;
+      });
+    }
+    const upperBoundDate = periodUpperBoundDate();
+    if (upperBoundDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.ended_at) < upperBoundDate;
       });
     }
 
@@ -278,10 +290,12 @@
   // === (Pro/Masters/Legendary/Mythic/Diamond, highest first) — Gold/Silver/Bronze are excluded
   // === per user request, since nobody filters ranked stats down to those. Built from
   // === `filterByModePeriodAndBrawler`, so it reflects mode/period/brawler selections but never
-  // === collapses to a single row from its own STATE.rankFilter selection. Selecting a row writes
-  // === STATE.rankFilter directly (a bare tier_name or null) — kept separate from STATE.filter so
-  // === a rank and a brawler/class can be active at the same time (see STATE.rankFilter's own
-  // === comment for why).
+  // === collapses to just the active rows from its own STATE.rankFilter selection. Multi-select:
+  // === clicking a tier toggles its membership in the STATE.rankFilter array rather than replacing
+  // === it, so e.g. Legendary + Mythic can both be active at once — a row's own set only needs to
+  // === match ANY selected tier (applyFilters/filterByModeAndPeriod use `.includes`, not equality).
+  // === Kept separate from STATE.filter so a rank selection and a brawler/class selection can be
+  // === active at the same time (see STATE.rankFilter's own comment for why).
   // =========================================================================================
 
   const RANK_FILTER_ORDER = ["Pro", "Masters", "Legendary", "Mythic", "Diamond"];
@@ -315,12 +329,14 @@
   }
 
   function buildRankRow(rankAggregate) {
-    const isActive = STATE.rankFilter === rankAggregate.key;
+    const isActive = STATE.rankFilter.includes(rankAggregate.key);
 
     const row = document.createElement("div");
     row.className = isActive ? "tree-rank-row active" : "tree-rank-row";
     row.addEventListener("click", function () {
-      STATE.rankFilter = isActive ? null : rankAggregate.key;
+      STATE.rankFilter = isActive
+        ? STATE.rankFilter.filter(function (tierName) { return tierName !== rankAggregate.key; })
+        : STATE.rankFilter.concat([rankAggregate.key]);
       renderAll();
     });
 
@@ -367,12 +383,12 @@
     title.textContent = LABELS.rankTreeTitle;
     headerContainer.appendChild(title);
 
-    if (STATE.rankFilter !== null) {
+    if (STATE.rankFilter.length > 0) {
       const clearLink = document.createElement("span");
       clearLink.className = "tree-clear";
       clearLink.textContent = "✕ " + LABELS.clear;
       clearLink.addEventListener("click", function () {
-        STATE.rankFilter = null;
+        STATE.rankFilter = [];
         renderAll();
       });
       headerContainer.appendChild(clearLink);
@@ -419,6 +435,52 @@
     });
   }
 
+  // Builds the "Fra"/"Til" date-input pair shown under the chip row once "Custom" is the active
+  // period — appended as a `.custom-period-row` (flex-basis: 100%, see stats.css) so it wraps
+  // onto its own line below the chips rather than fighting them for space in the flex-wrap row.
+  // Each input writes its own plain "YYYY-MM-DD" `.value` straight to STATE.customFrom/customTo
+  // on change (native date-input behaviour: fires once a full date is picked/typed, not per
+  // keystroke) — periodCutoffDate/periodUpperBoundDate (stats-state.js) do the actual filtering.
+  function buildCustomPeriodField(labelText, inputValue, onChange) {
+    const field = document.createElement("label");
+    field.className = "custom-period-field";
+
+    const labelEl = document.createElement("span");
+    labelEl.textContent = labelText;
+    field.appendChild(labelEl);
+
+    const input = document.createElement("input");
+    input.type = "date";
+    if (inputValue) {
+      input.value = inputValue;
+    }
+    input.addEventListener("change", function () {
+      onChange(input.value || null);
+      renderAll();
+    });
+    field.appendChild(input);
+
+    return field;
+  }
+
+  function buildCustomPeriodRow() {
+    const row = document.createElement("div");
+    row.className = "custom-period-row";
+
+    row.appendChild(
+      buildCustomPeriodField(LABELS.customFromLabel, STATE.customFrom, function (value) {
+        STATE.customFrom = value;
+      })
+    );
+    row.appendChild(
+      buildCustomPeriodField(LABELS.customToLabel, STATE.customTo, function (value) {
+        STATE.customTo = value;
+      })
+    );
+
+    return row;
+  }
+
   function renderPeriodChips() {
     const container = document.getElementById("period-chips");
     clearElement(container);
@@ -428,6 +490,7 @@
       { value: "Last 30 days", label: LABELS.last30Days },
       { value: "Last 7 days", label: LABELS.last7Days },
       { value: "All time", label: LABELS.allTime },
+      { value: "Custom", label: LABELS.periodCustom },
     ];
 
     periods.forEach(function (period) {
@@ -443,6 +506,34 @@
       });
       container.appendChild(chip);
     });
+
+    if (STATE.period === "Custom") {
+      container.appendChild(buildCustomPeriodRow());
+    }
+  }
+
+  // Only ever called when STATE.period === "Custom" (the last branch of renderFilterBar's own
+  // periodText ternary below) — "…" stands in for whichever end of the range hasn't been picked
+  // yet, same open-ended range the empty side already gets from periodCutoffDate/
+  // periodUpperBoundDate not filtering on it.
+  function customPeriodSummaryText() {
+    if (!STATE.customFrom && !STATE.customTo) {
+      return LABELS.periodCustom;
+    }
+    const fromText = STATE.customFrom ? new Date(STATE.customFrom).toLocaleDateString() : "…";
+    const toText = STATE.customTo ? new Date(STATE.customTo).toLocaleDateString() : "…";
+    return fromText + "–" + toText;
+  }
+
+  // === Hides the Mode chip row and Brawler tree sidebar groups on the Kart/Maps browsing view
+  // === (STATE.tag === null && STATE.browseView === "maps") — that page keeps min-sets/period/rank
+  // === but drops mode+brawler per the design brief. Called from renderAll() on every render,
+  // === alongside renderModeChips/renderBrawlerTree which keep rebuilding those groups' contents
+  // === regardless of visibility (cheap at this data volume, and avoids a second code path). ===
+  function updateFilterVisibilityForView() {
+    const hide = STATE.tag === null && STATE.browseView === "maps";
+    document.getElementById("mode-filter-group").style.display = hide ? "none" : "";
+    document.getElementById("brawler-filter-group").style.display = hide ? "none" : "";
   }
 
   function renderFilterBar() {
@@ -462,7 +553,9 @@
         ? LABELS.thisSeason
         : STATE.period === "Last 7 days"
         ? LABELS.last7Days
-        : LABELS.last30Days;
+        : STATE.period === "Last 30 days"
+        ? LABELS.last30Days
+        : customPeriodSummaryText();
 
     const summary = document.createElement("span");
     summary.className = "filter-bar-summary";
@@ -471,20 +564,20 @@
       modeText +
       " · " +
       periodText +
-      (STATE.rankFilter !== null ? " · " + STATE.rankFilter : "") +
+      (STATE.rankFilter.length > 0 ? " · " + STATE.rankFilter.join("/") : "") +
       " · min " +
       STATE.minSets +
       " " +
       LABELS.tableSets;
     container.appendChild(summary);
 
-    if (STATE.filter.kind !== null || STATE.rankFilter !== null) {
+    if (STATE.filter.kind !== null || STATE.rankFilter.length > 0) {
       const clearButton = document.createElement("span");
       clearButton.className = "filter-bar-clear";
       clearButton.textContent = LABELS.clear;
       clearButton.addEventListener("click", function () {
         STATE.filter = { kind: null, value: null };
-        STATE.rankFilter = null;
+        STATE.rankFilter = [];
         renderAll();
       });
       container.appendChild(clearButton);

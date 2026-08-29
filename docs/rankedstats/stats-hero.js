@@ -22,6 +22,7 @@
 
     document.getElementById("hero-rank-badge").classList.remove("hero-rank-badge--bare");
     document.getElementById("hero-contact-hint").textContent = "";
+    document.getElementById("hero-view-switcher").style.display = "none";
 
     // Same "try the CDN icon, fall back to the local placeholder on error" pattern as
     // buildRowIconCell's icon param (used for the leaderboard/teammate table row icons).
@@ -79,6 +80,9 @@
       }
       if (STATE.period === "Last 7 days") {
         return LABELS.heroDeltaPeriodLast7;
+      }
+      if (STATE.period === "Custom") {
+        return LABELS.heroDeltaPeriodCustom;
       }
       return LABELS.heroDeltaPeriodAllTime;
     }
@@ -158,25 +162,39 @@
   // === misleading) or, worse, incorrectly zero out every row the moment a mode filter is active
   // === (since `row.mode === STATE.mode` would never match an undefined `row.mode`). ===
   function filterRankHistoryByPeriod(rows) {
+    let filteredRows = rows;
     const cutoffDate = periodCutoffDate();
-    if (cutoffDate === null) {
-      return rows;
+    if (cutoffDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.ended_at) >= cutoffDate;
+      });
     }
-    return rows.filter(function (row) {
-      return new Date(row.ended_at) >= cutoffDate;
-    });
+    const upperBoundDate = periodUpperBoundDate();
+    if (upperBoundDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.ended_at) < upperBoundDate;
+      });
+    }
+    return filteredRows;
   }
 
   // === Same period-only cutoff-date filter as filterRankHistoryByPeriod above, over
   // === v_player_rank_snapshots rows instead (fetched_at, not ended_at). ===
   function filterRankSnapshotsByPeriod(rows) {
+    let filteredRows = rows;
     const cutoffDate = periodCutoffDate();
-    if (cutoffDate === null) {
-      return rows;
+    if (cutoffDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.fetched_at) >= cutoffDate;
+      });
     }
-    return rows.filter(function (row) {
-      return new Date(row.fetched_at) >= cutoffDate;
-    });
+    const upperBoundDate = periodUpperBoundDate();
+    if (upperBoundDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.fetched_at) < upperBoundDate;
+      });
+    }
+    return filteredRows;
   }
 
   // =========================================================================================

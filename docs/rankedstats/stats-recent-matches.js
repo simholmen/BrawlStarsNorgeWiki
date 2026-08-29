@@ -564,6 +564,137 @@
   }
 
   // =========================================================================================
+  // === MAP PREVIEW MODAL (top brawlers by winrate on a map) ===
+  // === Reuses the SAME modal chrome as the match-detail modal below — openMatchDetailModal/
+  // === closeMatchDetailModal just open/close #match-detail-overlay and manage focus, they don't
+  // === know or care which content loaded into it. Only #match-detail-content's contents and the
+  // === header's title/thumb differ from a match row's. Triggered by clicking a map instead of a
+  // === match: either the per-player By Map table's rows / best-worst callout cards (personal —
+  // === `sourceRows` is just that one player's own sets, `isPersonal` true), or the Felles page's
+  // === global Map table (everyone — `sourceRows` spans every tracked player, `isPersonal` false).
+  // === The modal has no scope logic of its own beyond picking which LABELS.mapPreview* string to
+  // === show — see computeTopBrawlerWinrates (stats-state.js) for why `sourceRows` alone is enough.
+  // =========================================================================================
+
+  function openMapPreviewModal(triggerEl, mode, map, sourceRows, isPersonal) {
+    openMatchDetailModal(triggerEl);
+    loadMapPreview(mode, map, sourceRows, isPersonal);
+  }
+
+  function loadMapPreview(mode, map, sourceRows, isPersonal) {
+    const container = document.getElementById("match-detail-content");
+    document.getElementById("match-detail-title").textContent = prettyMode(mode) + " — " + map;
+    setMatchDetailThumb(mode);
+    renderMapPreview(container, mode, map, sourceRows, isPersonal);
+  }
+
+  // One row of the top-5 list: rank number, brawler portrait, name, sample size, and the same
+  // bar+percentage winrate markup the map/brawler/teammate tables use (buildWinrateBarContent,
+  // stats-tables.js) — just laid out in a flex row instead of a table cell.
+  function buildMapPreviewRow(group, rank) {
+    const row = document.createElement("div");
+    row.className = "map-preview-row";
+
+    const rankEl = document.createElement("div");
+    rankEl.className = "map-preview-rank";
+    rankEl.textContent = "#" + rank;
+    row.appendChild(rankEl);
+
+    const iconUrl = brawlerIconUrl(group.label);
+    if (iconUrl) {
+      const icon = document.createElement("img");
+      icon.className = "map-preview-icon";
+      icon.src = iconUrl;
+      icon.alt = group.label;
+      icon.loading = "lazy";
+      icon.onerror = function () {
+        icon.onerror = null;
+        icon.className = "map-preview-icon-placeholder";
+        icon.removeAttribute("src");
+        icon.alt = "";
+      };
+      row.appendChild(icon);
+    } else {
+      const placeholder = document.createElement("div");
+      placeholder.className = "map-preview-icon-placeholder";
+      row.appendChild(placeholder);
+    }
+
+    const nameEl = document.createElement("div");
+    nameEl.className = "map-preview-name";
+    nameEl.textContent = group.label;
+    row.appendChild(nameEl);
+
+    const setsEl = document.createElement("div");
+    setsEl.className = "map-preview-sets";
+    setsEl.textContent = group.sets + " " + LABELS.setsSuffix;
+    row.appendChild(setsEl);
+
+    const winrateEl = document.createElement("div");
+    winrateEl.className = "map-preview-winrate";
+    winrateEl.appendChild(buildWinrateBarContent(group.winrate));
+    row.appendChild(winrateEl);
+
+    return row;
+  }
+
+  // Same "map art on top, mode chip below" opening as renderMatchDetail, then the top-brawlers
+  // list (computeTopBrawlerWinrates, stats-state.js) in place of the face-off/rounds a match
+  // shows. `isPersonal` only ever picks which LABELS.mapPreview* string to display — `sourceRows`
+  // already carries whichever scope (personal vs everyone) the caller means.
+  function renderMapPreview(container, mode, map, sourceRows, isPersonal) {
+    clearElement(container);
+
+    const mapVisual = document.createElement("div");
+    mapVisual.className = "rm-map";
+    container.appendChild(mapVisual);
+    setMapVisualImage(mapVisual, mode, map);
+
+    const modeChip = document.createElement("div");
+    modeChip.className = "rm-mode-chip";
+    const modeIconSrc = modeIconUrl(mode);
+    if (modeIconSrc) {
+      const modeIconImg = document.createElement("img");
+      modeIconImg.src = modeIconSrc;
+      modeIconImg.alt = "";
+      modeIconImg.onerror = function () {
+        modeIconImg.remove();
+      };
+      modeChip.appendChild(modeIconImg);
+    }
+    modeChip.appendChild(document.createTextNode(prettyMode(mode)));
+    container.appendChild(modeChip);
+
+    const heading = document.createElement("div");
+    heading.className = "map-preview-heading";
+    heading.textContent = isPersonal ? LABELS.mapPreviewHeadingPersonal : LABELS.mapPreviewHeadingGlobal;
+    container.appendChild(heading);
+
+    const mapStats = computeTopBrawlerWinrates(sourceRows || []);
+
+    if (mapStats.topGroups.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "status empty";
+      empty.textContent = isPersonal ? LABELS.mapPreviewNoDataPersonal : LABELS.mapPreviewNoDataGlobal;
+      container.appendChild(empty);
+      return;
+    }
+
+    const list = document.createElement("div");
+    list.className = "map-preview-list";
+    mapStats.topGroups.forEach(function (group, index) {
+      list.appendChild(buildMapPreviewRow(group, index + 1));
+    });
+    container.appendChild(list);
+
+    const totalSuffix = isPersonal ? LABELS.mapPreviewTotalSuffixPersonal : LABELS.mapPreviewTotalSuffixGlobal;
+    const footnote = document.createElement("p");
+    footnote.className = "map-preview-footnote";
+    footnote.textContent = mapStats.totalSets + " " + LABELS.setsSuffix + " " + totalSuffix;
+    container.appendChild(footnote);
+  }
+
+  // =========================================================================================
   // === MATCH DETAIL MODAL (open/close + focus management) ===
   // === Adds what the mockup itself never had: ESC-to-close, backdrop-click-to-close, and focus
   // === restoration to the row that opened the modal. `matchDetailTriggerEl` is a real

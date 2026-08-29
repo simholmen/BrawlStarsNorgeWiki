@@ -159,7 +159,7 @@
     color: var(--text-secondary);
   }
 
-  select, input[type="number"] {
+  select, input[type="number"], input[type="date"] {
     padding: 6px 8px;
     font-size: 0.95em;
     border: 1px solid var(--input-border);
@@ -174,6 +174,13 @@
 
   input[type="number"] {
     width: 80px;
+  }
+
+  /* Safari/Chrome paint the built-in calendar-icon button using the ui-element's own default
+     (near-black) fill, which is unreadable against this page's dark input background — invert it
+     so it reads as a light icon like everything else in the sidebar. */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
   }
 
   /* ==========================================================================================
@@ -212,6 +219,32 @@
     background: rgba(255, 210, 61, 0.08);
     border-color: var(--accent-gold);
     color: var(--accent-gold);
+  }
+
+  /* "Fra"/"Til" date inputs shown under the period chips once "Custom" is active (built by
+     buildCustomPeriodRow, stats-sidebar-filters.js) — appended as a child of #period-chips
+     (a .chip-row) alongside the chips themselves, so flex-basis: 100% is what forces it onto its
+     own line below them instead of competing for space in the wrapping chip row. */
+  .custom-period-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1 1 100%;
+  }
+
+  .custom-period-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted-2);
+  }
+
+  .custom-period-field input[type="date"] {
+    width: 100%;
   }
 
   .min-sets-row {
@@ -662,6 +695,103 @@
     line-height: 1;
   }
 
+  /* By Map table rows get this class (set in JS by renderMapTable). Covers both #map-table
+     (per-player — opens the map-preview modal for that row's map) and #global-map-table (Felles/
+     Statistikk, all players — toggles the inline breakdown row below instead, see
+     buildMapRow/toggleExpandRow, stats-tables.js). #global-brawler-table (buildGlobalBrawlerRow,
+     same file) reuses this exact same clickable-row treatment for its own toggle-a-matchup-
+     breakdown rows. `table th`'s own cursor:pointer (for sorting) is unaffected, this only
+     targets the data rows. */
+  #map-table tbody tr.clickable-row,
+  #global-map-table tbody tr.clickable-row,
+  #global-brawler-table tbody tr.clickable-row {
+    cursor: pointer;
+  }
+
+  #map-table tbody tr.clickable-row td,
+  #global-map-table tbody tr.clickable-row td,
+  #global-brawler-table tbody tr.clickable-row td {
+    cursor: pointer;
+  }
+
+  #map-table tbody tr.clickable-row:hover,
+  #global-map-table tbody tr.clickable-row:hover,
+  #global-brawler-table tbody tr.clickable-row:hover {
+    background: var(--panel-border);
+  }
+
+  #map-table tbody tr.clickable-row:focus-visible,
+  #global-map-table tbody tr.clickable-row:focus-visible,
+  #global-brawler-table tbody tr.clickable-row:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: -2px;
+  }
+
+  /* ==========================================================================================
+     Inline expand rows (Felles/Statistikk global map + brawler tables) — buildMapExpandRow/
+     buildBrawlerExpandRow/toggleExpandRow (stats-tables.js) insert/remove a single
+     <tr class="expand-row"> directly below the clicked row; only one stays open at a time (across
+     either table, though in practice only one of the two tables' rows is ever open since opening
+     one always closes whatever else was open in ITS OWN table — see toggleExpandRow's own
+     comment). The opener row itself gets .expand-open for a persistent "this one's open"
+     highlight (a plain :hover isn't enough once the pointer moves down into the expanded
+     content). .expand-image is a map screenshot, shown only on the Map table's rows —
+     buildBrawlerExpandRow (stats-tables.js) passes no image at all, so .expand-table-wrap's own
+     `flex: 1 1 auto` just fills the row on its own there.
+     ========================================================================================== */
+  #global-map-table tbody tr.expand-open,
+  #global-brawler-table tbody tr.expand-open {
+    background: rgba(255, 210, 61, 0.1);
+    box-shadow: inset 3px 0 0 var(--accent-gold);
+  }
+
+  #global-map-table tbody tr.expand-row:hover,
+  #global-brawler-table tbody tr.expand-row:hover {
+    background: none;
+  }
+
+  #global-map-table tbody tr.expand-row > td,
+  #global-brawler-table tbody tr.expand-row > td {
+    padding: 16px;
+    background: var(--bg-sidebar);
+    cursor: default;
+  }
+
+  .expand-content {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .expand-table-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .expand-table {
+    font-size: 0.92em;
+  }
+
+  /* Trend (6th of 7 columns: Brawler/Sett/Seire/Tap/Uavgjort/Trend/Winrate — same order
+     brawlerTableColumns(), stats-tables.js, always builds) is dropped from every expand table at
+     every viewport width, not just on mobile — with a whole nested table already inside the row,
+     a sparkline column that's frequently empty anyway (renderSparkline needs 3+ chronological sets
+     to draw one) isn't worth the space here the way it is in the full-size tables. */
+  .expand-table th:nth-child(6),
+  .expand-table td:nth-child(6) {
+    display: none;
+  }
+
+  .expand-image {
+    width: 160px;
+    height: 210px;
+    flex: none;
+    border-radius: var(--radius-lg);
+    background-color: var(--placeholder-swatch);
+    background-size: cover;
+    background-position: center;
+  }
+
   /* ==========================================================================================
      Trend sparkline (Task 15) — the map/brawler/teammate tables' Trend column, built by
      `renderSparkline` in stats.html. A row with fewer than 3 of its own chronological sets
@@ -986,6 +1116,67 @@
     color: var(--text-primary);
   }
 
+  /* --- Hero view switcher (Leaderboard/Kart toggle, no player selected): occupies the same
+     right-aligned slot as .hero-kpis above (only one of the two is ever visible at once), so it
+     reuses margin-left: auto to stick to the right edge of .hero-content. align-self: center
+     overrides .hero-content's own align-items: flex-start (needed there to keep the badge/title
+     pinned to the same y across the per-player vs. empty hero states) just for this element, so
+     the switcher sits centered on the hero's full height instead of pinned to the top. --- */
+  .hero-view-switcher {
+    margin-left: auto;
+    align-self: center;
+    display: flex;
+    gap: 22px;
+  }
+
+  .hero-view-btn {
+    width: 100px;
+    height: 112px;
+    flex: none;
+    padding: 14px 10px 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    background: rgba(7, 11, 20, 0.75);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-2xl);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .hero-view-btn img {
+    width: 56px;
+    height: 56px;
+    flex: none;
+    object-fit: contain;
+    display: block;
+  }
+
+  .hero-view-btn-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .hero-view-btn:hover {
+    border-color: var(--text-muted-1);
+  }
+
+  .hero-view-btn.active {
+    background: rgba(255, 210, 61, 0.08);
+    border-color: var(--accent-gold);
+  }
+
+  .hero-view-btn.active .hero-view-btn-label {
+    color: var(--accent-gold);
+  }
+
   /* Desktop/tablet default: sidebar + main side by side, same as before this pass. The mobile
      media query further down replaces this with a stacked, full-width-filter-bar layout below
      900px — see the "Mobile / narrow layout" section. */
@@ -1131,6 +1322,22 @@
     font-size: 38px;
     font-weight: 700;
     line-height: 1;
+  }
+
+  /* A callout card only gets this class (set in JS by renderCallouts) when a qualifying map
+     backs it — opens the map-preview modal, same hover/focus-visible pattern as .recent-row. */
+  .callout-card--clickable {
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+  }
+
+  .callout-card--clickable:hover {
+    background: var(--panel-border);
+  }
+
+  .callout-card--clickable:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: -2px;
   }
 
   /* ==========================================================================================
@@ -1542,6 +1749,81 @@
     height: 12px;
   }
 
+  /* ==========================================================================================
+     Map preview modal body — built by renderMapPreview/buildMapPreviewRow (stats-recent-
+     matches.js). Opens on top of the same .rm-map/.rm-mode-chip pair a match-detail modal shows
+     (real map art + mode glyph), then a "top 5 brawlers by winrate on this map" list instead of
+     that modal's face-off/rounds. Each row's winrate bar is buildWinrateBarContent's own
+     .winrate-bar-track/.winrate-bar-fill/.winrate-bar-text markup (stats-tables.js) — styled
+     above, unchanged here.
+     ========================================================================================== */
+  .map-preview-heading {
+    text-align: center;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted-2);
+    margin-bottom: 12px;
+  }
+
+  .map-preview-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .map-preview-row {
+    display: grid;
+    grid-template-columns: 24px 32px 1fr 60px 110px;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .map-preview-rank {
+    font-family: "Barlow Condensed", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-muted-2);
+  }
+
+  .map-preview-icon,
+  .map-preview-icon-placeholder {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex: none;
+    object-fit: cover;
+    background: var(--placeholder-swatch);
+  }
+
+  .map-preview-name {
+    font-family: "Barlow Condensed", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+  }
+
+  .map-preview-sets {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted-2);
+    text-align: right;
+  }
+
+  .map-preview-winrate {
+    min-width: 0;
+  }
+
+  .map-preview-footnote {
+    margin: 12px 0 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted-2);
+  }
+
   .rm-draft-label {
     display: flex;
     align-items: center;
@@ -1811,6 +2093,49 @@
       margin-left: 0;
       width: 100%;
       grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Only shortens the ROW gap (the space between the wrapped identity-text line and the
+       switcher's own line below it) — column-gap between side-by-side items stays
+       var(--space-2xl), unaffected. */
+    .hero-content {
+      gap: 8px var(--space-2xl);
+    }
+
+    .hero-view-switcher {
+      margin-left: 0;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .expand-content {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .expand-table-wrap {
+      width: 100%;
+    }
+
+    .expand-image {
+      width: 140px;
+      height: 184px;
+    }
+
+    /* Uavgjort (5th of 7 columns: Map|Brawler/Sett/Seire/Tap/Uavgjort/Trend/Winrate) is dropped
+       from the two Statistikk/Kart top-level tables on tablet/phone widths — draws are rare next
+       to Sett/Seire/Tap and the least essential number to keep once the table has to compete with
+       the stacked sidebar for width. Scoped by id, not a shared class, so the per-player Map/
+       Brawler/Teammate tables and the leaderboard table keep every column at every width. These
+       id-scoped selectors match any th/td:nth-child(5) DESCENDANT, not just the outer table's own
+       direct cells — since a clicked row's nested .expand-table (buildExpandRow, stats-tables.js)
+       lives inside the outer table's own DOM (a <table> nested inside one of its <tr><td>s), its
+       Uavgjort column is dropped here too, on top of Trend's own always-on removal below. */
+    #global-map-table th:nth-child(5),
+    #global-map-table td:nth-child(5),
+    #global-brawler-table th:nth-child(5),
+    #global-brawler-table td:nth-child(5) {
+      display: none;
     }
 
     /* Recent matches: the desktop 6-column grid (96px 1fr 148px 128px 148px 24px) is already

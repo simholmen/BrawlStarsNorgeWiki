@@ -91,6 +91,27 @@
       winrateEl.style.color = callout.tone;
       card.appendChild(winrateEl);
 
+      // Only clickable when a qualifying row backs the card — an empty "—" callout has no map to
+      // open a preview for. Same role/tabindex/click+Enter/Space pattern as the map table's own
+      // clickable-row rows just above.
+      if (row) {
+        card.classList.add("callout-card--clickable");
+        card.setAttribute("role", "button");
+        card.tabIndex = 0;
+        card.title = LABELS.clickForMapPreview;
+        card.setAttribute("aria-label", LABELS.clickForMapPreview);
+        card.addEventListener("click", function () {
+          openMapPreviewModal(card, row.mode, row.map, row.rows, true);
+        });
+        card.addEventListener("keydown", function (event) {
+          if (event.key !== "Enter" && event.key !== " ") {
+            return;
+          }
+          event.preventDefault();
+          openMapPreviewModal(card, row.mode, row.map, row.rows, true);
+        });
+      }
+
       container.appendChild(card);
     });
   }
@@ -175,8 +196,12 @@
     return cell;
   }
 
-  function buildWinrateCell(winrate) {
-    const cell = document.createElement("td");
+  // Builds the bar+percentage pair alone (a DocumentFragment, no wrapping element) so both
+  // buildWinrateCell (<td>, the map/brawler/teammate tables) and the map-preview modal's
+  // buildMapPreviewRow (a plain <div>, stats-recent-matches.js) can share the exact same markup
+  // without one of them dragging in a stray <td> outside a table.
+  function buildWinrateBarContent(winrate) {
+    const fragment = document.createDocumentFragment();
     const tone = winrateTone(winrate) || "var(--text-muted-4)";
     const barPercent = winrate === null || winrate === undefined ? 0 : winrate * 100;
 
@@ -187,7 +212,7 @@
     barFill.style.width = barPercent + "%";
     barFill.style.background = tone;
     barTrack.appendChild(barFill);
-    cell.appendChild(barTrack);
+    fragment.appendChild(barTrack);
 
     // The percentage is a real, standalone text node (not embedded inside the bar) — required so
     // `sortTableByColumn`'s `cell.textContent` read still yields exactly the "NN.N%" string.
@@ -195,8 +220,14 @@
     textEl.className = "winrate-bar-text";
     textEl.textContent = formatWinrate(winrate);
     textEl.style.color = tone;
-    cell.appendChild(textEl);
+    fragment.appendChild(textEl);
 
+    return fragment;
+  }
+
+  function buildWinrateCell(winrate) {
+    const cell = document.createElement("td");
+    cell.appendChild(buildWinrateBarContent(winrate));
     return cell;
   }
 
@@ -293,67 +324,648 @@
   // === SECTION 2: BY MAP ===
   // =========================================================================================
 
-  function renderMapTable(container, rows) {
-    clearElement(container);
+  const MAP_PAGE_SIZE = 10;
+
+  // =========================================================================================
+  // === SORTABLE + PAGINATED TABLE (shared by every "load more" table that's also sortable:
+  // === renderMapTable, renderTeammateTable, renderExpandBrawlerTable, renderGlobalBrawlerListTable
+  // === below) ===
+  // === Unlike makeSortableHeader/sortTableByColumn (stats-panels.js — still used by
+  // === renderBrawlerTable, the one sortable table that's NOT paginated), a header click here
+  // === re-sorts the FULL `config.rows` array and re-renders from page 1, not just whichever rows
+  // === happened to already be in the DOM — same "sort before paginating, not after" fix
+  // === renderLeaderboard's own sortLeaderboardRows (stats-leaderboard.js) already applies for the
+  // === leaderboard table. Sorting DOM text (the old approach) silently ignored every row not yet
+  // === loaded via "load more", which is exactly the bug this fixes.
+  // ===
+  // === config: {
+  // ===   container, tableId (optional), className (optional),
+  // ===   rows: array (this function copies it — the caller's own array is never mutated/reordered),
+  // ===   pageSize: number,
+  // ===   columns: [{ label, field: fn(row) => string|number|null, or omitted for an unsortable
+  // ===              column (e.g. Trend) }],
+  // ===   buildRowFn: fn(row) => <tr>,
+  // ===   emptyText: string,
+  // ===   onPageRendered: fn() (optional — called after the initial render AND every "load more"
+  // ===                        click, e.g. the map/teammate tables' own min-sample-filter re-run)
+  // === }
+  // =========================================================================================
+
+  function compareSortableTableValues(valueA, valueB) {
+    const normalizedA = valueA === null || valueA === undefined ? -Infinity : valueA;
+    const normalizedB = valueB === null || valueB === undefined ? -Infinity : valueB;
+    if (typeof normalizedA === "number" && typeof normalizedB === "number") {
+      return normalizedA - normalizedB;
+    }
+    return String(normalizedA).localeCompare(String(normalizedB));
+  }
+
+  function renderSortableTable(config) {
+    clearElement(config.container);
+
+    const rows = config.rows.slice();
+    const sortState = { columnIndex: null, direction: null };
 
     const table = document.createElement("table");
-    table.id = "map-table";
+    if (config.tableId) {
+      table.id = config.tableId;
+    }
+    if (config.className) {
+      table.className = config.className;
+    }
 
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    // Column order: Map (icon + name + mode sub-label), Sets, W, L, D, Trend, Winrate. Trend
-    // (index 5) is a plain non-sortable header — Task 15 fills its per-row <td> later.
-    const columnLabels = [
-      LABELS.tableMap,
-      LABELS.tableSets,
-      LABELS.tableWins,
-      LABELS.tableLosses,
-      LABELS.tableDraws,
-      LABELS.tableTrend,
-      LABELS.tableWinrate,
-    ];
-    const trendColumnIndex = 5;
-    columnLabels.forEach(function (label, index) {
-      if (index === trendColumnIndex) {
-        const th = document.createElement("th");
-        th.textContent = label;
-        headerRow.appendChild(th);
-      } else {
-        headerRow.appendChild(makeSortableHeader(table, index, label));
+    const tbody = document.createElement("tbody");
+
+    let renderedCount = 0;
+
+    const loadMoreButton = document.createElement("button");
+    loadMoreButton.type = "button";
+    loadMoreButton.className = "load-more-button";
+    loadMoreButton.textContent = LABELS.loadMore;
+
+    function updateLoadMoreVisibility() {
+      loadMoreButton.style.display = renderedCount < rows.length ? "" : "none";
+    }
+
+    function loadNextPage() {
+      rows.slice(renderedCount, renderedCount + config.pageSize).forEach(function (row) {
+        tbody.appendChild(config.buildRowFn(row));
+      });
+      renderedCount = Math.min(renderedCount + config.pageSize, rows.length);
+      updateLoadMoreVisibility();
+      if (config.onPageRendered) {
+        config.onPageRendered();
       }
+    }
+
+    function handleSort(columnIndex) {
+      if (rows.length === 0) {
+        return;
+      }
+      if (sortState.columnIndex === columnIndex) {
+        sortState.direction = sortState.direction === "asc" ? "desc" : "asc";
+      } else {
+        sortState.columnIndex = columnIndex;
+        sortState.direction = "desc";
+      }
+      Array.from(headerRow.children).forEach(function (headerCell, index) {
+        if (index === columnIndex) {
+          headerCell.setAttribute("data-order", sortState.direction);
+        } else {
+          headerCell.removeAttribute("data-order");
+        }
+      });
+
+      const field = config.columns[columnIndex].field;
+      const multiplier = sortState.direction === "asc" ? 1 : -1;
+      rows.sort(function (rowA, rowB) {
+        return multiplier * compareSortableTableValues(field(rowA), field(rowB));
+      });
+
+      // Re-render however many rows were ALREADY loaded (not just one page) — collapsing back to
+      // page 1 after someone had clicked "load more" a few times shrinks the table dramatically,
+      // which reads as a jarring layout jump (especially on mobile, where it can yank the header
+      // the user just tapped clean off screen). Sorting should reorder what's visible, not also
+      // silently re-paginate it.
+      const previouslyVisibleCount = renderedCount;
+      clearElement(tbody);
+      renderedCount = 0;
+      rows.slice(0, previouslyVisibleCount).forEach(function (row) {
+        tbody.appendChild(config.buildRowFn(row));
+      });
+      renderedCount = Math.min(previouslyVisibleCount, rows.length);
+      updateLoadMoreVisibility();
+      if (config.onPageRendered) {
+        config.onPageRendered();
+      }
+    }
+
+    config.columns.forEach(function (column, index) {
+      const th = document.createElement("th");
+      th.textContent = column.label;
+      if (column.field) {
+        th.addEventListener("click", function () {
+          handleSort(index);
+        });
+      }
+      headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
-
-    const tbody = document.createElement("tbody");
-    rows.forEach(function (row) {
-      const tr = document.createElement("tr");
-      tr.setAttribute("data-sets", String(row.sets_played));
-      const isThin = row.sets_played < STATE.minSets + 2;
-      tr.appendChild(
-        buildRowIconCell(row.map, prettyMode(row.mode), isThin, null, modeIconUrl(row.mode))
-      );
-      tr.appendChild(makeCell(String(row.sets_played)));
-      tr.appendChild(makeCell(String(row.wins)));
-      tr.appendChild(makeCell(String(row.losses)));
-      tr.appendChild(makeCell(String(row.draws)));
-      const trendCell = document.createElement("td");
-      const sparkline = renderSparkline(row.rows || []);
-      if (sparkline) {
-        trendCell.appendChild(sparkline);
-      }
-      tr.appendChild(trendCell);
-      tr.appendChild(buildWinrateCell(row.winrate));
-      tbody.appendChild(tr);
-    });
     table.appendChild(tbody);
+    config.container.appendChild(table);
 
-    container.appendChild(table);
+    if (rows.length === 0) {
+      const emptyRow = document.createElement("tr");
+      const emptyCell = document.createElement("td");
+      emptyCell.colSpan = config.columns.length;
+      emptyCell.className = "status empty";
+      emptyCell.textContent = config.emptyText;
+      emptyRow.appendChild(emptyCell);
+      tbody.appendChild(emptyRow);
+      return;
+    }
+
+    loadMoreButton.addEventListener("click", loadNextPage);
+
+    loadNextPage();
+    config.container.appendChild(loadMoreButton);
+  }
+
+  // === INLINE EXPAND ROWS (Felles/Statistikk global map + brawler tables only) ===
+  // === Clicking a global-map-table row used to open the same top-5-brawlers modal the per-player
+  // === Map table still uses (openMapPreviewModal) — it now instead expands an inline row directly
+  // === beneath it, and the new global-brawler-table (stats-leaderboard.js) reuses the exact same
+  // === mechanics for its own "which brawlers has this one faced, and how did it do" matchup
+  // === breakdown. Both share: renderExpandBrawlerTable (a paginated, sortable brawler table built
+  // === from pre-aggregated rows), toggleExpandRow (the open/close-one-at-a-time accordion), and
+  // === the .expand-row/.expand-content/.expand-table-wrap/.expand-image CSS (stats.css) — only
+  // === the "which rows to aggregate" step and the right-hand image differ per caller. isPersonal
+  // === is still passed through from buildMapRow below, so the per-player Map table (isPersonal
+  // === true, still just the selected player's own picks, still opens the modal) is untouched.
+  // =========================================================================================
+
+  const EXPAND_BRAWLER_PAGE_SIZE = 10;
+
+  // Shared Brawler/Sett/Seire/Tap/Uavgjort/Trend/Winrate column set — renderExpandBrawlerTable,
+  // renderGlobalBrawlerListTable, and renderBrawlerTable (SECTION 3 below) all show this exact
+  // shape, just from different row sources. Trend has no `field` (renderSortableTable/
+  // makeSortableHeader both treat that as "not sortable" — there's no single value to compare a
+  // sparkline by).
+  function brawlerTableColumns() {
+    return [
+      {
+        label: LABELS.tableBrawler,
+        field: function (row) {
+          return row.brawler_name || String(row.brawler_id);
+        },
+      },
+      {
+        label: LABELS.tableSets,
+        field: function (row) {
+          return row.sets_played;
+        },
+      },
+      {
+        label: LABELS.tableWins,
+        field: function (row) {
+          return row.wins;
+        },
+      },
+      {
+        label: LABELS.tableLosses,
+        field: function (row) {
+          return row.losses;
+        },
+      },
+      {
+        label: LABELS.tableDraws,
+        field: function (row) {
+          return row.draws;
+        },
+      },
+      { label: LABELS.tableTrend },
+      {
+        label: LABELS.tableWinrate,
+        field: function (row) {
+          return row.winrate;
+        },
+      },
+    ];
+  }
+
+  // Renders a paginated, sortable Brawler/Sett/Seire/Tap/Uavgjort/Trend/Winrate table from
+  // ALREADY aggregated+filtered `brawlerRows` (buildMapExpandBrawlerRows or
+  // buildBrawlerExpandOpponentRows below build that shape) into `container` — a plain, un-ided
+  // `<table>` per call (renderBrawlerTable's own `#brawler-table` id is already claimed by the
+  // hidden-but-present per-player Brawler section) reusing buildBrawlerRow for each row. Paginated
+  // EXPAND_BRAWLER_PAGE_SIZE at a time via renderSortableTable, since either breakdown (every map
+  // participant, or every brawler a brawler has faced) can easily clear 20-30+ qualifying rows —
+  // a header click re-sorts ALL of them, not just whichever page happens to be loaded.
+  function renderExpandBrawlerTable(container, brawlerRows) {
+    renderSortableTable({
+      container: container,
+      className: "expand-table",
+      rows: brawlerRows,
+      pageSize: EXPAND_BRAWLER_PAGE_SIZE,
+      columns: brawlerTableColumns(),
+      buildRowFn: buildBrawlerRow,
+      emptyText: LABELS.noSetsRecorded,
+    });
+  }
+
+  // === MAP → BRAWLER BREAKDOWN ===
+  // Same row shape renderExpandBrawlerTable needs (brawler_id/brawler_name/sets_played/wins/
+  // losses/draws/winrate/rows) as renderAll()'s own per-player Brawler bridge builds — just
+  // aggregated from one map's worth of set PARTICIPANTS instead of the whole filtered set.
+  // `trackedRows` is the map row's own already-filtered rows (its `group.rows` from
+  // computeGlobalMapRows — tracked players' own picks only), used ONLY to collect which sets this
+  // breakdown covers (their `set_id`s already carry every mode/period/rank filter the sidebar
+  // applied); the actual brawlers aggregated below come from STATE.allParticipantRows filtered
+  // down to just those sets, so teammates' and opponents' picks are counted too, not just our own
+  // roster's. Sorted winrate desc (sets desc tiebreak), matching computeTopBrawlerWinrates' own
+  // ranking. Brawlers below STATE.minSets are excluded outright (not just thin-badged) — same
+  // "excluded from consideration" instinct as computeGlobalMapRows/computeTopBrawlerWinrates, and
+  // what makes the sidebar's min-sets slider actually mean something here instead of just
+  // decorating rows.
+  function buildMapExpandBrawlerRows(trackedRows) {
+    const setIds = new Set((trackedRows || []).map(function (row) { return row.set_id; }));
+    const participantRows = STATE.allParticipantRows.filter(function (row) {
+      return setIds.has(row.set_id);
+    });
+
+    const brawlerGroups = aggregate(
+      participantRows,
+      function (row) {
+        return row.brawler_id;
+      },
+      function (row) {
+        return row.brawler_name || String(row.brawler_id);
+      }
+    );
+    const brawlerRows = brawlerGroups
+      .filter(function (group) {
+        return group.sets >= STATE.minSets;
+      })
+      .map(function (group) {
+        return {
+          brawler_id: group.key,
+          brawler_name: group.label,
+          sets_played: group.sets,
+          wins: group.wins,
+          losses: group.losses,
+          draws: group.draws,
+          winrate: group.winrate,
+          rows: group.rows,
+        };
+      });
+    brawlerRows.sort(function (rowA, rowB) {
+      const winrateA = rowA.winrate === null ? -1 : rowA.winrate;
+      const winrateB = rowB.winrate === null ? -1 : rowB.winrate;
+      if (winrateB !== winrateA) {
+        return winrateB - winrateA;
+      }
+      return rowB.sets_played - rowA.sets_played;
+    });
+    return brawlerRows;
+  }
+
+  // Team-level win/loss is symmetric, not shared — the team that didn't win B's row.result lost,
+  // and vice versa (a draw stays a draw). Needed because buildBrawlerExpandOpponentRows below
+  // reports each OPPONENT's own record against B, not B's record against them.
+  function invertResult(result) {
+    if (result === "win") {
+      return "loss";
+    }
+    if (result === "loss") {
+      return "win";
+    }
+    return result;
+  }
+
+  // === BRAWLER → OPPONENT MATCHUP BREAKDOWN ===
+  // For a clicked brawler B, `trackedRows` (row.rows from computeGlobalBrawlerRows — tracked
+  // roster's own picks of B, already mode/period/rank/filtered) names which sets to look at. For
+  // each of THOSE picks, every OTHER set participant (from STATE.allParticipantRows, team_index
+  // included in that fetch specifically for this) on the OPPOSING team_index is one "this brawler
+  // faced B" instance. Its outcome is invertResult(B's own pick's result) — "what brawlers have
+  // the highest winrate AGAINST B" means each opponent's OWN win/loss, the mirror image of B's
+  // (a team-level result, so it applies to every cross-team pairing from that same set) — a 3v3
+  // set therefore contributes up to 3 matchup instances per pick of B. Same shape/filter/sort as
+  // buildMapExpandBrawlerRows above (STATE.minSets excludes outright, winrate desc / sets desc).
+  function buildBrawlerExpandOpponentRows(trackedRows) {
+    const setIds = new Set((trackedRows || []).map(function (row) { return row.set_id; }));
+    const participantsBySet = new Map();
+    STATE.allParticipantRows.forEach(function (row) {
+      if (!setIds.has(row.set_id)) {
+        return;
+      }
+      if (!participantsBySet.has(row.set_id)) {
+        participantsBySet.set(row.set_id, []);
+      }
+      participantsBySet.get(row.set_id).push(row);
+    });
+
+    const matchupRows = [];
+    (trackedRows || []).forEach(function (row) {
+      const participants = participantsBySet.get(row.set_id) || [];
+      participants.forEach(function (participant) {
+        if (participant.team_index === row.team_index) {
+          return;
+        }
+        matchupRows.push({
+          brawler_id: participant.brawler_id,
+          brawler_name: participant.brawler_name,
+          result: invertResult(row.result),
+          ended_at: row.ended_at,
+        });
+      });
+    });
+
+    const brawlerGroups = aggregate(
+      matchupRows,
+      function (row) {
+        return row.brawler_id;
+      },
+      function (row) {
+        return row.brawler_name || String(row.brawler_id);
+      }
+    );
+    const brawlerRows = brawlerGroups
+      .filter(function (group) {
+        return group.sets >= STATE.minSets;
+      })
+      .map(function (group) {
+        return {
+          brawler_id: group.key,
+          brawler_name: group.label,
+          sets_played: group.sets,
+          wins: group.wins,
+          losses: group.losses,
+          draws: group.draws,
+          winrate: group.winrate,
+          rows: group.rows,
+        };
+      });
+    brawlerRows.sort(function (rowA, rowB) {
+      const winrateA = rowA.winrate === null ? -1 : rowA.winrate;
+      const winrateB = rowB.winrate === null ? -1 : rowB.winrate;
+      if (winrateB !== winrateA) {
+        return winrateB - winrateA;
+      }
+      return rowB.sets_played - rowA.sets_played;
+    });
+    return brawlerRows;
+  }
+
+  // Shared by buildMapExpandRow/buildBrawlerExpandRow below — the common "table on the left,
+  // 160x210 image on the right" shell, `colSpan` matching whichever 7-column table (map or
+  // brawler) the caller's row belongs to. `renderTableFn(tableWrap)` does the caller-specific
+  // aggregation + renderExpandBrawlerTable call; `applyImage(imageEl)` sets the caller-specific
+  // background (a map screenshot vs a brawler portrait).
+  function buildExpandRow(colSpan, renderTableFn, applyImage) {
+    const expandTr = document.createElement("tr");
+    expandTr.className = "expand-row";
+
+    const td = document.createElement("td");
+    td.colSpan = colSpan;
+
+    const content = document.createElement("div");
+    content.className = "expand-content";
+
+    const tableWrap = document.createElement("div");
+    tableWrap.className = "expand-table-wrap";
+    renderTableFn(tableWrap);
+    content.appendChild(tableWrap);
+
+    if (applyImage) {
+      const imageEl = document.createElement("div");
+      imageEl.className = "expand-image";
+      applyImage(imageEl);
+      content.appendChild(imageEl);
+    }
+
+    td.appendChild(content);
+    expandTr.appendChild(td);
+    return expandTr;
+  }
+
+  // Built fresh on every open (never cached) — trackedRows is already the exact row.rows this map
+  // row aggregates (tracked players' own picks), same input openMapPreviewModal used to take;
+  // buildMapExpandBrawlerRows above only uses it to find which sets to pull EVERY participant's
+  // brawler for. setMapVisualImage (stats-dom-utils.js) fills in the background-image
+  // asynchronously, same "start blank, swap in once the map-image index resolves" pattern the
+  // modal's own .rm-map used.
+  function buildMapExpandRow(mode, map, trackedRows) {
+    return buildExpandRow(
+      7,
+      function (tableWrap) {
+        renderExpandBrawlerTable(tableWrap, buildMapExpandBrawlerRows(trackedRows || []));
+      },
+      function (imageEl) {
+        setMapVisualImage(imageEl, mode, map);
+      }
+    );
+  }
+
+  // Built fresh on every open (never cached) — same trackedRows contract as buildMapExpandRow
+  // above, just for one brawler's own picks instead of one map's. No right-hand image (unlike the
+  // map breakdown) — the opponent table gets the full width instead.
+  function buildBrawlerExpandRow(trackedRows) {
+    return buildExpandRow(
+      7,
+      function (tableWrap) {
+        renderExpandBrawlerTable(tableWrap, buildBrawlerExpandOpponentRows(trackedRows || []));
+      },
+      null
+    );
+  }
+
+  // Accordion toggle shared by the global map and global brawler tables: opening a row's
+  // breakdown first closes whichever OTHER row's breakdown was open in the same table (there's
+  // only ever one of either table on screen at a time, but this stays scoped to `tr`'s own table
+  // rather than assuming that), then inserts/removes this row's own via `buildExpandTr()`.
+  // Clicking an already-open row just closes it.
+  function toggleExpandRow(tr, buildExpandTr) {
+    const table = tr.closest("table");
+    const wasThisRowOpen = tr.classList.contains("expand-open");
+
+    const existingExpand = table.querySelector("tr.expand-row");
+    if (existingExpand) {
+      existingExpand.remove();
+    }
+    table.querySelectorAll("tr.expand-open").forEach(function (openTr) {
+      openTr.classList.remove("expand-open");
+    });
+
+    if (wasThisRowOpen) {
+      return;
+    }
+
+    tr.classList.add("expand-open");
+    tr.after(buildExpandTr());
+  }
+
+  // Clicking a per-player Map row (isPersonal true) still opens the top-5-brawlers modal
+  // (openMapPreviewModal); a Felles/Statistikk global-map-table row (isPersonal false) instead
+  // toggles the inline breakdown above. Same role/tabindex/click+Enter/Space pattern
+  // buildRecentRow uses for match rows.
+  function buildMapRow(row, isPersonal) {
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-sets", String(row.sets_played));
+    const isThin = row.sets_played < STATE.minSets + 2;
+    tr.appendChild(
+      buildRowIconCell(row.map, prettyMode(row.mode), isThin, null, modeIconUrl(row.mode))
+    );
+    tr.appendChild(makeCell(String(row.sets_played)));
+    tr.appendChild(makeCell(String(row.wins)));
+    tr.appendChild(makeCell(String(row.losses)));
+    tr.appendChild(makeCell(String(row.draws)));
+    const trendCell = document.createElement("td");
+    const sparkline = renderSparkline(row.rows || []);
+    if (sparkline) {
+      trendCell.appendChild(sparkline);
+    }
+    tr.appendChild(trendCell);
+    tr.appendChild(buildWinrateCell(row.winrate));
+
+    tr.className = "clickable-row";
+    tr.setAttribute("role", "button");
+    tr.tabIndex = 0;
+    tr.title = LABELS.clickForMapPreview;
+    tr.setAttribute("aria-label", LABELS.clickForMapPreview);
+
+    function handleActivate() {
+      if (isPersonal) {
+        openMapPreviewModal(tr, row.mode, row.map, row.rows, isPersonal);
+        return;
+      }
+      toggleExpandRow(tr, function () {
+        return buildMapExpandRow(row.mode, row.map, row.rows);
+      });
+    }
+    tr.addEventListener("click", handleActivate);
+    tr.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+      event.preventDefault();
+      handleActivate();
+    });
+
+    return tr;
+  }
+
+  // === GLOBAL BRAWLER TABLE (Felles/Statistikk view) — clickable rows, each toggling that
+  // === brawler's own opponent-matchup breakdown (buildBrawlerExpandRow/toggleExpandRow above).
+  // === Builds on buildBrawlerRow's own cell markup (identical Brawler/Sett/Seire/Tap/Uavgjort/
+  // === Trend/Winrate columns to the per-player Brawler table) rather than duplicating it, adding
+  // === only the click/keyboard affordances — same "wrap the plain row builder" relationship
+  // === buildMapRow has to renderMapTable's shared column set. ===
+  function buildGlobalBrawlerRow(row) {
+    const tr = buildBrawlerRow(row);
+    tr.className = "clickable-row";
+    tr.setAttribute("role", "button");
+    tr.tabIndex = 0;
+    tr.title = LABELS.clickForBrawlerMatchups;
+    tr.setAttribute("aria-label", LABELS.clickForBrawlerMatchups);
+
+    function handleActivate() {
+      toggleExpandRow(tr, function () {
+        return buildBrawlerExpandRow(row.rows);
+      });
+    }
+    tr.addEventListener("click", handleActivate);
+    tr.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+      event.preventDefault();
+      handleActivate();
+    });
+
+    return tr;
+  }
+
+  const GLOBAL_BRAWLER_PAGE_SIZE = 10;
+
+  // Top-level table for the new Brawler (alle spillere) section — same header/pagination shape as
+  // renderMapTable, just with buildGlobalBrawlerRow's clickable rows instead of buildMapRow's, and
+  // the shared brawlerTableColumns() field set (same as renderExpandBrawlerTable/renderBrawlerTable)
+  // so a header click re-sorts every qualifying brawler, not just the loaded page. Always "global"
+  // (`rows` already comes from computeGlobalBrawlerRows, tracked roster only) — there's no
+  // per-player equivalent of this table to disambiguate against, so unlike renderMapTable this
+  // always renders into the one `#global-brawler-table` id.
+  function renderGlobalBrawlerListTable(container, rows) {
+    renderSortableTable({
+      container: container,
+      tableId: "global-brawler-table",
+      rows: rows,
+      pageSize: GLOBAL_BRAWLER_PAGE_SIZE,
+      columns: brawlerTableColumns(),
+      buildRowFn: buildGlobalBrawlerRow,
+      emptyText: LABELS.noSetsRecorded,
+    });
+  }
+
+  // `tableId` defaults to "map-table" (the per-player Map section) — the Felles-page global map
+  // table (stats-leaderboard.js) passes "global-map-table" instead so the 2 tables, both present
+  // in the DOM at once (just never both visible), never collide on id. `isPersonal` is passed
+  // straight through to buildMapRow/openMapPreviewModal (true from the per-player caller, false
+  // from the Felles-page caller) — see the MAP PREVIEW MODAL comment in stats-recent-matches.js.
+  // Paginated MAP_PAGE_SIZE at a time via renderSortableTable (a header click re-sorts every
+  // qualifying map, not just the loaded page) — only the personal (map-table) case re-runs the
+  // min-sample-filter/panel-count refresh on each page render (applyMinSampleFilter/
+  // updateMinSetsHint/updatePanelRightText); the Felles global table was never wired into that
+  // system (computeGlobalMapRows, stats-state.js, already excludes below-threshold rows outright
+  // instead of rendering-then-hiding them), so isPersonal false skips it rather than showing a
+  // stale/misleading "0 rader over grensen" on that panel.
+  function renderMapTable(container, rows, tableId, isPersonal) {
+    renderSortableTable({
+      container: container,
+      tableId: tableId || "map-table",
+      rows: rows,
+      pageSize: MAP_PAGE_SIZE,
+      columns: [
+        { label: LABELS.tableMap, field: function (row) { return row.map; } },
+        { label: LABELS.tableSets, field: function (row) { return row.sets_played; } },
+        { label: LABELS.tableWins, field: function (row) { return row.wins; } },
+        { label: LABELS.tableLosses, field: function (row) { return row.losses; } },
+        { label: LABELS.tableDraws, field: function (row) { return row.draws; } },
+        { label: LABELS.tableTrend },
+        { label: LABELS.tableWinrate, field: function (row) { return row.winrate; } },
+      ],
+      buildRowFn: function (row) {
+        return buildMapRow(row, isPersonal);
+      },
+      emptyText: LABELS.noSetsRecorded,
+      onPageRendered: isPersonal
+        ? function () {
+            applyMinSampleFilter();
+            updateMinSetsHint();
+            updatePanelRightText("map-panel", countFilteredOutRows("map-table"));
+          }
+        : undefined,
+    });
   }
 
   // =========================================================================================
   // === SECTION 3: BY BRAWLER ===
   // =========================================================================================
+
+  // Extracted out of renderBrawlerTable's own forEach so renderExpandBrawlerTable and
+  // buildGlobalBrawlerRow (stats-tables.js's INLINE EXPAND ROWS / GLOBAL BRAWLER TABLE sections
+  // below) can build the exact same row markup — for a map's brawler breakdown, a brawler's
+  // opponent-matchup breakdown, and the top-level global Brawler table itself — not just the full
+  // per-player Brawler table.
+  function buildBrawlerRow(row) {
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-sets", String(row.sets_played));
+    const isThin = row.sets_played < STATE.minSets + 2;
+    tr.appendChild(
+      buildRowIconCell(
+        row.brawler_name || String(row.brawler_id),
+        null,
+        isThin,
+        null,
+        brawlerIconUrl(row.brawler_name)
+      )
+    );
+    tr.appendChild(makeCell(String(row.sets_played)));
+    tr.appendChild(makeCell(String(row.wins)));
+    tr.appendChild(makeCell(String(row.losses)));
+    tr.appendChild(makeCell(String(row.draws)));
+    const trendCell = document.createElement("td");
+    const sparkline = renderSparkline(row.rows || []);
+    if (sparkline) {
+      trendCell.appendChild(sparkline);
+    }
+    tr.appendChild(trendCell);
+    tr.appendChild(buildWinrateCell(row.winrate));
+    return tr;
+  }
 
   function renderBrawlerTable(container, rows) {
     clearElement(container);
@@ -389,30 +1001,7 @@
 
     const tbody = document.createElement("tbody");
     rows.forEach(function (row) {
-      const tr = document.createElement("tr");
-      tr.setAttribute("data-sets", String(row.sets_played));
-      const isThin = row.sets_played < STATE.minSets + 2;
-      tr.appendChild(
-        buildRowIconCell(
-          row.brawler_name || String(row.brawler_id),
-          null,
-          isThin,
-          null,
-          brawlerIconUrl(row.brawler_name)
-        )
-      );
-      tr.appendChild(makeCell(String(row.sets_played)));
-      tr.appendChild(makeCell(String(row.wins)));
-      tr.appendChild(makeCell(String(row.losses)));
-      tr.appendChild(makeCell(String(row.draws)));
-      const trendCell = document.createElement("td");
-      const sparkline = renderSparkline(row.rows || []);
-      if (sparkline) {
-        trendCell.appendChild(sparkline);
-      }
-      tr.appendChild(trendCell);
-      tr.appendChild(buildWinrateCell(row.winrate));
-      tbody.appendChild(tr);
+      tbody.appendChild(buildBrawlerRow(row));
     });
     table.appendChild(tbody);
 
@@ -477,70 +1066,38 @@
     return tr;
   }
 
+  // Column order: Teammate (icon + name, no sub-label), Tag, Sets together, W, Trend, Winrate.
+  // Paginated TEAMMATE_PAGE_SIZE at a time via renderSortableTable — a header click re-sorts every
+  // qualifying teammate, not just the loaded page. Newly rendered pages need the same min-sets
+  // filtering/counts already applied to the rows loaded before them — applyMinSampleFilter()/
+  // friends only touch rows present in the DOM — so onPageRendered re-runs them after every page
+  // (initial render AND each "load more"/sort).
   function renderTeammateTable(container, rows) {
-    clearElement(container);
-
-    const table = document.createElement("table");
-    table.id = "teammate-table";
-
-    const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
-    // Column order: Teammate (icon + name, no sub-label), Tag, Sets together, W, Trend, Winrate.
-    // Trend (index 4) is a plain non-sortable header — Task 15 fills its per-row <td> later.
-    const columnLabels = [
-      LABELS.tableTeammate,
-      LABELS.tableTag,
-      LABELS.tableSetsTogether,
-      LABELS.tableWins,
-      LABELS.tableTrend,
-      LABELS.tableWinrate,
-    ];
-    const trendColumnIndex = 4;
-    columnLabels.forEach(function (label, index) {
-      if (index === trendColumnIndex) {
-        const th = document.createElement("th");
-        th.textContent = label;
-        headerRow.appendChild(th);
-      } else {
-        headerRow.appendChild(makeSortableHeader(table, index, label));
-      }
+    renderSortableTable({
+      container: container,
+      tableId: "teammate-table",
+      rows: rows,
+      pageSize: TEAMMATE_PAGE_SIZE,
+      columns: [
+        {
+          label: LABELS.tableTeammate,
+          field: function (row) {
+            return row.teammate_name || row.teammate_tag;
+          },
+        },
+        { label: LABELS.tableTag, field: function (row) { return row.teammate_tag; } },
+        { label: LABELS.tableSetsTogether, field: function (row) { return row.sets_together; } },
+        { label: LABELS.tableWins, field: function (row) { return row.wins; } },
+        { label: LABELS.tableTrend },
+        { label: LABELS.tableWinrate, field: function (row) { return row.winrate; } },
+      ],
+      buildRowFn: buildTeammateRow,
+      emptyText: LABELS.noSetsRecorded,
+      onPageRendered: function () {
+        applyMinSampleFilter();
+        updateMinSetsHint();
+        updatePanelRightText("teammate-panel", countFilteredOutRows("teammate-table"));
+      },
     });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    const tbody = document.createElement("tbody");
-    table.appendChild(tbody);
-    container.appendChild(table);
-
-    // --- pagination: only the first TEAMMATE_PAGE_SIZE rows render up front; the rest load in
-    // --- chunks of the same size via the "load more" button appended below the table. ---
-    let renderedCount = 0;
-
-    const loadMoreButton = document.createElement("button");
-    loadMoreButton.type = "button";
-    loadMoreButton.className = "load-more-button";
-    loadMoreButton.textContent = LABELS.loadMore;
-
-    function updateLoadMoreVisibility() {
-      loadMoreButton.style.display = renderedCount < rows.length ? "" : "none";
-    }
-
-    function loadNextPage() {
-      rows.slice(renderedCount, renderedCount + TEAMMATE_PAGE_SIZE).forEach(function (row) {
-        tbody.appendChild(buildTeammateRow(row));
-      });
-      renderedCount = Math.min(renderedCount + TEAMMATE_PAGE_SIZE, rows.length);
-      updateLoadMoreVisibility();
-      // Newly appended rows need the same min-sets filtering/counts already applied to the rows
-      // loaded before them — applyMinSampleFilter()/friends only touch rows present in the DOM.
-      applyMinSampleFilter();
-      updateMinSetsHint();
-      updatePanelRightText("teammate-panel", countFilteredOutRows("teammate-table"));
-    }
-
-    loadMoreButton.addEventListener("click", loadNextPage);
-
-    loadNextPage();
-    container.appendChild(loadMoreButton);
   }
 

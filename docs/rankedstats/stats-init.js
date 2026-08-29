@@ -66,6 +66,38 @@
   clearElement(document.getElementById("leaderboard-section"));
   document.getElementById("leaderboard-section").appendChild(leaderboardPanel);
 
+  // Global map stats panel (no player selected) — same wrap-in-place pattern as the panels
+  // above; reuses --tint-brawler (rather than --tint-map, already taken by leaderboardPanel just
+  // above it) since the two ARE shown simultaneously, unlike leaderboardPanel/mapPanel.
+  // rightText starts (and stays) empty like leaderboardPanel/combinedRecentPanel's — unlike the
+  // per-player map-panel, computeGlobalMapRows() (stats-state.js) excludes below-threshold rows
+  // entirely rather than rendering-then-hiding them, so there's no "N rader over grensen" count
+  // to keep updated here.
+  const globalMapPanel = makeCollapsiblePanel({
+    id: "global-map-panel",
+    title: LABELS.globalMapSectionTitle,
+    tint: "var(--tint-brawler)",
+    rightText: "",
+    bodyEl: document.getElementById("global-map-content"),
+  });
+  clearElement(document.getElementById("global-map-section"));
+  document.getElementById("global-map-section").appendChild(globalMapPanel);
+
+  // Global brawler stats panel (no player selected, Statistikk/Kart view) — same wrap-in-place
+  // pattern as globalMapPanel just above, shown alongside it (both are the Kart page's only 2
+  // sections), so this reuses --tint-mates rather than --tint-brawler/--tint-map (already taken
+  // by globalMapPanel/leaderboardPanel) to stay visually distinct from its neighbor. rightText
+  // starts (and stays) empty, same reasoning as globalMapPanel's own comment above.
+  const globalBrawlerPanel = makeCollapsiblePanel({
+    id: "global-brawler-panel",
+    title: LABELS.globalBrawlerSectionTitle,
+    tint: "var(--tint-mates)",
+    rightText: "",
+    bodyEl: document.getElementById("global-brawler-content"),
+  });
+  clearElement(document.getElementById("global-brawler-section"));
+  document.getElementById("global-brawler-section").appendChild(globalBrawlerPanel);
+
   // Combined recent matches panel (no player selected) — same wrap-in-place pattern as the
   // leaderboard panel above, reusing --tint-recent since it is never shown simultaneously with
   // the per-player recent panel.
@@ -79,11 +111,12 @@
   clearElement(document.getElementById("combined-recent-section"));
   document.getElementById("combined-recent-section").appendChild(combinedRecentPanel);
 
-  // Both sections start `display: none` in the static markup (there's nothing to show until the
+  // All 3 sections start `display: none` in the static markup (there's nothing to show until the
   // roster + bulk set-row fetch below resolves) — show them now with skeleton content instead of
   // leaving the page blank for that fetch's duration. loadLeaderboardData's eventual renderAll()
-  // replaces both containers' contents and re-derives visibility itself, so this is only ever the
-  // pre-first-render state.
+  // replaces every container's contents and re-derives visibility itself (per STATE.browseView,
+  // "leaderboard" by default), so this is only ever the pre-first-render state — global-map-section
+  // stays hidden here to match that default.
   document.getElementById("leaderboard-section").style.display = "";
   document.getElementById("combined-recent-section").style.display = "";
   renderSkeletonTable(
@@ -91,6 +124,18 @@
     [LABELS.leaderboardRankColumn, LABELS.playerLabel, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
     1,
     8
+  );
+  renderSkeletonTable(
+    document.getElementById("global-map-content"),
+    [LABELS.tableMap, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
+    0,
+    6
+  );
+  renderSkeletonTable(
+    document.getElementById("global-brawler-content"),
+    [LABELS.tableBrawler, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
+    0,
+    6
   );
   renderSkeletonRecentList(document.getElementById("combined-recent-content"), 6, true);
 

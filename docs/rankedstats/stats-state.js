@@ -20,13 +20,19 @@
     // no snapshots yet).
     rankSnapshots: [],
     filter: { kind: null, value: null },
-    // Independent of `filter` (brawler/class) — a single tier_name ("Pro"/"Masters"/"Legendary"/
-    // "Mythic"/"Diamond") or null for no rank filter. Kept separate rather than folded into
-    // `filter.kind` because the two are meant to combine (e.g. a brawler AND a rank at once),
-    // not act as mutually-exclusive alternatives the way "brawler" vs "class" do.
-    rankFilter: null,
+    // Independent of `filter` (brawler/class) — an array of tier_names ("Pro"/"Masters"/
+    // "Legendary"/"Mythic"/"Diamond"), any number of which can be active at once (an empty array
+    // means no rank filter). Kept separate rather than folded into `filter.kind` because the two
+    // are meant to combine (e.g. a brawler AND one or more ranks at once), not act as mutually-
+    // exclusive alternatives the way "brawler" vs "class" do.
+    rankFilter: [],
     mode: "All modes",
     period: "This season",
+    // Only read when period === "Custom" (see periodCutoffDate/periodUpperBoundDate below) — a
+    // plain "YYYY-MM-DD" string straight from the date input's own `.value`, or null when that
+    // side of the range hasn't been picked yet (an open-ended custom range on that end).
+    customFrom: null,
+    customTo: null,
     minSets: 3,
     collapsed: {},
     // Keyed by class name (a BRAWLER_CLASS_ORDER entry). `true` means that class's row in the
@@ -42,6 +48,13 @@
     // leaderboardFilterSignature/leaderboardExcludedCount are internal bookkeeping for
     // renderLeaderboard()/updateMinSetsHint().
     allSetRows: [],
+    // Every set PARTICIPANT (teammates + opponents included, tracked or not) across every set our
+    // tracked roster played — the same v_player_set_rows view as allSetRows, just fetched without
+    // the `.in("player_tag", trackedTags)` restriction (see loadLeaderboardData, stats-
+    // leaderboard.js). Only consumed by the Statistikk/Kart map-expansion breakdown
+    // (buildMapExpandBrawlerRows, stats-tables.js), scoped down to one map's own set_ids at read
+    // time — never re-aggregated wholesale the way allSetRows is.
+    allParticipantRows: [],
     rosterByTag: new Map(),
     rosterIconByTag: new Map(),
     leaderboardPage: 1,
@@ -58,6 +71,13 @@
     // "reset page to 1 when filters change" bookkeeping pattern as leaderboardFilterSignature.
     combinedRecentPage: 1,
     combinedRecentFilterSignature: null,
+
+    // --- browsing view (no player selected) — "leaderboard" (default) or "maps", toggled by the
+    // --- two icon buttons in the hero (#view-btn-leaderboard/#view-btn-maps, stats-leaderboard.js)
+    // --- and read by setMainSectionsVisible/renderHeroEmptyState below and
+    // --- updateFilterVisibilityForView (stats-sidebar-filters.js). Meaningless while a player is
+    // --- selected (STATE.tag !== null), same as the other "no player selected" fields above.
+    browseView: "leaderboard",
   };
 
   // === "This season" period cutoff — the current season is whichever ranked_season_id is the
@@ -108,7 +128,8 @@
 
   // === Shared by applyFilters/filterRankHistoryByPeriod/filterRankSnapshotsByPeriod/
   // === filterByModeAndPeriod below — resolves STATE.period to a cutoff Date (rows older than
-  // === this are dropped), or null for "All time"/an as-yet-undated "This season". ===
+  // === this are dropped), or null for "All time"/an as-yet-undated "This season"/a "Custom"
+  // === range with no "from" date picked yet. ===
   function periodCutoffDate() {
     if (STATE.period === "All time") {
       return null;
@@ -116,8 +137,26 @@
     if (STATE.period === "This season") {
       return currentSeasonStartDate();
     }
+    if (STATE.period === "Custom") {
+      return STATE.customFrom ? new Date(STATE.customFrom) : null;
+    }
     const daysBack = STATE.period === "Last 7 days" ? 7 : 30;
     return new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
+  }
+
+  // === Sibling to periodCutoffDate() above, called alongside it at every one of that function's
+  // === own call sites — every period EXCEPT "Custom" is open-ended going forward (there's no
+  // === reason to ever exclude a set for being too RECENT), so this only ever returns non-null
+  // === once a "Custom" "to" date is picked. Returns the START of the day AFTER STATE.customTo
+  // === (an exclusive upper bound: callers filter `< this`) so the "to" date's own calendar day is
+  // === fully included regardless of what time within it a set actually ended. ===
+  function periodUpperBoundDate() {
+    if (STATE.period !== "Custom" || !STATE.customTo) {
+      return null;
+    }
+    const upperBound = new Date(STATE.customTo);
+    upperBound.setDate(upperBound.getDate() + 1);
+    return upperBound;
   }
 
   async function loadPlayerData(tag) {
@@ -208,6 +247,12 @@
         return new Date(row.ended_at) >= cutoffDate;
       });
     }
+    const upperBoundDate = periodUpperBoundDate();
+    if (upperBoundDate !== null) {
+      filteredRows = filteredRows.filter(function (row) {
+        return new Date(row.ended_at) < upperBoundDate;
+      });
+    }
 
     if (STATE.mode !== "All modes") {
       filteredRows = filteredRows.filter(function (row) {
@@ -226,9 +271,9 @@
       });
     }
 
-    if (STATE.rankFilter !== null) {
+    if (STATE.rankFilter.length > 0) {
       filteredRows = filteredRows.filter(function (row) {
-        return row.tier_name === STATE.rankFilter;
+        return STATE.rankFilter.includes(row.tier_name);
       });
     }
 
@@ -284,6 +329,112 @@
     return aggregatedRows;
   }
 
+  // === Map preview data (top brawlers by winrate on one map) — takes the exact `rows` array a
+  // === map table row is already showing (its `group.rows`/aggregate() output — see the
+  // === renderMapTable/renderCallouts bridge in renderAll() below and computeGlobalMapRows()
+  // === above the leaderboard section) and re-aggregates it by brawler instead of re-deriving its
+  // === own filtered set from scratch. This is what makes the SAME modal correctly "personal" when
+  // === opened from the per-player Map table (rows already scoped to that one player) and
+  // === "everyone" when opened from the Felles Map table (rows already scoped to every tracked
+  // === player) — the modal itself has no scope logic of its own, it just trusts its caller.
+  // === Groups below STATE.minSets (the same sidebar slider that gates every other table on this
+  // === page) are excluded before ranking, same "excluded from consideration" instinct as
+  // === computeLeaderboardRows() below. ===
+  function computeTopBrawlerWinrates(rows) {
+    const brawlerGroups = aggregate(
+      rows,
+      function (row) { return row.brawler_id; },
+      function (row) { return row.brawler_name || String(row.brawler_id); }
+    );
+
+    const qualifyingGroups = brawlerGroups.filter(function (group) {
+      return group.sets >= STATE.minSets && group.winrate !== null;
+    });
+
+    qualifyingGroups.sort(function (groupA, groupB) {
+      if (groupB.winrate !== groupA.winrate) {
+        return groupB.winrate - groupA.winrate;
+      }
+      return groupB.sets - groupA.sets;
+    });
+
+    return { topGroups: qualifyingGroups.slice(0, 5), totalSets: rows.length };
+  }
+
+  // === Global map rows (no player selected) — the Felles-page counterpart of renderAll()'s own
+  // === per-player mapRows bridge just below, grouping STATE.allSetRows (every tracked player)
+  // === by mode+map instead of the one selected player's STATE.setRows. Produces the exact same
+  // === shape (mode/map/sets_played/wins/losses/draws/winrate/rows) renderMapTable already
+  // === expects, so the Felles Map section (stats-leaderboard.js) can hand its output straight to
+  // === that same renderer with no per-caller special-casing. Rows below STATE.minSets are
+  // === excluded, same "excluded from consideration" instinct as computeLeaderboardRows(). ===
+  function computeGlobalMapRows() {
+    const filteredRows = applyFilters(STATE.allSetRows);
+    const mapGroups = aggregate(
+      filteredRows,
+      function (row) { return row.mode + "||" + row.map; },
+      function (row) { return row.map; }
+    );
+    const mapRows = mapGroups.map(function (group) {
+      return {
+        mode: group.rows[0].mode,
+        map: group.label,
+        sets_played: group.sets,
+        wins: group.wins,
+        losses: group.losses,
+        draws: group.draws,
+        winrate: group.winrate,
+        rows: group.rows,
+      };
+    });
+
+    const qualifyingRows = mapRows.filter(function (row) {
+      return row.sets_played >= STATE.minSets;
+    });
+    qualifyingRows.sort(function (rowA, rowB) {
+      return rowB.sets_played - rowA.sets_played;
+    });
+
+    return qualifyingRows;
+  }
+
+  // === Global brawler rows (no player selected, Statistikk/Kart view) — same shape/scope as
+  // === computeGlobalMapRows just above, grouping STATE.allSetRows by brawler_id instead of
+  // === mode+map. Deliberately still scoped to our tracked roster's own picks (not every set
+  // === participant) — this is the top-level "Brawler" list a row's own click then expands into a
+  // === matchup breakdown that DOES pull in every participant (buildBrawlerExpandOpponentRows,
+  // === stats-tables.js), same map-list-vs-map-breakdown split computeGlobalMapRows/
+  // === buildMapExpandBrawlerRows already use. ===
+  function computeGlobalBrawlerRows() {
+    const filteredRows = applyFilters(STATE.allSetRows);
+    const brawlerGroups = aggregate(
+      filteredRows,
+      function (row) { return row.brawler_id; },
+      function (row) { return row.brawler_name || String(row.brawler_id); }
+    );
+    const brawlerRows = brawlerGroups.map(function (group) {
+      return {
+        brawler_id: group.key,
+        brawler_name: group.label,
+        sets_played: group.sets,
+        wins: group.wins,
+        losses: group.losses,
+        draws: group.draws,
+        winrate: group.winrate,
+        rows: group.rows,
+      };
+    });
+
+    const qualifyingRows = brawlerRows.filter(function (row) {
+      return row.sets_played >= STATE.minSets;
+    });
+    qualifyingRows.sort(function (rowA, rowB) {
+      return rowB.sets_played - rowA.sets_played;
+    });
+
+    return qualifyingRows;
+  }
+
   // === Leaderboard aggregation (no player selected) — reuses applyFilters/aggregate completely
   // === unmodified, grouping by player_tag instead of map/brawler/teammate. Groups below
   // === STATE.minSets are excluded from the ranked list entirely (not just badge-flagged), same
@@ -325,8 +476,11 @@
   // === pre-existing bug where deselecting a player left the previous player's KPIs/form/chart
   // === stale on screen (renderAll() was never called on deselect before this dispatch branch). ===
   function renderHeroEmptyState() {
-    document.getElementById("hero-player-name").textContent = LABELS.leaderboardHeroTitle;
-    document.getElementById("hero-subline").textContent = LABELS.leaderboardHeroSubtitle;
+    const isMapsView = STATE.browseView === "maps";
+    document.getElementById("hero-player-name").textContent =
+      isMapsView ? LABELS.mapsHeroTitle : LABELS.leaderboardHeroTitle;
+    document.getElementById("hero-subline").textContent =
+      isMapsView ? LABELS.mapsHeroSubtitle : LABELS.leaderboardHeroSubtitle;
     document.getElementById("hero-contact-hint").textContent = LABELS.leaderboardHeroContactHint;
     document.getElementById("hero-rank-badge").classList.add("hero-rank-badge--bare");
     const playerIcon = document.getElementById("hero-player-icon");
@@ -338,19 +492,28 @@
     clearElement(document.getElementById("hero-rank-chart"));
     clearElement(document.getElementById("hero-kpis"));
     clearElement(document.getElementById("hero-form"));
+
+    document.getElementById("hero-view-switcher").style.display = "";
+    document.getElementById("view-btn-leaderboard").classList.toggle("active", !isMapsView);
+    document.getElementById("view-btn-maps").classList.toggle("active", isMapsView);
   }
 
-  // === Toggles between the leaderboard section (no player selected) and the 4 per-player
-  // === sections + callouts. Called from renderAll() on every render. ===
-  function setMainSectionsVisible(showLeaderboard) {
-    document.getElementById("leaderboard-section").style.display = showLeaderboard ? "" : "none";
-    document.getElementById("combined-recent-section").style.display = showLeaderboard ? "" : "none";
+  // === Toggles between the browsing sections (no player selected — either the Leaderboard view
+  // === or the Kart/Maps view, per STATE.browseView) and the 4 per-player sections + callouts.
+  // === Called from renderAll() on every render. ===
+  function setMainSectionsVisible(showBrowsing) {
+    const showLeaderboardView = showBrowsing && STATE.browseView !== "maps";
+    const showMapsView = showBrowsing && STATE.browseView === "maps";
+    document.getElementById("leaderboard-section").style.display = showLeaderboardView ? "" : "none";
+    document.getElementById("combined-recent-section").style.display = showLeaderboardView ? "" : "none";
+    document.getElementById("global-map-section").style.display = showMapsView ? "" : "none";
+    document.getElementById("global-brawler-section").style.display = showMapsView ? "" : "none";
     ["map-callouts", "map-section", "brawler-section", "teammate-section", "recent-section"].forEach(
       function (id) {
-        document.getElementById(id).style.display = showLeaderboard ? "none" : "";
+        document.getElementById(id).style.display = showBrowsing ? "none" : "";
       }
     );
-    if (showLeaderboard) {
+    if (showBrowsing) {
       clearElement(document.getElementById("map-callouts"));
     }
   }
@@ -361,11 +524,14 @@
     renderModeChips();
     renderPeriodChips();
     renderFilterBar();
+    updateFilterVisibilityForView();
 
     setMainSectionsVisible(STATE.tag === null);
     if (STATE.tag === null) {
       renderHeroEmptyState();
       renderLeaderboard();
+      renderGlobalMapTable();
+      renderGlobalBrawlerTable();
       renderCombinedRecent();
       updateMinSetsHint();
       return;
@@ -410,7 +576,7 @@
         return rowB.sets_played - rowA.sets_played;
       });
       renderCallouts(mapRows);
-      renderMapTable(mapContainer, mapRows);
+      renderMapTable(mapContainer, mapRows, "map-table", true);
       applyMinSampleFilter();
     }
 

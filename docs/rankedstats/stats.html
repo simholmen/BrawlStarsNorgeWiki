@@ -61,6 +61,21 @@
       </div>
     </div>
     <div class="hero-kpis" id="hero-kpis"></div>
+    <!-- Leaderboard/Kart view switcher — only relevant with no player selected (STATE.tag ===
+         null); renderHeroEmptyState() (stats-state.js) shows it and toggles the "active" class per
+         STATE.browseView, renderHero() (stats-hero.js) hides it once a player is picked. Sits in
+         the same right-aligned hero-kpis slot (both are the last child of .hero-content), since
+         the two are never shown at the same time. -->
+    <div class="hero-view-switcher" id="hero-view-switcher">
+      <button type="button" class="hero-view-btn" id="view-btn-leaderboard" title="Leaderboard">
+        <img src="images/misc/leaderboard.png" alt="">
+        <span class="hero-view-btn-label">Leaderboard</span>
+      </button>
+      <button type="button" class="hero-view-btn" id="view-btn-maps" title="Statistikk">
+        <img src="images/misc/ranked.png" alt="">
+        <span class="hero-view-btn-label">Statistikk</span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -88,16 +103,20 @@
         <div class="chip-row" id="period-chips"></div>
       </div>
       <div class="control-group">
+        <div class="tree-header" id="rank-tree-header"></div>
+        <div class="tree-list" id="rank-tree-list"></div>
+      </div>
+      <!-- Both groups below are hidden (via updateFilterVisibilityForView(),
+           stats-sidebar-filters.js) whenever STATE.tag === null && STATE.browseView === "maps" —
+           the Kart page keeps the min-sets/period/rank filters but drops mode and brawler per the
+           design brief. -->
+      <div class="control-group" id="mode-filter-group">
         <span class="control-group-title">Mode</span>
         <div class="chip-row" id="mode-chips"></div>
       </div>
-      <div class="control-group">
+      <div class="control-group" id="brawler-filter-group">
         <div class="tree-header" id="brawler-tree-header"></div>
         <div class="tree-list" id="brawler-tree-list"></div>
-      </div>
-      <div class="control-group">
-        <div class="tree-header" id="rank-tree-header"></div>
-        <div class="tree-list" id="rank-tree-list"></div>
       </div>
     </div>
 
@@ -113,6 +132,30 @@
     <!-- ===================== SECTION: LEADERBOARD (no player selected) ===================== -->
     <section class="stats-section" id="leaderboard-section" style="display: none;">
       <div id="leaderboard-content">
+        <p class="status loading">Laster...</p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION: MAP STATS, ALLE SPILLERE (Statistikk/Kart view) ===================== -->
+    <!-- Same renderMapTable(...) builder the per-player Map section uses (Section 2 below), just
+         fed rows aggregated across every tracked player (computeGlobalMapRows, stats-state.js)
+         instead of the one selected player's own rows — clicking a row expands an inline brawler
+         breakdown right below it instead of opening the per-player table's modal (buildMapRow/
+         toggleExpandRow, stats-tables.js). -->
+    <section class="stats-section" id="global-map-section" style="display: none;">
+      <div id="global-map-content">
+        <p class="status loading">Laster...</p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION: BRAWLER STATS, ALLE SPILLERE (Statistikk/Kart view) ===================== -->
+    <!-- Same "click a row, get an inline breakdown right below it" pattern as the Map section just
+         above (computeGlobalBrawlerRows/renderGlobalBrawlerListTable), except a brawler row
+         expands into that brawler's own matchup breakdown — which OTHER brawlers it has faced on
+         the opposing team, and its winrate against each (buildBrawlerExpandOpponentRows, stats-
+         tables.js) — instead of a map's brawler-pick breakdown. -->
+    <section class="stats-section" id="global-brawler-section" style="display: none;">
+      <div id="global-brawler-content">
         <p class="status loading">Laster...</p>
       </div>
     </section>

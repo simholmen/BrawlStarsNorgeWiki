@@ -159,7 +159,14 @@
   function updateMinSetsHint() {
     if (STATE.tag === null) {
       const hintEl = document.getElementById("min-sample-hint");
-      hintEl.textContent = STATE.leaderboardExcludedCount + " " + LABELS.leaderboardExcludedSuffix;
+      // The leaderboard's "N spillere ekskludert" wording only makes sense for the Leaderboard
+      // view (computeLeaderboardRows tracks an excluded-player count) — computeGlobalMapRows
+      // (Kart view) just silently drops below-threshold maps with no count to report, so the hint
+      // stays blank there rather than showing a stale/misleading leaderboard number.
+      hintEl.textContent =
+        STATE.browseView === "maps"
+          ? ""
+          : STATE.leaderboardExcludedCount + " " + LABELS.leaderboardExcludedSuffix;
       return;
     }
 
