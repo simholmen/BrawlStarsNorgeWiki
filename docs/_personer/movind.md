@@ -23,4 +23,5 @@ Movind er en ny gen brawl stars spiller
 ...
 
 ## Prestasjoner
-- Ingenting
+- 40d snap streak med skyrikz
+- har snakka med obdo
