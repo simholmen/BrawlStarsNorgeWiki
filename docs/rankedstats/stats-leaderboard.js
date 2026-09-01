@@ -112,8 +112,24 @@
     // verified directly against this project, did — confirmed via two unordered fetches sharing
     // ~276 duplicate rows) return different orderings, silently dropping some sets' rows out of
     // every page entirely while duplicating others.
+    //
+    // setRowsResult ALSO needs fetchAllRows, not a plain request — it was left as one under the
+    // assumption that `.in("player_tag", trackedTags)` (one row per TRACKED player participation,
+    // not every participant) would stay comfortably under the 1000-row cap, but with 17 tracked
+    // players that's already 1192 rows (confirmed directly against this project via
+    // `Content-Range: 0-0/1192`). The plain fetch silently truncated at row 1000 with no
+    // deterministic order, which is exactly why the Felles leaderboard undercounted individual
+    // players' sets (e.g. showing 240 for a player whose own page — a single-player `.eq()` query,
+    // nowhere near the cap — correctly shows 299).
     const [setRowsResult, participantRowsResult] = await Promise.all([
-      sb.from("v_player_set_rows").select("*").in("player_tag", trackedTags),
+      fetchAllRows(function () {
+        return sb
+          .from("v_player_set_rows")
+          .select("*")
+          .in("player_tag", trackedTags)
+          .order("set_id", { ascending: true })
+          .order("player_tag", { ascending: true });
+      }),
       fetchAllRows(function () {
         return sb
           .from("v_player_set_rows")
