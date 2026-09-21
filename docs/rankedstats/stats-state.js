@@ -84,10 +84,10 @@
   // === highest ever observed across the whole roster's SETS (STATE.allSetRows, from
   // === v_player_set_rows.ranked_season_id — stamped by ingest.py on every set going forward,
   // === backfilled for older ones by migrations/010_ranked_season_id.sql), and its start is the
-  // === earliest started_at any tracked player has a set for in that season. This is
-  // === necessarily a global (not per-player) boundary: a player who hasn't queued Ranked yet
-  // === this season has no set row for it at all, so their own data alone can't date the
-  // === season's start.
+  // === earliest started_at any tracked player has a set for in that season, subject to the
+  // === cluster check below. This is necessarily a global (not per-player) boundary: a player who
+  // === hasn't queued Ranked yet this season has no set row for it at all, so their own data alone
+  // === can't date the season's start.
   // ===
   // === Deliberately NOT derived from player_rank_snapshots.fetched_at (the earlier approach):
   // === that table only records whatever season is CURRENT at each ~30-min poll, so its
@@ -97,7 +97,22 @@
   // === "This season" results (a season underway when polling began looked like it had just
   // === started). ranked_season_id on the sets themselves has no such lag.
   // ===
+  // === CLUSTERING: a real rollover stamps a burst of sets across many tracked players within a
+  // === short window as they queue up in the new season. But insert_new_ranked_set (ingest.py)
+  // === stamps a set with the CURRENT season on the player's profile at the moment it's first
+  // === INSERTED — so a set that's ingested late (e.g. after a tracking gap for that player) can
+  // === get stamped with the new season id despite having actually been played days earlier, in
+  // === the old season. One such straggler, sorted first by started_at, would otherwise drag the
+  // === whole boundary back to its own (wrong) date — this happened for real: a single Silver set
+  // === for one player landed 5 days before every other season-49 row and pulled "This season" in
+  // === by 5 days for everyone. So the earliest started_at only counts as the season start if it's
+  // === followed by at least CLUSTER_MIN_SIZE - 1 more of that season's sets within
+  // === CLUSTER_WINDOW_MS — an isolated earlier row is skipped as noise instead.
+  // ===
   // === Returns null when no set has a season id yet (chip then behaves like "All time"). ===
+  const SEASON_CLUSTER_WINDOW_MS = 6 * 60 * 60 * 1000;
+  const SEASON_CLUSTER_MIN_SIZE = 3;
+
   function currentSeasonStartDate() {
     let currentSeasonId = null;
     STATE.allSetRows.forEach(function (row) {
@@ -112,18 +127,31 @@
       return null;
     }
 
-    let seasonStart = null;
-    STATE.allSetRows.forEach(function (row) {
-      if (row.ranked_season_id !== currentSeasonId) {
-        return;
-      }
-      const startedAt = new Date(row.started_at);
-      if (seasonStart === null || startedAt < seasonStart) {
-        seasonStart = startedAt;
-      }
-    });
+    const startTimes = STATE.allSetRows
+      .filter(function (row) {
+        return row.ranked_season_id === currentSeasonId;
+      })
+      .map(function (row) {
+        return new Date(row.started_at);
+      })
+      .sort(function (a, b) {
+        return a - b;
+      });
 
-    return seasonStart;
+    for (let i = 0; i < startTimes.length; i++) {
+      const windowEnd = startTimes[i].getTime() + SEASON_CLUSTER_WINDOW_MS;
+      let clusterSize = 1;
+      for (let j = i + 1; j < startTimes.length && startTimes[j].getTime() <= windowEnd; j++) {
+        clusterSize++;
+      }
+      if (clusterSize >= SEASON_CLUSTER_MIN_SIZE) {
+        return startTimes[i];
+      }
+    }
+
+    // Every row for this season is isolated (e.g. a brand new season with only a couple of sets
+    // recorded so far) — fall back to the plain earliest rather than returning null.
+    return startTimes[0];
   }
 
   // === Shared by applyFilters/filterRankHistoryByPeriod/filterRankSnapshotsByPeriod/
