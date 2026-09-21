@@ -57,10 +57,11 @@
   // === project) regardless of a client-side `.limit()` — confirmed by an unfiltered
   // === v_player_set_rows request coming back `Content-Range: 0-999/*` against an actual table
   // === size of 3942. `fetchAllRows` pages through with `.range()` until a page comes back short
-  // === of `pageSize`, so callers get the true full result set. Only used for the one query
-  // === (allParticipantRows below) big enough to hit that cap — every other fetch in this app
-  // === (per-player queries, the tracked-only leaderboard fetch) stays comfortably under 1000
-  // === rows and is left as a single plain request. ===
+  // === of `pageSize`, so callers get the true full result set. Used here for the two bulk
+  // === roster-wide queries below, by loadPlayerData's 4 per-player queries (stats-state.js — a
+  // === single heavily-played tracked player's own rows can exceed 1000 too, e.g. 1652
+  // === v_player_teammate_rows for one real player), and anywhere else a result set isn't
+  // === guaranteed small. ===
   async function fetchAllRows(buildQuery) {
     const pageSize = 1000;
     let allRows = [];
@@ -78,8 +79,92 @@
     }
   }
 
+  // === Cheap lookup for "whichever ranked_season_id is current right now" — a single indexed row
+  // === (ranked_sets_ranked_season_id_idx, migrations/010_ranked_season_id.sql), not a scan, so
+  // === this stays fast no matter how much history the table accumulates. Queries `ranked_sets`
+  // === directly rather than the `v_player_set_rows` view: same column, one join fewer, and anon
+  // === already has a direct select grant on it (001_init.sql). Returns null if no set has a
+  // === season id yet (matches currentSeasonStartDate's own null-means-"All time" convention). ===
+  async function fetchCurrentSeasonId() {
+    const { data, error } = await sb
+      .from("ranked_sets")
+      .select("ranked_season_id")
+      .not("ranked_season_id", "is", null)
+      .order("ranked_season_id", { ascending: false })
+      .limit(1);
+    if (error || !data || data.length === 0) {
+      return null;
+    }
+    return data[0].ranked_season_id;
+  }
+
+  // === Builds the same pair of bulk queries loadLeaderboardData/loadFullHistory both need,
+  // === differing only in whether they're scoped to one season — see loadLeaderboardData's own
+  // === comment for why each needs fetchAllRows + a deterministic order, unchanged here. ===
+  function buildBulkSetRowQueries(trackedTags, seasonId) {
+    return [
+      fetchAllRows(function () {
+        let query = sb
+          .from("v_player_set_rows")
+          .select("*")
+          .in("player_tag", trackedTags);
+        if (seasonId !== null) {
+          query = query.eq("ranked_season_id", seasonId);
+        }
+        return query.order("set_id", { ascending: true }).order("player_tag", { ascending: true });
+      }),
+      fetchAllRows(function () {
+        let query = sb
+          .from("v_player_set_rows")
+          .select("set_id,player_tag,ended_at,brawler_id,brawler_name,result,team_index");
+        if (seasonId !== null) {
+          query = query.eq("ranked_season_id", seasonId);
+        }
+        return query.order("set_id", { ascending: true }).order("player_tag", { ascending: true });
+      }),
+    ];
+  }
+
+  // === Shared skeleton render for the "no player selected" section containers — used both for the
+  // === pre-first-load placeholder (stats-init.js, before loadLeaderboardData's first fetch
+  // === resolves) and by renderAll's hydration-wait branch (stats-state.js) while
+  // === ensureFullHistoryLoaded is upgrading season-scoped data to full history, after the user
+  // === picks a period other than "This season". Never touches section `display` itself — the
+  // === init-time caller sets that once, and renderAll's own setMainSectionsVisible already
+  // === handles it on every render. ===
+  function renderBrowsingSkeletons() {
+    renderSkeletonTable(
+      document.getElementById("leaderboard-content"),
+      [LABELS.leaderboardRankColumn, LABELS.playerLabel, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
+      1,
+      8
+    );
+    renderSkeletonTable(
+      document.getElementById("global-map-content"),
+      [LABELS.tableMap, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
+      0,
+      6
+    );
+    renderSkeletonTable(
+      document.getElementById("global-brawler-content"),
+      [LABELS.tableBrawler, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
+      0,
+      6
+    );
+    renderSkeletonRecentList(document.getElementById("combined-recent-content"), 6, true);
+  }
+
   // === Bulk fetch across every tracked player for the leaderboard (no player selected) view.
-  // === Called once at init, after loadPlayers() resolves the roster it depends on. ===
+  // === Called once at init, after loadPlayers() resolves the roster it depends on.
+  // ===
+  // === Scoped to the CURRENT season only (via fetchCurrentSeasonId) rather than every row this
+  // === roster has ever played — the default view (Felles leaderboard, "Denne sesongen") only
+  // === ever needs that much, and scoping the fetch down to it keeps first paint fast and roughly
+  // === constant-time as more seasons of history pile up, instead of the fetch (and the page's
+  // === first-load time) growing forever. Any OTHER period needs the full history, lazily fetched
+  // === on demand by ensureFullHistoryLoaded below the first time the user actually asks for one
+  // === (renderPeriodChips' click handler, stats-sidebar-filters.js) — most sessions never leave
+  // === "Denne sesongen" at all, so this also means most sessions never pay for that fetch. ===
   async function loadLeaderboardData(trackedPlayers) {
     STATE.rosterByTag = new Map(
       trackedPlayers.map(function (p) { return [p.tag, p.name || p.tag]; })
@@ -92,6 +177,8 @@
     if (trackedTags.length === 0) {
       STATE.allSetRows = [];
       STATE.allParticipantRows = [];
+      STATE.currentSeasonId = null;
+      STATE.fullHistoryLoaded = true;
       renderAll();
       return;
     }
@@ -121,23 +208,10 @@
     // deterministic order, which is exactly why the Felles leaderboard undercounted individual
     // players' sets (e.g. showing 240 for a player whose own page — a single-player `.eq()` query,
     // nowhere near the cap — correctly shows 299).
-    const [setRowsResult, participantRowsResult] = await Promise.all([
-      fetchAllRows(function () {
-        return sb
-          .from("v_player_set_rows")
-          .select("*")
-          .in("player_tag", trackedTags)
-          .order("set_id", { ascending: true })
-          .order("player_tag", { ascending: true });
-      }),
-      fetchAllRows(function () {
-        return sb
-          .from("v_player_set_rows")
-          .select("set_id,player_tag,ended_at,brawler_id,brawler_name,result,team_index")
-          .order("set_id", { ascending: true })
-          .order("player_tag", { ascending: true });
-      }),
-    ]);
+    const seasonId = await fetchCurrentSeasonId();
+    const [setRowsResult, participantRowsResult] = await Promise.all(
+      buildBulkSetRowQueries(trackedTags, seasonId)
+    );
 
     if (setRowsResult.error || participantRowsResult.error) {
       STATE.allSetRows = [];
@@ -149,8 +223,62 @@
 
     STATE.allSetRows = setRowsResult.data || [];
     STATE.allParticipantRows = participantRowsResult.data || [];
+    STATE.currentSeasonId = seasonId;
+    // seasonId === null means no set has a season id yet at all (a brand new install) — in that
+    // case the query above was already unscoped, so there's nothing further a "full" fetch would
+    // add, and no reason to ever trigger ensureFullHistoryLoaded's extra round trip.
+    STATE.fullHistoryLoaded = seasonId === null;
     STATE.leaderboardLoadError = null;
     renderAll();
+  }
+
+  // === Upgrades STATE.allSetRows/allParticipantRows from "current season only" to "every row
+  // === this roster has ever played" — the same two queries loadLeaderboardData already ran, just
+  // === without the season scoping. Only reachable through ensureFullHistoryLoaded just below,
+  // === which is what makes it safe to call more than once (STATE.fullHistoryLoaded short-
+  // === circuits every call after the first) and safe to call concurrently (fullHistoryLoadPromise
+  // === below makes two simultaneous callers share one in-flight fetch instead of racing). ===
+  async function loadFullHistory() {
+    const trackedTags = Array.from(STATE.rosterByTag.keys());
+    if (trackedTags.length === 0) {
+      STATE.fullHistoryLoaded = true;
+      return;
+    }
+
+    const [setRowsResult, participantRowsResult] = await Promise.all(
+      buildBulkSetRowQueries(trackedTags, null)
+    );
+
+    if (setRowsResult.error || participantRowsResult.error) {
+      STATE.leaderboardLoadError = (setRowsResult.error || participantRowsResult.error).message;
+      renderAll();
+      return;
+    }
+
+    STATE.allSetRows = setRowsResult.data || [];
+    STATE.allParticipantRows = participantRowsResult.data || [];
+    STATE.leaderboardLoadError = null;
+    STATE.fullHistoryLoaded = true;
+    renderAll();
+  }
+
+  // === Lazily triggers loadFullHistory the first time it's actually needed — called from
+  // === renderPeriodChips' click handler (stats-sidebar-filters.js) whenever the user picks any
+  // === period other than "This season", since every one of those (Last 7/30 days, All time,
+  // === Custom) can reach back before the current season and needs the un-scoped data. Resolves
+  // === immediately if that upgrade already happened. fullHistoryLoadPromise caches the in-flight
+  // === request so clicking two different non-season periods in quick succession shares one fetch
+  // === instead of firing it twice. ===
+  let fullHistoryLoadPromise = null;
+
+  async function ensureFullHistoryLoaded() {
+    if (STATE.fullHistoryLoaded) {
+      return;
+    }
+    if (!fullHistoryLoadPromise) {
+      fullHistoryLoadPromise = loadFullHistory();
+    }
+    await fullHistoryLoadPromise;
   }
 
   // === URL state (?player=TAG) — keeps the selected player reflected in the address bar so a

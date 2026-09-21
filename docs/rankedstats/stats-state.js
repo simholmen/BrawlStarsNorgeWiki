@@ -55,6 +55,19 @@
     // (buildMapExpandBrawlerRows, stats-tables.js), scoped down to one map's own set_ids at read
     // time — never re-aggregated wholesale the way allSetRows is.
     allParticipantRows: [],
+    // The default view (Felles leaderboard, "Denne sesongen") only ever needs the CURRENT
+    // season's rows, so loadLeaderboardData's initial fetch scopes allSetRows/allParticipantRows
+    // down to whichever ranked_season_id this comes back as — keeping first paint fast and roughly
+    // constant-time as more seasons pile up in the DB, instead of growing with the site's entire
+    // history forever. null until that first lightweight lookup resolves. See ensureFullHistoryLoaded
+    // (stats-leaderboard.js) for how/when the two arrays above get upgraded to every row ever
+    // recorded (needed by any period other than "This season").
+    currentSeasonId: null,
+    // false until ensureFullHistoryLoaded's fetch has completed and allSetRows/allParticipantRows
+    // hold every row (not just the current season's) — read by renderPeriodChips' click handler
+    // (stats-sidebar-filters.js) to decide whether selecting a non-"This season" period needs to
+    // await that fetch first.
+    fullHistoryLoaded: false,
     rosterByTag: new Map(),
     rosterIconByTag: new Map(),
     leaderboardPage: 1,
@@ -220,12 +233,53 @@
     renderSkeletonRecentList(recentContainer, 6, false);
     clearElement(document.getElementById("match-detail-content"));
 
+    // Paginated via fetchAllRows (stats-leaderboard.js), not plain requests — these were left as
+    // single requests under the assumption that a single tracked player's own rows would stay
+    // comfortably under PostgREST's 1000-row page cap, but a heavily-played player breaks that:
+    // confirmed for real against this project, one player had 1652 v_player_teammate_rows (each
+    // set contributes one row per teammate, so this fills up roughly 2x as fast as set rows do).
+    // The plain fetch silently truncated at row 1000 in default (non-deterministic) order, which
+    // for that player happened to land entirely on older sets — so their Teammates panel came up
+    // completely empty under "This season" despite having played plenty of sets with teammates
+    // recently; every row that mattered had been dropped before it ever reached the browser.
+    // Each query below sorts by whatever column(s) uniquely identify its rows for this one
+    // player_tag, so paginated .range() calls can't return duplicate or skipped rows (see
+    // fetchAllRows' own comment for why an unordered paginated fetch is unsafe).
     const [setRowsResult, mateRowsResult, rankHistoryResult, rankSnapshotsResult] =
       await Promise.all([
-        sb.from("v_player_set_rows").select("*").eq("player_tag", tag),
-        sb.from("v_player_teammate_rows").select("*").eq("player_tag", tag),
-        sb.from("v_player_rank_history").select("*").eq("player_tag", tag),
-        sb.from("v_player_rank_snapshots").select("*").eq("player_tag", tag),
+        fetchAllRows(function () {
+          return sb
+            .from("v_player_set_rows")
+            .select("*")
+            .eq("player_tag", tag)
+            .order("set_id", { ascending: true });
+        }),
+        fetchAllRows(function () {
+          return sb
+            .from("v_player_teammate_rows")
+            .select("*")
+            .eq("player_tag", tag)
+            .order("set_id", { ascending: true })
+            .order("teammate_tag", { ascending: true });
+        }),
+        // v_player_rank_history exposes no set_id (007_redesign_views.sql), so ended_at is the
+        // best available deterministic-enough key — two of one player's own sets sharing the same
+        // ended_at is not a real-world concern.
+        fetchAllRows(function () {
+          return sb
+            .from("v_player_rank_history")
+            .select("*")
+            .eq("player_tag", tag)
+            .order("ended_at", { ascending: true });
+        }),
+        // player_rank_snapshots' primary key is (player_tag, fetched_at) — 009_player_rank_snapshots.sql.
+        fetchAllRows(function () {
+          return sb
+            .from("v_player_rank_snapshots")
+            .select("*")
+            .eq("player_tag", tag)
+            .order("fetched_at", { ascending: true });
+        }),
       ]);
 
     const firstError =
@@ -557,6 +611,21 @@
     setMainSectionsVisible(STATE.tag === null);
     if (STATE.tag === null) {
       renderHeroEmptyState();
+
+      // allSetRows/allParticipantRows start out scoped to just the current season
+      // (loadLeaderboardData, stats-leaderboard.js) — fine for the default "Denne sesongen" view,
+      // but any OTHER period can reach back further than that. Rather than rendering these
+      // sections against data that's silently missing everything before the season started (an
+      // undercount with no visual indication anything's wrong), show skeletons and kick off the
+      // full-history upgrade; ensureFullHistoryLoaded's own renderAll() call re-enters this
+      // function once it resolves, at which point STATE.fullHistoryLoaded is true and this branch
+      // is skipped.
+      if (STATE.period !== "This season" && !STATE.fullHistoryLoaded) {
+        renderBrowsingSkeletons();
+        ensureFullHistoryLoaded();
+        return;
+      }
+
       renderLeaderboard();
       renderGlobalMapTable();
       renderGlobalBrawlerTable();

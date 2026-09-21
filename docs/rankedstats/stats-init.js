@@ -119,25 +119,7 @@
   // stays hidden here to match that default.
   document.getElementById("leaderboard-section").style.display = "";
   document.getElementById("combined-recent-section").style.display = "";
-  renderSkeletonTable(
-    document.getElementById("leaderboard-content"),
-    [LABELS.leaderboardRankColumn, LABELS.playerLabel, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
-    1,
-    8
-  );
-  renderSkeletonTable(
-    document.getElementById("global-map-content"),
-    [LABELS.tableMap, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
-    0,
-    6
-  );
-  renderSkeletonTable(
-    document.getElementById("global-brawler-content"),
-    [LABELS.tableBrawler, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
-    0,
-    6
-  );
-  renderSkeletonRecentList(document.getElementById("combined-recent-content"), 6, true);
+  renderBrowsingSkeletons();
 
   loadPlayers().then(function (trackedPlayers) {
     loadLeaderboardData(trackedPlayers);
