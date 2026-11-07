@@ -9,7 +9,7 @@ favorittbrus: Solo Super
 favoritt_brawler: Bull
 quote: ""
 fiende: No enemies
-bsid: P2VVUP2R8
+bsid: 9CJP2VYYP
 facts: []
 no_2024_profile: true
 image_ext: png

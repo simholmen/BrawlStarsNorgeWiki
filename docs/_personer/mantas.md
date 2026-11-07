@@ -9,7 +9,7 @@ favorittbrus: Burn
 favoritt_brawler: Surfer Carl
 quote: ""
 fiende: No enemies
-bsid: 9CJP2VYYP
+bsid: 9P8L8JCJY
 facts: []
 
 no_2024_profile: true
