@@ -33,3 +33,5 @@ Gemfile.lock
 .env
 rankedstats/test_fixtures/
 notes/
+__pycache__/
+*.pyc
