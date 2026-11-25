@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { getBrowserClient } from "@/lib/supabase/browser";
 import { isEditor, useViewer } from "@/lib/useViewer";
 
@@ -13,7 +12,6 @@ import { isEditor, useViewer } from "@/lib/useViewer";
 
 export default function UserMenu() {
   const viewer = useViewer();
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(0);
   const root = useRef<HTMLDivElement>(null);
@@ -46,7 +44,10 @@ export default function UserMenu() {
   }, [open]);
 
   const close = () => setOpen(false);
-  const loginHref = `/logg-inn/?next=${encodeURIComponent(pathname ?? "/wiki/")}`;
+  // Read the URL only when the panel is open (always after a click, in the browser). usePathname()
+  // here would block prerendering of every page, since this sits in the root layout.
+  const pathname = open ? window.location.pathname : "";
+  const loginHref = `/logg-inn/?next=${encodeURIComponent(pathname || "/wiki/")}`;
 
   return (
     <div className="site-menu" ref={root}>
