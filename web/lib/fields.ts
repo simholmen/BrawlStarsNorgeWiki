@@ -3,6 +3,8 @@
 // (migration 014), so this is about giving a clear message before it gets that far.
 
 import type { Fact } from "./types";
+import { isWikiImageUrl } from "./uploads";
+import { PROFILE_URLS_MAX, PROFILE_YEAR_MAX, PROFILE_YEAR_MIN } from "./profileImages";
 
 export type EntityKind = "person" | "club";
 
@@ -47,6 +49,8 @@ export const FIELD_LABELS: Record<string, string> = {
   underklubber: "Underklubber",
   hidden_profile_years: "Skjulte profilbilder",
   image_ext: "Bildeformat",
+  portrait_url: "Profilbilde",
+  profile_urls: "Brawl Stars-profilbilder",
   "*": "Side opprettet",
   "-": "Side slettet",
 };
@@ -61,6 +65,8 @@ function allowedKeys(kind: EntityKind): Set<string> {
   keys.add("facts");
   keys.add("body_md");
   keys.add("image_ext");
+  keys.add("portrait_url");
+  keys.add("profile_urls");
   if (kind === "person") keys.add("hidden_profile_years");
   if (kind === "club") keys.add("underklubber");
   return keys;
@@ -138,6 +144,29 @@ export function validateChanges(kind: EntityKind, changes: Changes): Validated {
           return { ok: false, message: "Ugyldige profilår." };
         }
         values[key] = [...new Set(raw as number[])].sort();
+        break;
+      }
+      case "portrait_url": {
+        if (raw !== null && !isWikiImageUrl(raw)) return { ok: false, message: "Ugyldig profilbilde." };
+        values[key] = raw;
+        break;
+      }
+      case "profile_urls": {
+        if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+          return { ok: false, message: "Ugyldige profilbilder." };
+        }
+        const entries = Object.entries(raw as Record<string, unknown>);
+        if (entries.length > PROFILE_URLS_MAX) return { ok: false, message: `Maks ${PROFILE_URLS_MAX} profilbilder.` };
+        const urls: Record<string, string> = {};
+        for (const [year, url] of entries.sort(([a], [b]) => Number(a) - Number(b))) {
+          const y = Number(year);
+          if (!/^\d{4}$/.test(year) || y < PROFILE_YEAR_MIN || y > PROFILE_YEAR_MAX) {
+            return { ok: false, message: `Ugyldig år for profilbilde: ${year}.` };
+          }
+          if (!isWikiImageUrl(url)) return { ok: false, message: `Ugyldig profilbilde for ${year}.` };
+          urls[year] = url;
+        }
+        values[key] = urls;
         break;
       }
       case "image_ext": {

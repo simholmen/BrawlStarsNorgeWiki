@@ -344,3 +344,68 @@
 .rev-deleted {
   color: #d33;
 }
+
+/* "Bilder" section: portrait and profile screenshots */
+.image-slot {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.image-slot-thumb {
+  flex: none;
+  width: 120px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border: 1px solid #c8ccd1;
+}
+
+.image-slot-thumb img {
+  max-width: 120px;
+  max-height: 120px;
+  display: block;
+}
+
+.image-slot-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.image-slot-actions,
+.image-slot-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.image-slot-add {
+  padding-top: 8px;
+}
+
+.image-slot-button {
+  font: inherit;
+  font-size: 0.85em;
+  padding: 3px 8px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.image-slot-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.image-slot-error {
+  color: #d33;
+  font-size: 0.85em;
+}

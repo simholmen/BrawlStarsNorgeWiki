@@ -18,6 +18,18 @@ const NAME_RE = /^[0-9]{4}-[0-9]{2}\/[a-z0-9-]{8,64}\.(jpg|png|webp|gif)$/;
 
 export const WIKI_IMAGE_ACCEPT = Object.keys(EXT_BY_TYPE).join(",");
 
+/**
+ * Shape of any wiki-images URL, without knowing the project URL (so it works in tests and in
+ * validation). Same rule as public.valid_wiki_image_url() in migration 020. Pages additionally
+ * check the project with isUploadedImage before rendering.
+ */
+const WIKI_IMAGE_URL_RE =
+  /^https:\/\/[a-z0-9-]+\.supabase\.co\/storage\/v1\/object\/public\/wiki-images\/[0-9]{4}-[0-9]{2}\/[a-z0-9-]{8,64}\.(jpg|png|webp|gif)$/;
+
+export function isWikiImageUrl(url: unknown): url is string {
+  return typeof url === "string" && WIKI_IMAGE_URL_RE.test(url);
+}
+
 /** Public URL prefix of the bucket, e.g. https://x.supabase.co/storage/v1/object/public/wiki-images/ */
 export function uploadedImagePrefix(supabaseUrl: string): string {
   return `${supabaseUrl.replace(/\/+$/, "")}/storage/v1/object/public/${WIKI_IMAGE_BUCKET}/`;

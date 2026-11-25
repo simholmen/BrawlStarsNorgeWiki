@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getClubs, getInGameInfo, getMinisByMain, getPeople, getPerson } from "@/lib/data";
-import { imageExists, keepBodyImage } from "@/lib/images";
+import { imageAvailable } from "@/lib/images";
+import { legacyPortrait, profileImages } from "@/lib/profileImages";
 import { renderInline, renderMarkdown } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
@@ -21,12 +22,6 @@ export async function generateMetadata(props: PageProps<"/personer/[slug]">): Pr
   return { title: person ? pageTitle(person.name) : "Fant ikke siden" };
 }
 
-const PROFILE_YEARS = [
-  { year: 2024, src: (b: string) => `/images/bsProfiler2024/${b}_profil.jpg`, when: "Juni 2024" },
-  { year: 2025, src: (b: string) => `/images/bsProfiler2025/${b}.png`, when: "Juni 2025" },
-  { year: 2026, src: (b: string) => `/images/bsProfiler2026/${b}.png`, when: "Oppdatert august 2026" },
-];
-
 function inline(md: string | null) {
   return <span dangerouslySetInnerHTML={{ __html: renderInline(md) }} />;
 }
@@ -45,10 +40,14 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
     ? clubs.find((c) => c.name.toLowerCase() === inGame.clubName!.toLowerCase())
     : undefined;
 
-  const base = person.image_key;
-  const portrait = `/images/profilbilde/${base}.${person.image_ext}`;
-  const profiles = PROFILE_YEARS.filter(
-    (p) => !person.hidden_profile_years.includes(p.year) && imageExists(p.src(base)),
+  // Uploaded images (from the editor) win over the old files in docs/images.
+  const portrait = person.portrait_url ?? legacyPortrait("person", person.image_key, person.image_ext);
+  const profiles = profileImages(
+    "person",
+    person.image_key,
+    person.profile_urls,
+    person.hidden_profile_years,
+    imageAvailable,
   );
 
   return (
@@ -65,7 +64,7 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
             )}
           </>
         }
-        image={imageExists(portrait) ? { src: portrait, alt: `${person.name} profilbilde` } : null}
+        image={imageAvailable(portrait) ? { src: portrait, alt: `${person.name} profilbilde` } : null}
         rows={[
           { label: "Hjemsted", value: inline(person.hjemsted) },
           { label: "Født", value: inline(person.born) },
@@ -101,13 +100,13 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
         ]}
       />
 
-      <Html html={renderMarkdown(person.body_md, { keepImage: keepBodyImage })} />
+      <Html html={renderMarkdown(person.body_md, { keepImage: imageAvailable })} />
 
       <h2 id="brawl-stars-profil">Brawl Stars profil</h2>
       {profiles.map((p) => (
         <ProfileFigure
           key={p.year}
-          src={p.src(base)}
+          src={p.src}
           alt={person.name}
           caption={`${person.name}'s Brawl Stars profil - ${p.when}`}
         />

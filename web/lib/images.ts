@@ -26,9 +26,10 @@ export function imageExists(urlPath: string): boolean {
 }
 
 /**
- * keepImage for page bodies: an image is shown if it's a file under docs/images or one uploaded
- * from the editor into the wiki-images bucket. Anything else (other sites) is left out.
+ * Whether a page may show an image (body text, portrait, profile screenshots): a file that exists
+ * under docs/images, or one uploaded from the editor into this project's wiki-images bucket.
+ * Anything else (other sites, missing files) is left out.
  */
-export function keepBodyImage(src: string): boolean {
+export function imageAvailable(src: string): boolean {
   return imageExists(src) || isUploadedImage(src, supabaseEnv().url);
 }

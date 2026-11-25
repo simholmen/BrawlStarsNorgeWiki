@@ -17,6 +17,10 @@ export type Person = {
   /** Image file base name, frozen at creation (migration 014) so renames don't break images. */
   image_key: string;
   hidden_profile_years: number[];
+  /** Uploaded portrait (migration 020); null = the old file under docs/images. */
+  portrait_url: string | null;
+  /** Uploaded profile screenshots, {"<year>": url}; replace/add to the old files. */
+  profile_urls: Record<string, string>;
   facts: Fact[];
   body_md: string;
 };
@@ -32,6 +36,8 @@ export type Club = {
   underklubber: string[];
   image_ext: string;
   image_key: string;
+  portrait_url: string | null;
+  profile_urls: Record<string, string>;
   facts: Fact[];
   body_md: string;
 };

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getClub, getClubs } from "@/lib/data";
-import { imageBaseName, imageExists, keepBodyImage } from "@/lib/images";
+import { imageBaseName, imageExists, imageAvailable } from "@/lib/images";
+import { legacyPortrait, profileImages } from "@/lib/profileImages";
 import { renderInline, renderMarkdown } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
@@ -28,9 +29,9 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
   const club = await getClub(normalizeSlug((await props.params).slug));
   if (!club) notFound();
 
-  const base = club.image_key;
-  const portrait = `/images/klubber/klubb_profilbilde/${base}.${club.image_ext}`;
-  const profile = `/images/klubber/klubbprofil/${base}.png`;
+  // Uploaded images (from the editor) win over the old files in docs/images.
+  const portrait = club.portrait_url ?? legacyPortrait("club", club.image_key, club.image_ext);
+  const profiles = profileImages("club", club.image_key, club.profile_urls, [], imageAvailable);
 
   const rows: InfoRow[] = [
     { label: "Aktiv", value: inline(club.aktiv) },
@@ -54,7 +55,7 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
     <EditablePage kind="club" slug={club.slug}>
       <Infobox
         title={club.name}
-        image={imageExists(portrait) ? { src: portrait, alt: `${club.name} profilbilde` } : null}
+        image={imageAvailable(portrait) ? { src: portrait, alt: `${club.name} profilbilde` } : null}
         rows={rows}
         facts={club.facts}
       />
@@ -70,12 +71,17 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
         ]}
       />
 
-      <Html html={renderMarkdown(club.body_md, { keepImage: keepBodyImage })} />
+      <Html html={renderMarkdown(club.body_md, { keepImage: imageAvailable })} />
 
       <h2 id="brawl-stars-klubbprofil">Klubbprofil</h2>
-      {imageExists(profile) && (
-        <ProfileFigure src={profile} alt={club.name} caption={`${club.name}'s Brawl Stars profil - Juni 2025`} />
-      )}
+      {profiles.map((p) => (
+        <ProfileFigure
+          key={p.year}
+          src={p.src}
+          alt={club.name}
+          caption={`${club.name}'s Brawl Stars profil - ${p.when}`}
+        />
+      ))}
 
       {club.underklubber.length > 0 && (
         <>

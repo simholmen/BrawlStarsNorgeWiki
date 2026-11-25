@@ -9,6 +9,14 @@ import { saveEntity } from "@/app/rediger/actions";
 import LinkTextField from "./LinkTextField";
 import MarkdownEditor from "./MarkdownEditor";
 import { FactsEditor, StringListEditor } from "./ListEditors";
+import ImageSlot, { UploadButton } from "./ImageSlot";
+import {
+  legacyPortrait,
+  profileImages,
+  PROFILE_URLS_MAX,
+  PROFILE_YEAR_MIN,
+  type ProfileUrls,
+} from "@/lib/profileImages";
 import { useWikiEntities } from "./useWikiEntities";
 import DeletePanel from "./DeletePanel";
 import { useViewer } from "@/lib/useViewer";
@@ -30,7 +38,7 @@ function toDraft(kind: EntityKind, row: Row): Row {
 
 function editableKeys(kind: EntityKind): string[] {
   const keys = TEXT_FIELDS[kind].map((f) => f.key);
-  keys.push("facts", "body_md", "image_ext");
+  keys.push("facts", "body_md", "image_ext", "portrait_url", "profile_urls");
   keys.push(kind === "person" ? "hidden_profile_years" : "underklubber");
   return keys;
 }
@@ -79,10 +87,11 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
   if (loadError) return <p className="auth-error">{loadError}</p>;
   if (!draft || !original) return <p className="auth-small">Laster redigering …</p>;
 
-  const set = (key: string, value: unknown) => {
-    setDraft({ ...draft, [key]: value });
+  const set = (key: string, value: unknown) => setMany({ [key]: value });
+  function setMany(values: Record<string, unknown>) {
+    setDraft((d) => (d ? { ...d, ...values } : d));
     setMessage(null);
-  };
+  }
 
   async function save() {
     if (!draft || !original) return;
@@ -108,6 +117,26 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
   }
 
   const hidden = (draft.hidden_profile_years as number[] | undefined) ?? [];
+  const imageKey = String(original.image_key);
+  const portraitUrl = (draft.portrait_url as string | null) ?? null;
+  const profileUrls = (draft.profile_urls as ProfileUrls | undefined) ?? {};
+  const profiles = profileImages(kind, imageKey, profileUrls);
+  const thisYear = new Date().getFullYear();
+  const newYears: number[] = [];
+  for (let y = thisYear + 1; y >= PROFILE_YEAR_MIN; y--) {
+    if (!profiles.some((p) => p.year === y)) newYears.push(y);
+  }
+  const yearToAdd = newYears.includes(thisYear) ? thisYear : newYears[0];
+
+  function setProfileUrl(year: number, url: string | null) {
+    const next = { ...profileUrls };
+    if (url) next[String(year)] = url;
+    else delete next[String(year)];
+    // An uploaded picture for a hidden year is meant to be seen.
+    setMany(url && hidden.includes(year)
+      ? { profile_urls: next, hidden_profile_years: hidden.filter((y) => y !== year) }
+      : { profile_urls: next });
+  }
 
   return (
     <div className="page-editor">
@@ -145,46 +174,6 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
                 </td>
               </tr>
             ))}
-            <tr>
-              <th>
-                <label htmlFor="f-image_ext">Profilbilde-format</label>
-              </th>
-              <td>
-                <select id="f-image_ext" value={draft.image_ext as string} onChange={(e) => set("image_ext", e.target.value)}>
-                  {IMAGE_EXTS.map((ext) => (
-                    <option key={ext} value={ext}>
-                      .{ext}
-                    </option>
-                  ))}
-                </select>
-                <div className="auth-small">
-                  Bildet hentes fra <code>/images/…/{String(original.image_key)}.{String(draft.image_ext)}</code>
-                </div>
-              </td>
-            </tr>
-            {kind === "person" && (
-              <tr>
-                <th>Profilbilder</th>
-                <td>
-                  {PROFILE_YEARS.map((year) => (
-                    <label key={year} className="inline-check">
-                      <input
-                        type="checkbox"
-                        checked={!hidden.includes(year)}
-                        onChange={(e) =>
-                          set(
-                            "hidden_profile_years",
-                            e.target.checked ? hidden.filter((y) => y !== year) : [...hidden, year].sort(),
-                          )
-                        }
-                      />{" "}
-                      {year}
-                    </label>
-                  ))}
-                  <div className="auth-small">Bilder som ikke finnes vises ikke uansett.</div>
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
 
@@ -200,6 +189,72 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
               placeholder="Underklubb"
             />
           </>
+        )}
+      </fieldset>
+
+      <fieldset className="editor-section">
+        <legend>Bilder</legend>
+
+        <h4>Profilbilde (infoboksen)</h4>
+        <ImageSlot
+          label="Profilbilde"
+          src={portraitUrl ?? legacyPortrait(kind, imageKey, String(draft.image_ext))}
+          uploaded={Boolean(portraitUrl)}
+          onUpload={(url) => set("portrait_url", url)}
+          onRemove={() => set("portrait_url", null)}
+          hint={
+            portraitUrl ? (
+              "«Fjern opplastet» går tilbake til bildet i bildemappen, hvis det finnes."
+            ) : (
+              <>
+                Hentes fra <code>{legacyPortrait(kind, imageKey, String(draft.image_ext))}</code>
+              </>
+            )
+          }
+        >
+          {!portraitUrl && (
+            <label className="inline-check">
+              Format{" "}
+              <select id="f-image_ext" value={draft.image_ext as string} onChange={(e) => set("image_ext", e.target.value)}>
+                {IMAGE_EXTS.map((ext) => (
+                  <option key={ext} value={ext}>
+                    .{ext}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+        </ImageSlot>
+
+        <h4>Brawl Stars-profilbilder</h4>
+        {profiles.map((p) => (
+          <ImageSlot
+            key={p.year}
+            label={p.uploaded ? String(p.year) : `${p.year} (${p.when})`}
+            src={p.src}
+            uploaded={p.uploaded}
+            onUpload={(url) => setProfileUrl(p.year, url)}
+            onRemove={() => setProfileUrl(p.year, null)}
+          >
+            {kind === "person" && (PROFILE_YEARS as readonly number[]).includes(p.year) && (
+              <label className="inline-check">
+                <input
+                  type="checkbox"
+                  checked={!hidden.includes(p.year)}
+                  onChange={(e) =>
+                    set(
+                      "hidden_profile_years",
+                      e.target.checked ? hidden.filter((y) => y !== p.year) : [...hidden, p.year].sort(),
+                    )
+                  }
+                />{" "}
+                Vis på siden
+              </label>
+            )}
+          </ImageSlot>
+        ))}
+        {yearToAdd !== undefined && Object.keys(profileUrls).length < PROFILE_URLS_MAX && (
+          <AddProfileYear years={newYears} initial={yearToAdd} onAdd={setProfileUrl} />
         )}
       </fieldset>
 
@@ -247,6 +302,34 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
           {saving ? "Lagrer …" : "Lagre"}
         </button>
       </div>
+    </div>
+  );
+}
+
+/** Upload a profile screenshot for a year that has none yet. */
+function AddProfileYear({
+  years,
+  initial,
+  onAdd,
+}: {
+  years: number[];
+  initial: number;
+  onAdd: (year: number, url: string) => void;
+}) {
+  const [picked, setPicked] = useState(initial);
+  // After an upload the picked year leaves the list; fall back to the suggested one.
+  const year = years.includes(picked) ? picked : initial;
+  return (
+    <div className="image-slot-add">
+      Nytt profilbilde for{" "}
+      <select value={year} onChange={(e) => setPicked(Number(e.target.value))} aria-label="År">
+        {years.map((y) => (
+          <option key={y} value={y}>
+            {y}
+          </option>
+        ))}
+      </select>{" "}
+      <UploadButton label="Last opp" onUploaded={(url) => onAdd(year, url)} />
     </div>
   );
 }

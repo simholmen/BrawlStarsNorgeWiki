@@ -12,9 +12,9 @@ import type { Club, Person } from "./types";
 
 const PERSON_COLUMNS =
   "slug,name,subtitle,hjemsted,born,bsid,favorittbrus,favoritt_brawler,quote,fiende," +
-  "image_ext,image_key,hidden_profile_years,facts,body_md";
+  "image_ext,image_key,hidden_profile_years,portrait_url,profile_urls,facts,body_md";
 const CLUB_COLUMNS =
-  "slug,name,aktiv,stiftet,leder,medlemmer,underklubber,image_ext,image_key,facts,body_md";
+  "slug,name,aktiv,stiftet,leder,medlemmer,underklubber,image_ext,image_key,portrait_url,profile_urls,facts,body_md";
 
 function client() {
   const { url, key } = supabaseEnv();
