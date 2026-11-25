@@ -14,6 +14,8 @@ export type Person = {
   quote: string | null;
   fiende: string | null;
   image_ext: string;
+  /** Image file base name, frozen at creation (migration 014) so renames don't break images. */
+  image_key: string;
   hidden_profile_years: number[];
   facts: Fact[];
   body_md: string;
@@ -29,6 +31,7 @@ export type Club = {
   medlemmer: string | null;
   underklubber: string[];
   image_ext: string;
+  image_key: string;
   facts: Fact[];
   body_md: string;
 };

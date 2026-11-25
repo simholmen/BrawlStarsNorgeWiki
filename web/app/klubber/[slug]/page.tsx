@@ -5,6 +5,7 @@ import { imageBaseName, imageExists } from "@/lib/images";
 import { renderInline, renderMarkdown } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
+import EditablePage from "@/components/editor/EditablePage";
 import { Infobox, ProfileFigure, Toc, type InfoRow } from "@/components/Infobox";
 
 // Port of docs/_layouts/klubb.html. As on the person page, missing images are left out.
@@ -27,7 +28,7 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
   const club = await getClub(normalizeSlug((await props.params).slug));
   if (!club) notFound();
 
-  const base = imageBaseName(club.name);
+  const base = club.image_key;
   const portrait = `/images/klubber/klubb_profilbilde/${base}.${club.image_ext}`;
   const profile = `/images/klubber/klubbprofil/${base}.png`;
 
@@ -50,7 +51,7 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
   }
 
   return (
-    <>
+    <EditablePage kind="club" slug={club.slug}>
       <Infobox
         title={club.name}
         image={imageExists(portrait) ? { src: portrait, alt: `${club.name} profilbilde` } : null}
@@ -87,6 +88,6 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
           })}
         </>
       )}
-    </>
+    </EditablePage>
   );
 }

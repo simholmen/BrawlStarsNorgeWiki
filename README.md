@@ -7,6 +7,15 @@ Prosjektet bruker [Jekyll](https://jekyllrb.com/) for å generere en statisk net
 ## 🌐 Live 
 [Live Server](https://brawlstarsnorge.com/index.html)
 
+## 🚧 Ny versjon (beta)
+
+Wikien flyttes fra Jekyll til en Next.js-app med innlogging og redigering, se
+[beta.brawlstarsnorge.com](https://beta.brawlstarsnorge.com) (kode i `web/`, database i `supabase/`).
+
+- **Person- og klubbsider redigeres nå på beta-siden** (av godkjente redaktører), ikke i
+  `docs/_personer/` og `docs/_klubber/`. De Markdown-filene er frosset og brukes ikke lenger som kilde.
+- Den gamle Jekyll-siden på brawlstarsnorge.com står uendret til overgangen er ferdig.
+
 ## Innhold
 
 - **docs/** – Kildekoden til nettsiden, inkludert HTML, CSS, JS, og Jekyll-data.

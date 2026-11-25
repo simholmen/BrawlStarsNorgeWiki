@@ -1,0 +1,305 @@
+/* Edit mode, Markdown editor, link picker, history. Separate from wiki.css (copy of
+   docs/style.css) and auth.css. Same palette as the wiki. */
+
+/* ---------------------------------------------------------------- bar above a page (editors) */
+.edit-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+  margin: 0 0 0.6em;
+  font-family: sans-serif;
+  font-size: 0.9em;
+}
+
+.auth-button.small {
+  padding: 3px 8px;
+  font-size: 0.85em;
+}
+
+/* ---------------------------------------------------------------- page editor */
+.page-editor {
+  font-family: sans-serif;
+  padding-bottom: 70px; /* room for the sticky bar */
+}
+
+.page-editor h2 {
+  font-family: Georgia, serif;
+}
+
+.editor-section {
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  margin: 1em 0;
+  padding: 0.6em 1em 1em;
+}
+
+.editor-section legend {
+  font-weight: bold;
+  padding: 0 6px;
+}
+
+.editor-fields {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.editor-fields th {
+  width: 160px;
+  text-align: left;
+  vertical-align: top;
+  padding: 8px 10px 4px 0;
+  font-weight: normal;
+}
+
+.editor-fields td {
+  padding: 4px 0;
+}
+
+.page-editor input[type="text"],
+.page-editor select,
+.page-editor textarea,
+.auth-form input[type="text"] {
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.page-editor input[type="text"],
+.link-field,
+.link-field input,
+.link-field textarea {
+  width: 100%;
+}
+
+.inline-check {
+  margin-right: 14px;
+}
+
+/* ---------------------------------------------------------------- lists (facts, underklubber) */
+.list-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.list-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.facts-row > input {
+  flex: 0 0 30%;
+}
+
+.row-buttons {
+  display: inline-flex;
+  gap: 2px;
+  flex: none;
+}
+
+.row-buttons button,
+.list-add,
+.md-toolbar button {
+  font: inherit;
+  font-size: 0.85em;
+  padding: 3px 8px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.row-buttons button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.list-add {
+  align-self: flex-start;
+}
+
+/* ---------------------------------------------------------------- link picker */
+.link-field {
+  position: relative;
+  display: inline-block;
+}
+
+.link-picker {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  top: 100%;
+  min-width: 240px;
+  max-width: 100%;
+  margin: 2px 0 0;
+  padding: 4px 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.link-picker li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.link-picker li.active,
+.link-picker li:hover {
+  background: #eaf3ff;
+}
+
+.link-picker-kind {
+  color: #72777d;
+  font-size: 0.8em;
+}
+
+/* ---------------------------------------------------------------- markdown editor */
+.md-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.md-toolbar button.active {
+  background: #eaecf0;
+  font-weight: bold;
+}
+
+.md-toolbar-spacer {
+  flex: 1;
+}
+
+.md-panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.md-editor.mode-write .md-panes,
+.md-editor.mode-preview .md-panes {
+  grid-template-columns: 1fr;
+}
+
+.md-editor.mode-write .md-preview,
+.md-editor.mode-preview .md-write {
+  display: none;
+}
+
+.md-write textarea {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9em;
+  line-height: 1.45;
+  min-height: 420px;
+  resize: vertical;
+}
+
+.md-help {
+  margin-top: 4px;
+  color: #54595d;
+  font-size: 0.8em;
+}
+
+.md-preview {
+  border: 1px solid #a2a9b1;
+  background: #fff;
+  padding: 0 14px;
+  max-height: 640px;
+  overflow: auto;
+  font-family: Georgia, serif;
+}
+
+@media (max-width: 800px) {
+  .md-panes {
+    grid-template-columns: 1fr;
+  }
+  .editor-fields th {
+    width: 110px;
+  }
+  .facts-row {
+    flex-wrap: wrap;
+  }
+  .facts-row > input {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---------------------------------------------------------------- sticky save bar */
+.editor-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  border-top: 1px solid #a2a9b1;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.editor-bar-status {
+  flex: 1;
+  font-size: 0.9em;
+}
+
+.editor-bar-link {
+  font-size: 0.9em;
+}
+
+/* ---------------------------------------------------------------- history */
+.rev-head {
+  margin-bottom: 6px;
+}
+
+.rev-field {
+  margin: 6px 0 10px 12px;
+}
+
+.rev-field-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rev-inline del {
+  color: #d33;
+}
+
+.rev-inline ins {
+  color: #14866d;
+  text-decoration: none;
+}
+
+.rev-diff {
+  margin: 4px 0;
+  padding: 8px;
+  background: #f8f9fa;
+  border: 1px solid #eaecf0;
+  font-size: 0.85em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.rev-diff .add {
+  display: block;
+  background: #e6f4ea;
+}
+
+.rev-diff .del {
+  display: block;
+  background: #fde8e8;
+}
+
+.rev-diff .gap {
+  display: block;
+  color: #72777d;
+  font-style: italic;
+}

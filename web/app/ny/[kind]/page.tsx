@@ -1,0 +1,31 @@
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { SITE_TITLE } from "@/lib/slug";
+import { requireEditorPage } from "@/app/historikk/gate";
+import NewPageForm from "./NewPageForm";
+
+export const metadata: Metadata = { title: `Ny side - ${SITE_TITLE}`, robots: { index: false } };
+
+const KINDS = { person: "person", klubb: "club" } as const;
+
+export function generateStaticParams() {
+  return [{ kind: "person" }, { kind: "klubb" }];
+}
+
+export default function NewPage(props: PageProps<"/ny/[kind]">) {
+  return (
+    <div className="auth-panel">
+      <Suspense fallback={<p className="auth-small">Laster …</p>}>
+        <NewPageGate params={props.params} />
+      </Suspense>
+    </div>
+  );
+}
+
+async function NewPageGate({ params }: { params: PageProps<"/ny/[kind]">["params"] }) {
+  const { kind } = await params;
+  if (!(kind in KINDS)) notFound();
+  await requireEditorPage(`/ny/${kind}/`);
+  return <NewPageForm kind={KINDS[kind as keyof typeof KINDS]} />;
+}

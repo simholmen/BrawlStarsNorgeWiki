@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseEnv } from "@/lib/env";
 
-// Refreshes the Supabase session cookie before the account/admin/auth routes render (Server
+// Refreshes the Supabase session cookie before the account/admin/auth/history/new-page routes render (Server
 // Components can't write cookies themselves). Deliberately NOT run on wiki pages: those are
 // prerendered and never wait on Supabase.
 
@@ -27,5 +27,12 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/konto/:path*", "/admin/:path*", "/auth/:path*", "/logg-inn/:path*"],
+  matcher: [
+    "/konto/:path*",
+    "/admin/:path*",
+    "/auth/:path*",
+    "/logg-inn/:path*",
+    "/historikk/:path*",
+    "/ny/:path*",
+  ],
 };

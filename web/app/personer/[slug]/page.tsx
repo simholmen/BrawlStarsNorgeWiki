@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPeople, getPerson } from "@/lib/data";
-import { imageBaseName, imageExists } from "@/lib/images";
+import { imageExists } from "@/lib/images";
 import { renderInline, renderMarkdown } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
+import EditablePage from "@/components/editor/EditablePage";
 import { Infobox, ProfileFigure, Toc } from "@/components/Infobox";
 
 // Port of docs/_layouts/person.html, field for field. One deliberate difference: images whose
@@ -34,14 +35,14 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
   const person = await getPerson(normalizeSlug((await props.params).slug));
   if (!person) notFound();
 
-  const base = imageBaseName(person.name);
+  const base = person.image_key;
   const portrait = `/images/profilbilde/${base}.${person.image_ext}`;
   const profiles = PROFILE_YEARS.filter(
     (p) => !person.hidden_profile_years.includes(p.year) && imageExists(p.src(base)),
   );
 
   return (
-    <>
+    <EditablePage kind="person" slug={person.slug}>
       <Infobox
         title={
           <>
@@ -94,6 +95,6 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
           caption={`${person.name}'s Brawl Stars profil - ${p.when}`}
         />
       ))}
-    </>
+    </EditablePage>
   );
 }

@@ -8,13 +8,13 @@ import type { Club, Person } from "./types";
 
 // Every export here is cached ('use cache' at module level), so page views are served from the
 // Next.js cache instead of hitting Supabase: keeps free-plan egress near zero. Content refreshes
-// at most hourly; Phase 4 will call revalidateTag('people' | 'clubs') on save.
+// at most hourly, and immediately after an edit: the save actions call updateTag('people' | 'clubs').
 
 const PERSON_COLUMNS =
   "slug,name,subtitle,hjemsted,born,bsid,favorittbrus,favoritt_brawler,quote,fiende," +
-  "image_ext,hidden_profile_years,facts,body_md";
+  "image_ext,image_key,hidden_profile_years,facts,body_md";
 const CLUB_COLUMNS =
-  "slug,name,aktiv,stiftet,leder,medlemmer,underklubber,image_ext,facts,body_md";
+  "slug,name,aktiv,stiftet,leder,medlemmer,underklubber,image_ext,image_key,facts,body_md";
 
 function client() {
   const { url, key } = supabaseEnv();
