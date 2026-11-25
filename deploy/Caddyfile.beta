@@ -1,0 +1,25 @@
+# Caddy site block for the staging wiki. Add it to /etc/caddy/Caddyfile (or `import` this file),
+# replace __REPO_DIR__ with the clone's path, then `sudo systemctl reload caddy`.
+# Caddy gets the HTTPS certificate automatically once DNS for beta.* points at the droplet.
+#
+# Static files come straight from docs/ (no copies); everything else goes to Next.js.
+
+beta.brawlstarsnorge.com {
+	encode zstd gzip
+
+	# Not indexed while it's a staging copy of the live site.
+	header X-Robots-Tag "noindex"
+
+	# Landing page, images, ranked-stats page and the shared script: served from docs/ as-is.
+	@static {
+		path / /index.html /script.js /images/* /rankedstats/*
+	}
+	handle @static {
+		root * __REPO_DIR__/docs
+		file_server
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3000
+	}
+}
