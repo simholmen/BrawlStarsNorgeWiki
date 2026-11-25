@@ -1,7 +1,7 @@
 """Dependency-free assert script for ``rankedstats/sets.py``, run with plain ``python3``.
 
 Exercises the pure set-grouping functions in ``rankedstats.sets`` against the REAL fixture
-files in ``winratefetching/docs/fetchresult/`` (read-only -- this script never writes,
+files in ``rankedstats/test_fixtures/`` (read-only -- this script never writes,
 moves, or deletes anything under that directory) and asserts the exact numbers established
 during research and reproduced in the plan's Verification Strategy table
 (``notes/claude-specs/plans/rankedstats.md``, lines 78-101).
@@ -49,7 +49,7 @@ from rankedstats.sets import (  # noqa: E402
     summarize_set,
 )
 
-FIXTURE_DIR = REPO_ROOT / "winratefetching" / "docs" / "fetchresult"
+FIXTURE_DIR = REPO_ROOT / "rankedstats" / "test_fixtures"
 MIN_BATTLE_TIME = "20260101"
 
 failures = 0
@@ -111,8 +111,8 @@ def main() -> None:
     if not FIXTURE_DIR.is_dir():
         print(
             f"fixtures not found, skipping: {FIXTURE_DIR} does not exist. "
-            "winratefetching/docs/fetchresult/ is gitignored, so this is expected on a "
-            "fresh checkout that has never run the winratefetching poller."
+            "rankedstats/test_fixtures/ is gitignored, so this is expected on a "
+            "fresh checkout; drop battlelog_<slug>.json fixtures there to run it."
         )
         sys.exit(0)
 

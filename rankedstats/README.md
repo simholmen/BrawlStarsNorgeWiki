@@ -3,7 +3,7 @@
 A small, self-contained system that ingests the roster's Brawl Stars **Ranked** (`soloRanked`)
 battlelogs into a Supabase Postgres database, and shows per-player stats in a standalone HTML
 page. The ingest pipeline in this folder is deliberately separate from the Jekyll site under
-`docs/` and from `winratefetching/`/`tournamentfetching/` — nothing outside this folder is
+`docs/` and from `tournamentfetching/` — nothing outside this folder is
 touched, except two keys appended to the root `.env` (see below) and the generated
 `docs/rankedstats/brawler_classes.js` (see "Contents" below).
 

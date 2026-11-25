@@ -209,7 +209,7 @@ def _write_debug_response(tag: str, payload: dict):
     Writes to rankedstats/fetchresult/battlelog_{slug}.json, where slug is
     derived from the tag itself (since fetch_battlelog only receives a
     tag, not a player name). This is this folder's own fetchresult
-    directory, never winratefetching/docs/fetchresult/.
+    directory.
     """
     FETCHRESULT_DIR.mkdir(parents=True, exist_ok=True)
     slug = tag.lstrip("#").lower()

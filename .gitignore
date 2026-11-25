@@ -31,5 +31,5 @@ Gemfile.lock
 .DS_Store
 .vscode/
 .env
-winratefetching/docs/fetchresult/
+rankedstats/test_fixtures/
 notes/

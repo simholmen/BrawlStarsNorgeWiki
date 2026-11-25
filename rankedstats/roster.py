@@ -1,9 +1,7 @@
 """Load the roster of tracked players from docs/_personer/*.md front matter.
 
-Mirrors the front-matter parsing approach used in
-winratefetching/extract_names_and_tags.py (find the `---` fence pair, then
-yaml.safe_load the block between the fences) without importing from that
-folder, so rankedstats/ stays self-contained.
+Parses front matter by finding the `---` fence pair, then yaml.safe_load-ing
+the block between the fences.
 """
 
 from pathlib import Path

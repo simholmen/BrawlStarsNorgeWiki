@@ -2,7 +2,6 @@
 layout: klubb
 title: Midnight Zephyr - Brawl Stars Norge Wiki
 name: Midnight Zephyr
-keyword: zephyr
 aktiv: Ja
 stiftet: 01.04.2018
 leder: Lobb
