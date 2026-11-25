@@ -1,8 +1,11 @@
-"""Manual entrypoint: pull each roster player's battlelog and write ranked sets to Supabase.
+"""Pull each roster player's battlelog and write ranked sets to Supabase.
 
-Run manually (no scheduler is wired up by this module):
+Runs every 30 minutes from cron on the droplet (from the `main` clone); can also be run by hand:
 
     python3 rankedstats/ingest.py
+
+The roster is the active rows of `ranked_profiles` (see roster.py), edited on the site. Tracked
+players whose profile was removed are un-tracked first (`untrack_removed_players`).
 
 Per roster player, this implements the following algorithm. Nothing below performs a
 `delete`; convergence and idempotency come entirely from `ignore-duplicates` battle
@@ -74,6 +77,8 @@ def main() -> int:
     roster_tags = {entry["tag"] for entry in roster}
     roster_name_by_tag = {entry["tag"]: entry["name"] for entry in roster}
 
+    untrack_removed_players(roster_tags)
+
     totals = {
         "players_processed": 0,
         "players_errored": 0,
@@ -116,6 +121,24 @@ def main() -> int:
     )
 
     return 1 if totals["players_errored"] > 0 else 0
+
+
+def untrack_removed_players(roster_tags: set) -> None:
+    """Set `players.is_tracked = false` for tracked players no longer on the roster.
+
+    The roster (`ranked_profiles`, see roster.py) is edited on the site; when an editor removes
+    a profile, this takes the player off the leaderboard on the next run. Their sets stay.
+    `load_roster()` never returns an empty roster, so this can't un-track everyone by accident.
+    """
+    if not roster_tags:
+        return
+    tracked = supa.select("players", {"select": "tag", "is_tracked": "eq.true"})
+    removed = sorted({row["tag"] for row in tracked} - roster_tags)
+    if not removed:
+        return
+    quoted = ",".join('"' + tag.replace('"', "") + '"' for tag in removed)
+    supa.patch("players", {"tag": f"in.({quoted})"}, {"is_tracked": False})
+    print(f"Un-tracked {len(removed)} player(s) removed from the roster: {', '.join(removed)}")
 
 
 def ingest_player(tag: str, roster_tags: set, roster_name_by_tag: dict) -> dict:
