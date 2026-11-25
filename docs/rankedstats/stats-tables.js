@@ -950,7 +950,7 @@
         null,
         isThin,
         null,
-        brawlerIconUrl(row.brawler_name)
+        brawlerIconUrl(row.brawler_id)
       )
     );
     tr.appendChild(makeCell(String(row.sets_played)));

@@ -121,7 +121,11 @@
   document.getElementById("combined-recent-section").style.display = "";
   renderBrowsingSkeletons();
 
-  loadPlayers().then(function (trackedPlayers) {
+  // Fetch the live brawler list alongside the roster so the first render already has classes
+  // for any newly released brawlers (loadBrawlerData never rejects; it falls back to the
+  // bundled brawler_classes.js).
+  Promise.all([loadPlayers(), loadBrawlerData()]).then(function (results) {
+    const trackedPlayers = results[0];
     loadLeaderboardData(trackedPlayers);
 
     // Restore the player named by ?player=TAG (e.g. after a refresh) without pushing a new

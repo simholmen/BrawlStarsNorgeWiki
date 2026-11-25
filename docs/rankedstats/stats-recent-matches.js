@@ -79,7 +79,7 @@
 
     const brawlerCell = document.createElement("div");
     brawlerCell.className = "recent-brawler-cell";
-    const brawlerIcon = brawlerIconUrl(row.brawler_name);
+    const brawlerIcon = brawlerIconUrl(row.brawler_id);
     if (brawlerIcon) {
       const brawlerImg = document.createElement("img");
       brawlerImg.className = "recent-brawler-icon";
@@ -313,7 +313,7 @@
     avatar.title =
       (participant.player_name || participant.player_tag) + " — " + participant.brawler_name;
 
-    const iconUrl = brawlerIconUrl(participant.brawler_name);
+    const iconUrl = brawlerIconUrl(participant.brawler_id);
     if (iconUrl) {
       const img = document.createElement("img");
       img.src = iconUrl;
@@ -600,7 +600,7 @@
     rankEl.textContent = "#" + rank;
     row.appendChild(rankEl);
 
-    const iconUrl = brawlerIconUrl(group.label);
+    const iconUrl = brawlerIconUrl(group.key);
     if (iconUrl) {
       const icon = document.createElement("img");
       icon.className = "map-preview-icon";

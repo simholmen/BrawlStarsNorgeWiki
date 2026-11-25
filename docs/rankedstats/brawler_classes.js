@@ -22,7 +22,7 @@ const BRAWLER_CLASSES = {
   16000016: "Support",
   16000017: "Damage Dealer",
   16000018: "Tank",
-  16000019: "Artillery",
+  16000019: "Controller",
   16000020: "Tank",
   16000021: "Controller",
   16000022: "Artillery",
@@ -74,7 +74,7 @@ const BRAWLER_CLASSES = {
   16000070: "Assassin",
   16000071: "Support",
   16000072: "Damage Dealer",
-  16000073: "Damage Dealer",
+  16000073: "Controller",
   16000074: "Controller",
   16000075: "Assassin",
   16000076: "Support",
@@ -89,7 +89,7 @@ const BRAWLER_CLASSES = {
   16000085: "Assassin",
   16000086: "Assassin",
   16000087: "Artillery",
-  16000088: "Unclassified",
+  16000088: "Damage Dealer",
   16000089: "Controller",
   16000090: "Tank",
   16000091: "Damage Dealer",
@@ -110,6 +110,8 @@ const BRAWLER_CLASSES = {
   16000106: "Tank",
   16000107: "Assassin",
   16000108: "Support",
+  16000109: "Controller",
+  16000110: "Damage Dealer",
 };
 
 const BRAWLER_CLASS_ORDER = ["Damage Dealer", "Marksman", "Assassin", "Support", "Controller", "Artillery", "Tank", "Unclassified"];

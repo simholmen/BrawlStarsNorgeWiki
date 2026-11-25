@@ -229,11 +229,8 @@
   // === ICON LOOKUPS (map/brawler tables) ===
   // === `modeIconUrl` maps a raw ranked mode string (e.g. "gemGrab") to its game-mode icon in
   // === images/gamemodes/ — only the 6 ranked-eligible modes have artwork, so anything else falls
-  // === back to null (caller keeps the placeholder). `brawlerIconUrl` derives a brawler's portrait
-  // === path in images/brawlers/Assets2026-08-25/ from `brawler_name` by lowercasing/hyphenating —
-  // === this generalizes to new brawlers automatically, with a small override table for the 3 names
-  // === whose punctuation doesn't hyphenate cleanly (and 1 filename that doesn't follow the
-  // === `<slug>_portrait.png` convention).
+  // === back to null (caller keeps the placeholder). `brawlerIconUrl` maps a brawler id to its
+  // === portrait on Brawlify's CDN (see below).
   // =========================================================================================
 
   // === `profileIconUrl` turns a player's `icon_id` (fetched server-side from the live API's
@@ -263,33 +260,50 @@
     return filename ? "images/gamemodes/" + filename : null;
   }
 
-  const BRAWLER_ICON_SLUG_OVERRIDES = {
-    "R-T": "rt",
-    "STARR NOVA": "starr_nova",
-    "LARRY & LAWRIE": "larry&lawrie",
-  };
+  // Brawler portraits come from Brawlify's CDN by brawler id (the same CDN as profileIconUrl
+  // above and the BrawlAPI `imageUrl` field), so new brawlers get artwork automatically with no
+  // local image bundle to keep up to date. Callers keep their onerror placeholder fallback.
+  function brawlerIconUrl(brawlerId) {
+    return brawlerId ? "https://cdn.brawlify.com/brawlers/borders/" + brawlerId + ".png" : null;
+  }
 
-  const BRAWLER_ICON_FILENAME_OVERRIDES = {
-    SPROUT: "sprout_portrait_new.png",
-  };
+  // =========================================================================================
+  // === BRAWLER DATA (BrawlAPI) ===
+  // === Refreshes BRAWLER_CLASSES (brawler_classes.js) from BrawlAPI's live brawler list at page
+  // === load, so brawlers released after the generated file was last regenerated still get the
+  // === right class in the sidebar filter. The generated file stays as an offline fallback: if
+  // === the request fails or takes longer than BRAWLER_DATA_TIMEOUT_MS, the page just uses it.
+  // === Always resolves (never rejects), so init can safely wait on it.
+  // =========================================================================================
 
-  function brawlerIconUrl(brawlerName) {
-    if (!brawlerName) {
-      return null;
-    }
-    const upperName = brawlerName.toUpperCase();
-    const overrideFilename = BRAWLER_ICON_FILENAME_OVERRIDES[upperName];
-    if (overrideFilename) {
-      return "images/brawlers/Assets2026-08-25/" + overrideFilename;
-    }
-    const slug =
-      BRAWLER_ICON_SLUG_OVERRIDES[upperName] ||
-      upperName
-        .toLowerCase()
-        .replace(/\./g, "")
-        .replace(/[^a-z0-9&]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-    return "images/brawlers/Assets2026-08-25/" + slug + "_portrait.png";
+  const BRAWLER_DATA_TIMEOUT_MS = 4000;
+
+  function loadBrawlerData() {
+    const controller = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = controller ? setTimeout(function () { controller.abort(); }, BRAWLER_DATA_TIMEOUT_MS) : null;
+    return fetch("https://api.brawlapi.com/v1/brawlers", controller ? { signal: controller.signal } : {})
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error("BrawlAPI brawlers HTTP " + response.status);
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        (data.list || []).forEach(function (brawler) {
+          const className = brawler.class && brawler.class.name;
+          if (brawler.id && className && BRAWLER_CLASS_ORDER.indexOf(className) !== -1) {
+            BRAWLER_CLASSES[brawler.id] = className;
+          }
+        });
+      })
+      .catch(function (error) {
+        console.warn("Using bundled brawler classes; BrawlAPI unavailable:", error);
+      })
+      .finally(function () {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      });
   }
 
   function tierIconUrl(tier_name) {
