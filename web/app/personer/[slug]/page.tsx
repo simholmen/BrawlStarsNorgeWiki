@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getClubs, getInGameInfo, getMinisByMain, getPeople, getPerson } from "@/lib/data";
-import { imageExists } from "@/lib/images";
+import { imageExists, keepBodyImage } from "@/lib/images";
 import { renderInline, renderMarkdown } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
@@ -101,7 +101,7 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
         ]}
       />
 
-      <Html html={renderMarkdown(person.body_md, { keepImage: imageExists })} />
+      <Html html={renderMarkdown(person.body_md, { keepImage: keepBodyImage })} />
 
       <h2 id="brawl-stars-profil">Brawl Stars profil</h2>
       {profiles.map((p) => (

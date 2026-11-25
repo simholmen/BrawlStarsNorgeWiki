@@ -201,6 +201,20 @@
   resize: vertical;
 }
 
+.md-upload-status,
+.md-upload-error {
+  margin-top: 4px;
+  font-size: 0.85em;
+}
+
+.md-upload-status {
+  color: #36c;
+}
+
+.md-upload-error {
+  color: #d33;
+}
+
 .md-help {
   margin-top: 4px;
   color: #54595d;

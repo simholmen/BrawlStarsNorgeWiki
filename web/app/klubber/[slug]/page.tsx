@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getClub, getClubs } from "@/lib/data";
-import { imageBaseName, imageExists } from "@/lib/images";
+import { imageBaseName, imageExists, keepBodyImage } from "@/lib/images";
 import { renderInline, renderMarkdown } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
@@ -70,7 +70,7 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
         ]}
       />
 
-      <Html html={renderMarkdown(club.body_md, { keepImage: imageExists })} />
+      <Html html={renderMarkdown(club.body_md, { keepImage: keepBodyImage })} />
 
       <h2 id="brawl-stars-klubbprofil">Klubbprofil</h2>
       {imageExists(profile) && (

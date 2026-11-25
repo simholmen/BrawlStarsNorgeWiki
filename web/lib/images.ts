@@ -2,6 +2,8 @@ import "server-only";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { DOCS_DIR } from "./paths";
+import { supabaseEnv } from "./env";
+import { isUploadedImage } from "./uploads";
 
 /**
  * The Jekyll layouts' filename rule: `name | downcase | replace: ' ', '_'`.
@@ -21,4 +23,12 @@ export function imageExists(urlPath: string): boolean {
   const full = path.resolve(DOCS_DIR, rel);
   if (!full.startsWith(path.resolve(DOCS_DIR, "images") + path.sep)) return false;
   return existsSync(full);
+}
+
+/**
+ * keepImage for page bodies: an image is shown if it's a file under docs/images or one uploaded
+ * from the editor into the wiki-images bucket. Anything else (other sites) is left out.
+ */
+export function keepBodyImage(src: string): boolean {
+  return imageExists(src) || isUploadedImage(src, supabaseEnv().url);
 }

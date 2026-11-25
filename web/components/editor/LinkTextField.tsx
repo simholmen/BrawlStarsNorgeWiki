@@ -1,6 +1,14 @@
 "use client";
 
-import { forwardRef, useImperativeHandle, useRef, useState, type KeyboardEvent } from "react";
+import {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+  type ClipboardEvent,
+  type DragEvent,
+  type KeyboardEvent,
+} from "react";
 import { filterEntities, findLinkQuery, insertLink, type WikiEntity } from "@/lib/linkPicker";
 
 // A text input or textarea where typing "[[" opens a list of people/clubs; picking one inserts
@@ -17,6 +25,9 @@ type Props = {
   placeholder?: string;
   className?: string;
   "aria-label"?: string;
+  onPaste?: (e: ClipboardEvent<HTMLElement>) => void;
+  onDrop?: (e: DragEvent<HTMLElement>) => void;
+  onDragOver?: (e: DragEvent<HTMLElement>) => void;
 };
 
 export type LinkTextFieldHandle = {
