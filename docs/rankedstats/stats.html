@@ -37,6 +37,42 @@
 </head>
 <body>
 
+<!-- Site bar + menu: same menu as the wiki header (login, Wiki / Ranked stats, editor links), in
+     this page's dark style. site-menu.js fills in the login part from /api/meg/ (the Next.js app
+     on the same origin); where that doesn't exist (the old GitHub Pages site, file://) only the
+     two page links are shown. Editors can add a ranked profile straight from the menu. -->
+<nav class="site-bar" aria-label="Meny">
+  <a class="site-bar-brand" href="/wiki/"><img src="../images/bsnorge.jpg" alt="" width="24" height="24"><span>Brawl Stars Norge</span></a>
+  <div class="rmenu" id="rmenu">
+    <button type="button" class="rmenu-button" id="rmenu-button" aria-label="Åpne meny" aria-expanded="false" aria-controls="rmenu-panel">
+      <span class="rmenu-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <div class="rmenu-panel" id="rmenu-panel" hidden>
+      <div class="rmenu-section" id="rmenu-account" hidden></div>
+      <div class="rmenu-section">
+        <a href="/wiki/">Wiki</a>
+        <a href="stats.html" aria-current="page">Ranked stats</a>
+      </div>
+      <div class="rmenu-section" id="rmenu-editor" hidden>
+        <form class="rmenu-add" id="rmenu-add">
+          <span class="rmenu-heading">Legg til ranked-profil</span>
+          <input type="text" name="tag" placeholder="Tag, f.eks. #2GY22JUR" aria-label="Tag" required>
+          <input type="text" name="name" placeholder="Navn" aria-label="Navn" maxlength="60" required>
+          <button type="submit">Legg til</button>
+          <p class="rmenu-status" id="rmenu-status" role="status"></p>
+        </form>
+        <a href="/ranked-profiler/">Administrer profiler</a>
+        <a href="/historikk/">Historikk</a>
+      </div>
+      <div class="rmenu-section" id="rmenu-logout" hidden>
+        <form method="post" action="/auth/logg-ut/">
+          <button type="submit" class="rmenu-logout">Logg ut</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <!-- ===================== HERO ===================== -->
 <!-- .hero-content holds 3 children, in order: .hero-rank-badge (the player's profile icon,
      #hero-player-icon), .hero-identity (name + subline row + the "Form" chip row, all stacked in
@@ -240,6 +276,7 @@
 <script src="stats-tables.js"></script>
 <script src="stats-recent-matches.js"></script>
 <script src="stats-init.js"></script>
+<script src="site-menu.js"></script>
 
 </body>
 </html>

@@ -45,6 +45,8 @@ picks the new page up within the hour (its cache), or immediately after the next
 
 - **Images** (portrait `docs/images/profilbilde/<image_key>.<ext>`, yearly profile screenshots)
   are still added as files in `docs/images/` by hand; pages without them simply show none.
-- **Ranked tracking:** until wiki-migration Phase 2, `rankedstats/roster.py` still reads the frozen
-  Markdown files, so a person created on the site is **not** tracked by the ranked ingest yet.
+- **Ranked tracking:** a wiki page's `bsid` does **not** make the person tracked. The ranked roster
+  is the `ranked_profiles` table, managed on the site under ☰ → **Ranked-profiler** (wiki-migration
+  Phase 2). If the user also wants the player on the ranked page, add them there (tag + name); a
+  wiki page with a tag that isn't tracked shows up there as a one-click suggestion.
 - **The live site** (brawlstarsnorge.com, Jekyll) doesn't show site edits until cutover (Phase 5).

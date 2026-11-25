@@ -2305,3 +2305,242 @@
       height: 30px;
     }
   }
+
+/* ==========================================================================================
+   Site bar + hamburger menu (#rmenu, filled in by site-menu.js). Same contents as the wiki
+   header's menu, styled for this page: navy panel, gold accent.
+   ========================================================================================== */
+.site-bar {
+  position: relative;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--divider);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 0.9rem;
+}
+
+.site-bar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.site-bar-brand img {
+  border-radius: 6px;
+}
+
+.rmenu {
+  position: relative;
+}
+
+.rmenu [hidden] {
+  display: none !important;
+}
+
+.rmenu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: var(--panel);
+  cursor: pointer;
+}
+
+.rmenu-button:hover,
+.rmenu-button[aria-expanded="true"] {
+  border-color: var(--accent-gold);
+}
+
+.rmenu-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.rmenu-bars span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent-gold);
+}
+
+.rmenu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  max-width: calc(100vw - 24px);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-top: 2px solid var(--accent-gold);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.rmenu-section {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+
+.rmenu-section + .rmenu-section {
+  border-top: 1px solid var(--divider);
+}
+
+.rmenu-section a,
+.rmenu-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.rmenu-section a:hover,
+.rmenu-logout:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+.rmenu-section a[aria-current="page"] {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.rmenu-login {
+  color: var(--accent-gold) !important;
+  font-weight: 600;
+}
+
+.rmenu-user {
+  color: var(--text-primary) !important;
+}
+
+.rmenu-user img,
+.rmenu-avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.rmenu-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--placeholder-swatch);
+  font-weight: 700;
+}
+
+.rmenu-user-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rmenu-user-text strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rmenu-muted {
+  color: var(--text-muted-2);
+  font-size: 0.8rem;
+}
+
+.rmenu-add {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 16px 10px;
+}
+
+.rmenu-heading {
+  color: var(--text-muted-1);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rmenu-add input {
+  font: inherit;
+  padding: 7px 10px;
+  color: var(--text-primary);
+  background: var(--bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+}
+
+.rmenu-add input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.rmenu-add button {
+  font: inherit;
+  font-weight: 600;
+  padding: 7px 10px;
+  color: var(--bg);
+  background: var(--accent-gold);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.rmenu-add button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.rmenu-status {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted-1);
+}
+
+.rmenu-status:empty {
+  display: none;
+}
+
+.rmenu-status.ok {
+  color: var(--win);
+}
+
+.rmenu-status.bad {
+  color: var(--loss);
+}
+
+.rmenu-section form {
+  margin: 0;
+}
+
+.rmenu-logout {
+  width: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--loss);
+  cursor: pointer;
+  text-align: left;
+}
+
+@media (max-width: 480px) {
+  .site-bar-brand span { display: none; }
+}

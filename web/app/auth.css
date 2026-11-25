@@ -1,29 +1,170 @@
 /* Login, account and admin UI. Kept out of wiki.css, which stays an exact copy of docs/style.css
    until cutover. Uses the wiki's own palette (link blue #0645ad, borders #a2a9b1, grey #f8f9fa). */
 
-/* ---------------------------------------------------------------- header menu */
-.user-menu {
-  margin-left: auto; /* push to the right end of the flex header */
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: sans-serif;
-  font-size: 0.9em;
-  white-space: nowrap;
+/* ---------------------------------------------------------------- header menu (hamburger) */
+/* wiki.css gives every h1 0.3em bottom padding, which lifts the title text above the header's
+   centre line; drop it here so logo, title and menu button share one line. */
+.header-container h1 {
+  padding-bottom: 0;
 }
 
-.user-menu a {
-  display: inline-flex;
+.site-menu {
+  margin-left: auto; /* push to the right end of the flex header */
+  margin-bottom: 8px; /* lifts the button off the header's bottom line */
+  position: relative;
+  font-family: sans-serif;
+  font-size: 0.95em;
+}
+
+.site-menu-button {
+  position: relative;
+  display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #a2a9b1;
+  border-radius: 6px;
+  background: #f8f9fa;
+  cursor: pointer;
+}
+
+.site-menu-button:hover,
+.site-menu-button[aria-expanded="true"] {
+  background: #eaecf0;
+}
+
+.site-menu-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.site-menu-bars span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background: #202122;
+}
+
+.site-menu-dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d33;
+  border: 2px solid #fff;
+}
+
+.site-menu-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 50;
+  width: 260px;
+  max-width: calc(100vw - 20px);
+  background: #fff;
+  border: 1px solid #a2a9b1;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.site-menu-section {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+
+.site-menu-section + .site-menu-section {
+  border-top: 1px solid #eaecf0;
+}
+
+.site-menu-section a,
+.site-menu-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  color: #0645ad;
   text-decoration: none;
 }
 
-.user-menu img {
+.site-menu-section a:hover,
+.site-menu-logout:hover {
+  background: #f8f9fa;
+}
+
+.site-menu-section a[aria-current="page"] {
+  font-weight: bold;
+}
+
+.site-menu-account > span {
+  padding: 9px 16px;
+}
+
+.site-menu-user {
+  color: #202122 !important;
+}
+
+.site-menu-user > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.site-menu-user strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.site-menu-user img,
+.site-menu-avatar-fallback {
+  flex: none;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 }
 
+.site-menu-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaecf0;
+  color: #54595d;
+  font-weight: bold;
+}
+
+.site-menu-login {
+  font-weight: bold;
+}
+
+.site-menu-muted {
+  color: #54595d;
+  font-size: 0.85em;
+}
+
+.site-menu-section form {
+  margin: 0;
+}
+
+.site-menu-logout {
+  width: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #d33;
+  cursor: pointer;
+  text-align: left;
+}
+
 .user-menu-badge {
+  margin-left: auto;
   display: inline-block;
   min-width: 18px;
   padding: 0 5px;
@@ -207,4 +348,75 @@
 .auth-actions {
   display: flex;
   gap: 8px;
+}
+
+/* ---------------------------------------------------------------- ranked-profiler */
+.rp-add {
+  padding: 12px 14px;
+  background: #f8f9fa;
+  border: 1px solid #a2a9b1;
+  border-radius: 4px;
+}
+
+.rp-add h3 {
+  margin: 0 0 4px;
+}
+
+.rp-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.rp-add-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1 1 160px;
+}
+
+.rp-row {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.rp-who {
+  min-width: 0;
+}
+
+.rp-who input[type="text"],
+.rp-search {
+  font: inherit;
+  padding: 4px 8px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+}
+
+.rp-tag {
+  color: #54595d;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9rem;
+}
+
+.rp-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 1.6em;
+}
+
+.rp-list-head h3 {
+  margin: 0;
+}
+
+.rp-removed {
+  margin-top: 1.6em;
+}
+
+.rp-removed summary {
+  cursor: pointer;
+  font-weight: bold;
 }
