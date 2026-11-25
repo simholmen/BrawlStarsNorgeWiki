@@ -1,5 +1,5 @@
 # systemd unit for the Next.js wiki (web/). Template: deploy_web.sh --install fills in
-# __REPO_DIR__ / __USER__ / __NPM__ and writes it to /etc/systemd/system/bsnorge-web.service.
+# __REPO_DIR__ / __USER__ / __NODE__ and writes it to /etc/systemd/system/bsnorge-web.service.
 #
 # Listens on 127.0.0.1 only; Caddy is the only thing that talks to it.
 
@@ -15,7 +15,8 @@ WorkingDirectory=__REPO_DIR__/web
 Environment=NODE_ENV=production
 Environment=WIKI_DOCS_DIR=__REPO_DIR__/docs
 # SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY come from web/.env.local, which `next start` loads.
-ExecStart=__NPM__ run start -- -p 3000 -H 127.0.0.1
+# Runs next directly (not via `npm run start`), which saves an extra ~60 MB process.
+ExecStart=__NODE__ __REPO_DIR__/web/node_modules/next/dist/bin/next start -p 3000 -H 127.0.0.1
 Restart=on-failure
 RestartSec=5
 

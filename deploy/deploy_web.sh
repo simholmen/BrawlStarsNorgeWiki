@@ -22,8 +22,8 @@ LOG_FILE="$REPO_DIR/deploy/deploy_web.log"
 log() { echo "$(date '+%Y-%m-%d %H:%M:%S') $*" | tee -a "$LOG_FILE"; }
 
 if [ "${1:-}" = "--install" ]; then
-    NPM="$(command -v npm)" || { echo "npm not found; install Node >= 20.9 first"; exit 1; }
-    sed -e "s#__REPO_DIR__#$REPO_DIR#g" -e "s#__USER__#$(id -un)#g" -e "s#__NPM__#$NPM#g" \
+    NODE="$(command -v node)" || { echo "node not found; install Node >= 20.9 first"; exit 1; }
+    sed -e "s#__REPO_DIR__#$REPO_DIR#g" -e "s#__USER__#$(id -un)#g" -e "s#__NODE__#$NODE#g" \
         "$REPO_DIR/deploy/web.service" | sudo tee "/etc/systemd/system/$SERVICE.service" >/dev/null
     sudo systemctl daemon-reload
     sudo systemctl enable "$SERVICE"
@@ -38,6 +38,7 @@ fi
 cd "$REPO_DIR/web"
 log "Building $(git -C "$REPO_DIR" rev-parse --short HEAD)..."
 npm ci --no-audit --no-fund >>"$LOG_FILE" 2>&1
+npm cache clean --force >/dev/null 2>&1 || true  # the droplet's disk is small
 WIKI_DOCS_DIR="$REPO_DIR/docs" npm run build >>"$LOG_FILE" 2>&1 || {
     log "ERROR: build failed, service not restarted (see $LOG_FILE)"
     exit 1
