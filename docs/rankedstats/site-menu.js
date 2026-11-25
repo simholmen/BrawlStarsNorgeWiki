@@ -87,6 +87,11 @@
       return r.json();
     })
     .then(function (me) {
+      // Tag analytics events with who is browsing (docs/analytics.js), like the wiki does.
+      if (window.posthog) {
+        var role = me && me.status === "in" ? me.role || "innlogget" : "anonym";
+        window.posthog.register({ viewer_role: role });
+      }
       if (me && me.status === "in") renderLoggedIn(me);
       else renderLoggedOut();
     })
@@ -114,7 +119,10 @@
       .then(function (result) {
         status.className = "rmenu-status " + (result.ok ? "ok" : "bad");
         status.textContent = result.message;
-        if (result.ok) form.reset();
+        if (result.ok) {
+          form.reset();
+          if (window.posthog) window.posthog.capture("ranked_profile_added", { kind: "profil", via: "ranked-meny" });
+        }
       })
       .catch(function () {
         status.className = "rmenu-status bad";

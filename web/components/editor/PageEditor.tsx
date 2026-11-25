@@ -6,6 +6,7 @@ import { getBrowserClient } from "@/lib/supabase/browser";
 import { BODY_MAX, FIELD_LABELS, IMAGE_EXTS, PROFILE_YEARS, TEXT_FIELDS, type EntityKind } from "@/lib/fields";
 import type { Fact } from "@/lib/types";
 import { saveEntity } from "@/app/rediger/actions";
+import { track } from "@/lib/analytics";
 import LinkTextField from "./LinkTextField";
 import MarkdownEditor from "./MarkdownEditor";
 import { FactsEditor, StringListEditor } from "./ListEditors";
@@ -105,6 +106,7 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
       setMessage({ ok: false, text: result.message + who, conflict: Boolean(result.conflict) });
       return;
     }
+    track("page_saved", { kind, slug, fields: changed });
     // Show the fresh server render of the page and leave edit mode.
     setOriginal(draft);
     onClose();

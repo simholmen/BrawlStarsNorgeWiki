@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { formatDate } from "@/components/AuthBits";
 import { isValidTag } from "@/lib/rankedTag";
+import { track } from "@/lib/analytics";
 import { addMini, addProfile, renameProfile, setProfileActive, type ProfileResult } from "./actions";
 
 export type Profile = {
@@ -21,6 +22,13 @@ export type Profile = {
 export type WikiPerson = { slug: string; name: string; tag: string };
 
 type Message = { ok: boolean; text: string } | null;
+
+/** Adds a profile (or a mini account) and records it in analytics when it worked. */
+async function added(result: Promise<ProfileResult>, kind: "profil" | "mini"): Promise<ProfileResult> {
+  const r = await result;
+  if (r.ok) track("ranked_profile_added", { kind, via: "ranked-profiler" });
+  return r;
+}
 
 function useAction() {
   const router = useRouter();
@@ -220,7 +228,7 @@ function MainEntry({ p, minis, wiki }: { p: Profile; minis: Profile[]; wiki: Wik
           heading={`Ny mini-konto for ${p.name}`}
           namePlaceholder={`F.eks. «${p.name}s mini»`}
           submitLabel="Legg til mini"
-          onSubmit={(tag, name) => addMini(p.tag, tag, name)}
+          onSubmit={(tag, name) => added(addMini(p.tag, tag, name), "mini")}
           onCancel={() => setAdding(false)}
         />
       ) : (
@@ -244,7 +252,7 @@ function SuggestionRow({ person }: { person: WikiPerson }) {
           type="button"
           className="auth-button secondary small"
           disabled={pending}
-          onClick={() => run(() => addProfile(person.tag, person.name))}
+          onClick={() => run(() => added(addProfile(person.tag, person.name), "profil"))}
         >
           {pending ? "…" : "Legg til"}
         </button>
@@ -306,7 +314,7 @@ export default function ProfileManager({ profiles, wikiPeople }: { profiles: Pro
         heading="Legg til profil"
         namePlaceholder="Navnet som vises"
         submitLabel="Legg til"
-        onSubmit={addProfile}
+        onSubmit={(tag, name) => added(addProfile(tag, name), "profil")}
       />
 
       {suggestions.length > 0 && (

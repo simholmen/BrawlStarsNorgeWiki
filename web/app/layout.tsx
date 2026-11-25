@@ -23,6 +23,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </div>
         {/* Table sorting used by /wiki/ and /diverse/mz-turneringer/ (served by Caddy from docs/). */}
         <Script src="/script.js" strategy="afterInteractive" />
+        {/* Visitor analytics (PostHog, cookieless); see docs/analytics.js. */}
+        <Script src="/analytics.js" strategy="afterInteractive" />
       </body>
     </html>
   );

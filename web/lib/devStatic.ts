@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { DOCS_DIR } from "./paths";
 
-// Development-only stand-in for Caddy: serves /images/**, /rankedstats/** and /script.js from
+// Development-only stand-in for Caddy: serves /images/**, /rankedstats/**, /script.js and /analytics.js from
 // docs/ so `npm run dev` looks complete. In production Caddy serves these paths itself and the
 // requests never reach Next.js; this returns 404 there just in case.
 

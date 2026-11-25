@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { AuthChangeEvent } from "@supabase/supabase-js";
 import { getBrowserClient } from "@/lib/supabase/browser";
+import { setViewerRole } from "@/lib/analytics";
 
 // Who is looking at the page, from the browser's session. For showing/hiding UI only: every write
 // is checked again by the server action and enforced by the database.
@@ -26,6 +27,8 @@ const listeners = new Set<Listener>();
 function publish(v: Viewer) {
   current = v;
   for (const l of listeners) l(v);
+  if (v.status === "out") setViewerRole("anonym");
+  if (v.status === "in") setViewerRole(v.role ?? "innlogget");
 }
 
 async function load() {

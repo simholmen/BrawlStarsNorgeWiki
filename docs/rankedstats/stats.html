@@ -34,6 +34,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="brawler_classes.js"></script>
+<script src="/analytics.js" async></script>
 </head>
 <body>
 
@@ -64,6 +65,9 @@
         </form>
         <a href="/ranked-profiler/">Administrer profiler</a>
         <a href="/historikk/">Historikk</a>
+      </div>
+      <div class="rmenu-section">
+        <a href="/personvern/">Personvern</a>
       </div>
       <div class="rmenu-section" id="rmenu-logout" hidden>
         <form method="post" action="/auth/logg-ut/">

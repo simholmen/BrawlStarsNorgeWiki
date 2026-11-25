@@ -3,6 +3,7 @@
 import { useState, useSyncExternalStore } from "react";
 import { getBrowserClient } from "@/lib/supabase/browser";
 import { safeNext } from "@/lib/safeNext";
+import { track } from "@/lib/analytics";
 
 const ERRORS: Record<string, string> = {
   avbrutt: "Innloggingen ble avbrutt. Prøv igjen.",
@@ -26,6 +27,7 @@ export default function LoginButton() {
   async function login() {
     setBusy(true);
     setError(null);
+    track("login_started");
     const next = safeNext(new URLSearchParams(window.location.search).get("next"));
     const redirectTo = `${window.location.origin}/auth/callback/?next=${encodeURIComponent(next)}`;
     const { error } = await getBrowserClient().auth.signInWithOAuth({

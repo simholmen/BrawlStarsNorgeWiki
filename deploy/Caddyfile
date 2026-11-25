@@ -3,18 +3,40 @@
 # /etc/caddy/Caddyfile, then `sudo systemctl reload caddy`. Caddy gets each HTTPS certificate
 # automatically once that name's DNS points at the droplet.
 #
-# Static files come straight from docs/ (no copies); everything else goes to Next.js.
+# Static files come straight from docs/ (no copies), /ingest/* goes to PostHog, everything else
+# goes to Next.js.
 
 (wiki) {
 	encode zstd gzip
 
 	# Landing page, images, ranked-stats page and the shared script: served from docs/ as-is.
 	@static {
-		path / /index.html /script.js /images/* /rankedstats/*
+		path / /index.html /script.js /analytics.js /images/* /rankedstats/*
 	}
 	handle @static {
 		root * __REPO_DIR__/docs
 		file_server
+	}
+
+	# PostHog analytics (EU cloud) through our own domain, so ad blockers don't drop it and the
+	# browser never talks to PostHog directly. Our cookies (the Supabase login) are stripped.
+	# The library itself comes from the assets host; events go to the ingestion host.
+	handle_path /ingest/* {
+		@posthog_assets path /static/* /array/*
+		handle @posthog_assets {
+			reverse_proxy https://eu-assets.i.posthog.com {
+				header_up Host eu-assets.i.posthog.com
+				header_up -Cookie
+				header_up -Authorization
+			}
+		}
+		handle {
+			reverse_proxy https://eu.i.posthog.com {
+				header_up Host eu.i.posthog.com
+				header_up -Cookie
+				header_up -Authorization
+			}
+		}
 	}
 
 	handle {

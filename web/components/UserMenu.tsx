@@ -132,6 +132,12 @@ export default function UserMenu() {
             </div>
           )}
 
+          <div className="site-menu-section">
+            <Link href="/personvern/" onClick={close} aria-current={pathname === "/personvern/" ? "page" : undefined}>
+              Personvern
+            </Link>
+          </div>
+
           {viewer.status === "in" && (
             <div className="site-menu-section">
               <form method="post" action="/auth/logg-ut/">

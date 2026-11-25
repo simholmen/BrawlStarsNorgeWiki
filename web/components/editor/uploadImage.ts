@@ -2,6 +2,7 @@
 
 import { getBrowserClient } from "@/lib/supabase/browser";
 import { checkImageFile, newImageName, WIKI_IMAGE_BUCKET } from "@/lib/uploads";
+import { track } from "@/lib/analytics";
 
 export type UploadResult = { ok: true; url: string } | { ok: false; message: string };
 
@@ -21,6 +22,7 @@ export async function uploadImage(file: File): Promise<UploadResult> {
     upsert: false,
   });
   if (error) return { ok: false, message: uploadMessage(error.message) };
+  track("image_uploaded", { type: file.type, kb: Math.round(file.size / 1024) });
   return { ok: true, url: storage.getPublicUrl(name).data.publicUrl };
 }
 

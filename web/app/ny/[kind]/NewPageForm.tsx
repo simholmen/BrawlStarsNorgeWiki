@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createEntity } from "@/app/rediger/actions";
+import { track } from "@/lib/analytics";
 import { slugify } from "@/lib/slugify";
 import type { EntityKind } from "@/lib/fields";
 
@@ -30,6 +31,7 @@ export default function NewPageForm({ kind }: { kind: EntityKind }) {
     start(async () => {
       const r = await createEntity(kind, fields);
       if (!r.ok) return setError(r.message);
+      track("page_created", { kind, url: r.url });
       router.push(`${r.url}?rediger=1`);
     });
   }
