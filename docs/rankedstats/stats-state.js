@@ -252,6 +252,23 @@
     });
   }
 
+  // === Around a season reset the profile API briefly reports ranked_elo 0 (or nothing), which
+  // === drew the hero elo graph diving to 0 and straight back up. Such a snapshot keeps the last
+  // === real elo before it instead; with no earlier one it stays 0. Filled rows get
+  // === `elo_filled: true` so the hero's "elo this period" delta never starts from one (that would
+  // === measure from last season's elo, before the reset). `snapshots` must be sorted by
+  // === fetched_at ascending (the query orders it so). Returns new row objects, never mutates. ===
+  function fillEloResetGaps(snapshots) {
+    let lastElo = null;
+    return snapshots.map(function (row) {
+      if (row.ranked_elo) {
+        lastElo = row.ranked_elo;
+        return row;
+      }
+      return Object.assign({}, row, { ranked_elo: lastElo === null ? 0 : lastElo, elo_filled: true });
+    });
+  }
+
   async function loadPlayerData(tag) {
     // A mini's tag (e.g. ?player=MINI, or a teammate link) opens its main with just that account.
     if (STATE.mainByMiniTag.has(tag)) {
@@ -394,7 +411,7 @@
       return true;
     });
     const rankHistory = rankHistoryResult.data || [];
-    const rankSnapshots = rankSnapshotsResult.data || [];
+    const rankSnapshots = fillEloResetGaps(rankSnapshotsResult.data || []);
 
     if (
       setRows.length === 0 &&

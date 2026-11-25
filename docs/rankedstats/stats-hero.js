@@ -98,8 +98,11 @@
 
       // Delta baseline: the earliest snapshot within the CURRENT period window only (never
       // mode-filtered — snapshot rows have no `mode` field, same reasoning as
-      // filterRankHistoryByPeriod below).
-      const periodRankSnapshots = filterRankSnapshotsByPeriod(STATE.rankSnapshots);
+      // filterRankHistoryByPeriod below), skipping season-reset gaps that were filled in with an
+      // older elo (fillEloResetGaps, stats-state.js).
+      const periodRankSnapshots = filterRankSnapshotsByPeriod(STATE.rankSnapshots).filter(function (row) {
+        return !row.elo_filled;
+      });
       const sortedPeriodRankSnapshots = periodRankSnapshots.slice().sort(function (rowA, rowB) {
         return new Date(rowA.fetched_at) - new Date(rowB.fetched_at);
       });
