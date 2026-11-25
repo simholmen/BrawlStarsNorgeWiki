@@ -144,6 +144,54 @@ export async function revertRevision(revisionId: number): Promise<RevertResult> 
   return { ok: true, message: `${FIELD_LABELS[rev.field] ?? rev.field} er tilbakestilt.` };
 }
 
+export type Backlink = { kind: EntityKind; slug: string; name: string };
+
+/** Pages whose text, facts or infobox link to this page (their links break if it's deleted). */
+export async function findBacklinks(kind: EntityKind, slug: string): Promise<Backlink[]> {
+  const prefix = kind === "person" ? "person" : "klubb";
+  const needle = new RegExp(`\\[\\[${prefix}:${slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\||\\]\\])`);
+  const { supabase } = await requireEditor();
+  const [people, clubs] = await Promise.all([
+    supabase.from("people").select("*"),
+    supabase.from("clubs").select("*"),
+  ]);
+  const hits: Backlink[] = [];
+  for (const [k, rows] of [["person", people.data], ["club", clubs.data]] as const) {
+    for (const row of rows ?? []) {
+      if (k === kind && row.slug === slug) continue;
+      if (needle.test(JSON.stringify(row))) hits.push({ kind: k, slug: row.slug, name: row.name });
+    }
+  }
+  return hits;
+}
+
+/** Admins only (enforced by the database function): snapshot the page into history, then delete. */
+export async function deleteEntity(kind: EntityKind, slug: string): Promise<RevertResult> {
+  if (kind !== "person" && kind !== "club") return { ok: false, message: "Ukjent sidetype." };
+  const { supabase, error } = await requireEditor();
+  if (error) return { ok: false, message: error };
+  const { error: dbError } = await supabase.rpc("delete_entity", { kind, target_slug: slug });
+  if (dbError) return { ok: false, message: dbError.code === "42501" ? dbError.message : dbMessage(dbError) };
+  updateTag(TAG[kind]);
+  return { ok: true, message: "Siden er slettet. Den kan gjenopprettes fra Historikk." };
+}
+
+/** Admins only: bring a deleted page back from its snapshot (same URL and content). */
+export async function restoreEntity(revisionId: number): Promise<CreateResult> {
+  if (!Number.isSafeInteger(revisionId)) return { ok: false, message: "Ugyldig endring." };
+  const { supabase, error } = await requireEditor();
+  if (error) return { ok: false, message: error };
+  const { data: rev } = await supabase.from("revisions").select("entity").eq("id", revisionId).maybeSingle();
+  const { data: slug, error: dbError } = await supabase.rpc("restore_entity", { revision_id: revisionId });
+  if (dbError) {
+    const known = ["42501", "23505", "P0002"].includes(dbError.code ?? "");
+    return { ok: false, message: known ? dbError.message : dbMessage(dbError) };
+  }
+  const kind = (rev?.entity as EntityKind) ?? "person";
+  updateTag(TAG[kind]);
+  return { ok: true, url: `${PATH[kind]}${encodeURIComponent(String(slug))}/` };
+}
+
 function dbMessage(error: { code?: string; message?: string }): string {
   if (error.code === "23514") return "Verdien er ugyldig eller for lang.";
   if (error.code === "42501") return "Du har ikke tilgang til å gjøre dette.";

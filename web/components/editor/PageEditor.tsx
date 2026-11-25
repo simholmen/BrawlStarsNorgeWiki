@@ -10,6 +10,8 @@ import LinkTextField from "./LinkTextField";
 import MarkdownEditor from "./MarkdownEditor";
 import { FactsEditor, StringListEditor } from "./ListEditors";
 import { useWikiEntities } from "./useWikiEntities";
+import DeletePanel from "./DeletePanel";
+import { useViewer } from "@/lib/useViewer";
 
 // Edit mode for one person/club page. Loaded lazily (only editors who click "Rediger" download
 // this). Loads the raw row, keeps a draft, and on save sends only the fields that changed plus
@@ -42,6 +44,9 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ ok: boolean; text: string; conflict?: boolean } | null>(null);
   const [confirmDiscard, setConfirmDiscard] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const viewer = useViewer();
+  const isAdmin = viewer.status === "in" && viewer.role === "admin";
 
   useEffect(() => {
     getBrowserClient()
@@ -208,6 +213,10 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
         />
       </fieldset>
 
+      {deleting && (
+        <DeletePanel kind={kind} slug={slug} name={String(original.name)} onCancel={() => setDeleting(false)} />
+      )}
+
       <div className="editor-bar">
         <span className="editor-bar-status">
           {message ? (
@@ -221,6 +230,11 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
         {message?.conflict && (
           <button type="button" className="auth-button secondary" onClick={() => window.location.reload()}>
             Last inn på nytt (forkaster dine endringer)
+          </button>
+        )}
+        {isAdmin && !deleting && (
+          <button type="button" className="auth-button danger small" onClick={() => setDeleting(true)} disabled={saving}>
+            Slett side…
           </button>
         )}
         <a className="editor-bar-link" href={`/historikk/${kind === "person" ? "person" : "klubb"}/${slug}/`}>

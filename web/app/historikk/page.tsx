@@ -19,12 +19,12 @@ export default function RecentChangesPage() {
 }
 
 async function RecentChanges() {
-  await requireEditorPage("/historikk/");
+  const { role } = await requireEditorPage("/historikk/");
   const supabase = await createClient();
   const { data } = await supabase
     .from("revisions")
     .select("*")
     .order("id", { ascending: false })
     .limit(100);
-  return <RevisionList revisions={(data ?? []) as Revision[]} showPage />;
+  return <RevisionList revisions={(data ?? []) as Revision[]} showPage isAdmin={role === "admin"} />;
 }

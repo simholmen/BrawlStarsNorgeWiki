@@ -3,6 +3,7 @@ import { FIELD_LABELS } from "@/lib/fields";
 import { diffLines } from "@/lib/diff";
 import { formatDate } from "@/components/AuthBits";
 import RevertButton from "./RevertButton";
+import RestoreButton from "./RestoreButton";
 
 // Renders revisions grouped per save (same transaction), newest first, with old -> new per field
 // and a "Tilbakestill" button per field.
@@ -37,9 +38,20 @@ function pageHref(r: Revision) {
   return `${r.entity === "person" ? "/personer/" : "/klubber/"}${r.entity_slug}/`;
 }
 
-function FieldChange({ r }: { r: Revision }) {
+function FieldChange({ r, isAdmin }: { r: Revision; isAdmin: boolean }) {
   if (r.field === "*") {
     return <p className="auth-small">Siden ble opprettet.</p>;
+  }
+  if (r.field === "-") {
+    const name = (r.old_value as { name?: string } | null)?.name ?? r.entity_slug;
+    return (
+      <div className="rev-field">
+        <div className="rev-field-head">
+          <strong className="rev-deleted">Siden «{name}» ble slettet.</strong>
+          {isAdmin && <RestoreButton id={r.id} />}
+        </div>
+      </div>
+    );
   }
   const oldText = asText(r.old_value);
   const newText = asText(r.new_value);
@@ -76,7 +88,15 @@ function FieldChange({ r }: { r: Revision }) {
   );
 }
 
-export default function RevisionList({ revisions, showPage }: { revisions: Revision[]; showPage: boolean }) {
+export default function RevisionList({
+  revisions,
+  showPage,
+  isAdmin = false,
+}: {
+  revisions: Revision[];
+  showPage: boolean;
+  isAdmin?: boolean;
+}) {
   if (revisions.length === 0) return <p className="auth-small">Ingen endringer ennå.</p>;
 
   // Group consecutive rows of the same save.
@@ -103,7 +123,7 @@ export default function RevisionList({ revisions, showPage }: { revisions: Revis
           </div>
           {g.map((r) => (
             <Fragment key={r.id}>
-              <FieldChange r={r} />
+              <FieldChange r={r} isAdmin={isAdmin} />
             </Fragment>
           ))}
         </li>

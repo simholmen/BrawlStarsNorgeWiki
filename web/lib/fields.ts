@@ -48,6 +48,7 @@ export const FIELD_LABELS: Record<string, string> = {
   hidden_profile_years: "Skjulte profilbilder",
   image_ext: "Bildeformat",
   "*": "Side opprettet",
+  "-": "Side slettet",
 };
 
 export type Changes = Record<string, unknown>;

@@ -25,7 +25,7 @@ async function History({ params }: { params: PageProps<"/historikk/[kind]/[slug]
   if (!(kind in KINDS)) notFound();
   const { entity, path } = KINDS[kind as keyof typeof KINDS];
   const slug = normalizeSlug(rawSlug);
-  await requireEditorPage(`/historikk/${kind}/${slug}/`);
+  const { role } = await requireEditorPage(`/historikk/${kind}/${slug}/`);
 
   const supabase = await createClient();
   const { data } = await supabase
@@ -41,7 +41,7 @@ async function History({ params }: { params: PageProps<"/historikk/[kind]/[slug]
       <h2>
         Historikk: <a href={`${path}${slug}/`}>{slug}</a>
       </h2>
-      <RevisionList revisions={(data ?? []) as Revision[]} showPage={false} />
+      <RevisionList revisions={(data ?? []) as Revision[]} showPage={false} isAdmin={role === "admin"} />
     </>
   );
 }

@@ -303,3 +303,30 @@
   color: #72777d;
   font-style: italic;
 }
+
+/* ---------------------------------------------------------------- delete (admins) */
+.delete-panel {
+  margin: 1em 0;
+  padding: 0.8em 1em;
+  border: 1px solid #d33;
+  border-left-width: 4px;
+  background: #fff5f5;
+}
+
+.delete-panel h4 {
+  margin-top: 0;
+}
+
+.auth-button.danger-solid {
+  background: #d33;
+  border-color: #d33;
+  color: #fff;
+}
+
+.auth-button.danger-solid:hover:not(:disabled) {
+  background: #b32424;
+}
+
+.rev-deleted {
+  color: #d33;
+}
