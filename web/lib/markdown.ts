@@ -57,19 +57,58 @@ function rehypeExplicitHeadingIds() {
   };
 }
 
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkGfm)
-  .use(remarkRehype, { allowDangerousHtml: true })
-  .use(rehypeRaw)
-  .use(rehypeSanitize, schema)
-  .use(rehypeExplicitHeadingIds)
-  .use(rehypeSlug)
-  .use(rehypeStringify);
+export type RenderOptions = {
+  /**
+   * Return false for an image src that should be dropped (the page passes a check against the
+   * image files on disk). A <figure> whose image is dropped is removed with its caption.
+   */
+  keepImage?: (src: string) => boolean;
+};
+
+function findImg(node: Element): Element | undefined {
+  for (const child of node.children) {
+    if (child.type !== "element") continue;
+    if (child.tagName === "img") return child;
+    const nested = findImg(child);
+    if (nested) return nested;
+  }
+}
+
+function rehypeDropImages(options: RenderOptions) {
+  return (tree: Root) => {
+    const keep = options.keepImage;
+    if (!keep) return;
+    visit(tree, "element", (node: Element, index, parent) => {
+      if (!parent || index === undefined) return;
+      const img = node.tagName === "img" ? node : node.tagName === "figure" ? findImg(node) : undefined;
+      if (!img) return;
+      const src = String(img.properties?.src ?? "");
+      if (keep(src)) return;
+      parent.children.splice(index, 1);
+      return index; // revisit the node that moved into this slot
+    });
+  };
+}
+
+function processor(options: RenderOptions) {
+  return unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeSanitize, schema)
+    .use(rehypeDropImages, options)
+    .use(rehypeExplicitHeadingIds)
+    .use(rehypeSlug)
+    .use(rehypeStringify);
+}
+
+const defaultProcessor = processor({});
 
 /** Block Markdown (a page body) -> sanitized HTML. */
-export function renderMarkdown(md: string): string {
-  return String(processor.processSync(expandWikiLinks(md)));
+export function renderMarkdown(md: string, options: RenderOptions = {}): string {
+  const proc = options.keepImage ? processor(options) : defaultProcessor;
+  return String(proc.processSync(expandWikiLinks(md)));
 }
 
 /** Inline Markdown (an infobox value) -> sanitized HTML without the wrapping <p>. */

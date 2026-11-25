@@ -222,7 +222,10 @@ def build_person(slug, path, data, body, conv, report):
     where = f"_personer/{path.name}"
     row = {"slug": slug}
     for field in PERSON_FIELDS:
-        row[field] = as_text(data.get(field))
+        value = as_text(data.get(field))
+        # name/bsid are identifiers, never rendered as Markdown; the rest may hold links
+        # (e.g. `fiende: <a href="/personer/x/">X</a>`).
+        row[field] = value if field in ("name", "bsid") else conv.convert(value, f"{where} {field}")
     row["image_ext"] = as_text(data.get("image_ext")) or "jpg"
     hidden_keys = {k for k in data if PROFILE_FLAG_RE.fullmatch(k)}
     row["hidden_profile_years"] = sorted(

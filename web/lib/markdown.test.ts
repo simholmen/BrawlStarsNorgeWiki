@@ -63,6 +63,28 @@ describe("renderMarkdown sanitizing", () => {
   });
 });
 
+describe("renderMarkdown keepImage", () => {
+  it("drops a figure (with caption) whose image is rejected, keeps the rest", () => {
+    const md = [
+      "Intro",
+      "",
+      '<figure class="bsprofil-container">',
+      '<img src="/images/gone.jpg" alt="G">',
+      "<figcaption>Gone</figcaption>",
+      "</figure>",
+      "",
+      "<figure>",
+      '<img src="/images/ok.jpg" alt="O">',
+      "</figure>",
+    ].join("\n");
+    const html = renderMarkdown(md, { keepImage: (src) => src !== "/images/gone.jpg" });
+    expect(html).toContain("Intro");
+    expect(html).not.toContain("gone.jpg");
+    expect(html).not.toContain("Gone");
+    expect(html).toContain("/images/ok.jpg");
+  });
+});
+
 describe("renderInline", () => {
   it("renders a fact value without a wrapping <p>", () => {
     expect(renderInline("[[person:zimma|Zimma]]")).toBe('<a href="/personer/zimma/">Zimma</a>');
