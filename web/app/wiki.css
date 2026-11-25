@@ -1,0 +1,382 @@
+* {
+    box-sizing: border-box; /* Padding/border regnes inn i elementets bredde, ikke lagt oppå den - hindrer at elementer blir bredere enn skjermen */
+}
+
+html {
+    overflow-x: hidden; /* Siste skanse mot horisontal scrolling om noe likevel skulle bli for bredt */
+}
+
+body {
+    font-family: 'Georgia', serif; /* Font generell tekst */
+    background-color: #f8f9fa; /* Bakgrunnsfarge på hele siden (body) */
+    color: #202122; /* Farge på generell tekst */
+    margin: 10px; /* Avstand mellom toppen og bunnen av siden og body containeren */
+    padding: 0px; /* Padding mellom body containeren og resten av siden */
+    overflow-wrap: break-word; /* Bryt lange ord/lenker i stedet for å la de dytte siden bredere */
+}
+
+img,
+iframe {
+    max-width: 100%; /* Ingen bilde eller iframe (f.eks. Challonge-embeds) skal kunne bli bredere enn sin container */
+}
+
+img {
+    height: auto;
+}
+
+#content {
+    max-width: 1000px; /* Max bredde for body containeren */
+    margin: 0 auto; /* Avstand mellom toppen og bunnen av siden og body containeren*/
+    padding-left: 20px; /* Mellomrom  venstre mellom border og elementer i body containeren */
+    padding-right: 20px; /* Mellomrom høyre mellom border og elementer i body containeren */
+    padding-bottom: 20px; /* Mellomrom bunnen mellom border og elementer i body containeren */
+    background-color: #ffffff; /* Farge på bakrunnen */
+    border: 1px solid #a2a9b1; /* Farge på body containeren */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow til bodycontaineren */
+}
+
+/* Ingen funksjon, men kan bli brukt som base for bilder
+.figure {
+    display: block;
+    max-width: 2050px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    unicode-bidi: isolate;
+}
+*/
+
+h1,
+h2,
+h3 {
+    color: #222222; /* Farge på overskrift 1,2 og 3 */
+}
+
+h1 {
+    font-size: 2em; /* Font størrelsen på h1, overskrift type 1 (Brawl Stars Norge Wiki) */
+    border-bottom: 1px solid #a2a9b1; /* Streken under overskrift type 1 */
+    padding-bottom: 0.3em; /* Meellomrommet mellom overskriften og streken under */
+}
+
+h2 {
+    font-size: 1.5em; /* Font størrelsen på overskrift type 2 (Bakgrunn etc) */
+    border-bottom: 1px solid #a2a9b1; /* Streken under overskrift type 2 */
+    padding-bottom: 0.3em; /* Mellomrommet mellom overskriften og streken under */
+    margin-top: 1em; /* Mellomrommet mellom teksten i overskriften og det som ligger over */
+}
+
+.strekstopp {
+    max-width: 71.5%; /* Klasse for å gjøre at borderstreken stopper før infoboxen */
+}
+
+h3 {
+    font-size: 1.2em; /* Font størrelse på overskrift type 3 */
+    margin-top: 1em; /* Mellomrommet mellom teksten i overskriften og det som ligger over */
+}
+
+p {
+    line-height: 1.6; /* Linjeavstand på normal p-tekst */
+    margin: 1em 0; /* Mellomrommet mellom det over og vanlig p-tekst */
+}
+
+a {
+    color: #0645ad; /* Fargen på clickable tekst */
+    text-decoration: none; /* Dekorasjon på clickable tekst */
+}
+
+a:hover {
+    text-decoration: underline; /* Dekorasjon på clickable tekst når man hover over den */
+}
+
+#toc {
+    border: 1px solid #a2a9b1; /* Farge på border på tablo of content */
+    background-color: #f9f9f9; /* Bakgrunnsfarge i toc */
+    padding: 10px 10px 0px 10px; /* Mellomrommet mellom border og skrift inne i toc, 3. verdi er satt til 0 for mindre avstand under */
+    margin: 20px 0; /* Mellomrommer mellom utsiden av toc og elementene rundt */ 
+    margin-right: 30%; /* Mellomrommet på høyre siden mellom toc og elemantet til høyre */
+}
+
+#toc h2 {
+    font-size: 1.2em; /* Størrelsen på overskrift 2 inne i toc */ 
+    margin-top: 0; /* Mellomrommet mellom overskrift og elementet over */ 
+}
+
+#toc ul {
+    list-style-type: none; /* Type punkter i listene */
+    padding-left: 0; /* Avstanden mellom punktene og venstre side */
+    line-height: 1.4; /* Linjeavstand i table of content */
+}
+
+.indented {
+    text-indent: 1em; /* Hvor mye avstand mellom venstre siden og teksten */
+    margin-bottom: auto; /* Mellomrom mellom ordene under */
+    margin-top: auto; /* Mellomrom mellom ordene over */
+}
+
+.responsive-bsnorge {
+    width: 100%; /* Bredde på logoen i venstre hjørne */
+    height: auto; /* Høyde på logo */
+    max-width: 50px; /* Max bredde på logo, satt til 50px for å få en konstant størrelse */
+    padding-right: 10px; /* Avstand mellom logo og høyre element */
+    padding-left: 10px; /* Avstand mellom logo og venstre element */
+}
+
+/* Container for logo and h1 side by side */
+.header-container {
+    display: flex; /* Lays out children side by side */
+    align-items: center; /* Vertically centers the items */
+    justify-content: flex-start; /* Aligns items to the left */
+    margin-bottom: 1em; /* Optional: space below header */
+    margin-top: 1em; /* Space above the header */
+    border-bottom: 1px solid #a2a9b1; /* Border under the header box */
+}
+
+.header-container .responsive-bsnorge {
+    margin-right: 10px; /* Space between logo and h1 */
+}
+
+.header-container h1 {
+    border-bottom: none; /* Remove border under h1 inside header-container */
+    margin-bottom: 0;    /* Remove extra space below */
+    margin-top: 0;       /* Remove extra space above */
+    line-height: 1;      /* Optional: makes vertical centering more precise */
+}
+
+.infobox {
+    width: 250px; /* Størrelse på infobox container */
+    border: 1px solid #a2a9b1; /* Borderen rundt inforboxen */
+    background-color: #f9f9f9; /* Bakrgunnen til infoboxen */
+    padding: 10px; /* Mellomrommet mellom elementene inni og borderen */
+    float: right; /* Hvor infoboxen ligger på siden */
+    margin: 0 0 10px 10px; /* Mellomrommet mellom boxen og elementene på utsiden */
+}
+
+.infobox-title {
+    font-size: 1.2em; /* Størrelsen på overskrift 1 i infobox */
+    font-weight: bold; /* Type tekst på overskrift 1 i infobox */
+    text-align: center; /* Hvor overskrift 1 ligger i inforbox */
+    background-color: #f2f2f2; /* Farge på bakgrunnen av overskrift 1 i infoboxen */
+    padding: 5px; /* Mellomrom mellom teksten og elemntene rundt */
+    margin-bottom: 10px; /* Mellomrommet mellom teksten og elemntet under */
+}
+
+.infobox-title .subtitle {
+    font-size: 0.7em; /* Størrelse på overskrift 2 i infoboxen */
+    display: block; /* Type tekst på overskrift 2 i infobox */
+    margin-top: 10px; /* Mellomrommet mellom teksten og overskrift 2 over */
+}
+
+.infobox img {
+    width: 100%; /* Bredde på bilde i infoboxen */
+    height: auto; /* Høyde påå bilde i infoboxen Satt til auto for å passe perfekt i boksen */
+    border: 1px solid #a2a9b1; /* Border rundt bildet */
+    margin-bottom: 10px; /* Mellomrommet mellom borderen rundt bilde og elementene under */
+}
+
+.infobox table {
+    width: 100%; /* Størrelse på tabellen under bildet i infoboxen */
+    border-collapse: collapse; /* Hva som skjer om teksten går for langt  */
+    padding: 10px; /* Mellomrommet mellom borderen og teksten  */
+}
+
+.infobox td {
+    padding: 3px; /* Mellomrommet mellom den lille teksten og elementene rundt  */
+}
+
+.infobox th {
+    text-align: left; /* Hvor teksten skal ligge inne i tabellen */
+    padding: 3px; /* Mellomrommet mellom stor tekst og elementene rundt */
+    background-color: #f2f2f2; /* Bakgrunnsfargen på stor tekst */
+    border-bottom: 1px solid #a2a9b1; /* Streken under stor tekst */
+}
+
+.picture {
+    width: 100%; /* Bredde på bildet */
+    max-width: 250px; /* Max bredde på bildet */
+    height: auto; /* Høyde på bildet */
+    padding: 3px; /* Mellomrommet mellom bildet og border */
+}
+
+.caption {
+    font-size: 0.8em; /* Font størrelsen til bildetekst */
+    text-align: center; /* Hvor teksten skal ligge i boksen */
+    margin-top: 0px; /* Mellomrom mellom bildetekst og bildet over */
+}
+
+.figure-container {
+    border: 1px solid #a2a9b1; /* Border for boksen rundt vertikal bilde til høyre */
+    background-color: #f2f2f2; /* Bakgrunnsfarge på boksen */
+    padding: 5px 10px 5px 5px; /* Mellomrommet mellom boksen og elementene inni, høyre siden er 10px fordi bildet er aligna i midten */
+    float: right; /* Hvor boksen ligger på siden */
+    margin: 0 0 10px 10px; /* Mellomrommet mellom boksen og elementene på utsiden */
+    max-width: 250px; /* Legger samme max width som på bilde slik at bildeteksten ikke utvider boksen */
+}
+
+.bsprofil {
+    width: 100%; /* Bredden til in game profil */
+    max-width: 310px; /* Max bredde på in game profil */
+    height: auto; /* Høyde på in game profil */
+}
+
+.bsprofil-container {
+    border: 1px solid #a2a9b1; /* Boksen rundt bs profilbildet */
+    background-color: #f2f2f2; /* Bakgrunnsfargen på boksen */
+    padding: 5px; /* Mellomrommet mellom boksen og bildet*/
+    margin: 0px 0px 0px 0px; /* Mellomrommet mellom boksen og elemntene rundt på utsiden */
+    height: auto; /* Høyden på boksen */
+    width: 310px; /* Bredden på boksen */
+}
+
+.bsprofil-caption {
+    font-size: 0.8em; /* Font størrelsen på bildeteksten */
+    text-align: center; /* Hvor teksten ligger inne i boksen */
+    margin-top: 3px; /* Mellomrom mellom bilde og teksten over */
+    margin-bottom: 5px; /* Mellomrom mellom teksten og boksen nedenfor */
+}
+
+/* Media query for screens larger enn 768px (e.g., tablets, desktops) */
+@media (min-width: 768px) {
+    .bsprofil-container {
+        width: 600px; /* Adjust the width for larger screens */
+    }
+    .bsprofil {
+        max-width: 600px; /* Adjust the max-width for larger screens */
+    }
+}
+
+/* Media query for screens smaller enn 768px (e.g., mobile devices) */
+@media (max-width: 767px) {
+    .bsprofil-container {
+        width: 100%; /* Full width for smaller screens */
+    }
+    .bsprofil {
+        max-width: 100%; /* Full width for smaller screens */
+    }
+}
+
+table {
+    table-layout: fixed; /* Hvordan tabellen oppfører seg */
+    width: 50%; /* Bredde på tabellen */
+    margin-bottom: 10px; /* Mellomrommet mellom tabellen og elementet under */
+    border-collapse: collapse; /* Hva som skjer om tabellen blir for liten */
+}
+
+.lysoppcelle:hover { 
+    background-color: #40424423; /* Hva slags farge den har */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 0, 0, 0.315); /* Fargen på skyggen */
+}
+
+.type2 th,
+.type2 td {
+    padding: 10px; /* Mellomrommet mellom teksten og cella */
+    border: 1px solid #ccc; /* Fargen på boksen rundt cellene */
+    text-align: left; /* Hvor teksten skal ligge inne i cellene */
+}
+
+.type2 th {
+    background-color: #f4f4f4; /* Type 2 tabell th bakgrunn */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Annenhver farge i boksene i tabellen */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Annenhver farge i boksene i tabellen */
+}
+
+.table-container {
+    display: flex; /* Gjør at de kan ligge ved siden av hverandre */
+    gap: 20px; /* Avstand mellom tabllene */
+}
+
+.winrate-results {
+  margin-top: 1em;
+  padding: 1em;
+  background: #f8f8ff;
+  border-radius: 8px;
+  max-width: 400px;
+}
+.winrate-results strong {
+  color: #2a7ae2;
+}
+.winrate-results p {
+  margin: 0.5em 0;
+}
+
+/* copy */
+
+/*
+
+▲
+▼
+
+*/
+
+/* Media query for skjermer mindre enn 768px (mobil) - lagt sist i filen slik at reglene vinner over de generelle reglene lenger opp */
+@media (max-width: 767px) {
+    /* Slutt å flyte infoboxen til høyre - la den stå øverst i normal rekkefølge (infobox -> toc -> resten av innholdet) */
+    .infobox {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0 0 20px 0;
+    }
+
+    .infobox img {
+        max-width: 300px; /* Ikke la profilbildet bli unødvendig stort på mobil */
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    /* Fjern begresningen som ga plass til den flytende infoboxen */
+    .strekstopp {
+        max-width: 100%;
+    }
+
+    /* TOC trenger ikke lenger vike plass til infoboxen på høyre side */
+    #toc {
+        margin-right: 0;
+    }
+
+    /* Samme flyte-fiks for bilder plassert til høyre i innholdet */
+    .figure-container {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0 0 20px 0;
+    }
+
+    .figure-container img,
+    .picture {
+        max-width: 100%;
+    }
+
+    /* Ingen tabeller skal stå ved siden av hverandre på mobil - alltid stablet under hverandre */
+    .table-container {
+        flex-direction: column;
+    }
+
+    /* Tabeller (inkludert type2) skal fylle skjermbredden i stedet for å være smale (50%/90%) */
+    table {
+        width: 100% !important;
+    }
+
+    /* Mindre overskrift og logo på mobil, slik at header-raden alltid får plass uten å dytte siden bredere */
+    .header-container h1 {
+        font-size: 1.3em;
+    }
+
+    .responsive-bsnorge {
+        max-width: 36px;
+    }
+
+    /* #content sin faste venstre/høyre padding tar unødvendig mye plass på smale skjermer */
+    #content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
