@@ -1,4 +1,7 @@
-// Port of docs/_includes/header.html.
+import UserMenu from "./UserMenu";
+
+// Port of docs/_includes/header.html, plus the login menu (renders nothing for logged-out
+// visitors until it has checked, so the static page matches the old header).
 
 export default function Header() {
   return (
@@ -8,6 +11,7 @@ export default function Header() {
         <img src="/images/bsnorge.jpg" className="responsive-bsnorge" alt="Logo" />
       </a>
       <h1>Brawl Stars Norge Wiki</h1>
+      <UserMenu />
     </div>
   );
 }

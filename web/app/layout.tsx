@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Header from "@/components/Header";
 import "./wiki.css";
+import "./auth.css";
 
 // Port of docs/_layouts/default.html. wiki.css is an unchanged copy of docs/style.css.
 

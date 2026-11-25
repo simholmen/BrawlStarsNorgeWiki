@@ -3,6 +3,7 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
+import { supabaseEnv } from "./env";
 import type { Club, Person } from "./types";
 
 // Every export here is cached ('use cache' at module level), so page views are served from the
@@ -16,11 +17,7 @@ const CLUB_COLUMNS =
   "slug,name,aktiv,stiftet,leder,medlemmer,underklubber,image_ext,facts,body_md";
 
 function client() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key) {
-    throw new Error("SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY missing (see web/.env.example)");
-  }
+  const { url, key } = supabaseEnv();
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
