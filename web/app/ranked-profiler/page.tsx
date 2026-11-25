@@ -6,7 +6,8 @@ import { requireEditorPage } from "@/app/historikk/gate";
 import ProfileManager, { type Profile, type WikiPerson } from "./ProfileManager";
 
 // The ranked roster (ranked_profiles, migration 016): which players rankedstats/ingest.py
-// tracks. Editors add/rename/remove profiles here, without needing a wiki page.
+// tracks. Editors add/rename/remove profiles and their mini accounts here, without needing a wiki
+// page.
 
 export const metadata: Metadata = { title: `Ranked-profiler - ${SITE_TITLE}`, robots: { index: false } };
 
@@ -31,7 +32,7 @@ async function Profiles() {
   const [{ data: profiles }, { data: people }] = await Promise.all([
     supabase
       .from("ranked_profiles")
-      .select("tag, name, active, created_at, created_by_name, updated_at, updated_by_name")
+      .select("tag, name, active, main_tag, created_at, created_by_name, updated_at, updated_by_name")
       .order("name"),
     supabase.from("people").select("slug, name, bsid").not("bsid", "is", null).order("name"),
   ]);

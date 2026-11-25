@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPeople, getPerson } from "@/lib/data";
+import { getClubs, getInGameInfo, getMinisByMain, getPeople, getPerson } from "@/lib/data";
 import { imageExists } from "@/lib/images";
 import { renderInline, renderMarkdown } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
 import EditablePage from "@/components/editor/EditablePage";
-import { Infobox, ProfileFigure, Toc } from "@/components/Infobox";
+import { InGameInfoSection, Infobox, MiniAccounts, ProfileFigure, Toc } from "@/components/Infobox";
 
 // Port of docs/_layouts/person.html, field for field. One deliberate difference: images whose
 // file doesn't exist are left out instead of rendered broken.
@@ -34,6 +34,16 @@ function inline(md: string | null) {
 export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
   const person = await getPerson(normalizeSlug((await props.params).slug));
   if (!person) notFound();
+
+  const tag = person.bsid ? `#${person.bsid.trim().toUpperCase()}` : null;
+  const [minisByMain, inGameByTag, clubs] = tag
+    ? await Promise.all([getMinisByMain(), getInGameInfo(), getClubs()])
+    : [{}, {}, []];
+  const minis = tag ? (minisByMain[tag] ?? []) : [];
+  const inGame = tag ? inGameByTag[tag] : undefined;
+  const club = inGame?.clubName
+    ? clubs.find((c) => c.name.toLowerCase() === inGame.clubName!.toLowerCase())
+    : undefined;
 
   const base = person.image_key;
   const portrait = `/images/profilbilde/${base}.${person.image_ext}`;
@@ -71,7 +81,14 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
           },
         ]}
         facts={person.facts}
-      />
+      >
+        {/* From the ranked ingest (live Brawl Stars profile), not the page itself. */}
+        {tag && inGame && (
+          <InGameInfoSection info={inGame} tag={tag} clubHref={club ? `/klubber/${club.slug}/` : null} />
+        )}
+        {/* From the ranked roster (☰ → Ranked-profiler), not the page itself. */}
+        <MiniAccounts minis={minis} />
+      </Infobox>
 
       <h2 className="strekstopp">{person.name}</h2>
 

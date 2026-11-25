@@ -91,6 +91,20 @@
     // --- updateFilterVisibilityForView (stats-sidebar-filters.js). Meaningless while a player is
     // --- selected (STATE.tag !== null), same as the other "no player selected" fields above.
     browseView: "leaderboard",
+
+    // --- mini accounts (ranked_profiles.main_tag, migration 017) --- loaded by loadPlayers.
+    // minisByMain: main tag -> [{tag, name}]; mainByMiniTag: mini tag -> main tag. Minis aren't
+    // listed as players of their own: they're an account filter on their main's page.
+    minisByMain: new Map(),
+    mainByMiniTag: new Map(),
+    // Accounts whose rows are loaded for the selected player (STATE.tag = the main): a subset of
+    // [main, ...minis], at least one. accountSelectionFor is the main it belongs to, so picking a
+    // different player resets it to "all accounts". rankTag is the account whose rank
+    // history/snapshots the hero shows (the main if selected, else the first selected mini).
+    accountTags: [],
+    accountSelectionFor: null,
+    rankTag: null,
+    playerLoadSeq: 0,
   };
 
   // === "This season" period cutoff — the current season is whichever ranked_season_id is the
@@ -200,7 +214,67 @@
     return upperBound;
   }
 
+  // === Mini accounts: renders the "Kontoer" chips under the player picker (only for a player
+  // === with minis). Toggling a chip reloads with that account set; the last one can't be
+  // === turned off. ===
+  function renderAccountChips(mainTag) {
+    const group = document.getElementById("account-group");
+    const container = document.getElementById("account-chips");
+    const minis = mainTag ? STATE.minisByMain.get(mainTag) || [] : [];
+    if (!group || !container) return;
+    clearElement(container);
+    if (minis.length === 0) {
+      group.style.display = "none";
+      return;
+    }
+    group.style.display = "";
+    const select = document.getElementById("player-select");
+    const mainOption = Array.from(select.options).find(function (o) { return o.value === mainTag; });
+    const accounts = [{ tag: mainTag, name: (mainOption && mainOption.textContent) || mainTag }].concat(minis);
+    accounts.forEach(function (account) {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.textContent = account.name;
+      chip.title = account.tag;
+      const isOn = STATE.accountTags.indexOf(account.tag) !== -1;
+      if (isOn) chip.classList.add("active");
+      chip.addEventListener("click", function () {
+        let next = isOn
+          ? STATE.accountTags.filter(function (t) { return t !== account.tag; })
+          : STATE.accountTags.concat([account.tag]);
+        if (next.length === 0) return;
+        // Keep the main-first order the queries and hero rely on.
+        next = accounts.map(function (a) { return a.tag; }).filter(function (t) { return next.indexOf(t) !== -1; });
+        STATE.accountTags = next;
+        loadPlayerData(mainTag);
+      });
+      container.appendChild(chip);
+    });
+  }
+
   async function loadPlayerData(tag) {
+    // A mini's tag (e.g. ?player=MINI, or a teammate link) opens its main with just that account.
+    if (STATE.mainByMiniTag.has(tag)) {
+      const miniTag = tag;
+      tag = STATE.mainByMiniTag.get(miniTag);
+      STATE.accountSelectionFor = tag;
+      STATE.accountTags = [miniTag];
+      document.getElementById("player-select").value = tag;
+    }
+    const allAccounts = [tag].concat(
+      (STATE.minisByMain.get(tag) || []).map(function (m) { return m.tag; })
+    );
+    if (STATE.accountSelectionFor !== tag) {
+      STATE.accountSelectionFor = tag;
+      STATE.accountTags = allAccounts.slice();
+    }
+    let accountTags = STATE.accountTags.filter(function (t) { return allAccounts.indexOf(t) !== -1; });
+    if (accountTags.length === 0) accountTags = allAccounts.slice();
+    STATE.accountTags = accountTags;
+    const rankTag = accountTags.indexOf(tag) !== -1 ? tag : accountTags[0];
+    const loadSeq = ++STATE.playerLoadSeq;
+    renderAccountChips(tag);
+
     const mapContainer = document.getElementById("map-content");
     const brawlerContainer = document.getElementById("brawler-content");
     const teammateContainer = document.getElementById("teammate-content");
@@ -251,15 +325,17 @@
           return sb
             .from("v_player_set_rows")
             .select("*")
-            .eq("player_tag", tag)
-            .order("set_id", { ascending: true });
+            .in("player_tag", accountTags)
+            .order("set_id", { ascending: true })
+            .order("player_tag", { ascending: true });
         }),
         fetchAllRows(function () {
           return sb
             .from("v_player_teammate_rows")
             .select("*")
-            .eq("player_tag", tag)
+            .in("player_tag", accountTags)
             .order("set_id", { ascending: true })
+            .order("player_tag", { ascending: true })
             .order("teammate_tag", { ascending: true });
         }),
         // v_player_rank_history exposes no set_id (007_redesign_views.sql), so ended_at is the
@@ -269,7 +345,7 @@
           return sb
             .from("v_player_rank_history")
             .select("*")
-            .eq("player_tag", tag)
+            .eq("player_tag", rankTag)
             .order("ended_at", { ascending: true });
         }),
         // player_rank_snapshots' primary key is (player_tag, fetched_at) — 009_player_rank_snapshots.sql.
@@ -277,10 +353,16 @@
           return sb
             .from("v_player_rank_snapshots")
             .select("*")
-            .eq("player_tag", tag)
+            .eq("player_tag", rankTag)
             .order("fetched_at", { ascending: true });
         }),
       ]);
+
+    // A newer selection (another player, or an account chip toggled) started while this one was
+    // loading: drop this result instead of rendering over it.
+    if (loadSeq !== STATE.playerLoadSeq) {
+      return;
+    }
 
     const firstError =
       setRowsResult.error ||
@@ -294,8 +376,23 @@
       return;
     }
 
-    const setRows = setRowsResult.data || [];
-    const mateRows = mateRowsResult.data || [];
+    // With several accounts, a set two of them played together (main + mini in one team) comes
+    // back once per account: count it once. Likewise drop teammate rows that are just the
+    // player's own other account, and duplicate teammates from such a shared set.
+    const seenSets = new Set();
+    const setRows = (setRowsResult.data || []).filter(function (row) {
+      if (seenSets.has(row.set_id)) return false;
+      seenSets.add(row.set_id);
+      return true;
+    });
+    const seenMates = new Set();
+    const mateRows = (mateRowsResult.data || []).filter(function (row) {
+      if (accountTags.indexOf(row.teammate_tag) !== -1) return false;
+      const key = row.set_id + "|" + row.teammate_tag;
+      if (seenMates.has(key)) return false;
+      seenMates.add(key);
+      return true;
+    });
     const rankHistory = rankHistoryResult.data || [];
     const rankSnapshots = rankSnapshotsResult.data || [];
 
@@ -312,6 +409,7 @@
     }
 
     STATE.tag = tag;
+    STATE.rankTag = rankTag;
     STATE.setRows = setRows;
     STATE.mateRows = mateRows;
     STATE.rankHistory = rankHistory;

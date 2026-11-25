@@ -401,7 +401,7 @@
     const games = set.games || [];
 
     const viewerParticipant = participants.find(function (participant) {
-      return participant.player_tag === STATE.tag;
+      return (STATE.accountTags.length ? STATE.accountTags : [STATE.tag]).indexOf(participant.player_tag) !== -1;
     });
     const viewerTeamIndex = viewerParticipant ? viewerParticipant.team_index : null;
     const winnerTeamIndex =

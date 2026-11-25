@@ -166,7 +166,8 @@ def ingest_player(tag: str, roster_tags: set, roster_name_by_tag: dict) -> dict:
     items = fetch_battlelog(tag)
 
     # The live player profile is a separate API call from the battlelog, and feeds three
-    # things that are all "nice to have" rather than load-bearing: players.icon_id, a
+    # things that are all "nice to have" rather than load-bearing: players.icon_id plus the
+    # in-game info the wiki infobox shows (name, club, highest ranked rank, 3v3 wins), a
     # timestamped player_rank_snapshots row (season/rank/elo at fetch time), and the
     # ranked_season_id stamped on any new ranked_sets row below. The fetch AND both writes
     # live inside this one try/except so a failure here -- API-side or Supabase-side -- only
@@ -179,12 +180,20 @@ def ingest_player(tag: str, roster_tags: set, roster_name_by_tag: dict) -> dict:
         now_iso = datetime.now(timezone.utc).isoformat()
         ranked_season_id = profile["ranked_season_id"]
 
+        player_row = {
+            "tag": tag,
+            "profile_name": profile["name"],
+            "club_tag": profile["club_tag"],
+            "club_name": profile["club_name"],
+            "highest_ranked_rank": profile["highest_ranked_rank"],
+            "highest_ranked_elo": profile["highest_ranked_elo"],
+            "wins_3v3": profile["wins_3v3"],
+            "profile_updated_at": now_iso,
+            "updated_at": now_iso,
+        }
         if profile["icon_id"] is not None:
-            supa.upsert(
-                "players",
-                [{"tag": tag, "icon_id": profile["icon_id"], "updated_at": now_iso}],
-                on_conflict="tag",
-            )
+            player_row["icon_id"] = profile["icon_id"]
+        supa.upsert("players", [player_row], on_conflict="tag")
 
         if profile["ranked_elo"] is not None or profile["ranked_rank"] is not None:
             supa.upsert(

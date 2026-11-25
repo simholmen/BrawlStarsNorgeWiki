@@ -134,8 +134,11 @@ def fetch_player_profile(tag: str) -> dict:
     Returns:
         dict: {"icon_id": int | None, "ranked_season_id": int | None,
         "ranked_rank": int | None, "ranked_rank_name": str | None,
-        "ranked_elo": int | None}. Any field may be None -- e.g. a player with no
-        Ranked activity this season has no ranked_* fields in the raw response.
+        "ranked_elo": int | None, "name": str | None, "club_tag": str | None,
+        "club_name": str | None, "highest_ranked_rank": int | None,
+        "highest_ranked_elo": int | None, "wins_3v3": int | None}. Any field may be None
+        -- e.g. a player with no Ranked activity this season has no ranked_* fields in the
+        raw response, and a player outside a club has an empty `club` object.
 
     Raises:
         RuntimeError: if no API key is configured, or the API returns 403.
@@ -193,6 +196,7 @@ def fetch_player_profile(tag: str) -> dict:
         raise RuntimeError("Unknown error while fetching Brawl Stars player profile")
 
     payload = response.json()
+    club = payload.get("club") or {}
 
     return {
         "icon_id": payload.get("icon", {}).get("id"),
@@ -200,6 +204,13 @@ def fetch_player_profile(tag: str) -> dict:
         "ranked_rank": payload.get("rankedRank"),
         "ranked_rank_name": payload.get("rankedRankName"),
         "ranked_elo": payload.get("rankedElo"),
+        # In-game info shown in wiki infoboxes (migration 018).
+        "name": payload.get("name"),
+        "club_tag": club.get("tag"),
+        "club_name": club.get("name"),
+        "highest_ranked_rank": payload.get("highestAllTimeRankedRank"),
+        "highest_ranked_elo": payload.get("highestAllTimeRankedElo"),
+        "wins_3v3": payload.get("3vs3Victories"),
     }
 
 

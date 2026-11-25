@@ -2,28 +2,28 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { renderJekyllPage } from "@/lib/jekyllPage";
 import { Html } from "@/components/Html";
+import { getDiversePages } from "@/lib/diverse";
 
-// docs/diverse/<page>/index.html, rendered as-is. /diverse/oversikt/ has its own generated route.
+// docs/diverse/<page>/index.html, rendered as-is; every folder there is a page (lib/diverse.ts).
+// /diverse/oversikt/ has its own generated route.
 
-export const DIVERSE_PAGES = ["mz-turneringer", "rankedhistorie", "slindringene"] as const;
-
-function known(page: string): page is (typeof DIVERSE_PAGES)[number] {
-  return (DIVERSE_PAGES as readonly string[]).includes(page);
+async function known(page: string): Promise<boolean> {
+  return page !== "oversikt" && (await getDiversePages()).some((p) => p.slug === page);
 }
 
-export function generateStaticParams() {
-  return DIVERSE_PAGES.map((page) => ({ page }));
+export async function generateStaticParams() {
+  return (await getDiversePages()).filter((p) => p.slug !== "oversikt").map((p) => ({ page: p.slug }));
 }
 
 export async function generateMetadata(props: PageProps<"/diverse/[page]">): Promise<Metadata> {
   const { page } = await props.params;
-  if (!known(page)) return {};
+  if (!(await known(page))) return {};
   return { title: (await renderJekyllPage(`diverse/${page}`)).title ?? undefined };
 }
 
 export default async function DiversePage(props: PageProps<"/diverse/[page]">) {
   const { page } = await props.params;
-  if (!known(page)) notFound();
+  if (!(await known(page))) notFound();
   const rendered = await renderJekyllPage(`diverse/${page}`);
   return <Html html={rendered.html} />;
 }

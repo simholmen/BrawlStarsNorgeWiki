@@ -51,6 +51,7 @@
       <div class="rmenu-section" id="rmenu-account" hidden></div>
       <div class="rmenu-section">
         <a href="/wiki/">Wiki</a>
+        <a href="/diverse/oversikt/" class="rmenu-sub">Sideoversikt</a>
         <a href="stats.html" aria-current="page">Ranked stats</a>
       </div>
       <div class="rmenu-section" id="rmenu-editor" hidden>
@@ -129,6 +130,12 @@
         <select id="player-select">
           <option value="">Laster spillere...</option>
         </select>
+      </div>
+      <!-- Mini accounts: shown only for a player with minis (renderAccountChips, stats-state.js).
+           Stats are summed over the accounts picked here. -->
+      <div class="control-group" id="account-group" style="display: none">
+        <span class="control-group-title">Kontoer</span>
+        <div class="chip-row" id="account-chips"></div>
       </div>
       <div class="control-group">
         <label for="min-sample-input">Minimum sett</label>

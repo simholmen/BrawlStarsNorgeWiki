@@ -101,6 +101,14 @@ export default function UserMenu() {
             <Link href="/wiki/" onClick={close} aria-current={pathname === "/wiki/" ? "page" : undefined}>
               Wiki
             </Link>
+            <Link
+              href="/diverse/oversikt/"
+              onClick={close}
+              className="site-menu-sub"
+              aria-current={pathname === "/diverse/oversikt/" ? "page" : undefined}
+            >
+              Sideoversikt
+            </Link>
             {/* Static page (served from docs/ by Caddy), so a plain link, not next/link. */}
             <a href="/rankedstats/stats.html">Ranked stats</a>
           </div>

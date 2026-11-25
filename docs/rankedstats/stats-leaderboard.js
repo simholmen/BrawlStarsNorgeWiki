@@ -6,11 +6,25 @@
     const select = document.getElementById("player-select");
     const listStatus = document.getElementById("player-list-status");
 
-    const { data, error } = await sb
-      .from("players")
-      .select("tag,name,icon_id")
-      .eq("is_tracked", true)
-      .order("name");
+    const [playersResult, profilesResult] = await Promise.all([
+      sb.from("players").select("tag,name,icon_id").eq("is_tracked", true).order("name"),
+      // Mini accounts (migration 017). If this fails, every tracked tag just shows as its own
+      // player, as before.
+      sb.from("ranked_profiles").select("tag,name,main_tag").eq("active", true).not("main_tag", "is", null).order("name"),
+    ]);
+    const error = playersResult.error;
+
+    STATE.minisByMain = new Map();
+    STATE.mainByMiniTag = new Map();
+    (profilesResult.data || []).forEach(function (mini) {
+      if (!STATE.minisByMain.has(mini.main_tag)) STATE.minisByMain.set(mini.main_tag, []);
+      STATE.minisByMain.get(mini.main_tag).push({ tag: mini.tag, name: mini.name });
+      STATE.mainByMiniTag.set(mini.tag, mini.main_tag);
+    });
+    // Minis aren't players of their own (not in the picker, not on the leaderboard).
+    const data = playersResult.data
+      ? playersResult.data.filter(function (p) { return !STATE.mainByMiniTag.has(p.tag); })
+      : null;
 
     clearElement(select);
 
@@ -315,6 +329,8 @@
     }
 
     if (!tag) {
+      renderAccountChips(null);
+      STATE.playerLoadSeq++;
       STATE.tag = null;
       STATE.setRows = [];
       STATE.mateRows = [];

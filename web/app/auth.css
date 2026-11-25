@@ -103,6 +103,26 @@
   font-weight: bold;
 }
 
+/* Small indented sub-link under a menu item (Sideoversikt under Wiki), same look as
+   "+ Legg til mini-konto" on /ranked-profiler/. */
+.site-menu-section a.site-menu-sub {
+  margin-top: -6px;
+  padding: 2px 16px 8px 30px;
+  font-size: 0.85em;
+  color: #36c;
+}
+
+.site-menu-section a.site-menu-sub::before {
+  content: "↳";
+  margin-right: -2px;
+  color: #a2a9b1;
+}
+
+.site-menu-section a.site-menu-sub:hover {
+  background: none;
+  text-decoration: underline;
+}
+
 .site-menu-account > span {
   padding: 9px 16px;
 }
@@ -419,4 +439,137 @@
 .rp-removed summary {
   cursor: pointer;
   font-weight: bold;
+}
+
+.rp-minis {
+  list-style: none;
+  margin: 6px 0 0 18px;
+  padding: 0 0 0 12px;
+  border-left: 2px solid #eaecf0;
+}
+
+.rp-minis > li {
+  padding: 6px 0;
+}
+
+.rp-mini-label {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: #eaf3ff;
+  color: #36c;
+  font-size: 0.75em;
+  font-weight: bold;
+  line-height: 1.6;
+  vertical-align: 1px;
+}
+
+.rp-add-mini-button {
+  margin: 6px 0 0 18px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.85em;
+  color: #36c;
+  cursor: pointer;
+}
+
+.rp-add-mini-button:hover {
+  text-decoration: underline;
+}
+
+.rp-add-mini {
+  margin: 8px 0 0 18px;
+}
+
+/* ---------------------------------------------------------------- infobox: mini accounts
+   Not in docs/style.css (wiki.css stays a copy of it); same palette as the infobox. */
+.infobox-section {
+  margin-top: 10px;
+}
+
+.infobox-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  border-bottom: 1px solid #a2a9b1;
+}
+
+.infobox-section-count {
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #eaecf0;
+  color: #54595d;
+  font-size: 0.8em;
+  line-height: 18px;
+  text-align: center;
+}
+
+.infobox-minis {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.infobox-minis li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 3px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.infobox-minis li:last-child {
+  border-bottom: none;
+}
+
+.infobox-mini-name {
+  font-weight: bold;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.infobox-mini-tag {
+  flex: none;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.8em;
+  color: #54595d !important;
+}
+
+.infobox-section table {
+  margin-top: 2px;
+}
+
+.infobox-rank {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.infobox .infobox-rank img {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: none;
+}
+
+.infobox-muted {
+  color: #54595d;
+  font-size: 0.9em;
+}
+
+.infobox-footnote {
+  margin-top: 4px;
+  color: #72777d;
+  font-size: 0.75em;
+  text-align: right;
 }

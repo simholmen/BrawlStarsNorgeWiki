@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import { Fragment } from "react";
 import { getClubs, getPeople } from "@/lib/data";
+import { getDiversePages } from "@/lib/diverse";
 import { SITE_TITLE } from "@/lib/slug";
 
 // Generated replacement for the hand-maintained docs/diverse/oversikt/index.html: same markup,
-// but counts and the A-Å list come from the database, so adding a person needs no edit here.
+// but nothing is listed by hand. People and clubs come from the database (refreshed right after a
+// page is created, deleted or restored: those actions expire the "people"/"clubs" cache tags),
+// the diverse pages from the docs/diverse/ folder, plus the ranked stats page.
 
 export const metadata: Metadata = { title: `Sideoversikt - ${SITE_TITLE}` };
 
-const DIVERSE = [
-  { name: "MZ Turneringer", href: "/diverse/mz-turneringer/" },
-  { name: "Ranked Historie", href: "/diverse/rankedhistorie/" },
-  { name: "Sideoversikt", href: "/diverse/oversikt/" },
-  { name: "Slindringene", href: "/diverse/slindringene/" },
-];
+// Pages outside the wiki's own routes (static, served from docs/ by Caddy).
+const OTHER = [{ name: "Ranked Stats", href: "/rankedstats/stats.html" }];
 
 const LETTERS = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"];
 const collator = new Intl.Collator("nb", { sensitivity: "base" });
@@ -21,7 +20,8 @@ const collator = new Intl.Collator("nb", { sensitivity: "base" });
 type Entry = { name: string; href: string };
 
 export default async function Oversikt() {
-  const [people, clubs] = await Promise.all([getPeople(), getClubs()]);
+  const [people, clubs, diversePages] = await Promise.all([getPeople(), getClubs(), getDiversePages()]);
+  const diverse: Entry[] = [...diversePages.map((p) => ({ name: p.name, href: p.href })), ...OTHER];
   const clubNames = new Set(clubs.map((c) => c.name.toLowerCase()));
 
   const entries: Entry[] = [
@@ -31,7 +31,7 @@ export default async function Oversikt() {
       href: `/personer/${p.slug}/`,
     })),
     ...clubs.map((c) => ({ name: c.name, href: `/klubber/${c.slug}/` })),
-    ...DIVERSE,
+    ...diverse,
   ].sort((a, b) => collator.compare(a.name, b.name));
 
   const byLetter = new Map<string, Entry[]>(LETTERS.map((l) => [l, []]));
@@ -61,7 +61,7 @@ export default async function Oversikt() {
             </tr>
             <tr>
               <th>Antall diverse sider</th>
-              <td>{DIVERSE.length}</td>
+              <td>{diverse.length}</td>
             </tr>
           </tbody>
         </table>

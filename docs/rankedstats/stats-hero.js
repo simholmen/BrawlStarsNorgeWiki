@@ -47,7 +47,7 @@
     function applyRankBadge(latestRow, deltaText) {
       clearElement(sublineEl);
       sublineEl.appendChild(
-        document.createTextNode((latestRow.rank_label || "—") + " · " + tag)
+        document.createTextNode((latestRow.rank_label || "—") + " · " + (STATE.rankTag || tag))
       );
       if (deltaText !== null) {
         const deltaEl = document.createElement("span");

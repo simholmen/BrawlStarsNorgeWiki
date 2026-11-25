@@ -2422,6 +2422,25 @@
   font-weight: 600;
 }
 
+/* Small indented sub-link under a menu item (Sideoversikt under Wiki). */
+.rmenu-section a.rmenu-sub {
+  margin-top: -6px;
+  padding: 2px 16px 8px 30px;
+  font-size: 0.8rem;
+  color: var(--text-muted-1);
+}
+
+.rmenu-section a.rmenu-sub::before {
+  content: "↳";
+  margin-right: -2px;
+  color: var(--text-muted-3);
+}
+
+.rmenu-section a.rmenu-sub:hover {
+  background: none;
+  color: var(--accent-gold);
+}
+
 .rmenu-login {
   color: var(--accent-gold) !important;
   font-weight: 600;

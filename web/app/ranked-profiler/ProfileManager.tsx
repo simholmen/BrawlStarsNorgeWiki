@@ -4,12 +4,14 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { formatDate } from "@/components/AuthBits";
 import { isValidTag } from "@/lib/rankedTag";
-import { addProfile, renameProfile, setProfileActive, type ProfileResult } from "./actions";
+import { addMini, addProfile, renameProfile, setProfileActive, type ProfileResult } from "./actions";
 
 export type Profile = {
   tag: string;
   name: string;
   active: boolean;
+  /** Set for a mini account: the tag of the main profile it belongs to (migration 017). */
+  main_tag: string | null;
   created_at: string;
   created_by_name: string | null;
   updated_at: string;
@@ -41,18 +43,33 @@ function Status({ message }: { message: Message }) {
   return <p className={message.ok ? "auth-ok" : "auth-error"}>{message.text}</p>;
 }
 
-function AddForm() {
+/** Tag + name form, used for new main profiles and for minis under a main. */
+function TagNameForm({
+  heading,
+  namePlaceholder,
+  submitLabel,
+  onSubmit,
+  onCancel,
+  className,
+}: {
+  heading?: string;
+  namePlaceholder: string;
+  submitLabel: string;
+  onSubmit: (tag: string, name: string) => Promise<ProfileResult>;
+  onCancel?: () => void;
+  className: string;
+}) {
   const { pending, message, run } = useAction();
   const [tag, setTag] = useState("");
   const [name, setName] = useState("");
 
   return (
     <form
-      className="auth-form rp-add"
+      className={`auth-form ${className}`}
       onSubmit={(e) => {
         e.preventDefault();
         run(
-          () => addProfile(tag, name),
+          () => onSubmit(tag, name),
           () => {
             setTag("");
             setName("");
@@ -60,7 +77,7 @@ function AddForm() {
         );
       }}
     >
-      <h3>Legg til profil</h3>
+      {heading && <h3>{heading}</h3>}
       <div className="rp-add-row">
         <label>
           Tag
@@ -72,33 +89,37 @@ function AddForm() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Navnet som vises"
+            placeholder={namePlaceholder}
             maxLength={60}
             required
           />
         </label>
         <button type="submit" className="auth-button" disabled={pending}>
-          {pending ? "Legger til …" : "Legg til"}
+          {pending ? "Legger til …" : submitLabel}
         </button>
+        {onCancel && (
+          <button type="button" className="auth-button secondary" onClick={onCancel}>
+            Lukk
+          </button>
+        )}
       </div>
-      <span className="auth-small">
-        Taggen finner du under profilen i Brawl Stars. Bokstaven O leses som null.
-      </span>
+      <span className="auth-small">Taggen finner du under profilen i Brawl Stars. Bokstaven O leses som null.</span>
       <Status message={message} />
     </form>
   );
 }
 
-function ProfileRow({ p, wiki }: { p: Profile; wiki: WikiPerson | undefined }) {
+function ProfileRow({ p, wiki, mini = false }: { p: Profile; wiki?: WikiPerson; mini?: boolean }) {
   const { pending, message, setMessage, run } = useAction();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(p.name);
   const [confirmRemove, setConfirmRemove] = useState(false);
 
   return (
-    <li>
+    <>
       <div className="auth-row rp-row">
         <div className="rp-who">
+          {mini && <span className="rp-mini-label">Mini</span>}
           {editing ? (
             <form
               className="auth-inline-form"
@@ -155,7 +176,7 @@ function ProfileRow({ p, wiki }: { p: Profile; wiki: WikiPerson | undefined }) {
                   disabled={pending}
                   onClick={() => run(() => setProfileActive(p.tag, false))}
                 >
-                  {pending ? "…" : "Ja, fjern"}
+                  {pending ? "…" : mini ? "Ja, fjern mini" : "Ja, fjern"}
                 </button>
                 <button type="button" className="auth-button secondary small" onClick={() => setConfirmRemove(false)}>
                   Avbryt
@@ -175,6 +196,38 @@ function ProfileRow({ p, wiki }: { p: Profile; wiki: WikiPerson | undefined }) {
         )}
       </div>
       <Status message={message} />
+    </>
+  );
+}
+
+function MainEntry({ p, minis, wiki }: { p: Profile; minis: Profile[]; wiki: WikiPerson | undefined }) {
+  const [adding, setAdding] = useState(false);
+  return (
+    <li>
+      <ProfileRow p={p} wiki={wiki} />
+      {minis.length > 0 && (
+        <ul className="rp-minis">
+          {minis.map((m) => (
+            <li key={m.tag}>
+              <ProfileRow p={m} mini />
+            </li>
+          ))}
+        </ul>
+      )}
+      {adding ? (
+        <TagNameForm
+          className="rp-add rp-add-mini"
+          heading={`Ny mini-konto for ${p.name}`}
+          namePlaceholder={`F.eks. «${p.name}s mini»`}
+          submitLabel="Legg til mini"
+          onSubmit={(tag, name) => addMini(p.tag, tag, name)}
+          onCancel={() => setAdding(false)}
+        />
+      ) : (
+        <button type="button" className="rp-add-mini-button" onClick={() => setAdding(true)}>
+          + Legg til mini-konto
+        </button>
+      )}
     </li>
   );
 }
@@ -201,13 +254,14 @@ function SuggestionRow({ person }: { person: WikiPerson }) {
   );
 }
 
-function RemovedRow({ p }: { p: Profile }) {
+function RemovedRow({ p, mainName }: { p: Profile; mainName: string | undefined }) {
   const { pending, message, run } = useAction();
   return (
     <li>
       <div className="auth-row">
         <span>
           {p.name} <code className="rp-tag">{p.tag}</code>
+          {mainName && <span className="auth-small"> · mini av {mainName}</span>}
           <span className="auth-small">
             {" "}
             · fjernet{p.updated_by_name ? ` av ${p.updated_by_name}` : ""} {formatDate(p.updated_at)}
@@ -230,17 +284,30 @@ function RemovedRow({ p }: { p: Profile }) {
 export default function ProfileManager({ profiles, wikiPeople }: { profiles: Profile[]; wikiPeople: WikiPerson[] }) {
   const [query, setQuery] = useState("");
   const wikiByTag = new Map(wikiPeople.map((w) => [w.tag, w]));
-  const active = profiles.filter((p) => p.active);
+  const nameByTag = new Map(profiles.map((p) => [p.tag, p.name]));
+  const mains = profiles.filter((p) => p.active && !p.main_tag);
+  const minisByMain = new Map<string, Profile[]>();
+  for (const p of profiles) {
+    if (p.active && p.main_tag) minisByMain.set(p.main_tag, [...(minisByMain.get(p.main_tag) ?? []), p]);
+  }
   const removed = profiles.filter((p) => !p.active);
   const known = new Set(profiles.map((p) => p.tag));
   const suggestions = wikiPeople.filter((w) => isValidTag(w.tag) && !known.has(w.tag));
+  const miniCount = profiles.filter((p) => p.active && p.main_tag).length;
 
   const q = query.trim().toLowerCase();
-  const shown = q ? active.filter((p) => p.name.toLowerCase().includes(q) || p.tag.toLowerCase().includes(q)) : active;
+  const matches = (p: Profile) => p.name.toLowerCase().includes(q) || p.tag.toLowerCase().includes(q);
+  const shown = q ? mains.filter((m) => matches(m) || (minisByMain.get(m.tag) ?? []).some(matches)) : mains;
 
   return (
     <>
-      <AddForm />
+      <TagNameForm
+        className="rp-add"
+        heading="Legg til profil"
+        namePlaceholder="Navnet som vises"
+        submitLabel="Legg til"
+        onSubmit={addProfile}
+      />
 
       {suggestions.length > 0 && (
         <>
@@ -254,7 +321,10 @@ export default function ProfileManager({ profiles, wikiPeople }: { profiles: Pro
       )}
 
       <div className="rp-list-head">
-        <h3>Spores nå ({active.length})</h3>
+        <h3>
+          Spores nå ({mains.length}
+          {miniCount > 0 && ` + ${miniCount} mini`})
+        </h3>
         <input
           type="search"
           className="rp-search"
@@ -266,7 +336,7 @@ export default function ProfileManager({ profiles, wikiPeople }: { profiles: Pro
       </div>
       <ul className="auth-list">
         {shown.map((p) => (
-          <ProfileRow key={p.tag} p={p} wiki={wikiByTag.get(p.tag)} />
+          <MainEntry key={p.tag} p={p} minis={minisByMain.get(p.tag) ?? []} wiki={wikiByTag.get(p.tag)} />
         ))}
         {shown.length === 0 && <li className="auth-small">Ingen treff.</li>}
       </ul>
@@ -276,7 +346,7 @@ export default function ProfileManager({ profiles, wikiPeople }: { profiles: Pro
           <summary>Fjernet ({removed.length})</summary>
           <ul className="auth-list compact">
             {removed.map((p) => (
-              <RemovedRow key={p.tag} p={p} />
+              <RemovedRow key={p.tag} p={p} mainName={p.main_tag ? nameByTag.get(p.main_tag) : undefined} />
             ))}
           </ul>
         </details>
