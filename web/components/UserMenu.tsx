@@ -29,7 +29,7 @@ export default function UserMenu() {
       }
       const meta = session.user.user_metadata ?? {};
       const name =
-        meta.custom_claims?.global_name ?? meta.full_name ?? meta.user_name ?? meta.name ?? "Konto";
+        meta.custom_claims?.global_name ?? meta.full_name ?? meta.user_name ?? "Konto";
       const { data: editor } = await supabase
         .from("editors")
         .select("role")

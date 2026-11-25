@@ -19,7 +19,7 @@ values
    '{"user_name":"alice","custom_claims":{"global_name":"Alice A"},"avatar_url":"https://cdn.example/b.png"}', '{}', now(), now()),
   ('00000000-0000-4000-8000-00000000a003', '00000000-0000-0000-0000-000000000000', 'authenticated',
    'authenticated', 'test-bob@example.invalid',
-   '{"user_name":"bob","full_name":"Bob B"}', '{}', now(), now());
+   '{"name":"bob#0","full_name":"bob","avatar_url":"https://cdn.example/c.png"}', '{}', now(), now());
 
 insert into public.editors (user_id, role, display_name)
 values ('00000000-0000-4000-8000-00000000a001', 'admin', 'Test Admin');
@@ -54,7 +54,8 @@ do $$ declare r public.access_requests; begin
   if r.user_id <> '00000000-0000-4000-8000-00000000a003' then raise exception 'FAIL user_id spoofed'; end if;
   if r.status <> 'pending' then raise exception 'FAIL status spoofed: %', r.status; end if;
   if r.reviewed_by is not null then raise exception 'FAIL reviewed_by spoofed'; end if;
-  if r.discord_username <> 'bob' or r.display_name <> 'Bob B' then
+  -- Real Discord shape: handle from full_name (not "bob#0"), display name falls back to it.
+  if r.discord_username <> 'bob' or r.display_name <> 'bob' then
     raise exception 'FAIL identity not from auth.users: % / %', r.discord_username, r.display_name; end if;
   if r.message <> 'Hei, jeg er Bob' then raise exception 'FAIL message not trimmed'; end if;
 end $$;

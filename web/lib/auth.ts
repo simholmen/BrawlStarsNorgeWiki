@@ -34,10 +34,16 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
   const meta = (data.claims.user_metadata ?? {}) as Record<string, unknown>;
   const str = (v: unknown) => (typeof v === "string" && v ? v : null);
   const customClaims = (meta.custom_claims ?? {}) as Record<string, unknown>;
-  const discordName = str(meta.user_name) ?? str(meta.preferred_username) ?? str(meta.name);
+  // Supabase's Discord provider: full_name = handle, name = handle + "#0", custom_claims.global_name
+  // = display name (same rules as migration 013's trigger).
+  const discordName =
+    str(meta.user_name) ??
+    str(meta.full_name) ??
+    str(meta.preferred_username) ??
+    str(typeof meta.name === "string" ? meta.name.replace(/#0$/, "") : null);
   return {
     id: data.claims.sub,
-    name: str(customClaims.global_name) ?? str(meta.full_name) ?? discordName ?? "Ukjent",
+    name: str(customClaims.global_name) ?? discordName ?? "Ukjent",
     discordName,
     avatarUrl: str(meta.avatar_url),
   };
