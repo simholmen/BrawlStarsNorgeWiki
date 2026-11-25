@@ -11,9 +11,12 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const next = safeNext(searchParams.get("next"));
 
-  if (searchParams.get("error")) {
-    // e.g. the visitor pressed "Cancel" on Discord's consent screen
-    return NextResponse.redirect(new URL("/logg-inn/?feil=avbrutt", origin), 303);
+  const error = searchParams.get("error");
+  if (error) {
+    // Only access_denied means the visitor pressed "Cancel" on Discord; anything else (e.g.
+    // server_error from a bad client secret) is a real failure. Details are in Supabase's auth logs.
+    const kind = error === "access_denied" ? "avbrutt" : "feil";
+    return NextResponse.redirect(new URL(`/logg-inn/?feil=${kind}`, origin), 303);
   }
   if (!code) return NextResponse.redirect(new URL("/logg-inn/?feil=feil", origin), 303);
 
