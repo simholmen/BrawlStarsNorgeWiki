@@ -2,8 +2,13 @@
 
 Wiki migration, Phase 0 (see notes/claude-specs/plans/wiki-phase1-readonly.md, task 3).
 
-The Markdown files stay the source of truth until in-place editing goes live. This script rebuilds
-the `people` and `clubs` tables (migration 011) from them and can be re-run any time:
+SINCE PHASE 4 (2026-11-25) SUPABASE IS THE SOURCE OF TRUTH for people/clubs: editors change them
+on the site, and docs/_personer + docs/_klubber are frozen. Running this import would overwrite
+those edits with the old Markdown, so it refuses once any edit made on the site exists (see
+`revisions`), unless --i-know-this-overwrites-site-edits is given.
+
+Originally (Phases 0-3) the Markdown files were the source of truth and this script rebuilt the
+`people` and `clubs` tables (migration 011) from them; it can still be re-run any time:
 
   - rows are matched on `slug`; only rows whose content actually changed are written, so a second
     run in a row reports zero changes
@@ -105,6 +110,12 @@ def read_page(path: Path):
 
     body = "".join(lines[end + 1:]).lstrip("\n")
     return data, body
+
+
+def image_key(name: str) -> str:
+    """Image file base name: Jekyll's `name | downcase | replace: ' ', '_'` (migration 014)."""
+
+    return name.lower().replace(" ", "_")
 
 
 def as_text(value):
@@ -227,6 +238,7 @@ def build_person(slug, path, data, body, conv, report):
         # (e.g. `fiende: <a href="/personer/x/">X</a>`).
         row[field] = value if field in ("name", "bsid") else conv.convert(value, f"{where} {field}")
     row["image_ext"] = as_text(data.get("image_ext")) or "jpg"
+    row["image_key"] = image_key(row["name"] or slug)
     hidden_keys = {k for k in data if PROFILE_FLAG_RE.fullmatch(k)}
     row["hidden_profile_years"] = sorted(
         int(PROFILE_FLAG_RE.fullmatch(k).group(1)) for k in hidden_keys if data[k] is True
@@ -249,6 +261,7 @@ def build_club(slug, path, data, body, conv, report):
         row[field] = conv.convert(as_text(data.get(field)), f"{where} {field}")
     row["underklubber"] = [as_text(u) for u in (data.get("underklubber") or []) if as_text(u)]
     row["image_ext"] = as_text(data.get("image_ext")) or "jpg"
+    row["image_key"] = image_key(row["name"] or slug)
     row["facts"] = conv.convert_facts(data.get("facts"), where)
     row["body_md"] = conv.convert(body, where)
 
@@ -296,6 +309,16 @@ def diff_rows(table, rows, existing):
     return to_upsert, to_delete
 
 
+def count_site_edits() -> int:
+    """Revisions made by logged-in users (user_id set), i.e. edits made on the site."""
+
+    try:
+        rows = supa.select("revisions", {"select": "id", "user_id": "not.is.null", "limit": "1000"})
+    except Exception:  # noqa: BLE001 - table missing before migration 014: no site edits possible
+        return 0
+    return len(rows)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--dry-run", action="store_true", help="report only, write nothing")
@@ -305,7 +328,22 @@ def main():
                         help="refuse to delete more rows than this without --force (default 3)")
     parser.add_argument("--force", action="store_true", help="allow deletes above --max-delete")
     parser.add_argument("--verbose", action="store_true", help="list allowed-HTML occurrences")
+    parser.add_argument("--i-know-this-overwrites-site-edits", dest="overwrite_site_edits",
+                        action="store_true",
+                        help="run even though people/clubs have been edited on the site")
     args = parser.parse_args()
+
+    site_edits = count_site_edits()
+    if site_edits and not args.overwrite_site_edits:
+        print(f"Refusing to import: {site_edits} change(s) have been made on the site since editing")
+        print("went live (Phase 4). Supabase is now the source of truth for people/clubs, and this")
+        print("import would overwrite those edits with the frozen Markdown files.")
+        print("Edit pages on the site instead. To overwrite anyway (e.g. restoring from Markdown on")
+        print("purpose), re-run with --i-know-this-overwrites-site-edits.")
+        if not args.dry_run:
+            return 1
+        print("(--dry-run: showing what would happen anyway.)")
+        print()
 
     report = Report()
     people_src = load_dir(PERSONER_DIR, report)

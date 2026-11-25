@@ -60,18 +60,12 @@ fi
 if systemctl cat bsnorge-web >/dev/null 2>&1; then
     changed() { [ -n "$(git diff --name-only "$LOCAL" "$REMOTE" -- "$@")" ]; }
 
-    # Person/club Markdown changed: copy it into Supabase (the Markdown is still the source).
-    if changed docs/_personer docs/_klubber; then
-        if "${PYTHON:-python3}" tools/import_wiki.py >>"$LOG_FILE" 2>&1; then
-            log "Wiki import done"
-        else
-            log "ERROR: wiki import failed (see above)"
-        fi
-    fi
+    # No import of docs/_personer / docs/_klubber here: since Phase 4 the people/clubs content
+    # lives in Supabase and is edited on the site (tools/import_wiki.py refuses to overwrite it).
 
-    # Rebuild when the app or anything it renders changed, so pages update right away instead
-    # of on the hourly cache refresh.
-    if changed web docs/_personer docs/_klubber docs/wiki docs/diverse docs/_data; then
+    # Rebuild when the app or the hand-written pages it renders from docs/ changed. Person/club
+    # edits don't need a rebuild: the site refreshes those itself on save.
+    if changed web docs/wiki docs/diverse docs/_data; then
         deploy/deploy_web.sh >>"$LOG_FILE" 2>&1 || log "ERROR: wiki deploy failed (see above)"
     fi
 fi

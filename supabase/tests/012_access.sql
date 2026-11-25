@@ -105,8 +105,10 @@ select set_config('request.jwt.claims',
 
 do $$ declare n int; alice_req uuid; bob_req uuid; begin
   if not public.is_admin() then raise exception 'FAIL admin is not admin'; end if;
-  select count(*) into n from public.access_requests;
-  if n <> 2 then raise exception 'FAIL admin sees % requests, expected 2', n; end if;
+  -- only count this test's users: the real table may already hold real requests
+  select count(*) into n from public.access_requests
+   where user_id in ('00000000-0000-4000-8000-00000000a002', '00000000-0000-4000-8000-00000000a003');
+  if n <> 2 then raise exception 'FAIL admin sees % test requests, expected 2', n; end if;
 
   select id into alice_req from public.access_requests where user_id = '00000000-0000-4000-8000-00000000a002';
   select id into bob_req from public.access_requests where user_id = '00000000-0000-4000-8000-00000000a003';
