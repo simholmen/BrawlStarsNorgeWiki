@@ -35,3 +35,4 @@ rankedstats/test_fixtures/
 notes/
 __pycache__/
 *.pyc
+deploy/.auto_pull.lock

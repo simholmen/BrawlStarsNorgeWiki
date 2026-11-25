@@ -17,7 +17,9 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BRANCH="main"
 LOG_FILE="$REPO_DIR/deploy/auto_pull.log"
-LOCK_FILE="/tmp/brawlstarsnorgewiki_auto_pull.lock"
+# Per clone: the droplet runs this from two clones as two users (root's ingest clone and the
+# wiki user's site clone), and a shared /tmp lock would be unwritable for one of them.
+LOCK_FILE="$REPO_DIR/deploy/.auto_pull.lock"
 REGENERATED_PATHS=("rankedstats/fetchresult")
 
 log() { echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG_FILE"; }
@@ -55,9 +57,11 @@ else
     exit 1
 fi
 
-# --- Wiki (Next.js on beta.*): keep it in step with what was just pulled. -----------------------
-# Only once the bsnorge-web service has been installed (deploy/deploy_web.sh --install).
-if systemctl cat bsnorge-web >/dev/null 2>&1; then
+# --- Wiki (Next.js): keep it in step with what was just pulled. -----------------------------------
+# Only in the clone the bsnorge-web service actually runs from (the wiki user's /srv clone), not
+# in root's ingest clone, which has no web/.env.local and must not build the site.
+SERVICE_DIR="$(systemctl show -p WorkingDirectory --value bsnorge-web 2>/dev/null || true)"
+if [ "$SERVICE_DIR" = "$REPO_DIR/web" ]; then
     changed() { [ -n "$(git diff --name-only "$LOCAL" "$REMOTE" -- "$@")" ]; }
 
     # No import of docs/_personer / docs/_klubber here: since Phase 4 the people/clubs content

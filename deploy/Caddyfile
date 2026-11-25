@@ -1,0 +1,38 @@
+# Caddy config for the droplet: the production site, www, and the old beta address.
+# Install: replace __REPO_DIR__ with the site clone's path (/srv/bsnorge-wiki), copy to
+# /etc/caddy/Caddyfile, then `sudo systemctl reload caddy`. Caddy gets each HTTPS certificate
+# automatically once that name's DNS points at the droplet.
+#
+# Static files come straight from docs/ (no copies); everything else goes to Next.js.
+
+(wiki) {
+	encode zstd gzip
+
+	# Landing page, images, ranked-stats page and the shared script: served from docs/ as-is.
+	@static {
+		path / /index.html /script.js /images/* /rankedstats/*
+	}
+	handle @static {
+		root * __REPO_DIR__/docs
+		file_server
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3000
+	}
+}
+
+brawlstarsnorge.com {
+	import wiki
+}
+
+www.brawlstarsnorge.com {
+	redir https://brawlstarsnorge.com{uri} permanent
+}
+
+# Staging address from the migration. Still serves the site (not indexed) so old links and
+# logins keep working; can become a redirect to brawlstarsnorge.com later.
+beta.brawlstarsnorge.com {
+	header X-Robots-Tag "noindex"
+	import wiki
+}
