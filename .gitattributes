@@ -1,0 +1,2 @@
+# Shell scripts run on the droplet (and in Git Bash): always LF line endings, or bash breaks.
+*.sh text eol=lf
