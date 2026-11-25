@@ -699,6 +699,8 @@
   }
 
   function renderAll() {
+    // Real filters from here on (see renderFilterSkeletons, stats-sidebar-filters.js).
+    document.getElementById("sidebar").classList.remove("filters-loading");
     renderBrawlerTree();
     renderRankTree();
     renderModeChips();

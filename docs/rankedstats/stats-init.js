@@ -120,11 +120,15 @@
   document.getElementById("leaderboard-section").style.display = "";
   document.getElementById("combined-recent-section").style.display = "";
   renderBrowsingSkeletons();
+  // The header (logo, title, view switcher) and the filters don't depend on the data, so draw them
+  // now too. A ?player= link replaces the header once that player has loaded.
+  renderHeroEmptyState();
+  renderFilterSkeletons();
 
   // Fetch the live brawler list alongside the roster so the first render already has classes
   // for any newly released brawlers (loadBrawlerData never rejects; it falls back to the
   // bundled brawler_classes.js).
-  Promise.all([loadPlayers(), loadBrawlerData()]).then(function (results) {
+  Promise.all([loadPlayers(), loadBrawlerData(), currentSeasonId()]).then(function (results) {
     const trackedPlayers = results[0];
     loadLeaderboardData(trackedPlayers);
 

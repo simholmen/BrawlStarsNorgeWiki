@@ -591,3 +591,113 @@
     }
   }
 
+  // =========================================================================================
+  // === FILTER PLACEHOLDERS (before the first data load) ===
+  // === The filters look the same on every visit apart from their numbers, so draw them straight
+  // === away (real class/rank names, period chips) with shimmer bars where the numbers go, instead
+  // === of leaving the sidebar blank until the bulk fetch is done. #sidebar gets
+  // === `filters-loading`, which makes the placeholders unclickable (stats.css): clicking a filter
+  // === before there is data would render empty tables and, for a period, start the full-history
+  // === fetch without a roster. renderAll() removes the class, since it always rebuilds every
+  // === filter from real data. ===
+  // =========================================================================================
+
+  function skeletonNumber(widthPx) {
+    const bar = document.createElement("span");
+    bar.className = "skeleton-bar skeleton-shimmer";
+    bar.style.width = widthPx + "px";
+    bar.style.height = "10px";
+    return bar;
+  }
+
+  function renderFilterSkeletons() {
+    document.getElementById("sidebar").classList.add("filters-loading");
+
+    renderPeriodChips();
+    renderFilterBar();
+
+    // Rank tree: every tier that can show up, with its icon and name.
+    const rankHeader = document.getElementById("rank-tree-header");
+    const rankList = document.getElementById("rank-tree-list");
+    clearElement(rankHeader);
+    clearElement(rankList);
+    const rankTitle = document.createElement("span");
+    rankTitle.className = "control-group-title";
+    rankTitle.textContent = LABELS.rankTreeTitle;
+    rankHeader.appendChild(rankTitle);
+    RANK_FILTER_ORDER.forEach(function (tierName) {
+      const row = document.createElement("div");
+      row.className = "tree-rank-row";
+      const iconUrl = tierIconUrl(tierName);
+      if (iconUrl) {
+        const icon = document.createElement("img");
+        icon.className = "tree-rank-icon";
+        icon.src = iconUrl;
+        icon.alt = tierName;
+        row.appendChild(icon);
+      } else {
+        row.appendChild(document.createElement("span"));
+      }
+      const nameEl = document.createElement("span");
+      nameEl.className = "tree-rank-name";
+      nameEl.textContent = tierName;
+      row.appendChild(nameEl);
+      row.appendChild(skeletonNumber(26));
+      row.appendChild(skeletonNumber(30));
+      rankList.appendChild(row);
+    });
+
+    // Mode chips: "All modes" is always there; the rest depend on what was played.
+    const modeContainer = document.getElementById("mode-chips");
+    clearElement(modeContainer);
+    const allModesChip = document.createElement("span");
+    allModesChip.className = "chip active";
+    allModesChip.textContent = LABELS.allModes;
+    modeContainer.appendChild(allModesChip);
+    [58, 50, 66, 44, 54].forEach(function (widthPx) {
+      const chip = document.createElement("span");
+      chip.className = "chip chip-skeleton skeleton-shimmer";
+      chip.style.width = widthPx + "px";
+      chip.textContent = " ";
+      modeContainer.appendChild(chip);
+    });
+
+    // Brawler tree: one collapsed row per class, in the usual order.
+    const brawlerHeader = document.getElementById("brawler-tree-header");
+    const brawlerList = document.getElementById("brawler-tree-list");
+    clearElement(brawlerHeader);
+    clearElement(brawlerList);
+    const brawlerTitle = document.createElement("span");
+    brawlerTitle.className = "control-group-title";
+    brawlerTitle.textContent = LABELS.brawlerTreeTitle;
+    brawlerHeader.appendChild(brawlerTitle);
+    BRAWLER_CLASS_ORDER.forEach(function (className) {
+      if (className === "Unclassified") {
+        return;
+      }
+      const classRow = document.createElement("div");
+      classRow.className = "tree-class";
+      const header = document.createElement("div");
+      header.className = "tree-class-header";
+      const chevron = document.createElement("span");
+      chevron.className = "tree-chevron";
+      chevron.textContent = "▸";
+      header.appendChild(chevron);
+      const main = document.createElement("div");
+      main.className = "tree-class-main";
+      const nameEl = document.createElement("div");
+      nameEl.className = "tree-class-name";
+      nameEl.textContent = className;
+      main.appendChild(nameEl);
+      const meta = document.createElement("div");
+      meta.className = "tree-class-meta";
+      const barTrack = document.createElement("div");
+      barTrack.className = "tree-bar-track skeleton-shimmer";
+      meta.appendChild(barTrack);
+      meta.appendChild(skeletonNumber(52));
+      main.appendChild(meta);
+      header.appendChild(main);
+      classRow.appendChild(header);
+      brawlerList.appendChild(classRow);
+    });
+  }

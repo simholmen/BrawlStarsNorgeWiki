@@ -844,6 +844,19 @@
     background: none;
   }
 
+  /* Mode chip placeholder (renderFilterSkeletons, stats-sidebar-filters.js): same box as a chip. */
+  .chip.chip-skeleton {
+    display: inline-block;
+    border-color: transparent;
+  }
+
+  /* Filters drawn before the data has loaded aren't clickable yet. */
+  .filters-loading #period-chips,
+  .filters-loading #mode-chips,
+  .filters-loading .tree-list {
+    pointer-events: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .skeleton-shimmer {
       animation: none;

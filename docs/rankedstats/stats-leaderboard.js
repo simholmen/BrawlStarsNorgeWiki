@@ -76,20 +76,44 @@
   // === single heavily-played tracked player's own rows can exceed 1000 too, e.g. 1652
   // === v_player_teammate_rows for one real player), and anywhere else a result set isn't
   // === guaranteed small. ===
+  // === Speed: the first page is fetched alone (most per-player queries fit in it), and only if
+  // === it comes back full are the following pages requested PARALLEL_PAGES at a time, instead of
+  // === one round trip per page. A page past the end just comes back empty, and pages are joined
+  // === in order, so the result is the same as fetching them one by one. ===
+  const PARALLEL_PAGES = 4;
+
   async function fetchAllRows(buildQuery) {
     const pageSize = 1000;
-    let allRows = [];
-    let from = 0;
-    for (;;) {
-      const { data, error } = await buildQuery().range(from, from + pageSize - 1);
-      if (error) {
-        return { data: null, error: error };
+    function fetchPage(pageIndex) {
+      const from = pageIndex * pageSize;
+      return buildQuery().range(from, from + pageSize - 1);
+    }
+
+    const first = await fetchPage(0);
+    if (first.error) {
+      return { data: null, error: first.error };
+    }
+    let allRows = first.data || [];
+    if (allRows.length < pageSize) {
+      return { data: allRows, error: null };
+    }
+
+    for (let nextPage = 1; ; nextPage += PARALLEL_PAGES) {
+      const batch = [];
+      for (let i = 0; i < PARALLEL_PAGES; i++) {
+        batch.push(fetchPage(nextPage + i));
       }
-      allRows = allRows.concat(data || []);
-      if (!data || data.length < pageSize) {
-        return { data: allRows, error: null };
+      const results = await Promise.all(batch);
+      for (const result of results) {
+        if (result.error) {
+          return { data: null, error: result.error };
+        }
+        const rows = result.data || [];
+        allRows = allRows.concat(rows);
+        if (rows.length < pageSize) {
+          return { data: allRows, error: null };
+        }
       }
-      from += pageSize;
     }
   }
 
@@ -99,6 +123,16 @@
   // === directly rather than the `v_player_set_rows` view: same column, one join fewer, and anon
   // === already has a direct select grant on it (001_init.sql). Returns null if no set has a
   // === season id yet (matches currentSeasonStartDate's own null-means-"All time" convention). ===
+  // Started by stats-init.js alongside the roster fetch, so loadLeaderboardData doesn't wait for
+  // it as a separate round trip afterwards.
+  let currentSeasonIdPromise = null;
+  function currentSeasonId() {
+    if (!currentSeasonIdPromise) {
+      currentSeasonIdPromise = fetchCurrentSeasonId();
+    }
+    return currentSeasonIdPromise;
+  }
+
   async function fetchCurrentSeasonId() {
     const { data, error } = await sb
       .from("ranked_sets")
@@ -151,7 +185,7 @@
       document.getElementById("leaderboard-content"),
       [LABELS.leaderboardRankColumn, LABELS.playerLabel, LABELS.tableSets, LABELS.tableWins, LABELS.tableLosses, LABELS.tableDraws, LABELS.tableTrend, LABELS.tableWinrate],
       1,
-      8
+      15
     );
     renderSkeletonTable(
       document.getElementById("global-map-content"),
@@ -222,7 +256,7 @@
     // deterministic order, which is exactly why the Felles leaderboard undercounted individual
     // players' sets (e.g. showing 240 for a player whose own page — a single-player `.eq()` query,
     // nowhere near the cap — correctly shows 299).
-    const seasonId = await fetchCurrentSeasonId();
+    const seasonId = await currentSeasonId();
     const [setRowsResult, participantRowsResult] = await Promise.all(
       buildBulkSetRowQueries(trackedTags, seasonId)
     );
