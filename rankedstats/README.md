@@ -14,7 +14,9 @@ database the viewer reads from.
 
 ## Contents
 
-- `migrations/` — 5 SQL files, meant to be applied in order (see "One-time setup" below):
+- `../supabase/migrations/` (repo root, outside this folder) — the SQL migrations for the whole
+  Supabase project, applied in order with the Supabase CLI (see "One-time setup" below). The
+  ranked-stats ones are:
   1. `001_init.sql` — tables (`players`, `rank_tiers`, `ranked_sets`, `set_participants`,
      `battles`), indexes, row-level security, and grants.
   2. `002_seed_rank_tiers.sql` — seeds the 22-row `rank_tiers` lookup table (Bronze I .. Pro).
@@ -28,6 +30,8 @@ database the viewer reads from.
   6. `006_set_detail.sql` — appends `set_id` to `v_player_recent` and adds `v_set_detail` (one
      row per set with `participants`/`games` JSON arrays). Powers `stats.html`'s "Last 10
      matches" list and its click-through match detail view.
+  7. `007`–`010` — redesign views, player icons, rank snapshots, `ranked_season_id`. `011` onwards
+     belong to the wiki migration (`people`, `clubs`), not to Ranked Stats.
 - `roster.py` — loads the tracked-player roster from `docs/_personer/*.md` front matter
   (`bsid` + `name`).
 - `bs_api.py` — fetches a player's battlelog from the live Brawl Stars API.
@@ -36,7 +40,7 @@ database the viewer reads from.
   access; every function takes and returns plain Python data.
 - `test_sets.py` — a dependency-free regression suite for `sets.py`, run against real fixture
   battlelogs on disk. No network or database access either.
-- `supa.py` — a thin PostgREST wrapper (`upsert`/`select`/`patch`) used to write to Supabase.
+- `supa.py` — a thin PostgREST wrapper (`upsert`/`select`/`patch`/`delete`) used to write to Supabase.
 - `ingest.py` — the orchestration entrypoint: fetches every roster player's battlelog, groups it
   into sets, and writes it to Supabase.
 - `gen_brawler_classes.py` — maintainer-run generator that writes
@@ -48,16 +52,17 @@ database the viewer reads from.
 ## One-time setup
 
 1. Create a Supabase project (free tier is enough).
-2. Open the project's **SQL Editor** and run the three migrations, in this exact order, pasting
-   each file's full contents and running it:
-   1. `migrations/001_init.sql`
-   2. `migrations/002_seed_rank_tiers.sql`
-   3. `migrations/003_views.sql`
+2. Apply the migrations with the Supabase CLI from the repo root (`npx supabase login`, then
+   `npx supabase link --project-ref <ref>`, then `npx supabase db push --remote`). It applies every
+   file in `supabase/migrations/` that the project's migration history doesn't have yet, in numeric
+   order. Always pass `--remote`: without it the CLI targets a local Docker stack.
 
    Every statement in every migration is written to be safely re-runnable (`create table if not
    exists`, `create or replace view`, `drop policy if exists` before each `create policy`, `on
    conflict ... do nothing` on the seed inserts), so re-pasting a file you already ran is not
-   harmful — but always apply them in numeric order the first time, since `003_views.sql` depends
+   harmful (pasting one into the SQL Editor still works in a pinch, but then record it with
+   `npx supabase migration repair --remote --status applied <NNN>`) — but always apply them in
+   numeric order the first time, since `003_views.sql` depends
    on the tables from `001_init.sql` and the data from `002_seed_rank_tiers.sql`.
 3. In the project's API settings, copy the project URL, the **secret** (service-role-equivalent)
    key, and the **publishable** (anon) key.
@@ -71,7 +76,7 @@ database the viewer reads from.
 
 Never make ad-hoc schema changes through the Supabase Table Editor UI — that silently desyncs the
 live database from these migration files, which are meant to be the single source of truth for
-the schema. If the schema needs to change later, add a new `migrations/NNN_*.sql` file (see
+the schema. If the schema needs to change later, add a new `supabase/migrations/NNN_*.sql` file (see
 "Future schema changes" below) instead of editing the live table by hand.
 
 ## Daily use
@@ -119,7 +124,8 @@ time.
 
 ## Future schema changes
 
-- Add a new `migrations/NNN_description.sql` file for any schema change.
+- Add a new `supabase/migrations/NNN_description.sql` file for any schema change, and apply it
+  with `npx supabase db push --remote`.
 - Never edit a migration file that has already been applied to the live project.
 - Never make ad-hoc changes in the Supabase Table Editor UI — it silently desyncs the live schema
   from these files, which are the source of truth.

@@ -188,3 +188,29 @@ def patch(table: str, filters: dict, payload: dict) -> list:
     _raise_with_body(response)
 
     return response.json()
+
+
+def delete(table: str, filters: dict) -> list:
+    """Run a PostgREST DELETE against rows matching `filters`.
+
+    Args:
+        table: table name, e.g. "people".
+        filters: query string parameters selecting which rows to delete, e.g.
+            {"slug": "eq.zimma"}. PostgREST refuses a DELETE without any filter.
+
+    Returns:
+        list[dict]: the deleted rows as returned by PostgREST (`return=representation`).
+    """
+
+    if not filters:
+        raise ValueError("delete() requires at least one filter")
+
+    config = _require_config()
+
+    url = _table_url(config["url"], table)
+    headers = _headers(config["secret_key"], extra={"Prefer": "return=representation"})
+
+    response = requests.delete(url, headers=headers, params=filters, timeout=30)
+    _raise_with_body(response)
+
+    return response.json()

@@ -20,7 +20,7 @@
   It talks directly to Supabase's PostgREST API via the `@supabase/supabase-js` v2 UMD bundle
   loaded from the jsdelivr CDN below — no build step, no bundler, no npm install, no
   `package.json`. Every query in this file is a plain SELECT against one of the `v_player_*`
-  views defined in `rankedstats/migrations/003_views.sql`; it never queries `ranked_sets`,
+  views defined in `supabase/migrations/003_views.sql`; it never queries `ranked_sets`,
   `set_participants`, or `battles` directly, and it never writes/inserts/updates/deletes anything.
 
   The Supabase URL and key hardcoded below are a PUBLISHABLE (anon) key — a deliberately different,
