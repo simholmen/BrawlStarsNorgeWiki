@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Header from "@/components/Header";
+import PageNav from "@/components/PageNav";
 import "./wiki.css";
 import "./auth.css";
 import "./editor.css";
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <div id="content">
           <Header />
+          <PageNav />
           {children}
         </div>
         {/* Table sorting used by /wiki/ and /diverse/mz-turneringer/ (served by Caddy from docs/). */}

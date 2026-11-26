@@ -1,17 +1,7 @@
 /* Edit mode, Markdown editor, link picker, history. Separate from wiki.css (copy of
    docs/style.css) and auth.css. Same palette as the wiki. */
 
-/* ---------------------------------------------------------------- bar above a page (editors) */
-.edit-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: flex-end;
-  margin: 0 0 0.6em;
-  font-family: sans-serif;
-  font-size: 0.9em;
-}
-
+/* ---------------------------------------------------------------- small buttons */
 .auth-button.small {
   padding: 3px 8px;
   font-size: 0.85em;
@@ -408,4 +398,105 @@
 .image-slot-error {
   color: #d33;
   font-size: 0.85em;
+}
+
+/* ---------------------------------------------------------------- page bar (components/PageNav.tsx) */
+/* Under the site header on every page, full width. */
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 16px;
+  padding: 6px 8px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  background: #f8f9fa;
+  font-family: sans-serif;
+  font-size: 0.9em;
+}
+
+.page-nav-button {
+  padding: 3px 9px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  background: #fff;
+  color: #202122 !important;
+  font: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.page-nav-button:hover {
+  background: #f8f9fa;
+  border-color: #72777d;
+}
+
+.page-nav-search {
+  position: relative;
+  flex: 1 1 160px;
+  max-width: 260px;
+}
+
+.page-nav-search input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 3px 8px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  font: inherit;
+  line-height: 1.4;
+}
+
+.page-nav-results {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  z-index: 20;
+  min-width: 100%;
+  width: max-content;
+  max-width: 320px;
+  margin: 0;
+  padding: 2px 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.page-nav-results a {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 8px;
+  text-decoration: none !important;
+}
+
+.page-nav-results a.active {
+  background: #eaf3ff;
+}
+
+.page-nav-kind {
+  color: #72777d;
+  font-size: 0.85em;
+}
+
+.page-nav-empty {
+  padding: 4px 8px;
+  color: #72777d;
+}
+
+.page-nav-edit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+@media (max-width: 767px) {
+  .page-nav-search {
+    max-width: none;
+  }
 }

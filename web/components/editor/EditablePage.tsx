@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import type { EntityKind } from "@/lib/fields";
 import { isEditor, useViewer } from "@/lib/useViewer";
+import { setEditActions } from "./EditContext";
 
-// Wraps a person/club page. Everyone gets the normal (prerendered) page; editors also get a
-// "Rediger" bar, and clicking it swaps the page for the editor in place. The editor code is only
-// downloaded on that click.
+// Wraps a person/club page. Everyone gets the normal (prerendered) page; editors also get
+// "Rediger" / "Historikk" in the page bar under the site header (components/PageNav.tsx,
+// through EditContext), and clicking "Rediger" swaps the page for the editor in place. The editor
+// code is only downloaded on that click.
 
 const PageEditor = dynamic(() => import("./PageEditor"), {
   ssr: false,
@@ -27,19 +29,17 @@ export default function EditablePage({ kind, slug, children }: { kind: EntityKin
     if (window.location.search) window.history.replaceState(null, "", window.location.pathname);
   }
 
-  if (canEdit && editing) return <PageEditor kind={kind} slug={slug} onClose={close} />;
+  // Show "Rediger" / "Historikk" in the page bar while this page is open and not being edited.
+  const showActions = canEdit && !editing;
+  useEffect(() => {
+    if (!showActions) return;
+    setEditActions({
+      startEdit: () => setEditing(true),
+      historyHref: `/historikk/${kind === "person" ? "person" : "klubb"}/${slug}/`,
+    });
+    return () => setEditActions(null);
+  }, [showActions, kind, slug]);
 
-  return (
-    <>
-      {canEdit && (
-        <div className="edit-bar">
-          <button type="button" className="auth-button" onClick={() => setEditing(true)}>
-            ✎ Rediger
-          </button>
-          <a href={`/historikk/${kind === "person" ? "person" : "klubb"}/${slug}/`}>Historikk</a>
-        </div>
-      )}
-      {children}
-    </>
-  );
+  if (canEdit && editing) return <PageEditor kind={kind} slug={slug} onClose={close} />;
+  return <>{children}</>;
 }
