@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import TagInput from "@/components/TagInput";
 import { createEntity } from "@/app/rediger/actions";
 import { track } from "@/lib/analytics";
 import { slugify } from "@/lib/slugify";
@@ -60,7 +61,7 @@ export default function NewPageForm({ kind }: { kind: EntityKind }) {
         {kind === "person" && (
           <>
             <label htmlFor="bsid">Brawl Stars ID</label>
-            <input id="bsid" type="text" value={bsid} onChange={(e) => setBsid(e.target.value)} maxLength={20} placeholder="f.eks. YQ29980 (uten #)" />
+            <TagInput id="bsid" value={bsid} onChange={setBsid} placeholder="YQ29980" />
             <label htmlFor="hjemsted">Hjemsted</label>
             <input id="hjemsted" type="text" value={hjemsted} onChange={(e) => setHjemsted(e.target.value)} maxLength={200} />
             <label htmlFor="born">Født</label>

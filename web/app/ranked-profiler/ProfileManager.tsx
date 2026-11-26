@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import TagInput from "@/components/TagInput";
 import { formatDate } from "@/components/AuthBits";
 import { isValidTag } from "@/lib/rankedTag";
 import { track } from "@/lib/analytics";
@@ -99,7 +100,7 @@ function TagNameForm({
       <div className="rp-add-row">
         <label>
           Tag
-          <input type="text" value={tag} onChange={(e) => setTag(e.target.value)} placeholder="#2GY22JUR" required />
+          <TagInput value={tag} onChange={setTag} required />
         </label>
         <label>
           Navn

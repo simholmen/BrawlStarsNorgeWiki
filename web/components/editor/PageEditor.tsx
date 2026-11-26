@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import TagInput from "@/components/TagInput";
 import { getBrowserClient } from "@/lib/supabase/browser";
 import { BODY_MAX, FIELD_LABELS, IMAGE_EXTS, PROFILE_YEARS, TEXT_FIELDS, type EntityKind } from "@/lib/fields";
 import type { Fact } from "@/lib/types";
@@ -154,7 +155,15 @@ export default function PageEditor({ kind, slug, onClose }: { kind: EntityKind; 
                   <label htmlFor={`f-${f.key}`}>{f.label}</label>
                 </th>
                 <td>
-                  {f.key === "name" || f.key === "bsid" ? (
+                  {f.key === "bsid" ? (
+                    <TagInput
+                      id={`f-${f.key}`}
+                      value={(draft[f.key] as string | null) ?? ""}
+                      maxLength={f.max}
+                      onChange={(v) => set(f.key, v)}
+                      placeholder=""
+                    />
+                  ) : f.key === "name" ? (
                     <input
                       id={`f-${f.key}`}
                       type="text"

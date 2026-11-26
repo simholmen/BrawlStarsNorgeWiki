@@ -24,7 +24,7 @@ export const TEXT_FIELDS: Record<EntityKind, TextField[]> = {
     { key: "favoritt_brawler", label: "Favoritt Brawler", max: 200 },
     { key: "quote", label: "Quote", max: 300 },
     { key: "fiende", label: "Ærkefiende", max: 200 },
-    { key: "bsid", label: "Brawl Stars ID", max: 20, hint: "Uten #" },
+    { key: "bsid", label: "Brawl Stars ID", max: 20 },
   ],
   club: [
     { key: "name", label: "Navn", max: 200, required: true },

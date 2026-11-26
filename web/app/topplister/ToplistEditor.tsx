@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import TagInput from "@/components/TagInput";
 import { isEditor, useViewer } from "@/lib/useViewer";
 import { isValidTag, normalizeTag } from "@/lib/rankedTag";
 import { formatDate } from "@/components/AuthBits";
@@ -216,7 +217,7 @@ export default function ToplistEditor({
         <div className="rp-add-row">
           <label>
             Tag
-            <input type="text" value={tag} onChange={(e) => setTag(e.target.value)} placeholder="#2GY22JUR" required />
+            <TagInput value={tag} onChange={setTag} required />
           </label>
           <label>
             Navn
