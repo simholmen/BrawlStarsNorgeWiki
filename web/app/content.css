@@ -349,3 +349,57 @@
     width: min(290px, 80vw);
   }
 }
+
+/* ---------------------------------------------------------------- phones: shared fixes */
+@media (max-width: 767px) {
+  /* Tables in page text (wiki.css makes them table-layout: fixed, which splits the width evenly
+     and then breaks words mid-word, e.g. "Zimm-a"). Size columns to their content instead, a bit
+     smaller; anything still too wide scrolls sideways rather than squashing. */
+  .wiki-html {
+    overflow-x: auto;
+  }
+
+  .wiki-html table {
+    table-layout: auto;
+    font-size: 0.9em;
+  }
+
+  .wiki-html th,
+  .wiki-html td {
+    padding: 5px 6px;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  /* Page bar: the buttons on one line, the search field full width under them. */
+  .page-nav {
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .page-nav-button {
+    padding: 3px 7px;
+  }
+
+  .page-nav-search {
+    flex: 1 1 100%;
+    order: 10;
+  }
+
+  .page-nav-edit {
+    margin-left: 0;
+  }
+
+  /* Editor lists (Ranked-profiler, Topplister box, admin): name on its own line, buttons under
+     it, instead of squeezing the name into a narrow column beside them. */
+  .auth-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .auth-row > span,
+  .auth-row > .rp-who {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+}

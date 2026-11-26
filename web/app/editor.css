@@ -570,6 +570,7 @@
   cursor: move;
 }
 
+/* Corner handles sit inside the frame, so they're never cut off when the whole image is selected. */
 .imgdlg-handle {
   position: absolute;
   width: 14px;
@@ -579,10 +580,18 @@
   border-radius: 2px;
 }
 
-.imgdlg-handle.nw { left: -8px; top: -8px; cursor: nwse-resize; }
-.imgdlg-handle.ne { right: -8px; top: -8px; cursor: nesw-resize; }
-.imgdlg-handle.sw { left: -8px; bottom: -8px; cursor: nesw-resize; }
-.imgdlg-handle.se { right: -8px; bottom: -8px; cursor: nwse-resize; }
+.imgdlg-handle.nw { left: -1px; top: -1px; cursor: nwse-resize; }
+.imgdlg-handle.ne { right: -1px; top: -1px; cursor: nesw-resize; }
+.imgdlg-handle.sw { left: -1px; bottom: -1px; cursor: nesw-resize; }
+.imgdlg-handle.se { right: -1px; bottom: -1px; cursor: nwse-resize; }
+
+/* Touch screens: handles big enough for a finger. */
+@media (pointer: coarse) {
+  .imgdlg-handle {
+    width: 24px;
+    height: 24px;
+  }
+}
 
 .imgdlg-row {
   display: flex;
