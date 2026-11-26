@@ -3,7 +3,7 @@ import type { Fact } from "@/lib/types";
 import { renderInline } from "@/lib/markdown";
 import type { InGameInfo } from "@/lib/data";
 
-// The infobox table shared by the person and club layouts (docs/_layouts/{person,klubb}.html).
+// The infobox table shared by the person and club layouts (the old Jekyll docs/_layouts/{person,klubb}.html, removed).
 
 export type InfoRow = { label: string; value: ReactNode };
 

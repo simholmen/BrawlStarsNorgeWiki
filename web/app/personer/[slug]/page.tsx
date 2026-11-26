@@ -9,7 +9,7 @@ import { Html } from "@/components/Html";
 import EditablePage from "@/components/editor/EditablePage";
 import { InGameInfoSection, Infobox, MiniAccounts, ProfileFigure, Toc } from "@/components/Infobox";
 
-// Port of docs/_layouts/person.html, field for field. One deliberate difference: images whose
+// Port of the old Jekyll layout docs/_layouts/person.html (removed; see git history), field for field. One deliberate difference: images whose
 // file doesn't exist are left out instead of rendered broken.
 
 export async function generateStaticParams() {

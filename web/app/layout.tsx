@@ -7,7 +7,8 @@ import "./auth.css";
 import "./editor.css";
 import "./content.css";
 
-// Port of docs/_layouts/default.html. wiki.css is an unchanged copy of docs/style.css.
+// Port of the old Jekyll layout (docs/_layouts/default.html, removed; see git history). wiki.css is
+// an unchanged copy of its stylesheet (docs/style.css).
 
 export const metadata: Metadata = {
   title: "Brawl Stars Norge Wiki",

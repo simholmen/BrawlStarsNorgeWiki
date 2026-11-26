@@ -64,8 +64,7 @@ SERVICE_DIR="$(systemctl show -p WorkingDirectory --value bsnorge-web 2>/dev/nul
 if [ "$SERVICE_DIR" = "$REPO_DIR/web" ]; then
     changed() { [ -n "$(git diff --name-only "$LOCAL" "$REMOTE" -- "$@")" ]; }
 
-    # No import of docs/_personer / docs/_klubber here: since Phase 4 the people/clubs content
-    # lives in Supabase and is edited on the site (tools/import_wiki.py refuses to overwrite it).
+    # People/clubs content lives in Supabase and is edited on the site; nothing to import here.
 
     # Rebuild when the app or the hand-written pages it renders from docs/ changed. Person/club
     # edits don't need a rebuild: the site refreshes those itself on save.

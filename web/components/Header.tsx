@@ -1,6 +1,6 @@
 import UserMenu from "./UserMenu";
 
-// Port of docs/_includes/header.html, plus the login menu (renders nothing for logged-out
+// Port of the old Jekyll docs/_includes/header.html (removed), plus the login menu (renders nothing for logged-out
 // visitors until it has checked, so the static page matches the old header).
 
 export default function Header() {

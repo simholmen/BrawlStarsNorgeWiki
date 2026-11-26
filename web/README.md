@@ -1,6 +1,7 @@
 # web — Brawl Stars Norge wiki (Next.js)
 
-The Next.js replacement for the Jekyll site in `../docs`, reading wiki content from Supabase.
+The wiki at brawlstarsnorge.com, reading its content from Supabase. (It replaced the old Jekyll
+site; static files still come from `../docs`.)
 Plan: `notes/claude-specs/plans/wiki-phase1-readonly.md` (local notes, not in git).
 
 ```bash
@@ -11,9 +12,8 @@ npm test                     # renderer unit tests
 npm run build
 ```
 
-- Content: `public.people` / `public.clubs`, filled from `docs/_personer` + `docs/_klubber` by
-  `python tools/import_wiki.py` (repo root). The Markdown files stay the source of truth until
-  editing goes live.
+- Content: `public.people` / `public.clubs`, edited on the site by editors (the old Markdown files
+  they were imported from are gone; see git history).
 - `lib/data.ts` is cached (`'use cache'`, hourly), so page views don't hit Supabase.
 - `lib/markdown.ts` renders `body_md` / facts: `[[person:slug|Label]]` links, kramdown-compatible
   heading ids, sanitized HTML.

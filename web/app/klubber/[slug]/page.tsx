@@ -9,7 +9,7 @@ import { Html } from "@/components/Html";
 import EditablePage from "@/components/editor/EditablePage";
 import { Infobox, ProfileFigure, Toc, type InfoRow } from "@/components/Infobox";
 
-// Port of docs/_layouts/klubb.html. As on the person page, missing images are left out.
+// Port of the old Jekyll layout docs/_layouts/klubb.html (removed; see git history). As on the person page, missing images are left out.
 
 export async function generateStaticParams() {
   const clubs = await getClubs();

@@ -36,3 +36,6 @@ notes/
 __pycache__/
 *.pyc
 deploy/.auto_pull.lock
+
+# API debug dumps, rewritten by ingest every run
+rankedstats/fetchresult/

@@ -6,13 +6,13 @@ description: Add a new person (spiller) page to the wiki. Use when asked to add/
 # Add a person page
 
 **Since 2026-11-25 (wiki migration Phase 4) people and clubs live in Supabase**, and editors create
-and edit them on the site. `docs/_personer/` and `docs/_klubber/` are **frozen**: don't add or edit
-files there, and don't run `tools/import_wiki.py` (it refuses once the site has edits, because it
-would overwrite them). See `notes/claude-specs/plans/wiki-migration.md` → "Where we are".
+and edit them on the site. The old Markdown files (`docs/_personer/`, `docs/_klubber/`) and the
+import tool are gone (git history has them); don't recreate them. See
+`notes/claude-specs/plans/wiki-migration.md` → "Where we are".
 
 ## Preferred: the user does it on the site
 
-Tell the user to open **https://beta.brawlstarsnorge.com/ny/person/** (needs an editor account;
+Tell the user to open **https://brawlstarsnorge.com/ny/person/** (needs an editor account;
 admins approve access on `/admin/tilgang/`):
 
 1. Fill in **Navn** (required), and optionally **Brawl Stars ID** (without `#`), **Hjemsted**,
@@ -49,4 +49,5 @@ picks the new page up within the hour (its cache), or immediately after the next
   is the `ranked_profiles` table, managed on the site under ☰ → **Ranked-profiler** (wiki-migration
   Phase 2). If the user also wants the player on the ranked page, add them there (tag + name); a
   wiki page with a tag that isn't tracked shows up there as a one-click suggestion.
-- **The live site** (brawlstarsnorge.com, Jekyll) doesn't show site edits until cutover (Phase 5).
+- **Toplists:** a page with a valid tag puts the person on /topplister/ automatically (numbers
+  after the next daily run).

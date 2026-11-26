@@ -2,14 +2,14 @@
 
 A small, self-contained system that ingests the roster's Brawl Stars **Ranked** (`soloRanked`)
 battlelogs into a Supabase Postgres database, and shows per-player stats in a standalone HTML
-page. The ingest pipeline in this folder is deliberately separate from the Jekyll site under
-`docs/` and from `tournamentfetching/` — nothing outside this folder is
+page. The ingest pipeline in this folder is deliberately separate from the wiki and from
+`tournamentfetching/` — nothing outside this folder is
 touched, except two keys appended to the root `.env` (see below) and the generated
 `docs/rankedstats/brawler_classes.js` (see "Contents" below).
 
 The **published viewer page itself lives under `docs/rankedstats/`** (`stats.html`, `stats.css`,
-`brawler_classes.js`, `images/`), not in this folder — that's the only copy, so GitHub Pages can
-serve it directly alongside the wiki. This folder holds only the ingest pipeline that fills the
+`brawler_classes.js`, `images/`), not in this folder — that's the only copy, and Caddy serves it
+directly alongside the wiki. This folder holds only the ingest pipeline that fills the
 database the viewer reads from.
 
 ## Contents
@@ -32,8 +32,11 @@ database the viewer reads from.
      matches" list and its click-through match detail view.
   7. `007`–`010` — redesign views, player icons, rank snapshots, `ranked_season_id`. `011` onwards
      belong to the wiki migration (`people`, `clubs`), not to Ranked Stats.
-- `roster.py` — loads the tracked-player roster from `docs/_personer/*.md` front matter
-  (`bsid` + `name`).
+- `roster.py` — loads the tracked-player roster from the `ranked_profiles` table (managed on the
+  site under Ranked-profiler).
+- `toplists.py` — the daily refresh for the wiki's Topplister (`/topplister/`): every account's
+  profile numbers into `toplist_stats`, plus the brawler catalogue (migrations 021-024).
+  `test_toplists.py` tests its pure functions.
 - `bs_api.py` — fetches a player's battlelog from the live Brawl Stars API.
 - `sets.py` — pure, dependency-free logic that groups a battlelog into best-of-3 (or
   single-game) Ranked **sets** and computes each set's summary stats. No network or database
@@ -46,8 +49,8 @@ database the viewer reads from.
 - `gen_brawler_classes.py` — maintainer-run generator that writes
   `docs/rankedstats/brawler_classes.js` from the live BrawlAPI brawler list (see its own docstring).
 - `docs/rankedstats/stats.html` (outside this folder) — the published page that reads the
-  `v_player_*` views directly from Supabase and renders per-player stats. Not part of the Jekyll
-  build (no front matter), just a static file GitHub Pages serves as-is.
+  `v_player_*` views directly from Supabase and renders per-player stats. A static file Caddy
+  serves as-is.
 
 ## One-time setup
 
