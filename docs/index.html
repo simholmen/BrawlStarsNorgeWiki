@@ -56,7 +56,8 @@
   .brand p {
     margin: 0;
     color: var(--text-secondary);
-    max-width: 420px;
+    max-width: 560px;
+    line-height: 1.5;
   }
 
   .choices {
@@ -99,6 +100,45 @@
     font-size: 0.85em;
     color: var(--text-secondary);
   }
+
+  .contribute {
+    width: 100%;
+    max-width: 560px;
+    padding: 24px 26px;
+    border-radius: 14px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    text-align: left;
+    line-height: 1.55;
+  }
+
+  .contribute h2 {
+    margin: 0 0 8px;
+    font-size: 1.1em;
+  }
+
+  .contribute p {
+    margin: 0 0 12px;
+    color: var(--text-secondary);
+  }
+
+  .contribute ol {
+    margin: 0 0 12px;
+    padding-left: 22px;
+  }
+
+  .contribute li {
+    margin-bottom: 6px;
+  }
+
+  .contribute a {
+    color: var(--accent-gold);
+  }
+
+  .contribute .note {
+    margin: 0;
+    font-size: 0.9em;
+  }
 </style>
 <script src="/analytics.js" async></script>
 </head>
@@ -107,7 +147,10 @@
   <div class="brand">
     <img src="/images/bsnorge.jpg" alt="Brawl Stars Norge">
     <h1>Brawl Stars Norge</h1>
-    <p>Velg hvor du vil gå.</p>
+    <p>
+      Samlingsstedet for det norske Brawl Stars-miljøet. Wikien tar vare på historien om spillere, klubber og
+      turneringer helt tilbake til 2017, og Ranked Stats følger norske spillere i rangerte kamper.
+    </p>
   </div>
 
   <div class="choices">
@@ -122,6 +165,23 @@
       <span class="choice-desc">Kart-, brawler- og lagkamerat-statistikk for rangerte sett.</span>
     </a>
   </div>
+
+  <section class="contribute">
+    <h2>Vil du bidra?</h2>
+    <p>
+      Sidene skrives og holdes oppdatert av miljøet selv. Har du noe å legge til, som en spiller, en klubb, et
+      gammelt bilde eller en rettelse, eller vil du ha en konto med i ranked-statistikken, kan du hjelpe til:
+    </p>
+    <ol>
+      <li><a href="/logg-inn/">Logg inn med Discord</a>.</li>
+      <li>Be om redigeringstilgang under <a href="/konto/">Min konto</a>, gjerne med en kort melding om hvem du er.</li>
+      <li>
+        Når en administrator har godkjent deg, kan du redigere og lage sider på wikien, laste opp bilder, og legge
+        til kontoer i Ranked Stats under «Ranked-profiler» i menyen.
+      </li>
+    </ol>
+    <p class="note">Spørsmål eller ideer? Ta kontakt med @Zimma2832 på Discord.</p>
+  </section>
 
 </body>
 </html>
