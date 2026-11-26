@@ -3,15 +3,16 @@
 import { useDeferredValue, useMemo, useRef, useState, type ClipboardEvent, type DragEvent } from "react";
 import { renderMarkdown } from "@/lib/markdown";
 import { supabaseEnv } from "@/lib/env";
-import { altFromFileName, isUploadedImage, WIKI_IMAGE_ACCEPT } from "@/lib/uploads";
+import { checkImageFile, isUploadedImage, WIKI_IMAGE_ACCEPT } from "@/lib/uploads";
 import type { WikiEntity } from "@/lib/linkPicker";
 import LinkTextField, { type LinkTextFieldHandle } from "./LinkTextField";
-import { uploadImage } from "./uploadImage";
+import ImageInsertDialog from "./ImageInsertDialog";
 
 // The body editor: Markdown in a textarea with a small toolbar, and a live preview rendered by
 // the same code as the real page (lib/markdown.ts), so what you see is what gets published.
-// Images can be added with the toolbar button, by pasting, or by dropping files on the text:
-// they're uploaded to Supabase Storage and inserted as ![alt](url).
+// Images can be added with the toolbar button, by pasting, or by dropping files on the text: each
+// opens ImageInsertDialog (crop, size, placement, frame, caption), which uploads it to Supabase
+// Storage and inserts a <figure> block (lib/imageLayout.ts).
 
 type Mode = "both" | "write" | "preview";
 type Tool = "bold" | "italic" | "heading" | "list" | "link" | "wiki" | "image";
@@ -52,7 +53,9 @@ export default function MarkdownEditor({
   const field = useRef<LinkTextFieldHandle>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const [mode, setMode] = useState<Mode>("both");
-  const [uploading, setUploading] = useState(0);
+  // Images waiting for the dialog, first one shown.
+  const [queue, setQueue] = useState<Array<{ id: number; file: File }>>([]);
+  const nextId = useRef(0);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const deferred = useDeferredValue(value);
   const preview = useMemo(() => renderMarkdown(deferred, { keepImage: previewKeepImage }), [deferred]);
@@ -71,28 +74,27 @@ export default function MarkdownEditor({
     }
   }
 
-  async function addImages(files: File[]) {
+  function addImages(files: File[]) {
     if (files.length === 0) return;
     setUploadError(null);
-    setUploading((n) => n + files.length);
-    // One at a time: each insert reads the text as it is after the previous one was inserted.
+    // Wrong type / too big (before cropping) is reported right away instead of opening the dialog.
+    // Large photos are fine: cropping scales them down before upload.
+    const ok: File[] = [];
     for (const file of files) {
-      const result = await uploadImage(file);
-      setUploading((n) => n - 1);
-      if (!result.ok) {
-        setUploadError(`${file.name}: ${result.message}`);
-        continue;
-      }
-      // Alt text is selected after inserting, so it can be typed over right away.
-      field.current?.insert("![", `](${result.url})\n`, altFromFileName(file.name));
+      const problem = checkImageFile({ type: file.type, size: 0 });
+      if (problem) setUploadError(`${file.name}: ${problem}`);
+      else ok.push(file);
     }
+    setQueue((q) => [...q, ...ok.map((file) => ({ id: nextId.current++, file }))]);
   }
+
+  const nextImage = () => setQueue((q) => q.slice(1));
 
   function onPaste(e: ClipboardEvent<HTMLElement>) {
     const files = imageFiles(e.clipboardData?.files);
     if (files.length === 0) return; // ordinary text paste
     e.preventDefault();
-    void addImages(files);
+    addImages(files);
   }
 
   function onDragOver(e: DragEvent<HTMLElement>) {
@@ -103,7 +105,7 @@ export default function MarkdownEditor({
     const files = imageFiles(e.dataTransfer?.files);
     if (files.length === 0) return;
     e.preventDefault();
-    void addImages(files);
+    addImages(files);
   }
 
   return (
@@ -121,7 +123,7 @@ export default function MarkdownEditor({
           multiple
           hidden
           onChange={(e) => {
-            void addImages(imageFiles(e.target.files));
+            addImages(imageFiles(e.target.files));
             e.target.value = ""; // so picking the same file again still fires onChange
           }}
         />
@@ -152,11 +154,6 @@ export default function MarkdownEditor({
             onDragOver={onDragOver}
             onDrop={onDrop}
           />
-          {uploading > 0 && (
-            <div className="md-upload-status" role="status">
-              Laster opp {uploading === 1 ? "bilde" : `${uploading} bilder`}…
-            </div>
-          )}
           {uploadError && (
             <div className="md-upload-error" role="alert">
               {uploadError}
@@ -164,12 +161,24 @@ export default function MarkdownEditor({
           )}
           <div className="md-help">
             <code>## Overskrift</code> · <code>**fet**</code> · <code>- liste</code> · skriv{" "}
-            <code>[[</code> for å lenke til en person eller klubb · lim inn eller dra inn bilder (maks 5 MB) ·{" "}
+            <code>[[</code> for å lenke til en person eller klubb · lim inn eller dra inn bilder ·{" "}
             {value.length}/{maxLength}
           </div>
         </div>
         <div className="md-preview wiki-html" dangerouslySetInnerHTML={{ __html: preview }} />
       </div>
+      {queue.length > 0 && (
+        <ImageInsertDialog
+          key={queue[0].id}
+          file={queue[0].file}
+          remaining={queue.length - 1}
+          onInsert={(markup) => {
+            field.current?.insert(markup);
+            nextImage();
+          }}
+          onCancel={nextImage}
+        />
+      )}
     </div>
   );
 }

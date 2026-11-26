@@ -1,0 +1,75 @@
+/* Images placed from the editor's image dialog (lib/imageLayout.ts):
+   <figure class="wimg wimg-{left|center|right} wimg-{25|33|50|75|100} [wimg-frame]">.
+   Used on pages and in the editor preview. "wimg-frame" matches the old .figure-container box
+   (wiki.css) used on e.g. Zimma's page. */
+
+.wimg {
+  box-sizing: border-box;
+  margin: 0 0 12px;
+}
+
+.wimg img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wimg-left {
+  float: left;
+  clear: left;
+  margin-right: 16px;
+}
+
+.wimg-right {
+  float: right;
+  clear: right;
+  margin-left: 16px;
+}
+
+.wimg-center {
+  clear: both;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wimg-25 { width: 25%; }
+.wimg-33 { width: 33%; }
+.wimg-50 { width: 50%; }
+.wimg-75 { width: 75%; }
+.wimg-100 { width: 100%; float: none; clear: both; margin-left: 0; margin-right: 0; }
+
+.wimg figcaption {
+  margin-top: 4px;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.wimg-frame {
+  border: 1px solid #a2a9b1;
+  background-color: #f2f2f2;
+  padding: 5px;
+}
+
+.wimg-frame img {
+  border: 1px solid #c8ccd1;
+  background: #fff;
+}
+
+@media (max-width: 767px) {
+  .wimg-left,
+  .wimg-right {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wimg-25,
+  .wimg-33 {
+    width: 60%;
+  }
+
+  .wimg-50,
+  .wimg-75 {
+    width: 100%;
+  }
+}

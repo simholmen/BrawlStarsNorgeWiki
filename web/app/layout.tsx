@@ -5,6 +5,7 @@ import PageNav from "@/components/PageNav";
 import "./wiki.css";
 import "./auth.css";
 import "./editor.css";
+import "./content.css";
 
 // Port of docs/_layouts/default.html. wiki.css is an unchanged copy of docs/style.css.
 
