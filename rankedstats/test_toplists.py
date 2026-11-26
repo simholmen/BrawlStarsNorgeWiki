@@ -34,11 +34,11 @@ def test_collect_tags():
     profiles = [
         {"tag": "#2GY22JUR", "active": True, "main_tag": None},  # also a wiki person: once only
         {"tag": "#9YRVPPGCC", "active": True, "main_tag": None},
-        {"tag": "#8Q0YGP8P", "active": True, "main_tag": "#2GY22JUR"},  # mini: left out
+        {"tag": "#8Q0YGP8P", "active": True, "main_tag": "#2GY22JUR"},  # mini: fetched too
         {"tag": "#22UYPCCJG", "active": False, "main_tag": None},  # removed: left out
     ]
     extras = [{"tag": "#RRCLPJVP", "active": True}, {"tag": "#R8RP0Y0U", "active": False}]
-    assert collect_tags(people, profiles, extras) == ["#2GY22JUR", "#9YRVPPGCC", "#RRCLPJVP", "#YQ29980"]
+    assert collect_tags(people, profiles, extras) == ["#2GY22JUR", "#8Q0YGP8P", "#9YRVPPGCC", "#RRCLPJVP", "#YQ29980"]
 
 
 def test_stats_row():

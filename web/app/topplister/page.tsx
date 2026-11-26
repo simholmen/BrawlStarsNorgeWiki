@@ -5,6 +5,7 @@ import { formatNumber, type Toplist, type ToplistEntry, type Toplists } from "@/
 import { pageTitle } from "@/lib/slug";
 import { Toc } from "@/components/Infobox";
 import ToplistEditor from "./ToplistEditor";
+import MinisSwitch from "./MinisSwitch";
 
 // Topplister: the top players in 3v3 wins, Showdown wins, fame and highest ranked elo, among
 // everyone on the wiki, the ranked roster and the extra players editors add here. Numbers are
@@ -95,6 +96,7 @@ function Rows({ entries, offset }: { entries: ToplistEntry[]; offset: number }) 
                     {e.tag}
                   </a>
                   {e.club && <> · {e.club}</>}
+                  {e.miniOf && <> · mini av {e.miniOf}</>}
                 </div>
               </td>
               <td className="toplist-value">
@@ -254,13 +256,25 @@ export default async function ToplistsPage() {
       <p>
         De beste norske spillerne i hver kategori, hentet automatisk fra Brawl Stars én gang om dagen. Listene tar med
         alle som har en Brawl Stars-tag på wiki-siden sin, alle som følges på{" "}
-        <a href="/rankedstats/stats.html">ranked-siden</a>, og spillere redaktørene har lagt til her. Mini-kontoer er
-        ikke med.
+        <a href="/rankedstats/stats.html">ranked-siden</a>, og spillere redaktørene har lagt til her. Kryss av for «Ta
+        med minis» for å telle med mini-kontoene til spillerne på ranked-siden.
       </p>
 
       <Toc items={data.lists.map((l, i) => [`#${ANCHOR[l.key]}`, `${i + 1}. ${l.title}`])} />
 
-      {data.lists.map((list) => (
+      <MinisSwitch
+        count={data.miniCount}
+        plain={<Lists lists={data.lists} data={data} />}
+        withMinis={<Lists lists={data.listsWithMinis} data={data} />}
+      />
+    </>
+  );
+}
+
+function Lists({ lists, data }: { lists: Toplist[]; data: Toplists }) {
+  return (
+    <>
+      {lists.map((list) => (
         <section key={list.key}>
           <h2 id={ANCHOR[list.key]} className="toplist-heading">
             {list.title}
@@ -268,7 +282,6 @@ export default async function ToplistsPage() {
           <ListTable list={list} data={data} />
         </section>
       ))}
-
     </>
   );
 }

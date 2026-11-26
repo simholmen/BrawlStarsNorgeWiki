@@ -219,3 +219,52 @@ describe("Maxet konto", () => {
     expect(result.lists.find((l) => l.key === "maxed")!.entries).toEqual([]);
   });
 });
+
+describe("buildToplists with minis", () => {
+  const result = buildToplists({
+    ...base,
+    minis: [
+      { tag: "#8Q0YGP8P", name: "Zimma mini", main_tag: "#2GY22JUR" },
+      { tag: "#2QJ8YV9YL", name: "Zimma #3", main_tag: "#2GY22JUR" },
+      { tag: "#99J000", name: "No numbers", main_tag: "#2GY22JUR" }, // no stats row: left out
+      { tag: "#RRCLPJVP", name: "Also extra", main_tag: "#2GY22JUR" }, // on the lists by itself already
+    ],
+    stats: [
+      stats("#2GY22JUR", { wins_3v3: 100, wins_solo: 10, wins_duo: 5, fame: 500, exp_level: 300, exp_points: 1000 }),
+      stats("#9YRVPPGCC", { wins_3v3: 150, fame: 100 }),
+      stats("#RRCLPJVP", { wins_3v3: 1 }),
+      stats("#8Q0YGP8P", { wins_3v3: 40, wins_solo: 1, wins_duo: 2, fame: 900, exp_level: 50, exp_points: 200 }),
+      stats("#2QJ8YV9YL", { wins_3v3: 20, exp_level: 10, exp_points: 30 }),
+    ],
+  });
+  const plain = (key: string) => result.lists.find((l) => l.key === key)!.entries;
+  const withMinis = (key: string) => result.listsWithMinis.find((l) => l.key === key)!.entries;
+
+  it("leaves minis out of the plain lists", () => {
+    expect(plain("wins3v3").map((e) => e.tag)).toEqual(["#9YRVPPGCC", "#2GY22JUR", "#RRCLPJVP"]);
+    expect(result.miniCount).toBe(2);
+  });
+
+  it("adds 3v3, Showdown and XP of the minis onto the main account", () => {
+    const wins = withMinis("wins3v3");
+    expect(wins.map((e) => [e.tag, e.value])).toEqual([
+      ["#2GY22JUR", 160],
+      ["#9YRVPPGCC", 150],
+      ["#RRCLPJVP", 1],
+    ]);
+    expect(wins[0].detail).toBe("med 2 minis");
+    const sd = withMinis("showdown").find((e) => e.tag === "#2GY22JUR")!;
+    expect(sd.value).toBe(18);
+    expect(sd.detail).toBe("solo 11 · duo 7 · med 2 minis");
+    const xp = withMinis("experience").find((e) => e.tag === "#2GY22JUR")!;
+    expect([xp.value, xp.display]).toEqual([1230, "360"]);
+  });
+
+  it("lists minis on their own for fame", () => {
+    const fame = withMinis("fame");
+    expect(fame.map((e) => e.tag)).toEqual(["#8Q0YGP8P", "#2GY22JUR", "#9YRVPPGCC"]);
+    expect(fame[0].name).toBe("Zimma mini");
+    expect(fame[0].miniOf).toBe("Zimma");
+    expect(fame[1].miniOf).toBeNull();
+  });
+});

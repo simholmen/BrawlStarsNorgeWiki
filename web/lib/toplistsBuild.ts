@@ -1,6 +1,7 @@
 // Turns the raw rows behind /topplister/ into ranked lists (pure, so it's tested on its own;
 // lib/toplists.ts fetches the rows). Same account rules as rankedstats/toplists.py: wiki people
-// with a valid tag, active main ranked profiles, and active extra players.
+// with a valid tag, active main ranked profiles, and active extra players. Minis (ranked profiles
+// with a main_tag) only count in the second set of lists, `listsWithMinis` ("Ta med minis").
 
 import { isValidTag } from "./rankedTag";
 
@@ -127,6 +128,8 @@ export type ToplistEntry = {
   detail: string | null;
   /** Rank sticker for the ranked list ("masters"), see docs/rankedstats/images/ranks/. */
   rankIcon: string | null;
+  /** With minis: this is a mini, standing alone; the main account's name. */
+  miniOf?: string | null;
 };
 
 export type BreakdownPart = { label: string; owned: number; max: number };
@@ -135,8 +138,18 @@ export type CategoryKey = "wins3v3" | "showdown" | "fame" | "ranked" | "experien
 
 export type Toplist = { key: CategoryKey; title: string; unit: string; entries: ToplistEntry[] };
 
+/** An active mini ranked profile (ranked_profiles.main_tag set). */
+export type MiniProfile = { tag: string; name: string; main_tag: string };
+
 export type Toplists = {
   lists: Toplist[];
+  /**
+   * The same lists with minis: 3v3, Showdown and XP add each mini onto its main account; fame,
+   * elo and maxed list minis as accounts of their own.
+   */
+  listsWithMinis: Toplist[];
+  /** Minis with numbers (0: the page hides the checkbox). */
+  miniCount: number;
   /** Newest fetch time, ISO; null before the first daily run. */
   updatedAt: string | null;
   /** How many accounts the lists are drawn from (with fetched stats). */
@@ -222,6 +235,7 @@ export function buildToplists(input: {
   extras: ExtraPlayer[];
   tiers: Array<{ value: number; label: string; tier_name: string }>;
   catalogue?: CatalogueRow[];
+  minis?: MiniProfile[];
 }): Toplists {
   // Who is on the lists, and under which name (first source wins).
   const accounts = new Map<string, { name: string; href: string | null }>();
@@ -244,22 +258,92 @@ export function buildToplists(input: {
   }
 
   const tierByValue = new Map(input.tiers.map((t) => [t.value, t]));
+  const statsByTag = new Map(input.stats.map((s) => [s.tag, s]));
   const rows = input.stats.filter((s) => accounts.has(s.tag));
 
-  function entry(s: StatsRow, value: number, detail: string | null, rankIcon: string | null = null): ToplistEntry {
-    const who = accounts.get(s.tag)!;
-    const inGame = s.profile_name?.trim() || null;
-    return {
-      tag: s.tag,
-      name: who.name || inGame || s.tag,
-      inGameName: inGame && inGame !== who.name ? inGame : null,
-      href: who.href,
-      club: s.club_name,
-      value,
-      detail,
-      rankIcon,
-    };
+  // Minis: who they are, and which ones add onto a main that's on the lists with numbers. A mini
+  // that's on the lists by itself (wiki page, extra player) already counts there, so it's skipped.
+  type Who = { name: string; href: string | null; miniOf?: string };
+  const withMinis = new Map<string, Who>(accounts);
+  const miniRows: StatsRow[] = [];
+  const minisOf = new Map<string, StatsRow[]>();
+  for (const m of input.minis ?? []) {
+    const tag = tagOf(m.tag);
+    const main = tagOf(m.main_tag);
+    const s = tag ? statsByTag.get(tag) : undefined;
+    if (!tag || !main || !s || withMinis.has(tag)) continue;
+    const mainWho = accounts.get(main);
+    withMinis.set(tag, { name: m.name, href: null, miniOf: mainWho?.name ?? main });
+    miniRows.push(s);
+    if (mainWho && statsByTag.has(main)) minisOf.set(main, [...(minisOf.get(main) ?? []), s]);
   }
+  const added = new Set([...minisOf.values()].flat().map((s) => s.tag));
+
+  const lists = makeLists(accounts, rows, rows, new Map());
+  const listsWithMinis = makeLists(
+    withMinis,
+    [...rows, ...miniRows],
+    [...rows, ...miniRows.filter((s) => !added.has(s.tag))],
+    minisOf,
+  );
+
+  const updatedAt = rows.reduce<string | null>((max, s) => (!max || s.fetched_at > max ? s.fetched_at : max), null);
+  const releasedCatalogue = releasedOnly(input.catalogue ?? []);
+  const buffieBrawlers = releasedCatalogue.filter(
+    (b) => b.buffie_gadget || b.buffie_star_power || b.buffie_hypercharge,
+  ).length;
+  return {
+    lists,
+    listsWithMinis,
+    miniCount: miniRows.length,
+    updatedAt,
+    accounts: rows.length,
+    extras: input.extras,
+    coveredTags,
+    brawlerCount: releasedCatalogue.length,
+    buffieBrawlers,
+  };
+
+  /**
+   * One set of lists. `standalone`: the accounts for fame, elo and maxed. `summed`: the accounts
+   * for 3v3, Showdown and XP, where each also gets the numbers of its minis in `minisOf`.
+   */
+  function makeLists(
+    who: Map<string, Who>,
+    standalone: StatsRow[],
+    summed: StatsRow[],
+    minisOf: Map<string, StatsRow[]>,
+  ): Toplist[] {
+    function entry(s: StatsRow, value: number, detail: string | null, rankIcon: string | null = null): ToplistEntry {
+      const w = who.get(s.tag)!;
+      const inGame = s.profile_name?.trim() || null;
+      return {
+        tag: s.tag,
+        name: w.name || inGame || s.tag,
+        inGameName: inGame && inGame !== w.name ? inGame : null,
+        href: w.href,
+        club: s.club_name,
+        value,
+        detail,
+        rankIcon,
+        miniOf: w.miniOf ?? null,
+      };
+    }
+
+    /** The account plus its minis, for one number. */
+    function total(s: StatsRow, f: (r: StatsRow) => number | null | undefined): number {
+      return [s, ...(minisOf.get(s.tag) ?? [])].reduce((n, r) => n + (f(r) ?? 0), 0);
+    }
+
+    /** "med 2 minis" when minis were added on. */
+    function withNote(s: StatsRow): string {
+      const n = minisOf.get(s.tag)?.length ?? 0;
+      return n ? `med ${n} ${n === 1 ? "mini" : "minis"}` : "";
+    }
+
+    function joined(...parts: Array<string | null>): string | null {
+      return parts.filter(Boolean).join(" · ") || null;
+    }
 
   function ranked(list: ToplistEntry[]): ToplistEntry[] {
     return list.filter((e) => e.value > 0).sort((a, b) => b.value - a.value || a.name.localeCompare(b.name, "nb"));
@@ -270,34 +354,32 @@ export function buildToplists(input: {
       key: "wins3v3",
       title: "3v3-seire",
       unit: "seire",
-      entries: ranked(rows.map((s) => entry(s, s.wins_3v3 ?? 0, null))),
+      entries: ranked(summed.map((s) => entry(s, total(s, (r) => r.wins_3v3), joined(withNote(s))))),
     },
     {
       key: "showdown",
       title: "Showdown-seire",
       unit: "seire",
       entries: ranked(
-        rows.map((s) =>
-          entry(
-            s,
-            (s.wins_solo ?? 0) + (s.wins_duo ?? 0),
-            `solo ${formatNumber(s.wins_solo ?? 0)} · duo ${formatNumber(s.wins_duo ?? 0)}`,
-          ),
-        ),
+        summed.map((s) => {
+          const solo = total(s, (r) => r.wins_solo);
+          const duo = total(s, (r) => r.wins_duo);
+          return entry(s, solo + duo, joined(`solo ${formatNumber(solo)} · duo ${formatNumber(duo)}`, withNote(s)));
+        }),
       ),
     },
     {
       key: "fame",
       title: "Fame",
       unit: "fame",
-      entries: ranked(rows.map((s) => entry(s, s.fame ?? 0, prettyName(s.fame_tier_name)))),
+      entries: ranked(standalone.map((s) => entry(s, s.fame ?? 0, prettyName(s.fame_tier_name)))),
     },
     {
       key: "ranked",
       title: "Høyeste ranked-elo",
       unit: "elo",
       entries: ranked(
-        rows.map((s) => {
+        standalone.map((s) => {
           const tier = s.highest_ranked_rank ? tierByValue.get(s.highest_ranked_rank) : undefined;
           const raw = s.highest_ranked_elo ?? 0;
           const elo = fairRankedElo(raw, s.highest_ranked_rank, s.tag);
@@ -318,7 +400,7 @@ export function buildToplists(input: {
     unit: "%",
     entries: possible
       ? ranked(
-          rows
+          standalone
             .filter((s) => s.brawlers_owned != null)
             .map((s) => {
               const value = Math.min(100, (ownedPoints(s) / possible) * 100);
@@ -330,31 +412,24 @@ export function buildToplists(input: {
   });
 
   // XP-nivå (last list): ranked by experience points (exact), shown as the level, which is what
-  // people know.
+  // people know. With minis, both add up.
   lists.push({
     key: "experience",
     title: "XP-nivå",
     unit: "nivå",
     entries: ranked(
-      rows
+      summed
         .filter((s) => s.exp_points != null)
-        .map((s) => ({
-          ...entry(s, s.exp_points ?? 0, `${formatNumber(s.exp_points ?? 0)} XP`),
-          display: formatNumber(s.exp_level ?? 0),
-        })),
+        .map((s) => {
+          const points = total(s, (r) => r.exp_points);
+          return {
+            ...entry(s, points, joined(`${formatNumber(points)} XP`, withNote(s))),
+            display: formatNumber(total(s, (r) => r.exp_level)),
+          };
+        }),
     ),
   });
 
-  const updatedAt = rows.reduce<string | null>((max, s) => (!max || s.fetched_at > max ? s.fetched_at : max), null);
-
-  const buffieBrawlers = catalogue.filter((b) => b.buffie_gadget || b.buffie_star_power || b.buffie_hypercharge).length;
-  return {
-    lists,
-    updatedAt,
-    accounts: rows.length,
-    extras: input.extras,
-    coveredTags,
-    brawlerCount: catalogue.length,
-    buffieBrawlers,
-  };
+  return lists;
+  }
 }

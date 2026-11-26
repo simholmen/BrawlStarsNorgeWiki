@@ -12,7 +12,7 @@ Brawl Stars API key is IP-bound to it):
 
 The accounts are the same set the page shows (web/lib/toplists.ts), from three sources:
     - wiki people with a valid tag (`people.bsid`),
-    - active main ranked profiles (`ranked_profiles`, minis left out: same person twice),
+    - active ranked profiles (`ranked_profiles`; minis too, for the page's "Ta med minis"),
     - extra accounts editors added on the page (`toplist_players`, active rows).
 
 One account failing (bad tag, API hiccup) is logged and skipped; the run exits non-zero only
@@ -88,7 +88,7 @@ def collect_tags(people: list, profiles: list, extras: list) -> list:
         if tag:
             tags.add(tag)
     for r in profiles:
-        if r.get("active") and not r.get("main_tag"):
+        if r.get("active"):  # minis too: the page can add them onto their main
             tag = normalize_tag(r.get("tag"))
             if tag:
                 tags.add(tag)
