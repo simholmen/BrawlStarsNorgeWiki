@@ -73,3 +73,279 @@
     width: 100%;
   }
 }
+
+/* ---------------------------------------------------------------- Topplister (/topplister/) */
+.toplist {
+  table-layout: auto;
+  width: 100%;
+  max-width: 640px;
+  border-collapse: collapse;
+  margin: 6px 0 10px;
+}
+
+.toplist th,
+.toplist td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #eaecf0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.toplist thead th {
+  background: #f2f2f2;
+  border-bottom: 1px solid #a2a9b1;
+  font-size: 0.9em;
+}
+
+.toplist tr.toplist-top3 .toplist-pos {
+  font-weight: bold;
+  color: #b07d00;
+}
+
+.toplist-pos {
+  width: 2.5em;
+  color: #54595d;
+}
+
+.toplist-value {
+  text-align: right !important;
+  white-space: nowrap;
+}
+
+.toplist-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.toplist-number img {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: none;
+}
+
+.toplist-sub {
+  color: #72777d;
+  font-size: 0.8em;
+}
+
+.toplist-ingame {
+  color: #54595d;
+  font-size: 0.9em;
+}
+
+.toplist-tag {
+  font-family: ui-monospace, Consolas, monospace;
+  color: #72777d !important;
+}
+
+.toplist-more {
+  max-width: 640px;
+  margin-bottom: 10px;
+}
+
+.toplist-more summary {
+  cursor: pointer;
+  color: #36c;
+  font-size: 0.9em;
+}
+
+.toplist-more .toplist {
+  margin-top: 0;
+}
+
+.auth-panel.toplist-editor {
+  max-width: none;
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  background: #f8f9fa;
+  box-sizing: border-box;
+}
+
+.toplist-editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.toplist-editor-head h3 {
+  margin: 0;
+}
+
+/* The "?" on the ranked list's header, with its explanation on hover / focus (tap on phones). */
+.toplist-help {
+  position: relative;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: #72777d;
+  color: #fff;
+  font-size: 11px;
+  line-height: 15px;
+  text-align: center;
+  vertical-align: 1px;
+  cursor: help;
+}
+
+.toplist-help:focus {
+  outline: 2px solid #36c;
+  outline-offset: 1px;
+}
+
+.toplist-help-text {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: -8px;
+  z-index: 20;
+  width: 290px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 1px solid #a2a9b1;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  color: #202122;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.45;
+  text-align: left;
+  white-space: normal;
+}
+
+.toplist-help:hover .toplist-help-text,
+.toplist-help:focus .toplist-help-text {
+  display: block;
+}
+
+.toplist-help-floors {
+  display: block;
+  margin: 6px 0;
+  color: #54595d;
+  font-variant-numeric: tabular-nums;
+}
+
+.toplist-add-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 2px 0 4px;
+  font-size: 0.9em;
+}
+
+.toplist-add-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: normal;
+}
+
+/* Maxet konto: the % opens a small breakdown per part. */
+.toplist-breakdown summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.toplist-breakdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.toplist-breakdown summary::after {
+  content: " ▸";
+  color: #72777d;
+  font-size: 0.8em;
+}
+
+.toplist-breakdown[open] summary::after {
+  content: " ▾";
+}
+
+
+/* The breakdown row under a Maxet konto row: hidden until its % is opened. */
+.toplist-breakdown-row {
+  display: none;
+}
+
+.toplist tr:has(details[open]) + .toplist-breakdown-row {
+  display: table-row;
+}
+
+.toplist tr:has(details[open]) td {
+  border-bottom-color: transparent;
+}
+
+.toplist .toplist-breakdown-row td {
+  padding-top: 0;
+  background: #f8f9fa;
+}
+
+.toplist-parts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 2px 18px;
+  margin: 0;
+  padding: 6px 0 4px 2.5em;
+  list-style: none;
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
+}
+
+.toplist-parts li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+}
+
+.toplist-part-label {
+  flex: 1;
+  color: #54595d;
+}
+
+.toplist-part-count {
+  color: #72777d;
+  font-size: 0.9em;
+}
+
+.toplist-part-pct {
+  min-width: 3.2em;
+  text-align: right;
+  font-weight: bold;
+}
+
+.toplist-parts li.full .toplist-part-pct {
+  color: #14866d;
+}
+
+/* Phones: tighter table, smaller second lines, breakdown in one column under the name. */
+@media (max-width: 767px) {
+  .toplist th,
+  .toplist td {
+    padding: 6px 4px;
+  }
+
+  .toplist-pos {
+    width: 1.8em;
+  }
+
+  .toplist-ingame {
+    display: block;
+    font-size: 0.8em;
+  }
+
+  .toplist-parts {
+    grid-template-columns: 1fr;
+    padding-left: 1.8em;
+  }
+
+  .toplist-help-text {
+    width: min(290px, 80vw);
+  }
+}

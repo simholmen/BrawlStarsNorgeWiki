@@ -12,6 +12,7 @@ export type PageEntry = { name: string; href: string; kind: "person" | "klubb" |
 const OTHER: PageEntry[] = [
   { name: "Wiki forside", href: "/wiki/", kind: "side" },
   { name: "Ranked Stats", href: "/rankedstats/stats.html", kind: "side" },
+  { name: "Topplister", href: "/topplister/", kind: "side" },
 ];
 
 const collator = new Intl.Collator("nb", { sensitivity: "base" });

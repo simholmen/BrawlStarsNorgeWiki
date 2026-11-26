@@ -136,7 +136,10 @@ def fetch_player_profile(tag: str) -> dict:
         "ranked_rank": int | None, "ranked_rank_name": str | None,
         "ranked_elo": int | None, "name": str | None, "club_tag": str | None,
         "club_name": str | None, "highest_ranked_rank": int | None,
-        "highest_ranked_elo": int | None, "wins_3v3": int | None}. Any field may be None
+        "highest_ranked_elo": int | None, "wins_3v3": int | None, plus the toplist fields
+        "trophies", "wins_solo", "wins_duo", "fame", "fame_tier_name",
+        "highest_ranked_rank_name", and "brawlers" (the raw list, [] when missing)}. Any field
+        may be None
         -- e.g. a player with no Ranked activity this season has no ranked_* fields in the
         raw response, and a player outside a club has an empty `club` object.
 
@@ -211,7 +214,55 @@ def fetch_player_profile(tag: str) -> dict:
         "highest_ranked_rank": payload.get("highestAllTimeRankedRank"),
         "highest_ranked_elo": payload.get("highestAllTimeRankedElo"),
         "wins_3v3": payload.get("3vs3Victories"),
+        # Extra fields for the daily toplists (rankedstats/toplists.py, migration 021).
+        "trophies": payload.get("trophies"),
+        "wins_solo": payload.get("soloVictories"),
+        "wins_duo": payload.get("duoVictories"),
+        "fame": payload.get("fame"),
+        "fame_tier_name": payload.get("fameTierName"),
+        "highest_ranked_rank_name": payload.get("highestAllTimeRankedRankName"),
+        "exp_level": payload.get("expLevel"),
+        "exp_points": payload.get("expPoints"),
+        # Owned brawlers with their level, gadgets, star powers, gears, hypercharges and buffies
+        # ("Maxet konto" on the toplists, migration 022).
+        "brawlers": payload.get("brawlers") or [],
     }
+
+
+BRAWLERS_URL = "https://api.brawlstars.com/v1/brawlers"
+
+
+def fetch_brawler_catalogue() -> list:
+    """Every brawler in the game with what it can have (gadgets, starPowers, gears, hyperCharges).
+
+    The API doesn't list buffies here; see rankedstats/toplists.py for how those are found.
+
+    Raises:
+        RuntimeError: if no API key is configured, or the API returns 403.
+        requests.HTTPError / requests.RequestException: as for fetch_player_profile.
+    """
+    api_key = load_api_key()
+    if not api_key:
+        raise RuntimeError(f"Missing BRAWLSTARS_API_KEY. Set it in the environment or in {ENV_PATH}.")
+    headers = {"Authorization": f"Bearer {api_key}", "Accept": "application/json"}
+    attempts = 4
+    for attempt in range(1, attempts + 1):
+        try:
+            response = requests.get(BRAWLERS_URL, headers=headers, params={"limit": 500}, timeout=30)
+        except requests.RequestException:
+            if attempt < attempts:
+                time.sleep(2 ** (attempt - 1))
+                continue
+            raise
+        if response.status_code == 200:
+            return response.json().get("items") or []
+        if response.status_code == 403:
+            raise RuntimeError("403 from Brawl Stars API — check BRAWLSTARS_API_KEY and the allow-listed IP.")
+        if response.status_code in RETRY_STATUS_CODES and attempt < attempts:
+            time.sleep(2 ** (attempt - 1))
+            continue
+        response.raise_for_status()
+    raise RuntimeError("Unknown error while fetching the brawler catalogue")
 
 
 def _write_debug_response(tag: str, payload: dict):

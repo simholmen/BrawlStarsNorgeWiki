@@ -55,6 +55,7 @@ sys.path.insert(0, str(REPO_ROOT))
 from rankedstats import supa  # noqa: E402
 from rankedstats.bs_api import fetch_battlelog, fetch_player_profile  # noqa: E402
 from rankedstats.roster import load_roster  # noqa: E402
+from rankedstats.toplists import stats_row  # noqa: E402
 from rankedstats.sets import (  # noqa: E402
     MAX_INTRA_SET_GAP,
     MYTHIC_I_RANK_VALUE,
@@ -209,6 +210,14 @@ def ingest_player(tag: str, roster_tags: set, roster_name_by_tag: dict) -> dict:
                 on_conflict="player_tag,fetched_at",
                 ignore_duplicates=True,
             )
+
+        # Topplister (migration 021): same profile, so a newly tracked player shows up there
+        # within 30 min and tracked players stay fresh between the daily rankedstats/toplists.py
+        # runs. Its own try: a failure here never skips anything else.
+        try:
+            supa.upsert("toplist_stats", [stats_row(tag, profile, now_iso)], on_conflict="tag")
+        except Exception as exc:
+            print(f"WARN: could not store toplist stats for {tag}: {exc}")
     except Exception as exc:
         print(f"WARN: could not fetch/store player profile for {tag}: {exc}")
 

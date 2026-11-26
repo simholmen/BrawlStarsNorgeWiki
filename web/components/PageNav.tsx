@@ -156,6 +156,9 @@ export default function PageNav() {
       <Link className="page-nav-button" href="/diverse/oversikt/">
         Sideoversikt
       </Link>
+      <Link className="page-nav-button" href="/topplister/">
+        Topplister
+      </Link>
       {/* A plain link: in production "/" is the static landing page (docs/index.html via Caddy). */}
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
       <a className="page-nav-button" href="/" title="Forsiden">
@@ -164,12 +167,19 @@ export default function PageNav() {
       <PageSearch />
       {edit && (
         <div className="page-nav-edit">
-          <button type="button" className="auth-button small" onClick={edit.startEdit}>
-            ✎ Rediger
+          <button
+            type="button"
+            className={`auth-button small${edit.active ? " secondary" : ""}`}
+            aria-pressed={edit.active ?? undefined}
+            onClick={edit.startEdit}
+          >
+            {edit.label ?? "✎ Rediger"}
           </button>
-          <a className="page-nav-button" href={edit.historyHref}>
-            Historikk
-          </a>
+          {edit.historyHref && (
+            <a className="page-nav-button" href={edit.historyHref}>
+              Historikk
+            </a>
+          )}
         </div>
       )}
     </nav>
