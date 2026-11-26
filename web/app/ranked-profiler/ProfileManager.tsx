@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatDate } from "@/components/AuthBits";
 import { isValidTag } from "@/lib/rankedTag";
 import { track } from "@/lib/analytics";
+import { createEntity } from "@/app/rediger/actions";
 import { addMini, addProfile, renameProfile, setProfileActive, type ProfileResult } from "./actions";
 
 export type Profile = {
@@ -28,6 +29,14 @@ async function added(result: Promise<ProfileResult>, kind: "profil" | "mini"): P
   const r = await result;
   if (r.ok) track("ranked_profile_added", { kind, via: "ranked-profiler" });
   return r;
+}
+
+/** Creates a person wiki page from a profile's name and tag (same as /ny/person/ with those two filled in). */
+async function createWiki(p: Profile): Promise<ProfileResult> {
+  const r = await createEntity("person", { name: p.name, bsid: p.tag });
+  if (!r.ok) return { ok: false, message: r.message };
+  track("page_created", { kind: "person", url: r.url, via: "ranked-profiler" });
+  return { ok: true, message: `Wiki-side laget for ${p.name}. Fyll inn resten på siden.` };
 }
 
 function useAction() {
@@ -192,6 +201,17 @@ function ProfileRow({ p, wiki, mini = false }: { p: Profile; wiki?: WikiPerson; 
               </>
             ) : (
               <>
+                {!mini && !wiki && (
+                  <button
+                    type="button"
+                    className="auth-button secondary small"
+                    disabled={pending}
+                    title={`Lager /personer/-siden «${p.name}» med taggen ${p.tag}`}
+                    onClick={() => run(() => createWiki(p))}
+                  >
+                    {pending ? "…" : "Lag wiki-side"}
+                  </button>
+                )}
                 <button type="button" className="auth-button secondary small" onClick={() => setEditing(true)}>
                   Endre navn
                 </button>
