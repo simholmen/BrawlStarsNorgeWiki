@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatDate } from "@/components/AuthBits";
 import { isValidTag } from "@/lib/rankedTag";
 import { track } from "@/lib/analytics";
+import SortToggle, { sortByOrder, type SortOrder } from "@/components/SortToggle";
 import { createEntity } from "@/app/rediger/actions";
 import { addMini, addProfile, renameProfile, setProfileActive, type ProfileResult } from "./actions";
 
@@ -311,9 +312,13 @@ function RemovedRow({ p, mainName }: { p: Profile; mainName: string | undefined 
 
 export default function ProfileManager({ profiles, wikiPeople }: { profiles: Profile[]; wikiPeople: WikiPerson[] }) {
   const [query, setQuery] = useState("");
+  const [order, setOrder] = useState<SortOrder>("name");
   const wikiByTag = new Map(wikiPeople.map((w) => [w.tag, w]));
   const nameByTag = new Map(profiles.map((p) => [p.tag, p.name]));
-  const mains = profiles.filter((p) => p.active && !p.main_tag);
+  const mains = sortByOrder(
+    profiles.filter((p) => p.active && !p.main_tag),
+    order,
+  );
   const minisByMain = new Map<string, Profile[]>();
   for (const p of profiles) {
     if (p.active && p.main_tag) minisByMain.set(p.main_tag, [...(minisByMain.get(p.main_tag) ?? []), p]);
@@ -353,14 +358,17 @@ export default function ProfileManager({ profiles, wikiPeople }: { profiles: Pro
           Spores nå ({mains.length}
           {miniCount > 0 && ` + ${miniCount} mini`})
         </h3>
-        <input
-          type="search"
-          className="rp-search"
-          placeholder="Søk navn eller tag"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Søk i profiler"
-        />
+        <div className="rp-list-tools">
+          <SortToggle value={order} onChange={setOrder} />
+          <input
+            type="search"
+            className="rp-search"
+            placeholder="Søk navn eller tag"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Søk i profiler"
+          />
+        </div>
       </div>
       <ul className="auth-list">
         {shown.map((p) => (

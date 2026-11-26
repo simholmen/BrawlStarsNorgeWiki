@@ -578,3 +578,42 @@
   margin: 0 0 3px;
   text-align: center;
 }
+
+/* Sort switch on editor lists (components/SortToggle.tsx), next to the search field. */
+.rp-list-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-toggle {
+  display: inline-flex;
+}
+
+.sort-toggle button {
+  font: inherit;
+  font-size: 0.85em;
+  padding: 3px 9px;
+  margin-left: -1px;
+  border: 1px solid #a2a9b1;
+  background: #fff;
+  cursor: pointer;
+}
+
+.sort-toggle button:first-child {
+  margin-left: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.sort-toggle button:last-child {
+  border-radius: 0 3px 3px 0;
+}
+
+.sort-toggle button.active {
+  position: relative;
+  background: #eaf3ff;
+  border-color: #36c;
+  color: #36c;
+  font-weight: bold;
+}
