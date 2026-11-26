@@ -14,6 +14,7 @@ from rankedstats.toplists import (  # noqa: E402
     account_progress,
     catalogue_rows,
     collect_tags,
+    new_tags,
     normalize_tag,
     owned_buffie_kinds,
     stats_row,
@@ -111,6 +112,19 @@ def test_released_detection():
     assert rows == {"SHELLY": True, "COLT": True, "NEWBIE": False, "LATER": True}, rows
 
 
+def test_new_tags():
+    from datetime import datetime, timedelta, timezone
+
+    now = datetime(2026, 11, 26, 12, 0, tzinfo=timezone.utc)
+    tags = ["#AAA", "#BBB", "#CCC", "#DDD"]
+    failed = {
+        "#CCC": (now - timedelta(minutes=5)).isoformat(),  # failed recently: wait
+        "#DDD": (now - timedelta(minutes=90)).isoformat(),  # failed long ago: try again
+    }
+    assert new_tags(tags, {"#AAA"}, failed, now) == ["#BBB", "#DDD"]
+    assert new_tags(tags, set(tags), {}, now) == []
+
+
 if __name__ == "__main__":
     test_normalize_tag()
     test_collect_tags()
@@ -118,4 +132,5 @@ if __name__ == "__main__":
     test_account_progress()
     test_buffie_detection()
     test_released_detection()
+    test_new_tags()
     print("toplists: all assertions passed")

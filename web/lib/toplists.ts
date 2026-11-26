@@ -19,7 +19,9 @@ function client() {
 }
 
 export async function getToplists(): Promise<Toplists> {
-  cacheLife("hours");
+  // "minutes": players added on the page get numbers from the --new cron within a minute
+  // (rankedstats/toplists.py), which can't expire this cache, so check the database often.
+  cacheLife("minutes");
   cacheTag("toplists", "people", "ranked_profiles");
   const db = client();
   const [stats, people, profiles, extras, tiers, catalogue] = await Promise.all([

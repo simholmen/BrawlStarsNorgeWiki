@@ -243,7 +243,7 @@ export default async function ToplistsPage() {
             </tr>
             <tr>
               <th>Oppdateres</th>
-              <td>hver morgen</td>
+              <td>hver morgen (nye spillere med en gang)</td>
             </tr>
           </tbody>
         </table>

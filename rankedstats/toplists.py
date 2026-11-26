@@ -20,10 +20,17 @@ when nothing could be fetched at all.
 
     python3 rankedstats/toplists.py            # fetch and store
     python3 rankedstats/toplists.py --dry-run  # list the accounts, fetch nothing
+    python3 rankedstats/toplists.py --new      # only accounts with no numbers yet (cron, every minute)
+
+`--new` is how a player added on the site gets numbers within a minute or two: it fetches only
+accounts without a `toplist_stats` row, once; after that they're in the daily run like everyone.
+
+    * * * * * cd /root/BrawlStarsNorgeWiki && [ -f rankedstats/toplists.py ] && flock -n /tmp/toplists-new.lock /usr/bin/python3 rankedstats/toplists.py --new >> rankedstats/logs/toplists.log 2>&1
 """
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 import time
@@ -39,7 +46,11 @@ from rankedstats.bs_api import fetch_brawler_catalogue, fetch_player_profile  # 
 TAG_RE = re.compile(r"^#[0289PYLQGRJCUV]{3,14}$")
 PAUSE_SECONDS = 0.3  # between API calls; ~100 accounts take well under a minute
 
-MAX_GEARS = 6  # some brawlers have 7-8 gears (being removed); count at most 6 per brawler
+# --new mode: tags whose fetch failed, so a mistyped tag isn't retried every minute.
+FAILED_STATE = REPO_ROOT / "rankedstats" / "logs" / "toplists_new_failed.json"
+RETRY_MINUTES = 60
+
+MAX_GEARS = 6 # some brawlers have 7-8 gears (being removed); count at most 6 per brawler
 
 # Buffie kind in the API -> brawler_catalogue column.
 BUFFIE_COLUMNS = {"gadget": "buffie_gadget", "starPower": "buffie_star_power", "hyperCharge": "buffie_hypercharge"}
@@ -200,7 +211,81 @@ def load_tags() -> list:
     return tags
 
 
+def new_tags(tags: list, stored: set, failed: dict, now: datetime, retry_minutes: int = RETRY_MINUTES) -> list:
+    """The accounts --new should fetch: no toplist_stats row yet, and not a recent failure.
+
+    Args:
+        tags: every account on the toplists (load_tags).
+        stored: tags that already have a toplist_stats row.
+        failed: {tag: ISO time of the last failed fetch} from the state file.
+    """
+    out = []
+    for tag in tags:
+        if tag in stored:
+            continue
+        last = failed.get(tag)
+        if last:
+            try:
+                if (now - datetime.fromisoformat(last)).total_seconds() < retry_minutes * 60:
+                    continue
+            except ValueError:
+                pass
+        out.append(tag)
+    return out
+
+
+def main_new() -> int:
+    """--new: fetch just the accounts that have no numbers yet (just added on the site), once.
+
+    Runs every minute from cron; quiet when there's nothing to do. A tag that fails (mistyped,
+    API hiccup) is retried at most every RETRY_MINUTES, tracked in FAILED_STATE.
+    """
+    now = datetime.now(timezone.utc)
+    tags = load_tags()
+    stored = {
+        normalize_tag(r.get("tag"))
+        for r in supa.select("toplist_stats", {"select": "tag"})
+    }
+    try:
+        failed = json.loads(FAILED_STATE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        failed = {}
+    todo = new_tags(tags, stored, failed, now)
+    if not todo:
+        return 0
+
+    rows = []
+    for i, tag in enumerate(todo):
+        if i:
+            time.sleep(PAUSE_SECONDS)
+        try:
+            profile = fetch_player_profile(tag)
+        except Exception as exc:
+            failed[tag] = datetime.now(timezone.utc).isoformat()
+            print(f"WARN: {tag}: {exc}")
+            continue
+        failed.pop(tag, None)
+        rows.append(stats_row(tag, profile, datetime.now(timezone.utc).isoformat()))
+    if rows:
+        supa.upsert("toplist_stats", rows, on_conflict="tag")
+
+    # Forget failures for tags that are no longer on the lists.
+    failed = {t: v for t, v in failed.items() if t in set(tags)}
+    try:
+        FAILED_STATE.parent.mkdir(parents=True, exist_ok=True)
+        FAILED_STATE.write_text(json.dumps(failed, indent=1), encoding="utf-8")
+    except OSError as exc:
+        print(f"WARN: could not save {FAILED_STATE}: {exc}")
+    print(
+        f"===== {now.isoformat(timespec='seconds')} toplists --new: stored {len(rows)}"
+        f" ({', '.join(r['tag'] for r in rows) or '-'}), failed {len(todo) - len(rows)} ====="
+    )
+    return 0
+
+
 def main(argv: list) -> int:
+    if "--new" in argv:
+        return main_new()
     started = datetime.now(timezone.utc)
     tags = load_tags()
     print(f"===== {started.isoformat(timespec='seconds')} toplists: {len(tags)} accounts =====")

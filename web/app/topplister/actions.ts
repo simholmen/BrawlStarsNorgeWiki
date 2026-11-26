@@ -12,7 +12,7 @@ import { addProfile } from "@/app/ranked-profiler/actions";
 
 export type ToplistResult = { ok: boolean; message: string };
 
-const DAILY_NOTE = "Tallene kommer med etter neste daglige oppdatering (hver morgen).";
+const DAILY_NOTE = "Tallene dukker opp om et par minutter (last siden på nytt).";
 
 async function requireEditor() {
   const supabase = await createClient();
@@ -120,7 +120,7 @@ export async function addPlayer(rawTag: string, rawName: string, options: AddOpt
   if (options.ranked) {
     const r = await addProfile(tag, name);
     if (r.ok) {
-      messages.push(`Lagt til på ranked-siden; kommer på topplistene innen 30 min.`);
+      messages.push(`Lagt til på ranked-siden; kommer på topplistene om et par minutter.`);
       covered = true;
     } else if (/spores allerede/.test(r.message)) {
       messages.push(r.message);
