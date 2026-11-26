@@ -1,4 +1,5 @@
 import "server-only";
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 // Data access layer for the logged-in visitor. Everything here reads cookies, so callers must sit
@@ -28,6 +29,10 @@ export type AccessRequest = {
 
 /** The verified user (JWT checked by getClaims), or null when not logged in. */
 export async function getCurrentUser(): Promise<CurrentUser | null> {
+  // getClaims checks the token's expiry against the current time. Without this, Next's runtime
+  // prerender (partial prefetching) gets that far with the cookies already known and reports
+  // "encountered the unstable value Date.now()" (seen on /konto and /ranked-profiler).
+  await connection();
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getClaims();
   if (error || !data?.claims?.sub) return null;
