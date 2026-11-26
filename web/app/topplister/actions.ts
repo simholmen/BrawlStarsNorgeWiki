@@ -75,6 +75,23 @@ export async function setToplistPlayerActive(tag: string, active: boolean): Prom
   return { ok: true, message: active ? `Lagt til igjen. ${DAILY_NOTE}` : "Fjernet fra topplistene." };
 }
 
+/** Change the name a toplist-only player is shown under (not their in-game name). */
+export async function renameToplistPlayer(tag: string, rawName: string): Promise<ToplistResult> {
+  const name = String(rawName ?? "").trim();
+  if (name.length < 1 || name.length > 60) return { ok: false, message: "Skriv et navn (1–60 tegn)." };
+  const { supabase, error } = await requireEditor();
+  if (error) return { ok: false, message: error };
+  const { data, error: dbError } = await supabase
+    .from("toplist_players")
+    .update({ name })
+    .eq("tag", tag)
+    .select("tag");
+  if (dbError) return { ok: false, message: dbMessage(dbError) };
+  if (!data?.length) return { ok: false, message: "Spilleren finnes ikke." };
+  updateTag("toplists");
+  return { ok: true, message: `Navnet er endret til ${name}.` };
+}
+
 export type AddOptions = { ranked: boolean; wiki: boolean };
 
 /**

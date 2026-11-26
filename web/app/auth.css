@@ -649,3 +649,17 @@
 .tag-input input::placeholder {
   text-transform: none;
 }
+
+/* Topplister: renaming a toplist-only player in place (app/topplister/ToplistEditor.tsx). */
+.toplist-rename-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.toplist-rename-field input {
+  flex: 1;
+  min-width: 0;
+  max-width: 22em;
+}

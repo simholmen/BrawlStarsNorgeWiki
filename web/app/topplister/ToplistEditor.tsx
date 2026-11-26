@@ -9,7 +9,7 @@ import { formatDate } from "@/components/AuthBits";
 import { setEditActions } from "@/components/editor/EditContext";
 import type { AccountSource, AccountSummary, ExtraPlayer } from "@/lib/toplistsBuild";
 import SortToggle, { sortByOrder, type SortOrder } from "@/components/SortToggle";
-import { addPlayer, setToplistPlayerActive, type ToplistResult } from "./actions";
+import { addPlayer, renameToplistPlayer, setToplistPlayerActive, type ToplistResult } from "./actions";
 
 // Editors only: add players, like the Ranked-profiler form, with "Følg på ranked-siden" and
 // "Lag wiki-side" checkboxes (either puts them on the toplists automatically; with neither they're
@@ -52,6 +52,56 @@ function Status({ message }: { message: Message }) {
 
 function PlayerRow({ p }: { p: ExtraPlayer }) {
   const { pending, message, run } = useAction();
+  // Editing the name shown on the lists (toplist_players.name); the in-game name stays as it is.
+  const [editing, setEditing] = useState(false);
+  const [newName, setNewName] = useState(p.name);
+  if (editing) {
+    return (
+      <li>
+        <form
+          className="auth-row toplist-rename"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (newName.trim() === p.name) return setEditing(false);
+            run(
+              () => renameToplistPlayer(p.tag, newName),
+              () => setEditing(false),
+            );
+          }}
+        >
+          <span className="toplist-rename-field">
+            <input
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              maxLength={60}
+              required
+              autoFocus
+              aria-label={`Nytt navn for ${p.tag}`}
+            />{" "}
+            <code className="rp-tag">{p.tag}</code>
+          </span>
+          <div className="auth-actions">
+            <button type="submit" className="auth-button small" disabled={pending}>
+              {pending ? "Lagrer …" : "Lagre"}
+            </button>
+            <button
+              type="button"
+              className="auth-button secondary small"
+              disabled={pending}
+              onClick={() => {
+                setNewName(p.name);
+                setEditing(false);
+              }}
+            >
+              Avbryt
+            </button>
+          </div>
+        </form>
+        <Status message={message} />
+      </li>
+    );
+  }
   return (
     <li>
       <div className="auth-row">
@@ -65,6 +115,17 @@ function PlayerRow({ p }: { p: ExtraPlayer }) {
         <div className="auth-actions">
           {p.active && (
             <>
+              <button
+                type="button"
+                className="auth-button secondary small"
+                disabled={pending}
+                onClick={() => {
+                  setNewName(p.name);
+                  setEditing(true);
+                }}
+              >
+                Endre navn
+              </button>
               <button
                 type="button"
                 className="auth-button secondary small"
