@@ -113,6 +113,7 @@ export default function ToplistEditor({
   const [wiki, setWiki] = useState(false);
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState<SortOrder>("name");
+  const [query, setQuery] = useState("");
   const canEdit = hydrated && isEditor(viewer);
 
   // The page bar button that opens / closes the box.
@@ -132,11 +133,13 @@ export default function ToplistEditor({
 
   const normalized = normalizeTag(tag);
   const covered = isValidTag(normalized) ? coveredTags[normalized] : undefined;
-  const active = sortByOrder(
-    extras.filter((e) => e.active),
-    order,
-  );
-  const removed = extras.filter((e) => !e.active);
+  // Search by name or tag ("2gy22" finds #2GY22JUR too), like on Ranked-profiler.
+  const q = query.trim().toLowerCase().replace(/^#/, "");
+  const matches = (p: ExtraPlayer) => !q || p.name.toLowerCase().includes(q) || p.tag.toLowerCase().includes(q);
+  const activeAll = extras.filter((e) => e.active);
+  const active = sortByOrder(activeAll.filter(matches), order);
+  const removedAll = extras.filter((e) => !e.active);
+  const removed = removedAll.filter(matches);
 
   return (
     <div className="auth-panel wide toplist-editor">
@@ -204,11 +207,25 @@ export default function ToplistEditor({
       </form>
 
       <div className="rp-list-head">
-        <h3>Bare i topplistene ({active.length})</h3>
-        {active.length > 1 && <SortToggle value={order} onChange={setOrder} />}
+        <h3>
+          Bare i topplistene ({q ? `${active.length} av ${activeAll.length}` : activeAll.length})
+        </h3>
+        {extras.length > 1 && (
+          <div className="rp-list-tools">
+            <SortToggle value={order} onChange={setOrder} />
+            <input
+              type="search"
+              className="rp-search"
+              placeholder="Søk navn eller tag"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Søk blant spillerne"
+            />
+          </div>
+        )}
       </div>
       {active.length === 0 ? (
-        <p className="auth-small">Ingen ennå.</p>
+        <p className="auth-small">{q ? "Ingen treff." : "Ingen ennå."}</p>
       ) : (
         <ul className="auth-list compact">
           {active.map((p) => (
@@ -217,8 +234,8 @@ export default function ToplistEditor({
         </ul>
       )}
       {removed.length > 0 && (
-        <details className="rp-removed">
-          <summary>Fjernet ({removed.length})</summary>
+        <details className="rp-removed" open={q ? true : undefined}>
+          <summary>Fjernet ({q ? `${removed.length} av ${removedAll.length}` : removed.length})</summary>
           <ul className="auth-list compact">
             {removed.map((p) => (
               <PlayerRow key={p.tag} p={p} />
