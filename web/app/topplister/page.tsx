@@ -228,7 +228,7 @@ export default async function ToplistsPage() {
   return (
     <>
       {/* Editors: the add-player box, opened from the page bar. */}
-      <ToplistEditor extras={data.extras} coveredTags={data.coveredTags} />
+      <ToplistEditor extras={data.extras} coveredTags={data.coveredTags} everyone={data.everyone} />
 
       <div className="infobox">
         <div className="infobox-title">Topplister</div>

@@ -157,9 +157,26 @@ export type Toplists = {
   extras: ExtraPlayer[];
   /** Tags already on the lists through a wiki page or the ranked roster (for the add form). */
   coveredTags: Record<string, string>;
+  /** Every account, from all sources, sorted by name (the add box's "Alle" view). */
+  everyone: AccountSummary[];
   /** Brawlers in the game, and how many have buffies (for the "Maxet konto" explanation). */
   brawlerCount: number;
   buffieBrawlers: number;
+};
+
+/** Where an account comes from: a wiki page, the ranked roster (main or mini), the add box. */
+export type AccountSource = "wiki" | "ranked" | "mini" | "topplister";
+
+export type AccountSummary = {
+  tag: string;
+  name: string;
+  /** Wiki page, when there is one. */
+  href: string | null;
+  sources: AccountSource[];
+  /** For a mini: the main account's name. */
+  miniOf: string | null;
+  /** Has numbers from the API yet. */
+  hasStats: boolean;
 };
 
 const pct = new Intl.NumberFormat("nb-NO", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -287,6 +304,38 @@ export function buildToplists(input: {
     minisOf,
   );
 
+  // Every account with all the places it comes from (one account can be on the wiki, the ranked
+  // roster and in the add box at once). Named like on the lists: the first source wins.
+  const everyoneMap = new Map<string, AccountSummary>();
+  const note = (raw: string | null | undefined, source: AccountSource, name: string, extra: Partial<AccountSummary> = {}) => {
+    const tag = tagOf(raw);
+    if (!tag) return;
+    const a = everyoneMap.get(tag);
+    if (a) {
+      if (!a.sources.includes(source)) a.sources.push(source);
+      a.href ??= extra.href ?? null;
+      return;
+    }
+    everyoneMap.set(tag, {
+      tag,
+      name,
+      href: null,
+      miniOf: null,
+      hasStats: statsByTag.has(tag),
+      ...extra,
+      sources: [source],
+    });
+  };
+  for (const p of input.people) note(p.bsid, "wiki", p.name, { href: `/personer/${p.slug}/` });
+  for (const r of input.profiles) note(r.tag, "ranked", r.name);
+  for (const m of input.minis ?? []) {
+    const main = tagOf(m.main_tag);
+    note(m.tag, "mini", m.name, { miniOf: (main && accounts.get(main)?.name) || main });
+  }
+  for (const e of input.extras) if (e.active) note(e.tag, "topplister", e.name);
+  const collator = new Intl.Collator("nb", { sensitivity: "base" });
+  const everyone = [...everyoneMap.values()].sort((a, b) => collator.compare(a.name, b.name));
+
   const updatedAt = rows.reduce<string | null>((max, s) => (!max || s.fetched_at > max ? s.fetched_at : max), null);
   const releasedCatalogue = releasedOnly(input.catalogue ?? []);
   const buffieBrawlers = releasedCatalogue.filter(
@@ -300,6 +349,7 @@ export function buildToplists(input: {
     accounts: rows.length,
     extras: input.extras,
     coveredTags,
+    everyone,
     brawlerCount: releasedCatalogue.length,
     buffieBrawlers,
   };

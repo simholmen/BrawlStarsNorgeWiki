@@ -420,3 +420,38 @@
   font-size: 0.85em;
   opacity: 0.75;
 }
+
+/* Topplister add box, "Alle" view: where each account comes from (app/topplister/ToplistEditor.tsx). */
+.toplist-sources {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.toplist-source {
+  font-size: 0.75em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  white-space: nowrap;
+}
+.toplist-source-wiki {
+  border-color: #36c;
+  color: #36c;
+  background: #eaf3ff;
+}
+.toplist-source-ranked {
+  border-color: #b8860b;
+  color: #8a6508;
+  background: #fff7e0;
+}
+.toplist-source-mini {
+  border-color: #7a5ab8;
+  color: #5b3e94;
+  background: #f3eefc;
+}
+.toplist-source-topplister {
+  border-color: #14866d;
+  color: #14866d;
+  background: #e8f6f1;
+}

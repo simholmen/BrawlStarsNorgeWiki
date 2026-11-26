@@ -6,7 +6,7 @@ import { isEditor, useViewer } from "@/lib/useViewer";
 import { isValidTag, normalizeTag } from "@/lib/rankedTag";
 import { formatDate } from "@/components/AuthBits";
 import { setEditActions } from "@/components/editor/EditContext";
-import type { ExtraPlayer } from "@/lib/toplistsBuild";
+import type { AccountSource, AccountSummary, ExtraPlayer } from "@/lib/toplistsBuild";
 import SortToggle, { sortByOrder, type SortOrder } from "@/components/SortToggle";
 import { addPlayer, setToplistPlayerActive, type ToplistResult } from "./actions";
 
@@ -97,12 +97,53 @@ function PlayerRow({ p }: { p: ExtraPlayer }) {
   );
 }
 
+/** Which list the box shows: players added only here, or every account from all sources. */
+type View = "extras" | "all";
+
+const SOURCE_LABEL: Record<AccountSource, string> = {
+  wiki: "Wiki",
+  ranked: "Ranked",
+  mini: "Mini",
+  topplister: "Topplister",
+};
+
+/** One account in the "Alle" view: where it comes from; no actions (those live on each source's page). */
+function AccountRow({ a }: { a: AccountSummary }) {
+  return (
+    <li>
+      <div className="auth-row">
+        <span>
+          {a.href ? (
+            <a href={a.href}>
+              <strong>{a.name}</strong>
+            </a>
+          ) : (
+            <strong>{a.name}</strong>
+          )}{" "}
+          <code className="rp-tag">{a.tag}</code>
+          {a.miniOf && <span className="auth-small"> · mini av {a.miniOf}</span>}
+          {!a.hasStats && <span className="auth-small"> · ingen tall ennå</span>}
+        </span>
+        <span className="toplist-sources">
+          {a.sources.map((s) => (
+            <span key={s} className={`toplist-source toplist-source-${s}`}>
+              {SOURCE_LABEL[s]}
+            </span>
+          ))}
+        </span>
+      </div>
+    </li>
+  );
+}
+
 export default function ToplistEditor({
   extras,
   coveredTags,
+  everyone,
 }: {
   extras: ExtraPlayer[];
   coveredTags: Record<string, string>;
+  everyone: AccountSummary[];
 }) {
   const viewer = useViewer();
   const hydrated = useHydrated();
@@ -114,6 +155,7 @@ export default function ToplistEditor({
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState<SortOrder>("name");
   const [query, setQuery] = useState("");
+  const [view, setView] = useState<View>("extras");
   const canEdit = hydrated && isEditor(viewer);
 
   // The page bar button that opens / closes the box.
@@ -140,6 +182,9 @@ export default function ToplistEditor({
   const active = sortByOrder(activeAll.filter(matches), order);
   const removedAll = extras.filter((e) => !e.active);
   const removed = removedAll.filter(matches);
+  const allShown = everyone.filter(
+    (a) => !q || a.name.toLowerCase().includes(q) || a.tag.toLowerCase().includes(q),
+  );
 
   return (
     <div className="auth-panel wide toplist-editor">
@@ -207,24 +252,53 @@ export default function ToplistEditor({
       </form>
 
       <div className="rp-list-head">
-        <h3>
-          Bare i topplistene ({q ? `${active.length} av ${activeAll.length}` : activeAll.length})
-        </h3>
-        {extras.length > 1 && (
-          <div className="rp-list-tools">
-            <SortToggle value={order} onChange={setOrder} />
-            <input
-              type="search"
-              className="rp-search"
-              placeholder="Søk navn eller tag"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Søk blant spillerne"
-            />
-          </div>
-        )}
+        <div className="sort-toggle" role="group" aria-label="Vis">
+          {(
+            [
+              ["extras", `Bare i topplistene (${activeAll.length})`],
+              ["all", `Alle (${everyone.length})`],
+            ] as Array<[View, string]>
+          ).map(([v, label]) => (
+            <button
+              key={v}
+              type="button"
+              className={view === v ? "active" : ""}
+              aria-pressed={view === v}
+              onClick={() => setView(v)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="rp-list-tools">
+          {view === "extras" && <SortToggle value={order} onChange={setOrder} />}
+          <input
+            type="search"
+            className="rp-search"
+            placeholder="Søk navn eller tag"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Søk blant spillerne"
+          />
+        </div>
       </div>
-      {active.length === 0 ? (
+      {q && (
+        <p className="auth-small">
+          {view === "all" ? `${allShown.length} av ${everyone.length}` : `${active.length} av ${activeAll.length}`}{" "}
+          treff
+        </p>
+      )}
+      {view === "all" ? (
+        allShown.length === 0 ? (
+          <p className="auth-small">Ingen treff.</p>
+        ) : (
+          <ul className="auth-list compact">
+            {allShown.map((a) => (
+              <AccountRow key={a.tag} a={a} />
+            ))}
+          </ul>
+        )
+      ) : active.length === 0 ? (
         <p className="auth-small">{q ? "Ingen treff." : "Ingen ennå."}</p>
       ) : (
         <ul className="auth-list compact">
@@ -233,7 +307,7 @@ export default function ToplistEditor({
           ))}
         </ul>
       )}
-      {removed.length > 0 && (
+      {view === "extras" && removed.length > 0 && (
         <details className="rp-removed" open={q ? true : undefined}>
           <summary>Fjernet ({q ? `${removed.length} av ${removedAll.length}` : removed.length})</summary>
           <ul className="auth-list compact">

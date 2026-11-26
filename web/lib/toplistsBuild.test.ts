@@ -268,3 +268,25 @@ describe("buildToplists with minis", () => {
     expect(fame[1].miniOf).toBeNull();
   });
 });
+
+describe("buildToplists everyone", () => {
+  const result = buildToplists({
+    ...base,
+    extras: [
+      ...base.extras,
+      { tag: "#2GY22JUR", name: "Zimma igjen", active: true, created_by_name: null, created_at: "" },
+    ],
+    minis: [{ tag: "#8Q0YGP8P", name: "Zimma mini", main_tag: "#2GY22JUR" }],
+    stats: [stats("#2GY22JUR"), stats("#RRCLPJVP")],
+  });
+  const by = (tag: string) => result.everyone.find((a) => a.tag === tag)!;
+
+  it("lists every account once, with all its sources", () => {
+    expect(result.everyone.map((a) => a.tag).sort()).toEqual(
+      ["#2GY22JUR", "#8Q0YGP8P", "#9YRVPPGCC", "#RRCLPJVP"].sort(),
+    );
+    expect(by("#2GY22JUR")).toMatchObject({ name: "Zimma", href: "/personer/zimma/", sources: ["wiki", "ranked", "topplister"], hasStats: true });
+    expect(by("#8Q0YGP8P")).toMatchObject({ sources: ["mini"], miniOf: "Zimma", hasStats: false });
+    expect(by("#RRCLPJVP").sources).toEqual(["topplister"]);
+  });
+});
