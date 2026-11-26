@@ -142,7 +142,8 @@ function EloHelp() {
           <br />
           Masters I 8 250 · II 9 250 · III 10 250 · Pro 11 250
         </span>
-        Justerte spillere viser «justert fra» med tallet profilen deres viser.
+        Noen få har fått elo-en sin rettet for hånd når den riktige er kjent. Justerte spillere viser «justert fra»
+        med tallet profilen deres viser.
       </span>
     </span>
   );

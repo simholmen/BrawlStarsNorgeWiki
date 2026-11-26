@@ -114,6 +114,11 @@ describe("prettyName", () => {
 });
 
 describe("fairRankedElo", () => {
+  it("uses a manual correction for that tag before the rule", () => {
+    expect(fairRankedElo(11642, 20, "#92GC0C9Q")).toBe(10083);
+    expect(fairRankedElo(11642, 20, "#2GY22JUR")).toBe(9250);
+  });
+
   it("lowers an elo that is above what the rank allows, to the start of that rank", () => {
     expect(fairRankedElo(9816, 19)).toBe(8250); // Masters I
     expect(fairRankedElo(9250, 19)).toBe(8250);

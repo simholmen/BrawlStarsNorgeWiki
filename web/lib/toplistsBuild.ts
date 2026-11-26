@@ -188,12 +188,21 @@ const RANK_FLOOR: Record<number, number> = {
 };
 
 /**
+ * Manual corrections, by tag: the elo to show instead of the rule below, for accounts where an
+ * editor knows the real number. Still shown as "justert fra" the profile's elo.
+ */
+export const ELO_OVERRIDES: Record<string, number> = {
+  "#92GC0C9Q": 10083, // Daniel: profile shows 11 642 at Masters II
+};
+
+/**
  * Highest all-time ranked elo, made comparable across the old and new ranked systems. Some
  * accounts carry an all-time elo from the old system that is higher than their all-time rank
  * allows (e.g. 9816 elo but only Masters I). For Diamond I to Masters III: when the elo reaches
  * the start of the next rank up, it's set to the start of the rank they actually reached.
  */
-export function fairRankedElo(elo: number, rank: number | null): number {
+export function fairRankedElo(elo: number, rank: number | null, tag?: string): number {
+  if (tag && tag in ELO_OVERRIDES) return ELO_OVERRIDES[tag];
   if (rank === null || rank < 10 || rank > 21) return elo;
   const floor = RANK_FLOOR[rank];
   const nextFloor = RANK_FLOOR[rank + 1];
@@ -291,7 +300,7 @@ export function buildToplists(input: {
         rows.map((s) => {
           const tier = s.highest_ranked_rank ? tierByValue.get(s.highest_ranked_rank) : undefined;
           const raw = s.highest_ranked_elo ?? 0;
-          const elo = fairRankedElo(raw, s.highest_ranked_rank);
+          const elo = fairRankedElo(raw, s.highest_ranked_rank, s.tag);
           // Say so when the number was lowered, with what the profile shows.
           const detail = elo !== raw ? `${tier?.label ?? ""} · justert fra ${formatNumber(raw)}`.trim() : (tier?.label ?? null);
           return entry(s, elo, detail, tier?.tier_name.toLowerCase() ?? null);
