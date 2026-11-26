@@ -573,3 +573,8 @@
   font-size: 0.75em;
   text-align: right;
 }
+
+.infobox-footnote.above {
+  margin: 0 0 3px;
+  text-align: center;
+}

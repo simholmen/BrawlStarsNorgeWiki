@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getClub, getClubs } from "@/lib/data";
 import { imageBaseName, imageExists, imageAvailable } from "@/lib/images";
 import { legacyPortrait, profileImages } from "@/lib/profileImages";
-import { renderInline, renderMarkdown } from "@/lib/markdown";
+import { renderInline, renderMarkdown, withoutLeadingBakgrunn } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
 import EditablePage from "@/components/editor/EditablePage";
@@ -60,8 +60,6 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
         facts={club.facts}
       />
 
-      <h2 className="strekstopp">{club.name}</h2>
-
       <Toc
         items={[
           ["#bakgrunn", "1. Bakgrunn"],
@@ -71,7 +69,9 @@ export default async function ClubPage(props: PageProps<"/klubber/[slug]">) {
         ]}
       />
 
-      <Html html={renderMarkdown(club.body_md, { keepImage: imageAvailable })} />
+      <h2 id="bakgrunn" className="strekstopp">{club.name}</h2>
+
+      <Html html={renderMarkdown(withoutLeadingBakgrunn(club.body_md), { keepImage: imageAvailable })} />
 
       <h2 id="brawl-stars-klubbprofil">Klubbprofil</h2>
       {profiles.map((p) => (

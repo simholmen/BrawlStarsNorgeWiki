@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getClubs, getInGameInfo, getMinisByMain, getPeople, getPerson } from "@/lib/data";
 import { imageAvailable } from "@/lib/images";
 import { legacyPortrait, profileImages } from "@/lib/profileImages";
-import { renderInline, renderMarkdown } from "@/lib/markdown";
+import { renderInline, renderMarkdown, withoutLeadingBakgrunn } from "@/lib/markdown";
 import { normalizeSlug, pageTitle } from "@/lib/slug";
 import { Html } from "@/components/Html";
 import EditablePage from "@/components/editor/EditablePage";
@@ -89,8 +89,6 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
         <MiniAccounts minis={minis} />
       </Infobox>
 
-      <h2 className="strekstopp">{person.name}</h2>
-
       <Toc
         items={[
           ["#bakgrunn", "1. Bakgrunn"],
@@ -100,7 +98,9 @@ export default async function PersonPage(props: PageProps<"/personer/[slug]">) {
         ]}
       />
 
-      <Html html={renderMarkdown(person.body_md, { keepImage: imageAvailable })} />
+      <h2 id="bakgrunn" className="strekstopp">{person.name}</h2>
+
+      <Html html={renderMarkdown(withoutLeadingBakgrunn(person.body_md), { keepImage: imageAvailable })} />
 
       <h2 id="brawl-stars-profil">Brawl Stars profil</h2>
       {profiles.map((p) => (

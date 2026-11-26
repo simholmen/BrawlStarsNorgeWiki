@@ -103,6 +103,7 @@ export function InGameInfoSection({
 
   return (
     <div className="infobox-section">
+      <div className="infobox-footnote above">Oppdateres automatisk fra Brawl Stars</div>
       <div className="infobox-section-title">Ingame-info</div>
       <table>
         <tbody>
@@ -114,7 +115,6 @@ export function InGameInfoSection({
           ))}
         </tbody>
       </table>
-      <div className="infobox-footnote">Oppdateres automatisk fra Brawl Stars</div>
     </div>
   );
 }

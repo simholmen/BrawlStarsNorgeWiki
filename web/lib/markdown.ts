@@ -118,3 +118,12 @@ export function renderInline(md: string | null | undefined): string {
   const single = html.match(/^<p>([\s\S]*)<\/p>$/);
   return single && !single[1].includes("<p>") ? single[1] : html;
 }
+
+/**
+ * Drops the "## Bakgrunn" heading a person/club body starts with: the page's own name heading
+ * (with id="bakgrunn", so the TOC link still works) takes its place on the page. Only the
+ * rendered page changes; the stored text keeps the heading, so the editor shows it as before.
+ */
+export function withoutLeadingBakgrunn(md: string): string {
+  return md.replace(/^\s*##[ \t]+Bakgrunn[ \t]*(\{#bakgrunn\})?[ \t]*(\r?\n|$)/i, "");
+}
