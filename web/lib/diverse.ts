@@ -20,7 +20,11 @@ function nameFromTitle(title: unknown, slug: string): string {
 }
 
 export async function getDiversePages(): Promise<DiversePage[]> {
-  cacheLife("hours");
+  // On the dev server, edits in docs/ show up on the next reload or the one after, without a
+  // restart. (stale and expire stay at 5 minutes: anything shorter leaves the page out of its
+  // static shell, which the dev server reports as a blocking-prerender error on every load.)
+  if (process.env.NODE_ENV === "development") cacheLife({ stale: 300, revalidate: 1, expire: 300 });
+  else cacheLife("hours");
   const dir = path.join(DOCS_DIR, "diverse");
   const pages: DiversePage[] = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {

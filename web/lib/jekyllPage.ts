@@ -55,7 +55,11 @@ function splitFrontMatter(text: string): { front: Record<string, unknown>; body:
 
 /** `route` is the URL path without slashes, e.g. "wiki" or "diverse/slindringene". */
 export async function renderJekyllPage(route: string): Promise<JekyllPage> {
-  cacheLife("hours");
+  // On the dev server, edits in docs/ show up on the next reload or the one after, without a
+  // restart. (stale and expire stay at 5 minutes: anything shorter leaves the page out of its
+  // static shell, which the dev server reports as a blocking-prerender error on every load.)
+  if (process.env.NODE_ENV === "development") cacheLife({ stale: 300, revalidate: 1, expire: 300 });
+  else cacheLife("hours");
   const file = path.join(DOCS_DIR, ...route.split("/"), "index.html");
   const { front, body } = splitFrontMatter(await readFile(file, "utf8"));
   const html = await liquid.parseAndRender(body, {
