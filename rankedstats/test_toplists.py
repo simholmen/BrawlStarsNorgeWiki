@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from rankedstats.toplists import (  # noqa: E402
     account_progress,
+    level_coins,
     catalogue_rows,
     collect_tags,
     new_tags,
@@ -70,6 +71,7 @@ def test_account_progress():
     assert p == {
         "brawlers_owned": 2,
         "owned_levels": 18,
+        "owned_level_coins": level_coins(SHELLY["power"]) + level_coins(COLT["power"]),
         "owned_star_powers": 3,
         "owned_gadgets": 2,
         "owned_gears": 8,  # 8 gears on SHELLY count as 6, plus 2 on COLT
@@ -78,6 +80,12 @@ def test_account_progress():
     }, p
     assert account_progress([])["brawlers_owned"] == 0
     assert stats_row("#2GY22JUR", {"brawlers": [COLT]}, "t")["owned_levels"] == 7
+
+
+def test_level_coins():
+    assert level_coins(1) == 0
+    assert level_coins(2) == 60  # 20 PP (40 coins) + 20 coins
+    assert level_coins(11) == 3740 * 2 + 7765  # 15 245
 
 
 def test_buffie_detection():
@@ -130,6 +138,7 @@ if __name__ == "__main__":
     test_collect_tags()
     test_stats_row()
     test_account_progress()
+    test_level_coins()
     test_buffie_detection()
     test_released_detection()
     test_new_tags()

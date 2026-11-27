@@ -142,22 +142,27 @@
   color: #72777d !important;
 }
 
-.toplist-more {
-  max-width: 640px;
-  margin-bottom: 10px;
-}
-
 .toplist-more summary {
   cursor: pointer;
   color: #36c;
   font-size: 0.9em;
 }
 
-.toplist-more .toplist {
-  margin-top: 0;
+.toplist .toplist-more-row td {
+  border-bottom: 1px solid #eaecf0;
 }
 
-.auth-panel.toplist-editor {
+/* Rows past the top 10: in the same table (so the columns line up), shown once "Vis alle" is open. */
+.toplist-rest {
+  display: none;
+}
+
+.toplist:has(.toplist-more[open]) .toplist-rest {
+  display: table-row-group;
+}
+
+/* The shared "Legg til spiller" box (components/players/PlayerManager.tsx), on Topplister and /spillere/. */
+.auth-panel.player-manager {
   max-width: none;
   margin: 0 0 20px;
   padding: 12px 14px;
@@ -167,14 +172,14 @@
   box-sizing: border-box;
 }
 
-.toplist-editor-head {
+.player-manager-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
 }
 
-.toplist-editor-head h3 {
+.player-manager-head h3 {
   margin: 0;
 }
 
@@ -232,7 +237,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.toplist-add-options {
+.player-add-options {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 18px;
@@ -240,7 +245,7 @@
   font-size: 0.9em;
 }
 
-.toplist-add-options label {
+.player-add-options label {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -288,8 +293,8 @@
 
 .toplist-parts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 2px 18px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 6px 18px;
   margin: 0;
   padding: 6px 0 4px 2.5em;
   list-style: none;
@@ -299,6 +304,7 @@
 
 .toplist-parts li {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 6px;
   margin: 0;
@@ -320,6 +326,27 @@
   font-weight: bold;
 }
 
+/* Second line of a part: coins spent, and what's left. */
+.toplist-part-coins {
+  flex-basis: 100%;
+  color: #72777d;
+  font-size: 0.85em;
+}
+
+/* Above the parts: coins in all. */
+.toplist-coins-total {
+  margin: 0;
+  padding: 6px 0 0 2.5em;
+  font-size: 0.85em;
+  color: #54595d;
+  font-variant-numeric: tabular-nums;
+}
+
+.toplist-coins-note {
+  color: #72777d;
+  font-size: 0.9em;
+}
+
 .toplist-parts li.full .toplist-part-pct {
   color: #14866d;
 }
@@ -335,6 +362,17 @@
     width: 1.8em;
   }
 
+  /* The grey line under a number (e.g. "Legendary III · justert fra 8 649") may wrap, or it
+     makes the number column too wide and pushes the table off the screen. */
+  .toplist-value .toplist-sub {
+    white-space: normal;
+  }
+
+  /* Same for one long name without spaces (e.g. "HENRIKRAMSLAND@"): break it instead. */
+  .toplist td:nth-child(2) {
+    overflow-wrap: anywhere;
+  }
+
   .toplist-ingame {
     display: block;
     font-size: 0.8em;
@@ -342,6 +380,10 @@
 
   .toplist-parts {
     grid-template-columns: 1fr;
+    padding-left: 1.8em;
+  }
+
+  .toplist-coins-total {
     padding-left: 1.8em;
   }
 
@@ -421,37 +463,217 @@
   opacity: 0.75;
 }
 
-/* Topplister add box, "Alle" view: where each account comes from (app/topplister/ToplistEditor.tsx). */
-.toplist-sources {
+/* Player box: where each player comes from (components/players/PlayerManager.tsx). */
+.player-sources {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 4px;
 }
-.toplist-source {
-  font-size: 0.75em;
-  padding: 1px 6px;
-  border-radius: 3px;
+.player-source {
+  font-size: 0.7rem;
+  line-height: 1.5;
+  padding: 0 6px;
+  border-radius: 999px;
   border: 1px solid #a2a9b1;
   background: #f8f9fa;
   white-space: nowrap;
 }
-.toplist-source-wiki {
+.player-source-wiki {
   border-color: #36c;
   color: #36c;
   background: #eaf3ff;
 }
-.toplist-source-ranked {
+.player-source-ranked {
   border-color: #b8860b;
   color: #8a6508;
   background: #fff7e0;
 }
-.toplist-source-mini {
-  border-color: #7a5ab8;
-  color: #5b3e94;
-  background: #f3eefc;
-}
-.toplist-source-topplister {
+.player-source-topplister {
   border-color: #14866d;
   color: #14866d;
   background: #e8f6f1;
+}
+
+/* Player box rows: one calm line per player (name, tag, where they are), icon buttons on the
+   right. The buttons are faint until the row is hovered; on touch screens they're always clear. */
+.pm-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.pm-list > li {
+  border-bottom: 1px solid #eaecf0;
+}
+.pm-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 6px;
+  border-radius: 4px;
+}
+.pm-list > li > .pm-row:hover {
+  background: #f8f9fa;
+}
+.pm-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 8px;
+  row-gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.pm-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+a.pm-name {
+  color: #36c;
+}
+.pm-tag {
+  color: #72777d;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+}
+.pm-sub {
+  flex-basis: 100%;
+  color: #72777d;
+  font-size: 0.8rem;
+}
+.pm-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  opacity: 0.45;
+  transition: opacity 0.12s;
+}
+.pm-row:hover .pm-actions,
+.pm-actions:focus-within {
+  opacity: 1;
+}
+@media (hover: none) {
+  .pm-actions {
+    opacity: 1;
+  }
+}
+.pm-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: #54595d;
+  cursor: pointer;
+}
+.pm-icon:hover:not(:disabled) {
+  background: #eaf3ff;
+  border-color: #c8d8f3;
+  color: #36c;
+}
+.pm-icon-danger:hover:not(:disabled) {
+  background: #fee7e6;
+  border-color: #f3c1bf;
+  color: #d33;
+}
+.pm-icon:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pm-icon:focus-visible {
+  outline: 2px solid #36c;
+  outline-offset: 1px;
+}
+.pm-confirm {
+  display: inline-flex;
+  gap: 4px;
+}
+.pm-confirm button {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pm-confirm-yes {
+  border: 1px solid #d33;
+  background: #d33;
+  color: #fff;
+}
+.pm-confirm-no {
+  border: 1px solid #a2a9b1;
+  background: #fff;
+  color: #202122;
+}
+.pm-minis {
+  list-style: none;
+  margin: 0 0 6px 14px;
+  padding: 0 0 0 10px;
+  border-left: 2px solid #eaecf0;
+}
+.pm-minis .pm-row {
+  padding: 3px 6px;
+}
+.pm-minis .pm-name {
+  font-weight: normal;
+}
+@media (max-width: 767px) {
+  .pm-row {
+    align-items: flex-start;
+  }
+  .pm-icon {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* "Angre" bar after "Følg på ranked" in the player box (PlayerManager UndoBar): fixed at the
+   bottom of the screen so it stays in view even if the row leaves the list. */
+.pm-undo {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 50;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+  padding: 8px 8px 8px 16px;
+  border-radius: 8px;
+  background: #202122;
+  color: #fff;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.pm-undo-button {
+  font: inherit;
+  font-weight: 600;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  color: #8cb4ff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pm-undo-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+.pm-undo-close {
+  display: inline-flex;
+  padding: 4px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  color: #c8ccd1;
+  cursor: pointer;
+}
+.pm-undo-close:hover {
+  background: rgba(255, 255, 255, 0.1);
 }

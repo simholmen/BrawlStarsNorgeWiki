@@ -3,7 +3,7 @@
 // with a valid tag, active main ranked profiles, and active extra players. Minis (ranked profiles
 // with a main_tag) only count in the second set of lists, `listsWithMinis` ("Ta med minis").
 
-import { isValidTag } from "./rankedTag";
+import { tagOf } from "./rankedTag";
 
 export type StatsRow = {
   tag: string;
@@ -23,6 +23,8 @@ export type StatsRow = {
   /** What the account owns ("Maxet konto", migration 022); null before the first run with it. */
   brawlers_owned?: number | null;
   owned_levels?: number | null;
+  /** What those levels cost in coins (migration 025, rankedstats/toplists.py LEVEL_UPGRADES). */
+  owned_level_coins?: number | null;
   owned_star_powers?: number | null;
   owned_gadgets?: number | null;
   owned_gears?: number | null;
@@ -47,21 +49,47 @@ export type CatalogueRow = {
 export const MAX_LEVEL = 11;
 
 /**
- * Points a fully maxed account would have (scoring A): per brawler its max level, star powers,
- * gadgets, gears (catalogue already counts at most 6), hypercharge and the buffies that exist.
+ * "Maxet konto" weighs everything by what it costs in coins; power points count as 2 coins each
+ * (the shop price). Same level table as rankedstats/toplists.py LEVEL_UPGRADES, which stores
+ * owned_level_coins per account.
+ */
+export const COINS_PER_POWER_POINT = 2;
+/** [power points, coins] to go from level n-1 to n, for n = 2..11. Total: 3740 PP + 7765 coins. */
+export const LEVEL_UPGRADES: [number, number][] = [
+  [20, 20], [30, 35], [50, 75], [80, 140], [130, 290],
+  [210, 480], [340, 800], [550, 1250], [890, 1875], [1440, 2800],
+];
+export const COST = {
+  starPower: 2000,
+  gadget: 1000,
+  gear: 1000,
+  hypercharge: 5000,
+  /** 2000 power points + 1000 coins. */
+  buffie: 2000 * COINS_PER_POWER_POINT + 1000,
+};
+
+/** Coins (power points counted as coins) to take a brawler from level 1 to `level`. */
+export function levelCoins(level: number): number {
+  return LEVEL_UPGRADES.slice(0, Math.max(0, Math.min(level, MAX_LEVEL) - 1)).reduce(
+    (sum, [pp, coins]) => sum + pp * COINS_PER_POWER_POINT + coins,
+    0,
+  );
+}
+
+/**
+ * Coins a fully maxed account would have spent: per brawler level 11, its star powers, gadgets,
+ * gears (catalogue already counts at most 6), hypercharge and the buffies that exist.
  */
 export function maxPoints(catalogue: CatalogueRow[]): number {
   return releasedOnly(catalogue).reduce(
     (sum, b) =>
       sum +
-      MAX_LEVEL +
-      b.star_powers +
-      b.gadgets +
-      b.gears +
-      b.hypercharges +
-      Number(b.buffie_gadget) +
-      Number(b.buffie_star_power) +
-      Number(b.buffie_hypercharge),
+      levelCoins(MAX_LEVEL) +
+      b.star_powers * COST.starPower +
+      b.gadgets * COST.gadget +
+      b.gears * COST.gear +
+      b.hypercharges * COST.hypercharge +
+      (Number(b.buffie_gadget) + Number(b.buffie_star_power) + Number(b.buffie_hypercharge)) * COST.buffie,
     0,
   );
 }
@@ -75,31 +103,54 @@ export function releasedOnly(catalogue: CatalogueRow[]): CatalogueRow[] {
 export function breakdown(s: StatsRow, catalogue: CatalogueRow[]): BreakdownPart[] {
   const released = releasedOnly(catalogue);
   const sum = (f: (b: CatalogueRow) => number) => released.reduce((n, b) => n + f(b), 0);
+  /** A part priced at `price` coins each. */
+  const priced = (label: string, owned: number, max: number, price: number): BreakdownPart => ({
+    label,
+    owned,
+    max,
+    coins: { spent: owned * price, max: max * price },
+  });
+  const buffies = sum((b) => Number(b.buffie_gadget) + Number(b.buffie_star_power) + Number(b.buffie_hypercharge));
   return [
     { label: "Brawlere", owned: s.brawlers_owned ?? 0, max: released.length },
-    { label: "Nivåer", owned: s.owned_levels ?? 0, max: released.length * MAX_LEVEL },
-    { label: "Star powers", owned: s.owned_star_powers ?? 0, max: sum((b) => b.star_powers) },
-    { label: "Gadgets", owned: s.owned_gadgets ?? 0, max: sum((b) => b.gadgets) },
-    { label: "Gears", owned: s.owned_gears ?? 0, max: sum((b) => b.gears) },
-    { label: "Hypercharges", owned: s.owned_hypercharges ?? 0, max: sum((b) => b.hypercharges) },
     {
-      label: "Buffies",
-      owned: s.owned_buffies ?? 0,
-      max: sum((b) => Number(b.buffie_gadget) + Number(b.buffie_star_power) + Number(b.buffie_hypercharge)),
+      label: "Nivåer",
+      owned: s.owned_levels ?? 0,
+      max: released.length * MAX_LEVEL,
+      coins: { spent: ownedLevelCoins(s), max: released.length * levelCoins(MAX_LEVEL) },
     },
+    priced("Star powers", s.owned_star_powers ?? 0, sum((b) => b.star_powers), COST.starPower),
+    priced("Gadgets", s.owned_gadgets ?? 0, sum((b) => b.gadgets), COST.gadget),
+    priced("Gears", s.owned_gears ?? 0, sum((b) => b.gears), COST.gear),
+    priced("Hypercharges", s.owned_hypercharges ?? 0, sum((b) => b.hypercharges), COST.hypercharge),
+    priced("Buffies", s.owned_buffies ?? 0, buffies, COST.buffie),
   ];
 }
 
-/** Points the account has, same scoring as maxPoints. */
+/** Coins the account has spent, same scoring as maxPoints. */
 export function ownedPoints(s: StatsRow): number {
   return (
-    (s.owned_levels ?? 0) +
-    (s.owned_star_powers ?? 0) +
-    (s.owned_gadgets ?? 0) +
-    (s.owned_gears ?? 0) +
-    (s.owned_hypercharges ?? 0) +
-    (s.owned_buffies ?? 0)
+    ownedLevelCoins(s) +
+    (s.owned_star_powers ?? 0) * COST.starPower +
+    (s.owned_gadgets ?? 0) * COST.gadget +
+    (s.owned_gears ?? 0) * COST.gear +
+    (s.owned_hypercharges ?? 0) * COST.hypercharge +
+    (s.owned_buffies ?? 0) * COST.buffie
   );
+}
+
+/**
+ * What the account's levels cost. Rows fetched before migration 025 only have the sum of levels:
+ * then it's estimated as every owned brawler at the average level, until the next fetch.
+ */
+function ownedLevelCoins(s: StatsRow): number {
+  if (s.owned_level_coins != null) return s.owned_level_coins;
+  const owned = s.brawlers_owned ?? 0;
+  if (!owned) return 0;
+  const avg = (s.owned_levels ?? 0) / owned;
+  const low = Math.floor(avg);
+  const perBrawler = levelCoins(low) + (avg - low) * (levelCoins(low + 1) - levelCoins(low));
+  return Math.round(perBrawler * owned);
 }
 
 export type ExtraPlayer = {
@@ -124,6 +175,8 @@ export type ToplistEntry = {
   display?: string;
   /** Maxet konto: what the account has of each part, against the max. */
   breakdown?: BreakdownPart[];
+  /** Maxet konto: coins spent in all, and what a fully maxed account costs. */
+  coins?: { spent: number; max: number };
   /** Second line: "solo 2 303 · duo 2 177", a fame tier, a rank. */
   detail: string | null;
   /** Rank sticker for the ranked list ("masters"), see docs/rankedstats/images/ranks/. */
@@ -132,7 +185,13 @@ export type ToplistEntry = {
   miniOf?: string | null;
 };
 
-export type BreakdownPart = { label: string; owned: number; max: number };
+export type BreakdownPart = {
+  label: string;
+  owned: number;
+  max: number;
+  /** Coins (power points as 2 coins) spent on this part, and what all of it costs. Not on "Brawlere". */
+  coins?: { spent: number; max: number };
+};
 
 export type CategoryKey = "wins3v3" | "showdown" | "fame" | "ranked" | "experience" | "maxed";
 
@@ -154,29 +213,9 @@ export type Toplists = {
   updatedAt: string | null;
   /** How many accounts the lists are drawn from (with fetched stats). */
   accounts: number;
-  extras: ExtraPlayer[];
-  /** Tags already on the lists through a wiki page or the ranked roster (for the add form). */
-  coveredTags: Record<string, string>;
-  /** Every account, from all sources, sorted by name (the add box's "Alle" view). */
-  everyone: AccountSummary[];
   /** Brawlers in the game, and how many have buffies (for the "Maxet konto" explanation). */
   brawlerCount: number;
   buffieBrawlers: number;
-};
-
-/** Where an account comes from: a wiki page, the ranked roster (main or mini), the add box. */
-export type AccountSource = "wiki" | "ranked" | "mini" | "topplister";
-
-export type AccountSummary = {
-  tag: string;
-  name: string;
-  /** Wiki page, when there is one. */
-  href: string | null;
-  sources: AccountSource[];
-  /** For a mini: the main account's name. */
-  miniOf: string | null;
-  /** Has numbers from the API yet. */
-  hasStats: boolean;
 };
 
 const pct = new Intl.NumberFormat("nb-NO", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -239,12 +278,6 @@ export function fairRankedElo(elo: number, rank: number | null, tag?: string): n
   return elo >= nextFloor ? floor : elo;
 }
 
-function tagOf(raw: string | null | undefined): string | null {
-  if (!raw) return null;
-  const tag = `#${raw.trim().replace(/^#/, "").toUpperCase()}`;
-  return isValidTag(tag) ? tag : null;
-}
-
 export function buildToplists(input: {
   stats: StatsRow[];
   people: Array<{ slug: string; name: string; bsid: string | null }>;
@@ -256,18 +289,15 @@ export function buildToplists(input: {
 }): Toplists {
   // Who is on the lists, and under which name (first source wins).
   const accounts = new Map<string, { name: string; href: string | null }>();
-  const coveredTags: Record<string, string> = {};
   for (const p of input.people) {
     const tag = tagOf(p.bsid);
     if (!tag || accounts.has(tag)) continue;
     accounts.set(tag, { name: p.name, href: `/personer/${p.slug}/` });
-    coveredTags[tag] = `wiki-siden til ${p.name}`;
   }
   for (const r of input.profiles) {
     const tag = tagOf(r.tag);
     if (!tag) continue;
     if (!accounts.has(tag)) accounts.set(tag, { name: r.name, href: null });
-    coveredTags[tag] ??= `ranked-profilen ${r.name}`;
   }
   for (const e of input.extras) {
     const tag = tagOf(e.tag);
@@ -304,38 +334,6 @@ export function buildToplists(input: {
     minisOf,
   );
 
-  // Every account with all the places it comes from (one account can be on the wiki, the ranked
-  // roster and in the add box at once). Named like on the lists: the first source wins.
-  const everyoneMap = new Map<string, AccountSummary>();
-  const note = (raw: string | null | undefined, source: AccountSource, name: string, extra: Partial<AccountSummary> = {}) => {
-    const tag = tagOf(raw);
-    if (!tag) return;
-    const a = everyoneMap.get(tag);
-    if (a) {
-      if (!a.sources.includes(source)) a.sources.push(source);
-      a.href ??= extra.href ?? null;
-      return;
-    }
-    everyoneMap.set(tag, {
-      tag,
-      name,
-      href: null,
-      miniOf: null,
-      hasStats: statsByTag.has(tag),
-      ...extra,
-      sources: [source],
-    });
-  };
-  for (const p of input.people) note(p.bsid, "wiki", p.name, { href: `/personer/${p.slug}/` });
-  for (const r of input.profiles) note(r.tag, "ranked", r.name);
-  for (const m of input.minis ?? []) {
-    const main = tagOf(m.main_tag);
-    note(m.tag, "mini", m.name, { miniOf: (main && accounts.get(main)?.name) || main });
-  }
-  for (const e of input.extras) if (e.active) note(e.tag, "topplister", e.name);
-  const collator = new Intl.Collator("nb", { sensitivity: "base" });
-  const everyone = [...everyoneMap.values()].sort((a, b) => collator.compare(a.name, b.name));
-
   const updatedAt = rows.reduce<string | null>((max, s) => (!max || s.fetched_at > max ? s.fetched_at : max), null);
   const releasedCatalogue = releasedOnly(input.catalogue ?? []);
   const buffieBrawlers = releasedCatalogue.filter(
@@ -347,9 +345,6 @@ export function buildToplists(input: {
     miniCount: miniRows.length,
     updatedAt,
     accounts: rows.length,
-    extras: input.extras,
-    coveredTags,
-    everyone,
     brawlerCount: releasedCatalogue.length,
     buffieBrawlers,
   };
@@ -441,7 +436,7 @@ export function buildToplists(input: {
     },
   ];
 
-  // Maxet konto: points owned / points possible over every brawler in the game.
+  // Maxet konto: coins spent / coins a fully maxed account would have spent, over every brawler.
   const catalogue = releasedOnly(input.catalogue ?? []);
   const possible = maxPoints(catalogue);
   lists.push({
@@ -455,7 +450,12 @@ export function buildToplists(input: {
             .map((s) => {
               const value = Math.min(100, (ownedPoints(s) / possible) * 100);
               const e = entry(s, value, `${s.brawlers_owned}/${catalogue.length} brawlere`);
-              return { ...e, display: `${pct.format(value)} %`, breakdown: breakdown(s, catalogue) };
+              return {
+                ...e,
+                display: `${pct.format(value)} %`,
+                breakdown: breakdown(s, catalogue),
+                coins: { spent: ownedPoints(s), max: possible },
+              };
             }),
         )
       : [],

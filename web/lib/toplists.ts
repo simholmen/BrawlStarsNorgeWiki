@@ -28,7 +28,7 @@ export async function getToplists(): Promise<Toplists> {
     db
       .from("toplist_stats")
       .select(
-        "tag,profile_name,club_name,wins_3v3,wins_solo,wins_duo,fame,fame_tier_name,highest_ranked_elo,highest_ranked_rank,fetched_at,exp_level,exp_points,brawlers_owned,owned_levels,owned_star_powers,owned_gadgets,owned_gears,owned_hypercharges,owned_buffies",
+        "tag,profile_name,club_name,wins_3v3,wins_solo,wins_duo,fame,fame_tier_name,highest_ranked_elo,highest_ranked_rank,fetched_at,exp_level,exp_points,brawlers_owned,owned_levels,owned_level_coins,owned_star_powers,owned_gadgets,owned_gears,owned_hypercharges,owned_buffies",
       ),
     db.from("people").select("slug,name,bsid").not("bsid", "is", null),
     db.from("ranked_profiles").select("tag,name").eq("active", true).is("main_tag", null),

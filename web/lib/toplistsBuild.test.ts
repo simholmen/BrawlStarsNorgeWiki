@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildToplists, fairRankedElo, maxPoints, prettyName, type StatsRow } from "./toplistsBuild";
+import { buildToplists, fairRankedElo, levelCoins, maxPoints, ownedPoints, prettyName, type StatsRow } from "./toplistsBuild";
 
 function stats(tag: string, over: Partial<StatsRow> = {}): StatsRow {
   return {
@@ -82,10 +82,7 @@ describe("buildToplists", () => {
     expect([r.value, r.detail, r.rankIcon]).toEqual([8250, "Masters I · justert fra 9 816", "masters"]);
   });
 
-  it("knows which tags are already covered and the latest fetch", () => {
-    expect(result.coveredTags["#2GY22JUR"]).toBe("wiki-siden til Zimma");
-    expect(result.coveredTags["#9YRVPPGCC"]).toBe("ranked-profilen Ranked-spiller");
-    expect(result.coveredTags["#RRCLPJVP"]).toBeUndefined();
+  it("knows the latest fetch", () => {
     expect(result.updatedAt).toBe("2026-11-26T04:11:00+00:00");
   });
 });
@@ -155,11 +152,27 @@ describe("Maxet konto", () => {
     buffie_star_power: buffies > 1,
     buffie_hypercharge: buffies > 2,
   });
-  // 3 brawlers: 25 + 22 + 21 = 68 points possible.
+  // Coins per brawler: level 11 = 15 245, 2 SP = 4 000, 2 gadgets = 2 000, 6 gears = 6 000,
+  // hypercharge = 5 000, buffie = 5 000 each. 47 245 + 32 245 + 27 245 = 106 735 possible.
   const catalogue = [brawler(3), brawler(0), brawler(0, 0)];
 
-  it("adds up the max points per brawler", () => {
-    expect(maxPoints(catalogue)).toBe(68);
+  it("prices levels as coins + 2 x power points", () => {
+    expect(levelCoins(1)).toBe(0);
+    expect(levelCoins(2)).toBe(60);
+    expect(levelCoins(9)).toBe(5910);
+    expect(levelCoins(11)).toBe(3740 * 2 + 7765);
+  });
+
+  it("adds up the max coins per brawler", () => {
+    expect(maxPoints(catalogue)).toBe(106735);
+  });
+
+  it("uses the stored level coins, else estimates them from the average level", () => {
+    const row = (extra: Partial<StatsRow>) => ({ ...stats("#2GY22JUR"), brawlers_owned: 2, owned_levels: 20, ...extra });
+    expect(ownedPoints(row({ owned_level_coins: 12345 }))).toBe(12345);
+    expect(ownedPoints(row({}))).toBe(2 * levelCoins(10));
+    expect(ownedPoints(row({ owned_levels: 21 }))).toBe(Math.round(2 * (levelCoins(10) + 0.5 * (levelCoins(11) - levelCoins(10)))));
+    expect(ownedPoints(row({ owned_level_coins: 0, owned_buffies: 1, owned_gears: 2 }))).toBe(5000 + 2000);
   });
 
   it("scores owned points over every brawler, unowned ones as 0", () => {
@@ -177,7 +190,7 @@ describe("Maxet konto", () => {
           owned_hypercharges: 2,
           owned_buffies: 3,
         }),
-        // One brawler at level 11 only: 11 / 68.
+        // One brawler at level 11 only: 15 245 / 106 735.
         stats("#9YRVPPGCC", { brawlers_owned: 1, owned_levels: 11 }),
         // Not fetched with the new columns yet: left out.
         stats("#RRCLPJVP", { wins_3v3: 1 }),
@@ -186,25 +199,32 @@ describe("Maxet konto", () => {
     const maxed = result.lists.find((l) => l.key === "maxed")!;
     expect(maxed.entries.map((e) => e.tag)).toEqual(["#2GY22JUR", "#9YRVPPGCC"]);
     expect(maxed.entries[0].display).toBe("100,0 %");
-    expect(maxed.entries[1].value).toBeCloseTo((11 / 68) * 100);
+    expect(maxed.entries[1].value).toBeCloseTo((15245 / 106735) * 100);
     expect(maxed.entries[1].detail).toBe("1/3 brawlere");
     // 3 brawlers: 33 levels, 6 star powers, 6 gadgets, 18 gears, 2 hypercharges, 3 buffies.
     expect(maxed.entries[0].breakdown).toEqual([
       { label: "Brawlere", owned: 3, max: 3 },
-      { label: "Nivåer", owned: 33, max: 33 },
-      { label: "Star powers", owned: 6, max: 6 },
-      { label: "Gadgets", owned: 6, max: 6 },
-      { label: "Gears", owned: 18, max: 18 },
-      { label: "Hypercharges", owned: 2, max: 2 },
-      { label: "Buffies", owned: 3, max: 3 },
+      { label: "Nivåer", owned: 33, max: 33, coins: { spent: 45735, max: 45735 } },
+      { label: "Star powers", owned: 6, max: 6, coins: { spent: 12000, max: 12000 } },
+      { label: "Gadgets", owned: 6, max: 6, coins: { spent: 6000, max: 6000 } },
+      { label: "Gears", owned: 18, max: 18, coins: { spent: 18000, max: 18000 } },
+      { label: "Hypercharges", owned: 2, max: 2, coins: { spent: 10000, max: 10000 } },
+      { label: "Buffies", owned: 3, max: 3, coins: { spent: 15000, max: 15000 } },
     ]);
-    expect(maxed.entries[1].breakdown![1]).toEqual({ label: "Nivåer", owned: 11, max: 33 });
+    expect(maxed.entries[0].coins).toEqual({ spent: 106735, max: 106735 });
+    expect(maxed.entries[1].breakdown![1]).toEqual({
+      label: "Nivåer",
+      owned: 11,
+      max: 33,
+      coins: { spent: 15245, max: 45735 },
+    });
+    expect(maxed.entries[1].coins).toEqual({ spent: 15245, max: 106735 });
     expect([result.brawlerCount, result.buffieBrawlers]).toEqual([3, 1]);
   });
 
   it("leaves out brawlers that can't be unlocked yet", () => {
     const withUnreleased = [...catalogue, { ...brawler(0), released: false }];
-    expect(maxPoints(withUnreleased)).toBe(68);
+    expect(maxPoints(withUnreleased)).toBe(106735);
     const result = buildToplists({
       ...base,
       catalogue: withUnreleased,
@@ -266,27 +286,5 @@ describe("buildToplists with minis", () => {
     expect(fame[0].name).toBe("Zimma mini");
     expect(fame[0].miniOf).toBe("Zimma");
     expect(fame[1].miniOf).toBeNull();
-  });
-});
-
-describe("buildToplists everyone", () => {
-  const result = buildToplists({
-    ...base,
-    extras: [
-      ...base.extras,
-      { tag: "#2GY22JUR", name: "Zimma igjen", active: true, created_by_name: null, created_at: "" },
-    ],
-    minis: [{ tag: "#8Q0YGP8P", name: "Zimma mini", main_tag: "#2GY22JUR" }],
-    stats: [stats("#2GY22JUR"), stats("#RRCLPJVP")],
-  });
-  const by = (tag: string) => result.everyone.find((a) => a.tag === tag)!;
-
-  it("lists every account once, with all its sources", () => {
-    expect(result.everyone.map((a) => a.tag).sort()).toEqual(
-      ["#2GY22JUR", "#8Q0YGP8P", "#9YRVPPGCC", "#RRCLPJVP"].sort(),
-    );
-    expect(by("#2GY22JUR")).toMatchObject({ name: "Zimma", href: "/personer/zimma/", sources: ["wiki", "ranked", "topplister"], hasStats: true });
-    expect(by("#8Q0YGP8P")).toMatchObject({ sources: ["mini"], miniOf: "Zimma", hasStats: false });
-    expect(by("#RRCLPJVP").sources).toEqual(["topplister"]);
   });
 });

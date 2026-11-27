@@ -12,14 +12,18 @@ import tool are gone (git history has them); don't recreate them. See
 
 ## Preferred: the user does it on the site
 
-Tell the user to open **https://brawlstarsnorge.com/ny/person/** (needs an editor account;
-admins approve access on `/admin/tilgang/`):
+Tell the user to open **https://brawlstarsnorge.com/spillere/?ny=wiki** ("Ny side" in the ☰ menu;
+needs an editor account; admins approve access on `/admin/tilgang/`). That's the shared "Legg til
+spiller" box (`/ny/person/` redirects there):
 
-1. Fill in **Navn** (required), and optionally **Brawl Stars ID** (without `#`), **Hjemsted**,
-   **Født**. The page shows the URL it will get (`/personer/<slug>/`); it can't change later.
-2. **Lag side** opens the new page in edit mode for the rest (quote, favoritter, fakta, tekst).
-   Links to other pages: type `[[` and pick from the list.
+1. Fill in **Tag** and **Navn**, with **Lag wiki-side** ticked (also tick **Følg på
+   ranked-siden** to track them on the ranked page). The page gets `/personer/<slug-of-name>/`,
+   which can't change later.
+2. **Legg til**, then **Åpne siden og fyll inn resten** opens the new page in edit mode for
+   hjemsted, født, quote, favoritter, fakta and text. Links to other pages: type `[[` and pick.
 3. The page is listed on `/diverse/oversikt/` automatically. No other file needs updating.
+
+With only **Lag wiki-side** ticked the tag may be left empty (a person page without a tag).
 
 Only fill in values the user actually gave; never invent favorittbrus, quote, etc.
 

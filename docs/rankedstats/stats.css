@@ -2496,69 +2496,6 @@
   font-size: 0.8rem;
 }
 
-.rmenu-add {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 8px 16px 10px;
-}
-
-.rmenu-heading {
-  color: var(--text-muted-1);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.rmenu-add input {
-  font: inherit;
-  padding: 7px 10px;
-  color: var(--text-primary);
-  background: var(--bg);
-  border: 1px solid var(--input-border);
-  border-radius: 6px;
-}
-
-.rmenu-add input:focus {
-  outline: none;
-  border-color: var(--accent-gold);
-}
-
-.rmenu-add button {
-  font: inherit;
-  font-weight: 600;
-  padding: 7px 10px;
-  color: var(--bg);
-  background: var(--accent-gold);
-  border: 0;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.rmenu-add button:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-.rmenu-status {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--text-muted-1);
-}
-
-.rmenu-status:empty {
-  display: none;
-}
-
-.rmenu-status.ok {
-  color: var(--win);
-}
-
-.rmenu-status.bad {
-  color: var(--loss);
-}
-
 .rmenu-section form {
   margin: 0;
 }

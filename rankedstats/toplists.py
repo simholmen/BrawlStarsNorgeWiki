@@ -52,6 +52,19 @@ RETRY_MINUTES = 60
 
 MAX_GEARS = 6 # some brawlers have 7-8 gears (being removed); count at most 6 per brawler
 
+# "Maxet konto" weighs levels by what they cost, in coins (1 power point = 2 coins, the shop
+# price). (power points, coins) to go from level n-1 to n. Total 1 -> 11: 3740 PP + 7765 coins.
+LEVEL_UPGRADES = {
+    2: (20, 20), 3: (30, 35), 4: (50, 75), 5: (80, 140), 6: (130, 290),
+    7: (210, 480), 8: (340, 800), 9: (550, 1250), 10: (890, 1875), 11: (1440, 2800),
+}
+COINS_PER_POWER_POINT = 2
+
+
+def level_coins(level: int) -> int:
+    """Coins (power points counted as 2 coins) to take a brawler from level 1 to `level`."""
+    return sum(pp * COINS_PER_POWER_POINT + coins for lvl, (pp, coins) in LEVEL_UPGRADES.items() if lvl <= level)
+
 # Buffie kind in the API -> brawler_catalogue column.
 BUFFIE_COLUMNS = {"gadget": "buffie_gadget", "starPower": "buffie_star_power", "hyperCharge": "buffie_hypercharge"}
 
@@ -105,6 +118,7 @@ def account_progress(brawlers: list) -> dict:
     totals = {
         "brawlers_owned": 0,
         "owned_levels": 0,
+        "owned_level_coins": 0,  # migration 025: what those levels cost, see LEVEL_UPGRADES
         "owned_star_powers": 0,
         "owned_gadgets": 0,
         "owned_gears": 0,
@@ -114,6 +128,7 @@ def account_progress(brawlers: list) -> dict:
     for b in brawlers or []:
         totals["brawlers_owned"] += 1
         totals["owned_levels"] += int(b.get("power") or 0)
+        totals["owned_level_coins"] += level_coins(int(b.get("power") or 0))
         totals["owned_star_powers"] += len(b.get("starPowers") or [])
         totals["owned_gadgets"] += len(b.get("gadgets") or [])
         totals["owned_gears"] += min(len(b.get("gears") or []), MAX_GEARS)

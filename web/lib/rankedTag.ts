@@ -15,3 +15,10 @@ export function normalizeTag(input: string): string {
 export function isValidTag(tag: string): boolean {
   return TAG_PATTERN.test(tag);
 }
+
+/** A stored tag with or without "#" (people.bsid has none) as "#ABC…", or null if it isn't valid. */
+export function tagOf(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const tag = `#${raw.trim().replace(/^#/, "").toUpperCase()}`;
+  return isValidTag(tag) ? tag : null;
+}

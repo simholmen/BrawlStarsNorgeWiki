@@ -47,7 +47,7 @@ export default function NewPageForm({ kind }: { kind: EntityKind }) {
           </>
         ) : (
           <>
-            Lager du en person? <Link href="/ny/person/">Ny personside</Link>
+            Lager du en person? <Link href="/spillere/?ny=wiki&vis=wiki">Legg til spiller</Link>
           </>
         )}
       </p>

@@ -115,14 +115,14 @@ export default function UserMenu() {
 
           {isEditor(viewer) && (
             <div className="site-menu-section">
-              <Link href="/ny/person/" onClick={close}>
+              <Link href="/spillere/?ny=wiki&vis=wiki" onClick={close}>
                 Ny side
               </Link>
               <Link href="/historikk/" onClick={close}>
                 Historikk
               </Link>
-              <Link href="/ranked-profiler/" onClick={close}>
-                Ranked-profiler
+              <Link href="/spillere/" onClick={close}>
+                Spillere
               </Link>
               {isAdmin && (
                 <a href="/admin/tilgang/">

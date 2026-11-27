@@ -2,13 +2,12 @@
   rankedstats/site-menu.js — the hamburger menu in the ranked page's top bar (#rmenu in stats.html).
 
   Same contents as the wiki header's menu (web/components/UserMenu.tsx): login state, the
-  Wiki / Ranked stats switch, and for editors a quick "add ranked profile" form plus links to
-  /ranked-profiler/ and /historikk/.
+  Wiki / Ranked stats switch, and for editors links to /spillere/ (the shared "Legg til spiller"
+  box, opened with "Følg på ranked-siden" ticked) and /historikk/.
 
   Login state comes from GET /api/meg/ on the Next.js app, which shares this page's origin on
   beta (Caddy) and in `npm run dev`. If that request fails (old GitHub Pages site, file://), the
-  account and editor parts simply stay hidden. Adding a profile POSTs JSON to /api/ranked-profiler/,
-  which runs as the logged-in visitor, so the database's own rules decide.
+  account and editor parts simply stay hidden.
 
   Self-contained on purpose: no dependency on the stats-*.js globals.
 */
@@ -22,8 +21,6 @@
   var account = document.getElementById("rmenu-account");
   var editor = document.getElementById("rmenu-editor");
   var logout = document.getElementById("rmenu-logout");
-  var form = document.getElementById("rmenu-add");
-  var status = document.getElementById("rmenu-status");
 
   function setOpen(open) {
     panel.hidden = !open;
@@ -98,38 +95,4 @@
     .catch(function () {
       /* No Next.js app here: just the page links. */
     });
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var submit = form.querySelector("button[type=submit]");
-    submit.disabled = true;
-    status.className = "rmenu-status";
-    status.textContent = "Legger til …";
-    fetch("/api/ranked-profiler/", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ tag: form.elements.tag.value, name: form.elements.name.value }),
-    })
-      .then(function (r) {
-        return r.json().catch(function () {
-          return { ok: false, message: "Kunne ikke lagre. Prøv igjen." };
-        });
-      })
-      .then(function (result) {
-        status.className = "rmenu-status " + (result.ok ? "ok" : "bad");
-        status.textContent = result.message;
-        if (result.ok) {
-          form.reset();
-          if (window.posthog) window.posthog.capture("ranked_profile_added", { kind: "profil", via: "ranked-meny" });
-        }
-      })
-      .catch(function () {
-        status.className = "rmenu-status bad";
-        status.textContent = "Kunne ikke lagre. Prøv igjen.";
-      })
-      .finally(function () {
-        submit.disabled = false;
-      });
-  });
 })();
